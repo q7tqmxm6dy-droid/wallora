@@ -1,0 +1,29 @@
+*.iml
+.gradle
+/local.properties
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+
+# Firebase
+.firebase/
+firebase-debug.log*
+firebase-debug.*.log*
+node_modules/
+
+# Build outputs (large)
+/build/
+app/build/
+.kotlin/
+
+# Firebase Android config contains your project API key — download your own (see firebase/SETUP.md)
+/app/google-services.json
