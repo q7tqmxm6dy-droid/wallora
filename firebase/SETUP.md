@@ -1,5 +1,11 @@
 # Wallora — Firebase Setup (click-by-click)
 
+> **Status for this repo:** the project already exists (`wallora-bc950`), the Android app
+> is registered, `app/google-services.json` is filled in, the web config is in place and
+> the dashboard is deployed at <https://wallora-bc950.web.app>.
+> **You can skip Steps 1, 2, 3 (partly), 6 and 7** — jump to Steps 4, 5 and 3's user
+> creation, then deploy the rules.
+
 The Android app and the web dashboard both talk to the same Firebase project. Until you
 finish this guide the app still works — it just shows the 24 bundled wallpapers. Once
 configured, wallpapers you upload appear in the app instantly.

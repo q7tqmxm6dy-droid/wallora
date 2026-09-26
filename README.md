@@ -52,23 +52,37 @@ Proof the wallpaper is applied to the device (launcher now shows the chosen wall
 
 ## Firebase (cloud wallpapers + admin)
 
-The app is **already wired for Firebase** and builds with a placeholder
-`app/google-services.json`, so it runs out of the box on the 24 bundled wallpapers. To
-enable cloud content and the admin panels, follow **[`firebase/SETUP.md`](firebase/SETUP.md)**
-(about 10 minutes):
+**Project:** `wallora-bc950` · **Admin dashboard (live):** <https://wallora-bc950.web.app>
 
-1. Create a Firebase project and register the Android app `com.wallora.app`
-2. Drop the real `google-services.json` into `app/`
-3. Enable **Email/Password** auth and create one admin user
-4. Create **Firestore** + **Storage** and paste the rules from `firebase/`
-5. Paste your web config into `firebase/webadmin/firebase-config.js`
+Already configured:
+
+- Android app registered (`com.wallora.app`) → `app/google-services.json` fetched
+- Web app registered → `firebase/webadmin/firebase-config.js` filled in
+- Hosting deployed (the dashboard URL above)
+- CI workflows in `.github/workflows/`
+
+**Still to do in the [Firebase Console](https://console.firebase.google.com/project/wallora-bc950/overview)** (~3 minutes, once):
+
+1. **Firestore Database → Create database** → choose a location → Production mode
+2. **Storage → Get started** → Production mode
+3. **Authentication → Sign-in method → Email/Password → Enable**
+4. **Authentication → Users → Add user** (that's your admin login)
+
+Then push the security rules from this repo:
+
+```bash
+cd /home/ahmadq/Downloads/Wallora
+firebase deploy --only firestore:rules,storage
+```
+
+Full walkthrough with screenshots-worth of detail: [`firebase/SETUP.md`](firebase/SETUP.md)
 
 | Piece | Where |
 |---|---|
 | Firestore rules | `firebase/firestore.rules` |
 | Storage rules | `firebase/storage.rules` |
 | Web admin dashboard | `firebase/webadmin/` |
-| Full walkthrough | `firebase/SETUP.md` |
+| GitHub Actions (CI/CD) | `.github/workflows/` |
 
 Data model:
 
