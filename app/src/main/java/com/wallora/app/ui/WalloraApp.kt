@@ -44,7 +44,8 @@ private object Routes {
 fun WalloraApp(
     viewModel: WallpaperViewModel,
     darkTheme: Boolean,
-    onToggleDarkMode: () -> Unit,
+    darkModePreference: Boolean?,
+    onSetDarkMode: (Boolean?) -> Unit,
 ) {
     val navController = rememberNavController()
     val backStackEntry by navController.currentBackStackEntryAsState()
@@ -96,7 +97,8 @@ fun WalloraApp(
                 HomeScreen(
                     viewModel = viewModel,
                     darkTheme = darkTheme,
-                    onToggleDarkMode = onToggleDarkMode,
+                    darkModePreference = darkModePreference,
+                    onSetDarkMode = onSetDarkMode,
                     onOpenWallpaper = { navController.navigate(Routes.detail(it)) },
                     onOpenAdmin = { navController.navigate(Routes.ADMIN) },
                 )

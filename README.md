@@ -13,7 +13,8 @@ favorite, preview, set, save and share them.
 - **Favorites** — heart any wallpaper; stored persistently with DataStore.
 - **Save** — writes the image to `Pictures/Wallora` on the device.
 - **Share** — sends the image to any app via the system share sheet.
-- **Dark mode** — follows the system by default, with a one-tap override in the top bar.
+- **Dark mode** — a **Light / Dark / Auto** selector in the top bar. *Auto* follows the
+  phone's setting; your choice is remembered.
 - **Material You** — uses dynamic color on Android 12+.
 - **Light & dark variants** — every wallpaper can have a dark-mode image. The app shows the
   matching variant in the grid and preview, and **Set / Save / Share use the same one**, so

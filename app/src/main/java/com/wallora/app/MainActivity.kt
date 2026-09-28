@@ -26,7 +26,8 @@ class MainActivity : ComponentActivity() {
                 WalloraApp(
                     viewModel = viewModel,
                     darkTheme = darkTheme,
-                    onToggleDarkMode = { viewModel.setDarkMode(!darkTheme) },
+                    darkModePreference = darkModePreference,
+                    onSetDarkMode = { viewModel.setDarkMode(it) },
                 )
             }
         }

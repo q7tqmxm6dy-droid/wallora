@@ -1,7 +1,12 @@
 package com.wallora.app.ui.screens
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -29,7 +34,8 @@ import com.wallora.app.util.Analytics
 fun HomeScreen(
     viewModel: WallpaperViewModel,
     darkTheme: Boolean,
-    onToggleDarkMode: () -> Unit,
+    darkModePreference: Boolean?,
+    onSetDarkMode: (Boolean?) -> Unit,
     onOpenWallpaper: (String) -> Unit,
     onOpenAdmin: () -> Unit,
 ) {
@@ -38,19 +44,49 @@ fun HomeScreen(
     val wallpapers by viewModel.wallpapers.collectAsStateWithLifecycle()
     val categories by viewModel.categories.collectAsStateWithLifecycle()
     var selectedCategory by remember { mutableStateOf<String?>(null) }
+    var showThemeMenu by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
             TopAppBar(
                 title = { Text("Wallora", fontWeight = FontWeight.SemiBold) },
                 actions = {
-                    IconButton(onClick = onToggleDarkMode) {
-                        Icon(
-                            painter = painterResource(
-                                if (darkTheme) R.drawable.ic_light_mode else R.drawable.ic_dark_mode,
-                            ),
-                            contentDescription = "Toggle light or dark theme",
-                        )
+                    Box {
+                        IconButton(onClick = { showThemeMenu = true }) {
+                            Icon(
+                                painter = painterResource(
+                                    when (darkModePreference) {
+                                        null -> R.drawable.ic_theme_auto
+                                        true -> R.drawable.ic_dark_mode
+                                        false -> R.drawable.ic_light_mode
+                                    },
+                                ),
+                                contentDescription = "Theme: light, dark or auto",
+                            )
+                        }
+                        DropdownMenu(
+                            expanded = showThemeMenu,
+                            onDismissRequest = { showThemeMenu = false },
+                        ) {
+                            ThemeOption(
+                                label = "Auto (follow system)",
+                                iconRes = R.drawable.ic_theme_auto,
+                                selected = darkModePreference == null,
+                                onClick = { onSetDarkMode(null); showThemeMenu = false },
+                            )
+                            ThemeOption(
+                                label = "Light",
+                                iconRes = R.drawable.ic_light_mode,
+                                selected = darkModePreference == false,
+                                onClick = { onSetDarkMode(false); showThemeMenu = false },
+                            )
+                            ThemeOption(
+                                label = "Dark",
+                                iconRes = R.drawable.ic_dark_mode,
+                                selected = darkModePreference == true,
+                                onClick = { onSetDarkMode(true); showThemeMenu = false },
+                            )
+                        }
                     }
                     IconButton(onClick = onOpenAdmin) {
                         Icon(
@@ -95,4 +131,21 @@ fun HomeScreen(
             },
         )
     }
+}
+
+@Composable
+private fun ThemeOption(
+    label: String,
+    iconRes: Int,
+    selected: Boolean,
+    onClick: () -> Unit,
+) {
+    DropdownMenuItem(
+        text = { Text(label) },
+        leadingIcon = { Icon(painterResource(iconRes), contentDescription = null) },
+        trailingIcon = {
+            if (selected) Icon(Icons.Filled.Check, contentDescription = "Selected")
+        },
+        onClick = onClick,
+    )
 }
