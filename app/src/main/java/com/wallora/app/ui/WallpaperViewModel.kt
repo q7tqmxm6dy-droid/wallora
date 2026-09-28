@@ -9,6 +9,7 @@ import com.wallora.app.data.PreferencesRepository
 import com.wallora.app.data.RemoteWallpaperRepository
 import com.wallora.app.data.Wallpaper
 import com.wallora.app.data.WallpaperCatalog
+import com.wallora.app.data.mergeCatalog
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
@@ -27,9 +28,8 @@ class WallpaperViewModel(application: Application) : AndroidViewModel(applicatio
     val darkMode: StateFlow<Boolean?> = preferences.darkMode
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), null)
 
-    /** Remote wallpapers (Firestore) first, then the bundled ones as offline fallback. */
     val wallpapers: StateFlow<List<Wallpaper>> = remote.wallpapers()
-        .map { remoteWallpapers -> remoteWallpapers + WallpaperCatalog.wallpapers }
+        .map { remoteWallpapers -> mergeCatalog(remoteWallpapers, WallpaperCatalog.wallpapers) }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), WallpaperCatalog.wallpapers)
 
     /** Bundled categories, plus any extra categories defined in Firestore. */
