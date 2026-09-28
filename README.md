@@ -1,7 +1,7 @@
 # Wallora — Phone Wallpaper App
 
 A native Android wallpaper app built with **Kotlin + Jetpack Compose**. It ships with
-**54 original, code-generated wallpapers** (no third-party images) — plus any real photos
+**66 original, code-generated wallpapers** (no third-party images) — plus any real photos
 you add — and lets you browse, favorite, preview, set, save and share them.
 
 ## Features
@@ -160,7 +160,7 @@ app/src/main/
 │     ├─ ShareUtils.kt             # FileProvider + ACTION_SEND
 │     └─ Analytics.kt              # Firebase Analytics + Crashlytics
 └─ res/
-   ├─ drawable-nodpi/               # 54 wallpapers × light/dark (108 images, 1080×1920)
+   ├─ drawable-nodpi/               # 66 wallpapers × light/dark (132 images, 1080×1920)
    ├─ drawable/ic_*.xml            # app + UI icons (vector)
    └─ mipmap-anydpi-v26/           # adaptive launcher icon
 ```

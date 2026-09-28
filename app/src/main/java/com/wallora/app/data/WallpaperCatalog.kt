@@ -89,6 +89,18 @@ object WallpaperCatalog {
         Wallpaper("posters_p10", "Player One", "posters", R.drawable.posters_p10_light, darkResId = R.drawable.posters_p10_dark),
         Wallpaper("posters_p11", "Voltage", "posters", R.drawable.posters_p11_light, darkResId = R.drawable.posters_p11_dark),
         Wallpaper("posters_p12", "Orbit", "posters", R.drawable.posters_p12_light, darkResId = R.drawable.posters_p12_dark),
+        Wallpaper("posters_p13", "Whiskers", "posters", R.drawable.posters_p13_light, darkResId = R.drawable.posters_p13_dark),
+        Wallpaper("posters_p14", "Desert", "posters", R.drawable.posters_p14_light, darkResId = R.drawable.posters_p14_dark),
+        Wallpaper("posters_p15", "Rainy", "posters", R.drawable.posters_p15_light, darkResId = R.drawable.posters_p15_dark),
+        Wallpaper("posters_p16", "Reef", "posters", R.drawable.posters_p16_light, darkResId = R.drawable.posters_p16_dark),
+        Wallpaper("posters_p17", "Kicks", "posters", R.drawable.posters_p17_light, darkResId = R.drawable.posters_p17_dark),
+        Wallpaper("posters_p18", "Riff", "posters", R.drawable.posters_p18_light, darkResId = R.drawable.posters_p18_dark),
+        Wallpaper("posters_p19", "Scoop", "posters", R.drawable.posters_p19_light, darkResId = R.drawable.posters_p19_dark),
+        Wallpaper("posters_p20", "Harbor", "posters", R.drawable.posters_p20_light, darkResId = R.drawable.posters_p20_dark),
+        Wallpaper("posters_p21", "Idea", "posters", R.drawable.posters_p21_light, darkResId = R.drawable.posters_p21_dark),
+        Wallpaper("posters_p22", "Bloom", "posters", R.drawable.posters_p22_light, darkResId = R.drawable.posters_p22_dark),
+        Wallpaper("posters_p23", "Starlight", "posters", R.drawable.posters_p23_light, darkResId = R.drawable.posters_p23_dark),
+        Wallpaper("posters_p24", "Love", "posters", R.drawable.posters_p24_light, darkResId = R.drawable.posters_p24_dark),
     )
 
     private val byId: Map<String, Wallpaper> = wallpapers.associateBy { it.id }
