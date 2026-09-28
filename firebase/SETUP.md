@@ -50,6 +50,12 @@ configured, wallpapers you upload appear in the app instantly.
 2. **Sign-in method** tab → **Email/Password** → toggle **Enable** → **Save**
 3. **Users** tab → **Add user**
 4. Enter an email (e.g. `admin@wallora.app`) and a password → **Add user**
+5. **Settings** tab → **User actions** → **uncheck "Enable create (sign-up)"** →
+   **Save**
+
+   This is important: the API key is public, so with sign-up left on, anyone could create
+   an account and add or delete wallpapers. Console-created users still work with sign-up
+   disabled.
 
    That email + password is what you'll type into the app's **Admin** screen and the
    web dashboard.

@@ -63,28 +63,25 @@ Already configured:
 
 **Status**
 
-- ✅ Firestore database created, rules deployed, public read verified
-- ✅ Email/Password sign-in enabled + admin user (`ahmad.qiblawi112@gmail.com`)
-- ✅ Hosting dashboard live, Android + Web configs fetched
-- ✅ Verified end-to-end: a Firestore document renders in the app as a real image
-- ⚠️ **Cloud Storage is not enabled** — Cloud Storage for Firebase now requires the
-  **Blaze** plan on new projects, so it can't be created on Spark.
+- ✅ Firestore database + rules deployed (public read, authenticated write) — verified
+- ✅ Cloud Storage (Blaze) + storage rules — **real file upload verified end-to-end**
+- ✅ Email/Password sign-in + admin user (`ahmad.qiblawi112@gmail.com`)
+- ✅ Hosting dashboard live; Android + Web configs fetched
+- ✅ Verified: upload a JPEG → Cloud Storage → Firestore → it renders in the app
 
-Two ways to add images:
+Two ways to add wallpapers:
 
-**A. Use image URLs (no Blaze needed)** — in the dashboard or the in-app admin, use
-**Add by image URL**: host the image anywhere public (Cloudinary, imgur, GitHub raw,
-your own server) and paste the link. Reads/writes go through Firestore only.
+- **Upload a file** — the web dashboard or the in-app admin uploads it to Cloud Storage
+- **Add by image URL** — paste a link to an image hosted anywhere
 
-**B. Enable Cloud Storage** — upgrade the project to Blaze (the free no-cost tier still
-applies), click **Get started** under Storage, then:
+### ⚠️ Security: disable sign-ups
 
-```bash
-cd /home/ahmadq/Downloads/Wallora
-firebase deploy --only storage --project wallora-bc950
-```
+Sign-up is enabled by default, so anyone holding the (public) API key could create an
+account — and the rules allow any signed-in user to add or delete wallpapers.
 
-After that, the file-upload flow works in both dashboards too.
+Turn it off: **Authentication → Settings → User actions → uncheck "Enable create (sign-up)"**.
+
+Accounts you add in the console keep working, so your admin login is unaffected.
 
 Full walkthrough with screenshots-worth of detail: [`firebase/SETUP.md`](firebase/SETUP.md)
 
