@@ -78,4 +78,7 @@ class WallpaperViewModel(application: Application) : AndroidViewModel(applicatio
     suspend fun deleteWallpaper(id: String): Result<Unit> = admin.deleteWallpaper(id)
 
     suspend fun addCategory(id: String, title: String): Result<Unit> = admin.addCategory(id, title)
+
+    suspend fun addWallpaperByUrl(title: String, category: String, url: String): Result<Unit> =
+        admin.addWallpaperByUrl(title, category, url)
 }

@@ -70,6 +70,12 @@ configured, wallpapers you upload appear in the app instantly.
 
 ## Step 5 — Turn on Storage and paste its rules
 
+> **Heads-up:** Cloud Storage for Firebase now requires the **Blaze** plan on new
+> projects, so on Spark you'll be prompted to upgrade (the free no-cost tier still
+> applies). If you'd rather not add a payment method, **skip this step** and use
+> **Add by image URL** in either dashboard instead — host the image anywhere public and
+> paste the link. Everything else works identically.
+
 1. Left menu → **Build → Storage → Get started**
 2. Start in **Production mode** → **Next** → pick the location → **Done**
 3. Open the **Rules** tab, paste the contents of [`storage.rules`](storage.rules) → **Publish**

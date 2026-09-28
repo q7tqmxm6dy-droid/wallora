@@ -193,6 +193,10 @@ private fun AdminContent(
     var newCategoryId by remember { mutableStateOf("") }
     var newCategoryTitle by remember { mutableStateOf("") }
 
+    var urlTitle by remember { mutableStateOf("") }
+    var urlCategory by remember { mutableStateOf("") }
+    var urlValue by remember { mutableStateOf("") }
+
     val picker = rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
         pickedUri = uri
     }
@@ -295,6 +299,66 @@ private fun AdminContent(
                         modifier = Modifier.fillMaxWidth(),
                     ) {
                         Text(if (uploading) "Uploading…" else "Upload")
+                    }
+                }
+            }
+        }
+
+        item {
+            Card {
+                Column(
+                    modifier = Modifier.padding(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(12.dp),
+                ) {
+                    Text("Add by image URL", style = MaterialTheme.typography.titleMedium)
+                    Text(
+                        "Host the image anywhere public — no Cloud Storage needed.",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                    OutlinedTextField(
+                        value = urlTitle,
+                        onValueChange = { urlTitle = it },
+                        label = { Text("Title") },
+                        singleLine = true,
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+                    OutlinedTextField(
+                        value = urlCategory,
+                        onValueChange = { urlCategory = it },
+                        label = { Text("Category id") },
+                        singleLine = true,
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+                    OutlinedTextField(
+                        value = urlValue,
+                        onValueChange = { urlValue = it },
+                        label = { Text("Image URL (https://…)") },
+                        singleLine = true,
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+                    Button(
+                        onClick = {
+                            scope.launch {
+                                val result = viewModel.addWallpaperByUrl(
+                                    urlTitle.trim(),
+                                    urlCategory.trim(),
+                                    urlValue.trim(),
+                                )
+                                if (result.isSuccess) {
+                                    urlTitle = ""
+                                    urlCategory = ""
+                                    urlValue = ""
+                                    notify("Wallpaper added")
+                                } else {
+                                    notify("Failed: ${result.exceptionOrNull()?.message ?: "unknown error"}")
+                                }
+                            }
+                        },
+                        enabled = urlTitle.isNotBlank() && urlCategory.isNotBlank() && urlValue.isNotBlank(),
+                        modifier = Modifier.fillMaxWidth(),
+                    ) {
+                        Text("Add wallpaper")
                     }
                 }
             }

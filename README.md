@@ -61,19 +61,30 @@ Already configured:
 - Hosting deployed (the dashboard URL above)
 - CI workflows in `.github/workflows/`
 
-**Still to do in the [Firebase Console](https://console.firebase.google.com/project/wallora-bc950/overview)** (~3 minutes, once):
+**Status**
 
-1. **Firestore Database → Create database** → choose a location → Production mode
-2. **Storage → Get started** → Production mode
-3. **Authentication → Sign-in method → Email/Password → Enable**
-4. **Authentication → Users → Add user** (that's your admin login)
+- ✅ Firestore database created, rules deployed, public read verified
+- ✅ Email/Password sign-in enabled + admin user (`ahmad.qiblawi112@gmail.com`)
+- ✅ Hosting dashboard live, Android + Web configs fetched
+- ✅ Verified end-to-end: a Firestore document renders in the app as a real image
+- ⚠️ **Cloud Storage is not enabled** — Cloud Storage for Firebase now requires the
+  **Blaze** plan on new projects, so it can't be created on Spark.
 
-Then push the security rules from this repo:
+Two ways to add images:
+
+**A. Use image URLs (no Blaze needed)** — in the dashboard or the in-app admin, use
+**Add by image URL**: host the image anywhere public (Cloudinary, imgur, GitHub raw,
+your own server) and paste the link. Reads/writes go through Firestore only.
+
+**B. Enable Cloud Storage** — upgrade the project to Blaze (the free no-cost tier still
+applies), click **Get started** under Storage, then:
 
 ```bash
 cd /home/ahmadq/Downloads/Wallora
-firebase deploy --only firestore:rules,storage
+firebase deploy --only storage --project wallora-bc950
 ```
+
+After that, the file-upload flow works in both dashboards too.
 
 Full walkthrough with screenshots-worth of detail: [`firebase/SETUP.md`](firebase/SETUP.md)
 

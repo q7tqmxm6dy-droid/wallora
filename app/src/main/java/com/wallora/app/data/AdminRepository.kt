@@ -106,4 +106,24 @@ class AdminRepository {
                 .await()
         }.map { }
     }
+
+    /**
+     * Adds a wallpaper that is already hosted somewhere public. Useful when Cloud Storage
+     * isn't available (it requires the Blaze plan) — you just paste an image URL.
+     */
+    suspend fun addWallpaperByUrl(title: String, category: String, url: String): Result<Unit> =
+        withContext(Dispatchers.IO) {
+            val firestore = db
+                ?: return@withContext Result.failure(IllegalStateException("Firebase is not configured"))
+            runCatching {
+                firestore.collection(RemoteWallpaperRepository.COLLECTION).add(
+                    mapOf(
+                        "title" to title,
+                        "category" to category,
+                        "url" to url,
+                        "createdAt" to FieldValue.serverTimestamp(),
+                    ),
+                ).await()
+            }.map { }
+        }
 }

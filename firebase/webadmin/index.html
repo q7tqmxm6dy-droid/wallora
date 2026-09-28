@@ -133,6 +133,28 @@
     </div>
 
     <div class="card">
+      <h2>Add by image URL</h2>
+      <p class="muted" style="margin:0 0 6px">
+        Host the image anywhere public and paste the link — no Cloud Storage needed.
+        (Cloud Storage for Firebase now requires the Blaze plan on new projects.)
+      </p>
+      <div class="row">
+        <div>
+          <label for="urlTitle">Title</label>
+          <input id="urlTitle" placeholder="Sunset Fade" />
+        </div>
+        <div>
+          <label for="urlCategory">Category</label>
+          <select id="urlCategory"></select>
+        </div>
+      </div>
+      <label for="urlValue">Image URL</label>
+      <input id="urlValue" placeholder="https://example.com/wallpaper.jpg" />
+      <button id="addByUrl">Add wallpaper</button>
+      <div class="msg" id="urlMsg"></div>
+    </div>
+
+    <div class="card">
       <h2>Add category</h2>
       <div class="row">
         <div>
@@ -180,6 +202,7 @@ const configured = !firebaseConfig.apiKey.includes("REPLACE");
 const loginMsg = document.getElementById("loginMsg");
 const uploadMsg = document.getElementById("uploadMsg");
 const catMsg = document.getElementById("catMsg");
+const urlMsg = document.getElementById("urlMsg");
 
 if (!configured) {
   loginMsg.className = "msg err";
@@ -271,6 +294,16 @@ function listenCategories() {
       select.appendChild(o);
     }
     if (current) select.value = current;
+
+    const select2 = $("urlCategory");
+    const current2 = select2.value;
+    select2.innerHTML = "";
+    for (const c of categories) {
+      const o = document.createElement("option");
+      o.value = c.id; o.textContent = `${c.title} (${c.id})`;
+      select2.appendChild(o);
+    }
+    if (current2) select2.value = current2;
     const chips = $("categoryChips");
     chips.innerHTML = "";
     for (const c of categories) {
@@ -313,8 +346,24 @@ $("upload").onclick = () => {
     });
 };
 
-$("addCategory").onclick = async () => {
-  const id = $("catId").value.trim().toLowerCase().replace(/[^a-z0-9_]/g, "");
+$("addByUrl").onclick = async () => {
+  const title = $("urlTitle").value.trim();
+  const category = $("urlCategory").value;
+  const url = $("urlValue").value.trim();
+  if (!title || !category || !url) return setMsg(urlMsg, "Fill in a title, category and image URL.");
+  try {
+    await addDoc(collection(db, "wallpapers"), {
+      title, category, url, createdAt: serverTimestamp(),
+    });
+    $("urlTitle").value = "";
+    $("urlValue").value = "";
+    setMsg(urlMsg, "Wallpaper added ✓", true);
+  } catch (e) {
+    setMsg(urlMsg, e.message);
+  }
+};
+
+$("addCategory").onclick = async () => {  const id = $("catId").value.trim().toLowerCase().replace(/[^a-z0-9_]/g, "");
   const title = $("catTitle").value.trim();
   if (!id || !title) return setMsg(catMsg, "Enter both an id and a display name.");
   try {
