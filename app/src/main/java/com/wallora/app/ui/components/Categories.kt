@@ -63,6 +63,7 @@ fun CategoryCard(
     category: Category,
     cover: Wallpaper?,
     count: Int,
+    dark: Boolean,
     onClick: () -> Unit,
 ) {
     Card(
@@ -74,7 +75,7 @@ fun CategoryCard(
     ) {
         Box {
             AsyncImage(
-                model = cover?.model,
+                model = cover?.model(dark),
                 contentDescription = category.title,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize(),

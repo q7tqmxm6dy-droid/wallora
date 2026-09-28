@@ -28,6 +28,7 @@ import com.wallora.app.ui.components.WallpaperGrid
 @Composable
 fun FavoritesScreen(
     viewModel: WallpaperViewModel,
+    dark: Boolean,
     onOpenWallpaper: (String) -> Unit,
 ) {
     val favorites by viewModel.favorites.collectAsStateWithLifecycle()
@@ -71,6 +72,7 @@ fun FavoritesScreen(
             WallpaperGrid(
                 wallpapers = saved,
                 favorites = favorites,
+                dark = dark,
                 onOpen = onOpenWallpaper,
                 onToggleFavorite = viewModel::toggleFavorite,
                 modifier = Modifier

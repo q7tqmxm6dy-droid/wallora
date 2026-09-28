@@ -24,6 +24,7 @@ import com.wallora.app.ui.components.CategoryCard
 @Composable
 fun CategoriesScreen(
     viewModel: WallpaperViewModel,
+    dark: Boolean,
     onOpenCategory: (String) -> Unit,
 ) {
     val wallpapers by viewModel.wallpapers.collectAsStateWithLifecycle()
@@ -49,6 +50,7 @@ fun CategoriesScreen(
                     category = category,
                     cover = items.firstOrNull(),
                     count = items.size,
+                    dark = dark,
                     onClick = { onOpenCategory(category.id) },
                 )
             }

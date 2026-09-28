@@ -3,9 +3,11 @@ package com.wallora.app.data
 import androidx.annotation.DrawableRes
 
 /**
- * A wallpaper. It is either **bundled** (a drawable resource that ships in the APK)
- * or **remote** (an image URL hosted in Firebase Cloud Storage and described by a
- * Firestore document).
+ * A wallpaper, optionally with a **dark-mode variant**.
+ *
+ * The base fields (`resId` / `imageUrl`) are the default image; `darkResId` /
+ * `darkImageUrl` hold an optional variant shown when the phone/app is in dark mode.
+ * If there is no dark variant the default image is used for both themes.
  */
 data class Wallpaper(
     val id: String,
@@ -13,10 +15,16 @@ data class Wallpaper(
     val categoryId: String,
     @get:DrawableRes val resId: Int? = null,
     val imageUrl: String? = null,
+    @get:DrawableRes val darkResId: Int? = null,
+    val darkImageUrl: String? = null,
     val remote: Boolean = false,
 ) {
+    val hasDarkVariant: Boolean get() = darkImageUrl != null || darkResId != null
+
     /** Whatever Coil should load: a URL string or a drawable resource id. */
-    val model: Any? get() = imageUrl ?: resId
+    fun model(dark: Boolean): Any? =
+        if (dark) (darkImageUrl ?: darkResId ?: imageUrl ?: resId)
+        else (imageUrl ?: resId)
 }
 
 /** A browsable group of wallpapers. */

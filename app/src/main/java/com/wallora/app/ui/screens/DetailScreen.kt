@@ -69,6 +69,7 @@ import kotlinx.coroutines.launch
 fun DetailScreen(
     wallpaperId: String,
     viewModel: WallpaperViewModel,
+    dark: Boolean,
     onBack: () -> Unit,
 ) {
     val wallpaper = viewModel.wallpaper(wallpaperId) ?: return
@@ -93,7 +94,7 @@ fun DetailScreen(
         showTargetDialog = false
         busy = true
         scope.launch {
-            val bitmap = WallpaperImages.loadBitmap(context, wallpaper)
+            val bitmap = WallpaperImages.loadBitmap(context, wallpaper, dark)
             val applied = bitmap != null && WallpaperSetter.apply(context, bitmap, target)
             bitmap?.recycle()
             Analytics.log(
@@ -112,7 +113,7 @@ fun DetailScreen(
             .background(Color.Black),
     ) {
         AsyncImage(
-            model = wallpaper.model,
+            model = wallpaper.model(dark),
             contentDescription = wallpaper.title,
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize(),
@@ -185,7 +186,7 @@ fun DetailScreen(
                     onClick = {
                         busy = true
                         scope.launch {
-                            val bitmap = WallpaperImages.loadBitmap(context, wallpaper)
+                            val bitmap = WallpaperImages.loadBitmap(context, wallpaper, dark)
                             val saved = bitmap != null && ImageSaver.saveToGallery(context, bitmap, wallpaper.id)
                             bitmap?.recycle()
                             Analytics.log(
@@ -212,7 +213,7 @@ fun DetailScreen(
                     onClick = {
                         busy = true
                         scope.launch {
-                            val bitmap = WallpaperImages.loadBitmap(context, wallpaper)
+                            val bitmap = WallpaperImages.loadBitmap(context, wallpaper, dark)
                             if (bitmap != null) {
                                 ShareUtils.share(context, bitmap, wallpaper.id)
                                 bitmap.recycle()

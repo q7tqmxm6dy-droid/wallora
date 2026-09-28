@@ -50,13 +50,15 @@ class RemoteWallpaperRepository {
 
     private fun DocumentSnapshot.toWallpaper(): Wallpaper? {
         val url = getString("url")?.takeIf { it.isNotBlank() } ?: return null
-        return Wallpaper(
+        val remoteWallpaper = Wallpaper(
             id = id,
             title = getString("title")?.takeIf { it.isNotBlank() } ?: "Untitled",
             categoryId = getString("category")?.takeIf { it.isNotBlank() } ?: "remote",
             imageUrl = url,
+            darkImageUrl = getString("urlDark")?.takeIf { it.isNotBlank() },
             remote = true,
         )
+        return remoteWallpaper
     }
 
     companion object {

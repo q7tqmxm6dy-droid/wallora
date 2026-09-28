@@ -53,6 +53,7 @@ class AdminRepository {
         title: String,
         category: String,
         bytes: ByteArray,
+        darkBytes: ByteArray? = null,
         onProgress: (Float) -> Unit = {},
     ): Result<Unit> = withContext(Dispatchers.IO) {
         val storageRef = storage
@@ -70,15 +71,28 @@ class AdminRepository {
             }
             upload.await()
             val url = fileRef.downloadUrl.await().toString()
-            firestore.collection(RemoteWallpaperRepository.COLLECTION).add(
-                mapOf(
-                    "title" to title,
-                    "category" to category,
-                    "url" to url,
-                    "path" to fileRef.path,
-                    "createdAt" to FieldValue.serverTimestamp(),
-                ),
-            ).await()
+
+            var darkUrl: String? = null
+            var darkPath: String? = null
+            if (darkBytes != null) {
+                val darkRef = storageRef.reference.child("wallpapers/${UUID.randomUUID()}_dark.jpg")
+                darkRef.putBytes(darkBytes).await()
+                darkUrl = darkRef.downloadUrl.await().toString()
+                darkPath = darkRef.path
+            }
+
+            val document = mutableMapOf<String, Any>(
+                "title" to title,
+                "category" to category,
+                "url" to url,
+                "path" to fileRef.path,
+                "createdAt" to FieldValue.serverTimestamp(),
+            )
+            if (darkUrl != null && darkPath != null) {
+                document["urlDark"] = darkUrl
+                document["pathDark"] = darkPath
+            }
+            firestore.collection(RemoteWallpaperRepository.COLLECTION).add(document).await()
         }.map { }
     }
 
@@ -89,8 +103,12 @@ class AdminRepository {
             val document = firestore.collection(RemoteWallpaperRepository.COLLECTION).document(id)
             val snapshot = document.get().await()
             val path = snapshot.getString("path")
+            val darkPath = snapshot.getString("pathDark")
             if (!path.isNullOrBlank()) {
                 runCatching { storage?.reference?.child(path)?.delete()?.await() }
+            }
+            if (!darkPath.isNullOrBlank()) {
+                runCatching { storage?.reference?.child(darkPath)?.delete()?.await() }
             }
             document.delete().await()
         }.map { }
@@ -111,19 +129,24 @@ class AdminRepository {
      * Adds a wallpaper that is already hosted somewhere public. Useful when Cloud Storage
      * isn't available (it requires the Blaze plan) — you just paste an image URL.
      */
-    suspend fun addWallpaperByUrl(title: String, category: String, url: String): Result<Unit> =
+    suspend fun addWallpaperByUrl(
+        title: String,
+        category: String,
+        url: String,
+        darkUrl: String? = null,
+    ): Result<Unit> =
         withContext(Dispatchers.IO) {
             val firestore = db
                 ?: return@withContext Result.failure(IllegalStateException("Firebase is not configured"))
             runCatching {
-                firestore.collection(RemoteWallpaperRepository.COLLECTION).add(
-                    mapOf(
-                        "title" to title,
-                        "category" to category,
-                        "url" to url,
-                        "createdAt" to FieldValue.serverTimestamp(),
-                    ),
-                ).await()
+                val document = mutableMapOf<String, Any>(
+                    "title" to title,
+                    "category" to category,
+                    "url" to url,
+                    "createdAt" to FieldValue.serverTimestamp(),
+                )
+                if (!darkUrl.isNullOrBlank()) document["urlDark"] = darkUrl
+                firestore.collection(RemoteWallpaperRepository.COLLECTION).add(document).await()
             }.map { }
         }
 }

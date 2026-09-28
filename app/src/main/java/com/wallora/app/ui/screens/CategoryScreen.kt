@@ -23,6 +23,7 @@ import com.wallora.app.ui.components.WallpaperGrid
 fun CategoryScreen(
     viewModel: WallpaperViewModel,
     categoryId: String,
+    dark: Boolean,
     onBack: () -> Unit,
     onOpenWallpaper: (String) -> Unit,
 ) {
@@ -47,6 +48,7 @@ fun CategoryScreen(
         WallpaperGrid(
             wallpapers = items,
             favorites = favorites,
+            dark = dark,
             onOpen = onOpenWallpaper,
             onToggleFavorite = viewModel::toggleFavorite,
             modifier = Modifier

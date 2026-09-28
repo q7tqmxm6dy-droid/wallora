@@ -63,6 +63,7 @@ import kotlinx.coroutines.withContext
 @Composable
 fun AdminScreen(
     viewModel: WallpaperViewModel,
+    dark: Boolean,
     onBack: () -> Unit,
 ) {
     val context = LocalContext.current
@@ -109,6 +110,7 @@ fun AdminScreen(
         } else {
             AdminContent(
                 viewModel = viewModel,
+                dark = dark,
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(innerPadding),
@@ -175,6 +177,7 @@ private fun SignInForm(
 @Composable
 private fun AdminContent(
     viewModel: WallpaperViewModel,
+    dark: Boolean,
     modifier: Modifier,
     notify: (String) -> Unit,
 ) {
@@ -187,6 +190,7 @@ private fun AdminContent(
     var title by remember { mutableStateOf("") }
     var category by remember { mutableStateOf("") }
     var pickedUri by remember { mutableStateOf<Uri?>(null) }
+    var darkPickedUri by remember { mutableStateOf<Uri?>(null) }
     var uploading by remember { mutableStateOf(false) }
     var progress by remember { mutableStateOf(0f) }
 
@@ -196,27 +200,32 @@ private fun AdminContent(
     var urlTitle by remember { mutableStateOf("") }
     var urlCategory by remember { mutableStateOf("") }
     var urlValue by remember { mutableStateOf("") }
+    var urlDarkValue by remember { mutableStateOf("") }
 
     val picker = rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
         pickedUri = uri
     }
+    val darkPicker = rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+        darkPickedUri = uri
+    }
+
+    fun readBytes(uri: Uri): ByteArray? = runCatching {
+        context.contentResolver.openInputStream(uri)?.use { it.readBytes() }
+    }.getOrNull()
 
     fun upload() {
         val uri = pickedUri ?: return
         uploading = true
         progress = 0f
         scope.launch {
-            val bytes = withContext(Dispatchers.IO) {
-                runCatching {
-                    context.contentResolver.openInputStream(uri)?.use { it.readBytes() }
-                }.getOrNull()
-            }
+            val bytes = withContext(Dispatchers.IO) { readBytes(uri) }
             if (bytes == null) {
                 uploading = false
                 notify("Couldn't read the selected image")
                 return@launch
             }
-            val result = viewModel.uploadWallpaper(title.trim(), category.trim(), bytes) { p ->
+            val darkBytes = withContext(Dispatchers.IO) { darkPickedUri?.let { readBytes(it) } }
+            val result = viewModel.uploadWallpaper(title.trim(), category.trim(), bytes, darkBytes) { p ->
                 progress = p
             }
             uploading = false
@@ -224,6 +233,7 @@ private fun AdminContent(
                 Analytics.log(context, Analytics.Events.ADMIN_UPLOAD, mapOf("category" to category.trim()))
                 title = ""
                 pickedUri = null
+                darkPickedUri = null
                 progress = 0f
                 notify("Uploaded to the cloud")
             } else {
@@ -287,6 +297,24 @@ private fun AdminContent(
                     ) {
                         Text(if (pickedUri == null) "Choose image" else "Image selected ✓")
                     }
+                    Button(
+                        onClick = {
+                            darkPicker.launch(
+                                PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly),
+                            )
+                        },
+                        modifier = Modifier.fillMaxWidth(),
+                    ) {
+                        Text(
+                            if (darkPickedUri == null) "Choose dark variant (optional)"
+                            else "Dark variant selected ✓",
+                        )
+                    }
+                    Text(
+                        "The dark variant is shown automatically when the phone is in dark mode.",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
                     if (uploading) {
                         LinearProgressIndicator(
                             progress = { progress },
@@ -337,6 +365,13 @@ private fun AdminContent(
                         singleLine = true,
                         modifier = Modifier.fillMaxWidth(),
                     )
+                    OutlinedTextField(
+                        value = urlDarkValue,
+                        onValueChange = { urlDarkValue = it },
+                        label = { Text("Dark variant URL (optional)") },
+                        singleLine = true,
+                        modifier = Modifier.fillMaxWidth(),
+                    )
                     Button(
                         onClick = {
                             scope.launch {
@@ -344,11 +379,13 @@ private fun AdminContent(
                                     urlTitle.trim(),
                                     urlCategory.trim(),
                                     urlValue.trim(),
+                                    urlDarkValue.trim().ifBlank { null },
                                 )
                                 if (result.isSuccess) {
                                     urlTitle = ""
                                     urlCategory = ""
                                     urlValue = ""
+                                    urlDarkValue = ""
                                     notify("Wallpaper added")
                                 } else {
                                     notify("Failed: ${result.exceptionOrNull()?.message ?: "unknown error"}")
@@ -421,7 +458,7 @@ private fun AdminContent(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     AsyncImage(
-                        model = wallpaper.model,
+                        model = wallpaper.model(dark),
                         contentDescription = wallpaper.title,
                         contentScale = ContentScale.Crop,
                         modifier = Modifier

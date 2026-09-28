@@ -68,6 +68,7 @@ fun HomeScreen(
         WallpaperGrid(
             wallpapers = visible,
             favorites = favorites,
+            dark = darkTheme,
             onOpen = onOpenWallpaper,
             onToggleFavorite = { id ->
                 viewModel.toggleFavorite(id)

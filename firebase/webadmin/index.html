@@ -126,6 +126,8 @@
       </div>
       <label for="file">Image (portrait JPEG/PNG)</label>
       <input id="file" type="file" accept="image/*" />
+      <label for="fileDark">Dark-mode variant (optional)</label>
+      <input id="fileDark" type="file" accept="image/*" />
       <div class="chips" id="categoryChips"></div>
       <button id="upload">Upload</button>
       <div class="bar"><i id="progress"></i></div>
@@ -150,6 +152,8 @@
       </div>
       <label for="urlValue">Image URL</label>
       <input id="urlValue" placeholder="https://example.com/wallpaper.jpg" />
+      <label for="urlDarkValue">Dark-mode variant URL (optional)</label>
+      <input id="urlDarkValue" placeholder="https://example.com/wallpaper-dark.jpg" />
       <button id="addByUrl">Add wallpaper</button>
       <div class="msg" id="urlMsg"></div>
     </div>
@@ -194,7 +198,7 @@ import {
   serverTimestamp,
 } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 import {
-  getStorage, ref as storageRef, uploadBytesResumable, getDownloadURL, deleteObject,
+  getStorage, ref as storageRef, uploadBytesResumable, uploadBytes, getDownloadURL, deleteObject,
 } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-storage.js";
 import { firebaseConfig } from "./firebase-config.js";
 
@@ -266,7 +270,7 @@ function listenWallpapers() {
         <td>${escapeHtml(w.title || "Untitled")}</td>
         <td><span class="pill">${escapeHtml(w.category || "—")}</span></td>
         <td><a href="${w.url}" target="_blank" rel="noopener" class="muted">open</a></td>
-        <td><button class="danger" data-id="${w.id}" data-path="${w.path || ""}">Delete</button></td>`;
+        <td><button class="danger" data-id="${w.id}" data-path="${w.path || ""}" data-dark-path="${w.pathDark || ""}">Delete</button></td>`;
       rows.appendChild(tr);
     }
     rows.querySelectorAll("button.danger").forEach((btn) => {
@@ -274,6 +278,7 @@ function listenWallpapers() {
         if (!confirm("Delete this wallpaper?")) return;
         try {
           if (btn.dataset.path) { try { await deleteObject(storageRef(storage, btn.dataset.path)); } catch (_) {} }
+          if (btn.dataset.darkPath) { try { await deleteObject(storageRef(storage, btn.dataset.darkPath)); } catch (_) {} }
           await deleteDoc(doc(db, "wallpapers", btn.dataset.id));
         } catch (e) { alert("Delete failed: " + e.message); }
       };
@@ -318,6 +323,7 @@ function listenCategories() {
 // ---- upload ------------------------------------------------------------
 $("upload").onclick = () => {
   const file = $("file").files[0];
+  const darkFile = $("fileDark").files[0];
   const title = $("title").value.trim();
   const category = $("category").value;
   if (!file) return setMsg(uploadMsg, "Choose an image first.");
@@ -333,13 +339,22 @@ $("upload").onclick = () => {
     (e) => setMsg(uploadMsg, "Upload failed: " + e.message),
     async () => {
       try {
-        const url = await getDownloadURL(task.snapshot.ref);
-        await addDoc(collection(db, "wallpapers"), {
-          title, category, url, path, createdAt: serverTimestamp(),
-        });
+        const doc = {
+          title, category,
+          url: await getDownloadURL(task.snapshot.ref),
+          path,
+          createdAt: serverTimestamp(),
+        };
+        if (darkFile) {
+          const darkPath = `wallpapers/${crypto.randomUUID()}_dark.jpg`;
+          const darkResult = await uploadBytes(storageRef(storage, darkPath), darkFile);
+          doc.urlDark = await getDownloadURL(darkResult.ref);
+          doc.pathDark = darkPath;
+        }
+        await addDoc(collection(db, "wallpapers"), doc);
         $("progress").style.width = "0%";
-        $("title").value = ""; $("file").value = "";
-        setMsg(uploadMsg, "Uploaded ✓", true);
+        $("title").value = ""; $("file").value = ""; $("fileDark").value = "";
+        setMsg(uploadMsg, darkFile ? "Uploaded with dark variant ✓" : "Uploaded ✓", true);
       } catch (e) {
         setMsg(uploadMsg, "Saved file but failed to write Firestore: " + e.message);
       }
@@ -351,13 +366,15 @@ $("addByUrl").onclick = async () => {
   const category = $("urlCategory").value;
   const url = $("urlValue").value.trim();
   if (!title || !category || !url) return setMsg(urlMsg, "Fill in a title, category and image URL.");
+  const urlDark = $("urlDarkValue").value.trim();
   try {
-    await addDoc(collection(db, "wallpapers"), {
-      title, category, url, createdAt: serverTimestamp(),
-    });
+    const doc = { title, category, url, createdAt: serverTimestamp() };
+    if (urlDark) doc.urlDark = urlDark;
+    await addDoc(collection(db, "wallpapers"), doc);
     $("urlTitle").value = "";
     $("urlValue").value = "";
-    setMsg(urlMsg, "Wallpaper added ✓", true);
+    $("urlDarkValue").value = "";
+    setMsg(urlMsg, urlDark ? "Wallpaper added with dark variant ✓" : "Wallpaper added ✓", true);
   } catch (e) {
     setMsg(urlMsg, e.message);
   }

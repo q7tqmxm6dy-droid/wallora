@@ -104,18 +104,21 @@ fun WalloraApp(
             composable(Routes.CATEGORIES) {
                 CategoriesScreen(
                     viewModel = viewModel,
+                    dark = darkTheme,
                     onOpenCategory = { navController.navigate(Routes.category(it)) },
                 )
             }
             composable(Routes.FAVORITES) {
                 FavoritesScreen(
                     viewModel = viewModel,
+                    dark = darkTheme,
                     onOpenWallpaper = { navController.navigate(Routes.detail(it)) },
                 )
             }
             composable(Routes.ADMIN) {
                 AdminScreen(
                     viewModel = viewModel,
+                    dark = darkTheme,
                     onBack = { navController.popBackStack() },
                 )
             }
@@ -126,6 +129,7 @@ fun WalloraApp(
                 CategoryScreen(
                     viewModel = viewModel,
                     categoryId = entry.arguments?.getString("categoryId").orEmpty(),
+                    dark = darkTheme,
                     onBack = { navController.popBackStack() },
                     onOpenWallpaper = { navController.navigate(Routes.detail(it)) },
                 )
@@ -137,6 +141,7 @@ fun WalloraApp(
                 DetailScreen(
                     wallpaperId = entry.arguments?.getString("wallpaperId").orEmpty(),
                     viewModel = viewModel,
+                    dark = darkTheme,
                     onBack = { navController.popBackStack() },
                 )
             }

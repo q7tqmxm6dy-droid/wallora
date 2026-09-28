@@ -171,9 +171,9 @@ Android Studio.
 
 | Collection / path | Purpose |
 |---|---|
-| `wallpapers/{id}` | `title`, `category`, `url`, `path`, `createdAt` |
+| `wallpapers/{id}` | `title`, `category`, `url`, `urlDark`, `path`, `pathDark`, `createdAt` |
 | `categories/{id}` | `title` |
-| Storage `wallpapers/{uuid}.jpg` | the actual image files |
+| Storage `wallpapers/{uuid}.jpg` | the actual image files (and `{uuid}_dark.jpg` for dark variants) |
 
 The app reads these live, so anything you change in the dashboard or console shows up
 on every device without an app update.

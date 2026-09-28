@@ -72,13 +72,18 @@ class WallpaperViewModel(application: Application) : AndroidViewModel(applicatio
         title: String,
         category: String,
         bytes: ByteArray,
-        onProgress: (Float) -> Unit,
-    ): Result<Unit> = admin.uploadWallpaper(title, category, bytes, onProgress)
+        darkBytes: ByteArray? = null,
+        onProgress: (Float) -> Unit = {},
+    ): Result<Unit> = admin.uploadWallpaper(title, category, bytes, darkBytes, onProgress)
 
     suspend fun deleteWallpaper(id: String): Result<Unit> = admin.deleteWallpaper(id)
 
     suspend fun addCategory(id: String, title: String): Result<Unit> = admin.addCategory(id, title)
 
-    suspend fun addWallpaperByUrl(title: String, category: String, url: String): Result<Unit> =
-        admin.addWallpaperByUrl(title, category, url)
+    suspend fun addWallpaperByUrl(
+        title: String,
+        category: String,
+        url: String,
+        darkUrl: String? = null,
+    ): Result<Unit> = admin.addWallpaperByUrl(title, category, url, darkUrl)
 }

@@ -15,6 +15,9 @@ favorite, preview, set, save and share them.
 - **Share** — sends the image to any app via the system share sheet.
 - **Dark mode** — follows the system by default, with a one-tap override in the top bar.
 - **Material You** — uses dynamic color on Android 12+.
+- **Light & dark variants** — every wallpaper can have a dark-mode image. The app shows the
+  matching variant in the grid and preview, and **Set / Save / Share use the same one**, so
+  what you see is what gets applied.
 - **Cloud wallpapers (optional)** — Firebase Firestore catalogue + Cloud Storage images, so you can publish wallpapers without shipping an app update. Falls back to the bundled set when offline.
 - **Admin panel** — manage the catalogue from the app (shield icon → sign in) or from a browser dashboard.
 - **Analytics & Crashlytics** — Firebase Analytics events (set / save / share / favourite) and crash reporting.
@@ -71,8 +74,10 @@ Already configured:
 
 Two ways to add wallpapers:
 
-- **Upload a file** — the web dashboard or the in-app admin uploads it to Cloud Storage
-- **Add by image URL** — paste a link to an image hosted anywhere
+- **Upload a file** — the web dashboard or the in-app admin uploads it to Cloud Storage.
+  Both let you attach an optional **dark-mode variant** as a second image.
+- **Add by image URL** — paste a link to an image hosted anywhere (optionally a second
+  link for the dark variant).
 
 ### ⚠️ Security: disable sign-ups
 
@@ -96,9 +101,9 @@ Data model:
 
 | Path | Fields |
 |---|---|
-| `wallpapers/{id}` | `title`, `category`, `url`, `path`, `createdAt` |
+| `wallpapers/{id}` | `title`, `category`, `url`, `urlDark` (optional), `path`, `pathDark` (optional), `createdAt` |
 | `categories/{id}` | `title` |
-| Storage `wallpapers/{uuid}.jpg` | the image file |
+| Storage `wallpapers/{uuid}.jpg` | the image file (plus `{uuid}_dark.jpg` when a dark variant is uploaded) |
 
 In the app, tap the **shield icon** in the top bar to open the admin screen and sign in
 with the account you created.

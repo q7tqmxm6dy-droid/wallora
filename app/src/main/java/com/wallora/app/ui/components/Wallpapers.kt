@@ -37,6 +37,7 @@ import com.wallora.app.ui.theme.HeartRed
 fun WallpaperCard(
     wallpaper: Wallpaper,
     isFavorite: Boolean,
+    dark: Boolean,
     onOpen: () -> Unit,
     onToggleFavorite: () -> Unit,
 ) {
@@ -49,7 +50,7 @@ fun WallpaperCard(
     ) {
         Box {
             AsyncImage(
-                model = wallpaper.model,
+                model = wallpaper.model(dark),
                 contentDescription = wallpaper.title,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
@@ -77,6 +78,7 @@ fun WallpaperCard(
 fun WallpaperGrid(
     wallpapers: List<Wallpaper>,
     favorites: Set<String>,
+    dark: Boolean,
     onOpen: (String) -> Unit,
     onToggleFavorite: (String) -> Unit,
     modifier: Modifier = Modifier,
@@ -97,6 +99,7 @@ fun WallpaperGrid(
             WallpaperCard(
                 wallpaper = wallpaper,
                 isFavorite = wallpaper.id in favorites,
+                dark = dark,
                 onOpen = { onOpen(wallpaper.id) },
                 onToggleFavorite = { onToggleFavorite(wallpaper.id) },
             )
