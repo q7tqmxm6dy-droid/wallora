@@ -23,6 +23,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -196,6 +197,8 @@ private fun AdminContent(
 
     var newCategoryId by remember { mutableStateOf("") }
     var newCategoryTitle by remember { mutableStateOf("") }
+
+    var pendingDelete by remember { mutableStateOf<com.wallora.app.data.Wallpaper?>(null) }
 
     var urlTitle by remember { mutableStateOf("") }
     var urlCategory by remember { mutableStateOf("") }
@@ -475,12 +478,7 @@ private fun AdminContent(
                         )
                     }
                     IconButton(
-                        onClick = {
-                            scope.launch {
-                                val result = viewModel.deleteWallpaper(wallpaper.id)
-                                notify(if (result.isSuccess) "Deleted" else "Delete failed")
-                            }
-                        },
+                        onClick = { pendingDelete = wallpaper },
                     ) {
                         Icon(Icons.Filled.Delete, contentDescription = "Delete")
                     }
@@ -489,5 +487,32 @@ private fun AdminContent(
         }
 
         item { Spacer(Modifier.height(8.dp)) }
+    }
+
+    pendingDelete?.let { target ->
+        AlertDialog(
+            onDismissRequest = { pendingDelete = null },
+            title = { Text("Delete wallpaper?") },
+            text = {
+                Text(
+                    "\"${target.title}\" will be removed from the cloud for everyone, " +
+                        "including its image file. This can't be undone.",
+                )
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        pendingDelete = null
+                        scope.launch {
+                            val result = viewModel.deleteWallpaper(target.id)
+                            notify(if (result.isSuccess) "Deleted" else "Delete failed")
+                        }
+                    },
+                ) { Text("Delete") }
+            },
+            dismissButton = {
+                TextButton(onClick = { pendingDelete = null }) { Text("Cancel") }
+            },
+        )
     }
 }
