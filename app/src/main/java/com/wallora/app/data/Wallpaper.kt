@@ -18,6 +18,9 @@ data class Wallpaper(
     @get:DrawableRes val darkResId: Int? = null,
     val darkImageUrl: String? = null,
     val remote: Boolean = false,
+    /** Attribution for real photos (CC-BY etc.). */
+    val credit: String? = null,
+    val license: String? = null,
 ) {
     val hasDarkVariant: Boolean get() = darkImageUrl != null || darkResId != null
 

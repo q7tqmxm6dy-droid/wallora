@@ -63,6 +63,18 @@ object WallpaperCatalog {
         Wallpaper("moto_02", "Cafe Racer", "moto", R.drawable.moto_02_light, darkResId = R.drawable.moto_02_dark),
         Wallpaper("moto_03", "Full Face", "moto", R.drawable.moto_03_light, darkResId = R.drawable.moto_03_dark),
         Wallpaper("moto_04", "Redline", "moto", R.drawable.moto_04_light, darkResId = R.drawable.moto_04_dark),
+        // Cars — flat-colour posters
+        Wallpaper("cars_p01", "Scarlet Coupe", "cars", R.drawable.cars_p01_light, darkResId = R.drawable.cars_p01_dark),
+        Wallpaper("cars_p02", "Azure Coupe", "cars", R.drawable.cars_p02_light, darkResId = R.drawable.cars_p02_dark),
+        Wallpaper("cars_p03", "Amber Coupe", "cars", R.drawable.cars_p03_light, darkResId = R.drawable.cars_p03_dark),
+        Wallpaper("cars_p04", "Emerald Coupe", "cars", R.drawable.cars_p04_light, darkResId = R.drawable.cars_p04_dark),
+        Wallpaper("cars_p05", "Violet Coupe", "cars", R.drawable.cars_p05_light, darkResId = R.drawable.cars_p05_dark),
+        Wallpaper("cars_p06", "Graphite Coupe", "cars", R.drawable.cars_p06_light, darkResId = R.drawable.cars_p06_dark),
+        // Moto — flat-colour posters
+        Wallpaper("moto_p01", "Teal Ride", "moto", R.drawable.moto_p01_light, darkResId = R.drawable.moto_p01_dark),
+        Wallpaper("moto_p02", "Coral Ride", "moto", R.drawable.moto_p02_light, darkResId = R.drawable.moto_p02_dark),
+        Wallpaper("moto_p03", "Indigo Ride", "moto", R.drawable.moto_p03_light, darkResId = R.drawable.moto_p03_dark),
+        Wallpaper("moto_p04", "Lime Ride", "moto", R.drawable.moto_p04_light, darkResId = R.drawable.moto_p04_dark),
     )
 
     private val byId: Map<String, Wallpaper> = wallpapers.associateBy { it.id }

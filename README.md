@@ -1,8 +1,8 @@
 # Wallora — Phone Wallpaper App
 
 A native Android wallpaper app built with **Kotlin + Jetpack Compose**. It ships with
-**32 original, code-generated wallpapers** (no third-party images) and lets you browse,
-favorite, preview, set, save and share them.
+**42 original, code-generated wallpapers** (no third-party images) — plus any real photos
+you add — and lets you browse, favorite, preview, set, save and share them.
 
 ## Features
 
@@ -19,6 +19,8 @@ favorite, preview, set, save and share them.
 - **Light & dark variants** — every wallpaper can have a dark-mode image. The app shows the
   matching variant in the grid and preview, and **Set / Save / Share use the same one**, so
   what you see is what gets applied.
+- **Photo credits** — CC-licensed photos you add can carry a `credit` + `license` field,
+  shown under the title on the detail screen.
 - **Cloud wallpapers (optional)** — Firebase Firestore catalogue + Cloud Storage images, so you can publish wallpapers without shipping an app update. Falls back to the bundled set when offline.
 - **Admin panel** — manage the catalogue from the app (shield icon → sign in) or from a browser dashboard.
 - **Analytics & Crashlytics** — Firebase Analytics events (set / save / share / favourite) and crash reporting.
@@ -158,7 +160,7 @@ app/src/main/
 │     ├─ ShareUtils.kt             # FileProvider + ACTION_SEND
 │     └─ Analytics.kt              # Firebase Analytics + Crashlytics
 └─ res/
-   ├─ drawable-nodpi/               # 32 wallpapers × light/dark (1080×1920)
+   ├─ drawable-nodpi/               # 42 wallpapers × light/dark (1080×1920)
    ├─ drawable/ic_*.xml            # app + UI icons (vector)
    └─ mipmap-anydpi-v26/           # adaptive launcher icon
 ```

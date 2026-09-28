@@ -170,6 +170,18 @@ fun DetailScreen(
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.SemiBold,
             )
+            if (!wallpaper.credit.isNullOrBlank()) {
+                Text(
+                    text = buildString {
+                        append("Photo: ")
+                        append(wallpaper.credit)
+                        wallpaper.license?.takeIf { it.isNotBlank() }?.let { append(" · $it") }
+                    },
+                    color = Color.White.copy(alpha = 0.72f),
+                    style = MaterialTheme.typography.labelSmall,
+                    modifier = Modifier.padding(top = 4.dp),
+                )
+            }
             Spacer(Modifier.height(16.dp))
             Button(
                 onClick = { showTargetDialog = true },
