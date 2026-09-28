@@ -20,6 +20,7 @@ object WallpaperCatalog {
         Category("neon", "Neon"),
         Category("cars", "Cars"),
         Category("moto", "Moto"),
+        Category("posters", "Posters"),
     )
 
     val wallpapers: List<Wallpaper> = listOf(
@@ -75,6 +76,19 @@ object WallpaperCatalog {
         Wallpaper("moto_p02", "Coral Ride", "moto", R.drawable.moto_p02_light, darkResId = R.drawable.moto_p02_dark),
         Wallpaper("moto_p03", "Indigo Ride", "moto", R.drawable.moto_p03_light, darkResId = R.drawable.moto_p03_dark),
         Wallpaper("moto_p04", "Lime Ride", "moto", R.drawable.moto_p04_light, darkResId = R.drawable.moto_p04_dark),
+        // Posters — colourful flat subjects
+        Wallpaper("posters_p01", "Summit", "posters", R.drawable.posters_p01_light, darkResId = R.drawable.posters_p01_dark),
+        Wallpaper("posters_p02", "Tropic", "posters", R.drawable.posters_p02_light, darkResId = R.drawable.posters_p02_dark),
+        Wallpaper("posters_p03", "Lift Off", "posters", R.drawable.posters_p03_light, darkResId = R.drawable.posters_p03_dark),
+        Wallpaper("posters_p04", "Skyline", "posters", R.drawable.posters_p04_light, darkResId = R.drawable.posters_p04_dark),
+        Wallpaper("posters_p05", "Set Sail", "posters", R.drawable.posters_p05_light, darkResId = R.drawable.posters_p05_dark),
+        Wallpaper("posters_p06", "Ride", "posters", R.drawable.posters_p06_light, darkResId = R.drawable.posters_p06_dark),
+        Wallpaper("posters_p07", "Brew", "posters", R.drawable.posters_p07_light, darkResId = R.drawable.posters_p07_dark),
+        Wallpaper("posters_p08", "Beats", "posters", R.drawable.posters_p08_light, darkResId = R.drawable.posters_p08_dark),
+        Wallpaper("posters_p09", "Shutter", "posters", R.drawable.posters_p09_light, darkResId = R.drawable.posters_p09_dark),
+        Wallpaper("posters_p10", "Player One", "posters", R.drawable.posters_p10_light, darkResId = R.drawable.posters_p10_dark),
+        Wallpaper("posters_p11", "Voltage", "posters", R.drawable.posters_p11_light, darkResId = R.drawable.posters_p11_dark),
+        Wallpaper("posters_p12", "Orbit", "posters", R.drawable.posters_p12_light, darkResId = R.drawable.posters_p12_dark),
     )
 
     private val byId: Map<String, Wallpaper> = wallpapers.associateBy { it.id }
