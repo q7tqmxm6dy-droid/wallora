@@ -27,6 +27,7 @@ import com.wallora.app.ui.screens.CategoryScreen
 import com.wallora.app.ui.screens.DetailScreen
 import com.wallora.app.ui.screens.FavoritesScreen
 import com.wallora.app.ui.screens.HomeScreen
+import com.wallora.app.ui.screens.SettingsScreen
 
 private object Routes {
     const val HOME = "home"
@@ -35,6 +36,7 @@ private object Routes {
     const val CATEGORY = "category/{categoryId}"
     const val DETAIL = "detail/{wallpaperId}"
     const val ADMIN = "admin"
+    const val SETTINGS = "settings"
 
     fun category(id: String) = "category/$id"
     fun detail(id: String) = "detail/$id"
@@ -101,6 +103,7 @@ fun WalloraApp(
                     onSetDarkMode = onSetDarkMode,
                     onOpenWallpaper = { navController.navigate(Routes.detail(it)) },
                     onOpenAdmin = { navController.navigate(Routes.ADMIN) },
+                    onOpenSettings = { navController.navigate(Routes.SETTINGS) },
                 )
             }
             composable(Routes.CATEGORIES) {
@@ -115,6 +118,12 @@ fun WalloraApp(
                     viewModel = viewModel,
                     dark = darkTheme,
                     onOpenWallpaper = { navController.navigate(Routes.detail(it)) },
+                )
+            }
+            composable(Routes.SETTINGS) {
+                SettingsScreen(
+                    viewModel = viewModel,
+                    onBack = { navController.popBackStack() },
                 )
             }
             composable(Routes.ADMIN) {

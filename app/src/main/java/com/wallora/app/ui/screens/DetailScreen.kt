@@ -1,5 +1,6 @@
 package com.wallora.app.ui.screens
 
+import android.graphics.Bitmap
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -14,6 +15,8 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -26,6 +29,7 @@ import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -42,9 +46,12 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
@@ -58,6 +65,8 @@ import com.wallora.app.R
 import com.wallora.app.ui.WallpaperViewModel
 import com.wallora.app.ui.theme.HeartRed
 import com.wallora.app.util.Analytics
+import com.wallora.app.util.Effect
+import com.wallora.app.util.ImageEffects
 import com.wallora.app.util.ImageSaver
 import com.wallora.app.util.ShareUtils
 import com.wallora.app.util.WallpaperImages
@@ -81,20 +90,30 @@ fun DetailScreen(
     val scope = rememberCoroutineScope()
     var showTargetDialog by remember { mutableStateOf(false) }
     var busy by remember { mutableStateOf(false) }
+    var effect by remember { mutableStateOf(Effect.NONE) }
 
     LaunchedEffect(wallpaper.id) {
         Analytics.log(context, Analytics.Events.OPEN_WALLPAPER, mapOf("id" to wallpaper.id, "remote" to wallpaper.remote))
+        viewModel.recordViewed(wallpaper.id)
     }
 
     fun notify(message: String) {
         scope.launch { snackbarHostState.showSnackbar(message) }
     }
 
+    /** Loads the wallpaper and applies the selected look. */
+    suspend fun loadProcessed(): Bitmap? {
+        val raw = WallpaperImages.loadBitmap(context, wallpaper, dark) ?: return null
+        val processed = ImageEffects.apply(effect, raw)
+        if (processed !== raw) raw.recycle()
+        return processed
+    }
+
     fun applyTarget(target: WallpaperTarget) {
         showTargetDialog = false
         busy = true
         scope.launch {
-            val bitmap = WallpaperImages.loadBitmap(context, wallpaper, dark)
+            val bitmap = loadProcessed()
             val applied = bitmap != null && WallpaperSetter.apply(context, bitmap, target)
             bitmap?.recycle()
             Analytics.log(
@@ -103,6 +122,7 @@ fun DetailScreen(
                 mapOf("id" to wallpaper.id, "target" to target.name, "ok" to applied),
             )
             notify(if (applied) "Wallpaper applied" else "Couldn't set wallpaper")
+            if (applied) viewModel.rememberApplied(wallpaper.id, dark)
             busy = false
         }
     }
@@ -116,8 +136,27 @@ fun DetailScreen(
             model = wallpaper.model(dark),
             contentDescription = wallpaper.title,
             contentScale = ContentScale.Crop,
-            modifier = Modifier.fillMaxSize(),
+            colorFilter = effect.previewColorFilter(),
+            modifier = Modifier
+                .fillMaxSize()
+                .then(if (effect == Effect.BLUR) Modifier.blur(18.dp) else Modifier),
         )
+        if (effect == Effect.VIGNETTE) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(
+                        Brush.radialGradient(
+                            colors = listOf(
+                                Color.Transparent,
+                                Color.Transparent,
+                                Color.Black.copy(alpha = 0.75f),
+                            ),
+                            radius = 1400f,
+                        ),
+                    ),
+            )
+        }
 
         Row(
             modifier = Modifier
@@ -182,7 +221,19 @@ fun DetailScreen(
                     modifier = Modifier.padding(top = 4.dp),
                 )
             }
-            Spacer(Modifier.height(16.dp))
+            LazyRow(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier.padding(top = 12.dp),
+            ) {
+                items(Effect.entries.toList()) { option ->
+                    FilterChip(
+                        selected = effect == option,
+                        onClick = { effect = option },
+                        label = { Text(option.label) },
+                    )
+                }
+            }
+            Spacer(Modifier.height(12.dp))
             Button(
                 onClick = { showTargetDialog = true },
                 enabled = !busy,
@@ -198,7 +249,7 @@ fun DetailScreen(
                     onClick = {
                         busy = true
                         scope.launch {
-                            val bitmap = WallpaperImages.loadBitmap(context, wallpaper, dark)
+                            val bitmap = loadProcessed()
                             val saved = bitmap != null && ImageSaver.saveToGallery(context, bitmap, wallpaper.id)
                             bitmap?.recycle()
                             Analytics.log(
@@ -225,7 +276,7 @@ fun DetailScreen(
                     onClick = {
                         busy = true
                         scope.launch {
-                            val bitmap = WallpaperImages.loadBitmap(context, wallpaper, dark)
+                            val bitmap = loadProcessed()
                             if (bitmap != null) {
                                 ShareUtils.share(context, bitmap, wallpaper.id)
                                 bitmap.recycle()
@@ -287,9 +338,33 @@ fun DetailScreen(
     }
 }
 
+/** Compose-side approximation of each look, for the on-screen preview. */
+private fun Effect.previewColorFilter(): ColorFilter? {
+    val matrix = when (this) {
+        Effect.MONO -> ColorMatrix().apply { setToSaturation(0f) }
+        Effect.WARM -> ColorMatrix(
+            floatArrayOf(
+                1.14f, 0f, 0f, 0f, 0f,
+                0f, 0.97f, 0f, 0f, 0f,
+                0f, 0f, 0.86f, 0f, 0f,
+                0f, 0f, 0f, 1f, 0f,
+            ),
+        )
+        Effect.COOL -> ColorMatrix(
+            floatArrayOf(
+                0.88f, 0f, 0f, 0f, 0f,
+                0f, 0.99f, 0f, 0f, 0f,
+                0f, 0f, 1.16f, 0f, 0f,
+                0f, 0f, 0f, 1f, 0f,
+            ),
+        )
+        else -> null
+    }
+    return matrix?.let { ColorFilter.colorMatrix(it) }
+}
+
 @Composable
-private fun TargetOption(painter: Painter, label: String, onClick: () -> Unit) {
-    Row(
+private fun TargetOption(painter: Painter, label: String, onClick: () -> Unit) {    Row(
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(12.dp))

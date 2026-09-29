@@ -10,11 +10,19 @@ import com.wallora.app.data.RemoteWallpaperRepository
 import com.wallora.app.data.Wallpaper
 import com.wallora.app.data.WallpaperCatalog
 import com.wallora.app.data.mergeCatalog
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+
+enum class SortOrder(val label: String) {
+    DEFAULT("Default"),
+    NAME("Name A–Z"),
+    CATEGORY("Category"),
+}
 
 class WallpaperViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -28,6 +36,7 @@ class WallpaperViewModel(application: Application) : AndroidViewModel(applicatio
     val darkMode: StateFlow<Boolean?> = preferences.darkMode
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), null)
 
+    /** Remote wallpapers (Firestore) first, then the bundled ones as offline fallback. */
     val wallpapers: StateFlow<List<Wallpaper>> = remote.wallpapers()
         .map { remoteWallpapers -> mergeCatalog(remoteWallpapers, WallpaperCatalog.wallpapers) }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), WallpaperCatalog.wallpapers)
@@ -43,7 +52,46 @@ class WallpaperViewModel(application: Application) : AndroidViewModel(applicatio
     val isAdminSignedIn: StateFlow<Boolean> = admin.authState()
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), false)
 
-    fun adminEmail(): String? = admin.currentUserEmail()
+    // ---- browsing ----------------------------------------------------------
+
+    val searchQuery = MutableStateFlow("")
+    val sortOrder = MutableStateFlow(SortOrder.DEFAULT)
+
+    private val historyIds: StateFlow<List<String>> = preferences.history
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
+
+    val history: StateFlow<List<Wallpaper>> = combine(historyIds, wallpapers) { ids, all ->
+        ids.mapNotNull { id -> all.firstOrNull { it.id == id } }
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
+
+    // ---- settings ----------------------------------------------------------
+
+    val dailyRotation: StateFlow<Boolean> = preferences.dailyRotation
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), false)
+
+    val rotationTarget: StateFlow<String> = preferences.rotationTarget
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), "HOME")
+
+    val autoThemeApply: StateFlow<Boolean> = preferences.autoThemeApply
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), false)
+
+    fun setDailyRotation(enabled: Boolean) {
+        viewModelScope.launch { preferences.setDailyRotation(enabled) }
+    }
+
+    fun setRotationTarget(target: String) {
+        viewModelScope.launch { preferences.setRotationTarget(target) }
+    }
+
+    fun setAutoThemeApply(enabled: Boolean) {
+        viewModelScope.launch { preferences.setAutoThemeApply(enabled) }
+    }
+
+    fun clearHistory() {
+        viewModelScope.launch { preferences.clearHistory() }
+    }
+
+    // ---- actions -----------------------------------------------------------
 
     fun toggleFavorite(id: String) {
         viewModelScope.launch { preferences.toggleFavorite(id) }
@@ -52,6 +100,16 @@ class WallpaperViewModel(application: Application) : AndroidViewModel(applicatio
     fun setDarkMode(value: Boolean?) {
         viewModelScope.launch { preferences.setDarkMode(value) }
     }
+
+    fun recordViewed(id: String) {
+        viewModelScope.launch { preferences.recordHistory(id) }
+    }
+
+    fun rememberApplied(id: String, dark: Boolean) {
+        viewModelScope.launch { preferences.rememberApplied(id, dark) }
+    }
+
+    fun randomWallpaper(): Wallpaper? = wallpapers.value.randomOrNull()
 
     fun wallpaper(id: String): Wallpaper? =
         wallpapers.value.firstOrNull { it.id == id } ?: WallpaperCatalog.wallpaper(id)
@@ -62,7 +120,9 @@ class WallpaperViewModel(application: Application) : AndroidViewModel(applicatio
     fun categoryTitle(categoryId: String): String =
         categories.value.firstOrNull { it.id == categoryId }?.title ?: categoryId
 
-    // ---- Admin -------------------------------------------------------------
+    fun adminEmail(): String? = admin.currentUserEmail()
+
+    // ---- admin -------------------------------------------------------------
 
     suspend fun signIn(email: String, password: String): Result<Unit> = admin.signIn(email, password)
 
