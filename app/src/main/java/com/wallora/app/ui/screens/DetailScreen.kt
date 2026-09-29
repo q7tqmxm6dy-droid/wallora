@@ -1,6 +1,7 @@
 package com.wallora.app.ui.screens
 
 import android.graphics.Bitmap
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -34,6 +35,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.Slider
+import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -46,12 +49,11 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.ColorMatrix
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
@@ -72,7 +74,11 @@ import com.wallora.app.util.ShareUtils
 import com.wallora.app.util.WallpaperImages
 import com.wallora.app.util.WallpaperSetter
 import com.wallora.app.util.WallpaperTarget
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import kotlin.math.roundToInt
 
 @Composable
 fun DetailScreen(
@@ -91,6 +97,8 @@ fun DetailScreen(
     var showTargetDialog by remember { mutableStateOf(false) }
     var busy by remember { mutableStateOf(false) }
     var effect by remember { mutableStateOf(Effect.NONE) }
+    var strength by remember { mutableStateOf(0.6f) }
+    var previewImage by remember { mutableStateOf<ImageBitmap?>(null) }
 
     LaunchedEffect(wallpaper.id) {
         Analytics.log(context, Analytics.Events.OPEN_WALLPAPER, mapOf("id" to wallpaper.id, "remote" to wallpaper.remote))
@@ -104,9 +112,29 @@ fun DetailScreen(
     /** Loads the wallpaper and applies the selected look. */
     suspend fun loadProcessed(): Bitmap? {
         val raw = WallpaperImages.loadBitmap(context, wallpaper, dark) ?: return null
-        val processed = ImageEffects.apply(effect, raw)
+        val processed = ImageEffects.apply(effect, raw, strength)
         if (processed !== raw) raw.recycle()
         return processed
+    }
+
+    // Real processed preview, so what you see is exactly what gets applied
+    // (Modifier.blur only works on Android 12+, hence rendering it ourselves).
+    LaunchedEffect(wallpaper.id, dark, effect, strength) {
+        delay(120) // debounce slider drags
+        val bitmap = withContext(Dispatchers.Default) {
+            val raw = WallpaperImages.loadBitmap(context, wallpaper, dark) ?: return@withContext null
+            val half = Bitmap.createScaledBitmap(
+                raw,
+                maxOf(1, raw.width / 2),
+                maxOf(1, raw.height / 2),
+                true,
+            )
+            raw.recycle()
+            val processed = ImageEffects.apply(effect, half, strength)
+            if (processed !== half) half.recycle()
+            processed
+        }
+        previewImage = bitmap?.asImageBitmap()
     }
 
     fun applyTarget(target: WallpaperTarget) {
@@ -132,29 +160,20 @@ fun DetailScreen(
             .fillMaxSize()
             .background(Color.Black),
     ) {
-        AsyncImage(
-            model = wallpaper.model(dark),
-            contentDescription = wallpaper.title,
-            contentScale = ContentScale.Crop,
-            colorFilter = effect.previewColorFilter(),
-            modifier = Modifier
-                .fillMaxSize()
-                .then(if (effect == Effect.BLUR) Modifier.blur(18.dp) else Modifier),
-        )
-        if (effect == Effect.VIGNETTE) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(
-                        Brush.radialGradient(
-                            colors = listOf(
-                                Color.Transparent,
-                                Color.Transparent,
-                                Color.Black.copy(alpha = 0.75f),
-                            ),
-                            radius = 1400f,
-                        ),
-                    ),
+        val preview = previewImage
+        if (preview != null) {
+            Image(
+                bitmap = preview,
+                contentDescription = wallpaper.title,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.fillMaxSize(),
+            )
+        } else {
+            AsyncImage(
+                model = wallpaper.model(dark),
+                contentDescription = wallpaper.title,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.fillMaxSize(),
             )
         }
 
@@ -230,6 +249,36 @@ fun DetailScreen(
                         selected = effect == option,
                         onClick = { effect = option },
                         label = { Text(option.label) },
+                    )
+                }
+            }
+            if (effect != Effect.NONE) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.padding(top = 8.dp),
+                ) {
+                    Text(
+                        text = "Strength",
+                        color = Color.White,
+                        style = MaterialTheme.typography.labelMedium,
+                    )
+                    Slider(
+                        value = strength,
+                        onValueChange = { strength = it },
+                        valueRange = 0.1f..1f,
+                        colors = SliderDefaults.colors(
+                            thumbColor = Color.White,
+                            activeTrackColor = Color.White,
+                            inactiveTrackColor = Color.White.copy(alpha = 0.35f),
+                        ),
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(horizontal = 12.dp),
+                    )
+                    Text(
+                        text = "${(strength * 100).roundToInt()}%",
+                        color = Color.White,
+                        style = MaterialTheme.typography.labelMedium,
                     )
                 }
             }
@@ -338,33 +387,9 @@ fun DetailScreen(
     }
 }
 
-/** Compose-side approximation of each look, for the on-screen preview. */
-private fun Effect.previewColorFilter(): ColorFilter? {
-    val matrix = when (this) {
-        Effect.MONO -> ColorMatrix().apply { setToSaturation(0f) }
-        Effect.WARM -> ColorMatrix(
-            floatArrayOf(
-                1.14f, 0f, 0f, 0f, 0f,
-                0f, 0.97f, 0f, 0f, 0f,
-                0f, 0f, 0.86f, 0f, 0f,
-                0f, 0f, 0f, 1f, 0f,
-            ),
-        )
-        Effect.COOL -> ColorMatrix(
-            floatArrayOf(
-                0.88f, 0f, 0f, 0f, 0f,
-                0f, 0.99f, 0f, 0f, 0f,
-                0f, 0f, 1.16f, 0f, 0f,
-                0f, 0f, 0f, 1f, 0f,
-            ),
-        )
-        else -> null
-    }
-    return matrix?.let { ColorFilter.colorMatrix(it) }
-}
-
 @Composable
-private fun TargetOption(painter: Painter, label: String, onClick: () -> Unit) {    Row(
+private fun TargetOption(painter: Painter, label: String, onClick: () -> Unit) {
+    Row(
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(12.dp))
