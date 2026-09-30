@@ -60,6 +60,7 @@ fun ProfileScreen(
     onOpenWallpaper: (String) -> Unit,
     onOpenSettings: () -> Unit,
     onOpenAdmin: () -> Unit,
+    onOpenCollections: () -> Unit,
 ) {
     val favorites by viewModel.favorites.collectAsStateWithLifecycle()
     val history by viewModel.history.collectAsStateWithLifecycle()
@@ -72,6 +73,7 @@ fun ProfileScreen(
     val liveMode by viewModel.liveMode.collectAsStateWithLifecycle()
     val autoTheme by viewModel.autoThemeApply.collectAsStateWithLifecycle()
     val signedIn by viewModel.isAdminSignedIn.collectAsStateWithLifecycle()
+    val collections by viewModel.collections.collectAsStateWithLifecycle()
 
     val email = remember(signedIn) { viewModel.adminEmail() }
     val favouriteWallpapers = remember(favorites, wallpapers) {
@@ -265,6 +267,11 @@ fun ProfileScreen(
             HorizontalDivider(Modifier.padding(vertical = 20.dp))
 
             // ---- preference summaries --------------------------------------
+            InfoRow(
+                label = "Collections",
+                value = if (collections.isEmpty()) "None yet" else "${collections.size} collections",
+                onClick = onOpenCollections,
+            )
             InfoRow(
                 label = "Theme",
                 value = when (darkModePreference) {

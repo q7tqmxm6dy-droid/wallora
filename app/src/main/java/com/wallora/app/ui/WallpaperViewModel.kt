@@ -106,6 +106,35 @@ class WallpaperViewModel(application: Application) : AndroidViewModel(applicatio
     val openDays: StateFlow<Int> = preferences.openDays
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), 0)
 
+    // ---- collections & tags ------------------------------------------------
+
+    val collections: StateFlow<Map<String, List<String>>> = preferences.collections
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyMap())
+
+    fun createCollection(name: String) {
+        viewModelScope.launch { preferences.createCollection(name) }
+    }
+
+    fun deleteCollection(name: String) {
+        viewModelScope.launch { preferences.deleteCollection(name) }
+    }
+
+    fun toggleInCollection(name: String, wallpaperId: String) {
+        viewModelScope.launch { preferences.toggleInCollection(name, wallpaperId) }
+    }
+
+    /** Chosen tag filter (null = any). */
+    val selectedTag = MutableStateFlow<String?>(null)
+
+    val tags: StateFlow<List<String>> = wallpapers
+        .map { list -> list.flatMap { it.tags }.distinct().sorted() }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
+
+    fun wallpaperIdsInCollection(name: String): List<Wallpaper> {
+        val ids = collections.value[name] ?: return emptyList()
+        return wallpapers.value.filter { it.id in ids }
+    }
+
     init {
         viewModelScope.launch { preferences.recordDailyOpen() }
     }

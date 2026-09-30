@@ -194,7 +194,7 @@
       <input id="search" placeholder="Filter by title or category…" />
       <table>
         <thead>
-          <tr><th></th><th>Title</th><th>Category</th><th>★</th><th>Order</th><th>Publish</th><th></th></tr>
+          <tr><th></th><th>Title</th><th>Category</th><th>Tags</th><th>★</th><th>Order</th><th>Publish</th><th></th></tr>
         </thead>
         <tbody id="rows">
           <tr><td colspan="7" class="muted">Loading…</td></tr>
@@ -329,6 +329,7 @@ function renderTable() {
       <td><img src="${w.url}" alt="" loading="lazy" /></td>
       <td>${escapeHtml(w.title || "Untitled")}${isScheduled(w) ? ' <span class="pill">scheduled</span>' : ""}</td>
       <td><span class="pill">${escapeHtml(w.category || "—")}</span></td>
+      <td><input style="width:150px" placeholder="car, dark" value="${(w.tags || []).join(", ")}" data-tags="${w.id}" /></td>
       <td><button class="chip" data-feature="${w.id}">${w.featured ? "★" : "☆"}</button></td>
       <td><input type="number" style="width:74px" value="${Number(w.order || 0)}" data-order="${w.id}" /></td>
       <td><input type="datetime-local" value="${publishValue}" data-publish="${w.id}" /></td>
@@ -340,6 +341,13 @@ function renderTable() {
     btn.onclick = async () => {
       const w = allWallpapers.find((x) => x.id === btn.dataset.feature);
       try { await updateDoc(doc(db, "wallpapers", w.id), { featured: !w.featured }); }
+      catch (e) { alert("Failed: " + e.message); }
+    };
+  });
+  rows.querySelectorAll("input[data-tags]").forEach((input) => {
+    input.onchange = async () => {
+      const tags = input.value.split(",").map((s) => s.trim()).filter(Boolean);
+      try { await updateDoc(doc(db, "wallpapers", input.dataset.tags), { tags }); }
       catch (e) { alert("Failed: " + e.message); }
     };
   });

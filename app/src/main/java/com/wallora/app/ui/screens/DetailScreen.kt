@@ -32,6 +32,7 @@ import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -112,6 +113,7 @@ fun DetailScreen(
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
     var showTargetDialog by remember { mutableStateOf(false) }
+    var showCollections by remember { mutableStateOf(false) }
     var showLockPreview by remember { mutableStateOf(false) }
     var zoom by remember { mutableFloatStateOf(1f) }
     var busy by remember { mutableStateOf(false) }
@@ -345,6 +347,12 @@ fun DetailScreen(
                     modifier = Modifier.padding(top = 4.dp),
                 )
             }
+            TextButton(
+                onClick = { showCollections = true },
+                modifier = Modifier.padding(top = 4.dp),
+            ) {
+                Text("Add to collection", color = Color.White)
+            }
             LazyRow(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 modifier = Modifier.padding(top = 12.dp),
@@ -464,6 +472,42 @@ fun DetailScreen(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .padding(bottom = 190.dp),
+        )
+    }
+
+    if (showCollections) {
+        val collections by viewModel.collections.collectAsStateWithLifecycle()
+        AlertDialog(
+            onDismissRequest = { showCollections = false },
+            title = { Text("Add to collection") },
+            text = {
+                Column {
+                    if (collections.isEmpty()) {
+                        Text("No collections yet — create one from Profile → Collections.")
+                    } else {
+                        collections.keys.sorted().forEach { name ->
+                            val checked = wallpaper.id in (collections[name] ?: emptyList())
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .clickable { viewModel.toggleInCollection(name, wallpaper.id) }
+                                    .padding(vertical = 6.dp),
+                                verticalAlignment = Alignment.CenterVertically,
+                            ) {
+                                Checkbox(
+                                    checked = checked,
+                                    onCheckedChange = { viewModel.toggleInCollection(name, wallpaper.id) },
+                                )
+                                Spacer(Modifier.width(8.dp))
+                                Text(name)
+                            }
+                        }
+                    }
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = { showCollections = false }) { Text("Done") }
+            },
         )
     }
 

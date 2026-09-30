@@ -24,6 +24,8 @@ import androidx.navigation.navArgument
 import com.wallora.app.R
 import com.wallora.app.ui.screens.AdminScreen
 import com.wallora.app.ui.screens.CategoriesScreen
+import com.wallora.app.ui.screens.CollectionScreen
+import com.wallora.app.ui.screens.CollectionsScreen
 import com.wallora.app.ui.screens.CategoryScreen
 import com.wallora.app.ui.screens.DetailScreen
 import com.wallora.app.ui.screens.FavoritesScreen
@@ -40,6 +42,10 @@ private object Routes {
     const val ADMIN = "admin"
     const val SETTINGS = "settings"
     const val PROFILE = "profile"
+    const val COLLECTIONS = "collections"
+    const val COLLECTION = "collection/{collectionName}"
+
+    fun collection(name: String) = "collection/${android.net.Uri.encode(name)}"
 
     fun category(id: String) = "category/$id"
     fun detail(id: String) = "detail/$id"
@@ -130,6 +136,25 @@ fun WalloraApp(
                     onOpenWallpaper = { navController.navigate(Routes.detail(it)) },
                 )
             }
+            composable(Routes.COLLECTIONS) {
+                CollectionsScreen(
+                    viewModel = viewModel,
+                    onBack = { navController.popBackStack() },
+                    onOpenCollection = { navController.navigate(Routes.collection(it)) },
+                )
+            }
+            composable(
+                route = Routes.COLLECTION,
+                arguments = listOf(navArgument("collectionName") { type = NavType.StringType }),
+            ) { entry ->
+                CollectionScreen(
+                    viewModel = viewModel,
+                    name = android.net.Uri.decode(entry.arguments?.getString("collectionName").orEmpty()),
+                    dark = darkTheme,
+                    onBack = { navController.popBackStack() },
+                    onOpenWallpaper = { navController.navigate(Routes.detail(it)) },
+                )
+            }
             composable(Routes.PROFILE) {
                 ProfileScreen(
                     viewModel = viewModel,
@@ -138,6 +163,7 @@ fun WalloraApp(
                     onOpenWallpaper = { navController.navigate(Routes.detail(it)) },
                     onOpenSettings = { navController.navigate(Routes.SETTINGS) },
                     onOpenAdmin = { navController.navigate(Routes.ADMIN) },
+                    onOpenCollections = { navController.navigate(Routes.COLLECTIONS) },
                 )
             }
             composable(Routes.SETTINGS) {

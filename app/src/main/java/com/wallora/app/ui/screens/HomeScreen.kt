@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
@@ -23,6 +24,7 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
@@ -70,6 +72,8 @@ fun HomeScreen(
     val history by viewModel.history.collectAsStateWithLifecycle()
     val query by viewModel.searchQuery.collectAsStateWithLifecycle()
     val sort by viewModel.sortOrder.collectAsStateWithLifecycle()
+    val tags by viewModel.tags.collectAsStateWithLifecycle()
+    val selectedTag by viewModel.selectedTag.collectAsStateWithLifecycle()
 
     var selectedCategory by remember { mutableStateOf<String?>(null) }
     var showThemeMenu by remember { mutableStateOf(false) }
@@ -115,9 +119,10 @@ fun HomeScreen(
             )
         },
     ) { innerPadding ->
-        val visible = remember(wallpapers, selectedCategory, query, sort) {
+        val visible = remember(wallpapers, selectedCategory, query, sort, selectedTag) {
             wallpapers.asSequence()
                 .filter { selectedCategory == null || it.categoryId == selectedCategory }
+                .filter { w -> selectedTag == null || selectedTag in w.tags }
                 .filter { w ->
                     query.isBlank() ||
                         w.title.contains(query, ignoreCase = true) ||
@@ -205,6 +210,27 @@ fun HomeScreen(
                             }
                         },
                     )
+
+                    if (tags.isNotEmpty()) {
+                        LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                            item {
+                                FilterChip(
+                                    selected = selectedTag == null,
+                                    onClick = { viewModel.selectedTag.value = null },
+                                    label = { Text("Any tag") },
+                                )
+                            }
+                            items(tags) { tag ->
+                                FilterChip(
+                                    selected = selectedTag == tag,
+                                    onClick = {
+                                        viewModel.selectedTag.value = if (selectedTag == tag) null else tag
+                                    },
+                                    label = { Text("#$tag") },
+                                )
+                            }
+                        }
+                    }
 
                     if (query.isBlank() && history.isNotEmpty()) {
                         RecentRow(history = history, dark = darkTheme, onOpen = onOpenWallpaper)

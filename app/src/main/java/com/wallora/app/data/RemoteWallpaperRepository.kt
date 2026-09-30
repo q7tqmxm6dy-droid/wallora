@@ -73,6 +73,7 @@ class RemoteWallpaperRepository {
             license = getString("license")?.takeIf { it.isNotBlank() },
             featured = getBoolean("featured") ?: false,
             order = getLong("order") ?: 0L,
+            tags = (get("tags") as? List<*>)?.filterIsInstance<String>() ?: emptyList(),
         )
     }
 

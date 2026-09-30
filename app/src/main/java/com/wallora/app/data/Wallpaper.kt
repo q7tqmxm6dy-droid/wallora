@@ -24,6 +24,7 @@ data class Wallpaper(
     /** Admin controls: featured sorts first, order breaks ties, publishAt hides until then. */
     val featured: Boolean = false,
     val order: Long = 0,
+    val tags: List<String> = emptyList(),
 ) {
     val hasDarkVariant: Boolean get() = darkImageUrl != null || darkResId != null
 

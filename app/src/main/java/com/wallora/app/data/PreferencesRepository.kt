@@ -11,6 +11,8 @@ import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import org.json.JSONArray
+import org.json.JSONObject
 import java.time.LocalDate
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "wallora_prefs")
@@ -38,6 +40,7 @@ class PreferencesRepository(private val context: Context) {
         val LAST_OPEN = stringPreferencesKey("last_open_day")
         val STREAK = stringPreferencesKey("open_streak")
         val OPEN_DAYS = stringPreferencesKey("open_days")
+        val COLLECTIONS = stringPreferencesKey("collections_json")
     }
 
     val favorites: Flow<Set<String>> =
@@ -79,6 +82,50 @@ class PreferencesRepository(private val context: Context) {
 
     val openDays: Flow<Int> =
         context.dataStore.data.map { it[Keys.OPEN_DAYS]?.toIntOrNull() ?: 0 }
+
+    // ---- collections (local albums) ----------------------------------------
+
+    /** name -> wallpaper ids, stored as JSON in DataStore. */
+    val collections: Flow<Map<String, List<String>>> =
+        context.dataStore.data.map { prefs -> parseCollections(prefs[Keys.COLLECTIONS]) }
+
+    private fun parseCollections(raw: String?): Map<String, List<String>> {
+        if (raw.isNullOrBlank()) return emptyMap()
+        return runCatching {
+            val json = JSONObject(raw)
+            buildMap {
+                json.keys().forEach { key ->
+                    val array = json.optJSONArray(key)
+                    val ids = buildList {
+                        if (array != null) for (i in 0 until array.length()) add(array.getString(i))
+                    }
+                    put(key, ids)
+                }
+            }
+        }.getOrDefault(emptyMap())
+    }
+
+    private fun encodeCollections(map: Map<String, List<String>>): String {
+        val json = JSONObject()
+        map.forEach { (name, ids) -> json.put(name, JSONArray(ids)) }
+        return json.toString()
+    }
+
+    private suspend fun updateCollections(transform: (Map<String, List<String>>) -> Map<String, List<String>>) {
+        context.dataStore.edit { prefs ->
+            prefs[Keys.COLLECTIONS] = encodeCollections(transform(parseCollections(prefs[Keys.COLLECTIONS])))
+        }
+    }
+
+    suspend fun createCollection(name: String) =
+        updateCollections { it + (name to (it[name] ?: emptyList())) }
+
+    suspend fun deleteCollection(name: String) = updateCollections { it - name }
+
+    suspend fun toggleInCollection(name: String, wallpaperId: String) = updateCollections { current ->
+        val ids = current[name] ?: emptyList()
+        current + (name to if (wallpaperId in ids) ids - wallpaperId else ids + wallpaperId)
+    }
 
     /** Keeps the consecutive-day streak up to date. Returns the new streak. */
     suspend fun recordDailyOpen(): Int {
