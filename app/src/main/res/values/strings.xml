@@ -2,4 +2,5 @@
 <resources>
     <string name="app_name">Wallora</string>
     <string name="widget_description">A random wallpaper from Wallora</string>
+    <string name="live_wallpaper_description">Slowly cycles through your Wallora wallpapers</string>
 </resources>
