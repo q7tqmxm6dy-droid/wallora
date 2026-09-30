@@ -5,6 +5,8 @@ import android.content.ComponentName
 import android.content.Intent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -46,6 +48,10 @@ fun SettingsScreen(
     val rotationTarget by viewModel.rotationTarget.collectAsStateWithLifecycle()
     val autoTheme by viewModel.autoThemeApply.collectAsStateWithLifecycle()
     val history by viewModel.history.collectAsStateWithLifecycle()
+    val liveMode by viewModel.liveMode.collectAsStateWithLifecycle()
+    val liveInterval by viewModel.liveInterval.collectAsStateWithLifecycle()
+    val liveCategories by viewModel.liveCategories.collectAsStateWithLifecycle()
+    val allCategories by viewModel.categories.collectAsStateWithLifecycle()
 
     Scaffold(
         topBar = {
@@ -105,18 +111,82 @@ fun SettingsScreen(
 
             HorizontalDivider(Modifier.padding(vertical = 12.dp))
 
-            ActionRow(
-                title = "Live wallpaper",
-                subtitle = "Animate through your wallpapers with a slow crossfade",
-                actionLabel = "Choose",
+            Text("Live wallpaper", style = MaterialTheme.typography.titleSmall)
+            Text(
+                "Slideshow cycles your wallpapers with a slow crossfade; the animated gradient " +
+                    "is lighter on battery.",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+            FlowRow(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier.padding(top = 8.dp),
             ) {
-                val intent = Intent(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER).apply {
-                    putExtra(
-                        WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT,
-                        ComponentName(context, WalloraLiveWallpaper::class.java),
+                listOf("slideshow" to "Slideshow", "gradient" to "Animated gradient").forEach { (id, label) ->
+                    FilterChip(
+                        selected = liveMode == id,
+                        onClick = { viewModel.setLiveMode(id) },
+                        label = { Text(label) },
                     )
                 }
-                runCatching { context.startActivity(intent) }
+            }
+
+            if (liveMode == "slideshow") {
+                Text(
+                    "Show each for",
+                    style = MaterialTheme.typography.labelLarge,
+                    modifier = Modifier.padding(top = 12.dp),
+                )
+                FlowRow(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    modifier = Modifier.padding(top = 4.dp),
+                ) {
+                    listOf(5, 10, 30, 60).forEach { seconds ->
+                        FilterChip(
+                            selected = liveInterval == seconds,
+                            onClick = { viewModel.setLiveInterval(seconds) },
+                            label = { Text("${seconds}s") },
+                        )
+                    }
+                }
+
+                Text(
+                    "Categories",
+                    style = MaterialTheme.typography.labelLarge,
+                    modifier = Modifier.padding(top = 12.dp),
+                )
+                FlowRow(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    modifier = Modifier.padding(top = 4.dp),
+                ) {
+                    FilterChip(
+                        selected = liveCategories.isEmpty(),
+                        onClick = { viewModel.clearLiveCategories() },
+                        label = { Text("All") },
+                    )
+                    allCategories.forEach { category ->
+                        FilterChip(
+                            selected = category.id in liveCategories,
+                            onClick = { viewModel.toggleLiveCategory(category.id) },
+                            label = { Text(category.title) },
+                        )
+                    }
+                }
+            }
+
+            TextButton(
+                onClick = {
+                    val intent = Intent(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER).apply {
+                        putExtra(
+                            WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT,
+                            ComponentName(context, WalloraLiveWallpaper::class.java),
+                        )
+                    }
+                    runCatching { context.startActivity(intent) }
+                },
+                modifier = Modifier.padding(top = 4.dp),
+            ) {
+                Text("Open live wallpaper picker")
             }
 
             HorizontalDivider(Modifier.padding(vertical = 12.dp))

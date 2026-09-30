@@ -29,6 +29,10 @@ class PreferencesRepository(private val context: Context) {
         val LAST_DARK = booleanPreferencesKey("last_dark")
         val ROTATION_INDEX = stringPreferencesKey("rotation_index")
         val HISTORY = stringPreferencesKey("history")
+
+        val LIVE_MODE = stringPreferencesKey("live_mode")
+        val LIVE_INTERVAL = stringPreferencesKey("live_interval")
+        val LIVE_CATEGORIES = stringSetPreferencesKey("live_categories")
     }
 
     val favorites: Flow<Set<String>> =
@@ -48,6 +52,18 @@ class PreferencesRepository(private val context: Context) {
 
     val autoThemeApply: Flow<Boolean> =
         context.dataStore.data.map { it[Keys.AUTO_THEME] ?: false }
+
+    /** Live wallpaper: "slideshow" or "gradient". */
+    val liveMode: Flow<String> =
+        context.dataStore.data.map { it[Keys.LIVE_MODE] ?: "slideshow" }
+
+    /** Seconds each wallpaper is shown in slideshow mode. */
+    val liveInterval: Flow<Int> =
+        context.dataStore.data.map { it[Keys.LIVE_INTERVAL]?.toIntOrNull() ?: 10 }
+
+    /** Empty set = every category. */
+    val liveCategories: Flow<Set<String>> =
+        context.dataStore.data.map { it[Keys.LIVE_CATEGORIES] ?: emptySet() }
 
     val currentWallpaperId: Flow<String?> =
         context.dataStore.data.map { it[Keys.CURRENT_WALLPAPER] }
@@ -86,6 +102,27 @@ class PreferencesRepository(private val context: Context) {
 
     suspend fun setAutoThemeApply(enabled: Boolean) {
         context.dataStore.edit { it[Keys.AUTO_THEME] = enabled }
+    }
+
+    suspend fun setLiveMode(mode: String) {
+        context.dataStore.edit { it[Keys.LIVE_MODE] = mode }
+    }
+
+    suspend fun setLiveInterval(seconds: Int) {
+        context.dataStore.edit { it[Keys.LIVE_INTERVAL] = seconds.toString() }
+    }
+
+    suspend fun setLiveCategories(categories: Set<String>) {
+        context.dataStore.edit { it[Keys.LIVE_CATEGORIES] = categories }
+    }
+
+    suspend fun readLiveConfig(): Triple<String, Int, Set<String>> {
+        val prefs = context.dataStore.data.first()
+        return Triple(
+            prefs[Keys.LIVE_MODE] ?: "slideshow",
+            prefs[Keys.LIVE_INTERVAL]?.toIntOrNull() ?: 10,
+            prefs[Keys.LIVE_CATEGORIES] ?: emptySet(),
+        )
     }
 
     suspend fun recordHistory(id: String, limit: Int = 24) {

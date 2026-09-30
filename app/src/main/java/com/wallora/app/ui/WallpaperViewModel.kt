@@ -87,6 +87,34 @@ class WallpaperViewModel(application: Application) : AndroidViewModel(applicatio
         viewModelScope.launch { preferences.setAutoThemeApply(enabled) }
     }
 
+    val liveMode: StateFlow<String> = preferences.liveMode
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), "slideshow")
+
+    val liveInterval: StateFlow<Int> = preferences.liveInterval
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), 10)
+
+    val liveCategories: StateFlow<Set<String>> = preferences.liveCategories
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptySet())
+
+    fun setLiveMode(mode: String) {
+        viewModelScope.launch { preferences.setLiveMode(mode) }
+    }
+
+    fun setLiveInterval(seconds: Int) {
+        viewModelScope.launch { preferences.setLiveInterval(seconds) }
+    }
+
+    fun toggleLiveCategory(id: String) {
+        viewModelScope.launch {
+            val current = liveCategories.value
+            preferences.setLiveCategories(if (id in current) current - id else current + id)
+        }
+    }
+
+    fun clearLiveCategories() {
+        viewModelScope.launch { preferences.setLiveCategories(emptySet()) }
+    }
+
     fun clearHistory() {
         viewModelScope.launch { preferences.clearHistory() }
     }
