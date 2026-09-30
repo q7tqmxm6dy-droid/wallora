@@ -4,6 +4,8 @@ import android.graphics.Bitmap
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectHorizontalDragGestures
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -43,6 +45,8 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -50,6 +54,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
@@ -57,6 +62,7 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -75,6 +81,7 @@ import com.wallora.app.util.WallpaperImages
 import com.wallora.app.util.WallpaperSetter
 import com.wallora.app.util.WallpaperTarget
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -87,7 +94,17 @@ fun DetailScreen(
     dark: Boolean,
     onBack: () -> Unit,
 ) {
-    val wallpaper = viewModel.wallpaper(wallpaperId) ?: return
+    // Swipe through the catalogue: the detail screen starts at the tapped wallpaper
+    // and horizontal swipes move to its neighbours.
+    val catalogue by viewModel.wallpapers.collectAsStateWithLifecycle()
+    val startIndex = remember(wallpaperId, catalogue.size) {
+        catalogue.indexOfFirst { it.id == wallpaperId }.coerceAtLeast(0)
+    }
+    var pageIndex by remember { mutableIntStateOf(startIndex) }
+    val wallpaper = catalogue.getOrNull(pageIndex)
+        ?: viewModel.wallpaper(wallpaperId)
+        ?: return
+    var swipeDrag by remember { mutableFloatStateOf(0f) }
 
     val context = LocalContext.current
     val favorites by viewModel.favorites.collectAsStateWithLifecycle()
@@ -95,12 +112,17 @@ fun DetailScreen(
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
     var showTargetDialog by remember { mutableStateOf(false) }
+    var showLockPreview by remember { mutableStateOf(false) }
+    var zoom by remember { mutableFloatStateOf(1f) }
     var busy by remember { mutableStateOf(false) }
     var effect by remember { mutableStateOf(Effect.NONE) }
     var strength by remember { mutableStateOf(0.6f) }
     var previewImage by remember { mutableStateOf<ImageBitmap?>(null) }
 
     LaunchedEffect(wallpaper.id) {
+        effect = Effect.NONE
+        strength = 0.6f
+        zoom = 1f
         Analytics.log(context, Analytics.Events.OPEN_WALLPAPER, mapOf("id" to wallpaper.id, "remote" to wallpaper.remote))
         viewModel.recordViewed(wallpaper.id)
     }
@@ -158,7 +180,29 @@ fun DetailScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.Black),
+            .background(Color.Black)
+            .pointerInput(wallpaper.id, catalogue.size) {
+                coroutineScope {
+                    launch {
+                        detectHorizontalDragGestures(
+                            onDragEnd = {
+                                if (swipeDrag < -140f && pageIndex < catalogue.lastIndex) {
+                                    pageIndex += 1
+                                } else if (swipeDrag > 140f && pageIndex > 0) {
+                                    pageIndex -= 1
+                                }
+                                swipeDrag = 0f
+                            },
+                            onHorizontalDrag = { _, amount -> swipeDrag += amount },
+                        )
+                    }
+                    launch {
+                        detectTapGestures(
+                            onDoubleTap = { zoom = if (zoom > 1f) 1f else 2.5f },
+                        )
+                    }
+                }
+            },
     ) {
         val preview = previewImage
         if (preview != null) {
@@ -166,15 +210,55 @@ fun DetailScreen(
                 bitmap = preview,
                 contentDescription = wallpaper.title,
                 contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .scale(zoom),
             )
         } else {
             AsyncImage(
                 model = wallpaper.model(dark),
                 contentDescription = wallpaper.title,
                 contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .scale(zoom),
             )
+        }
+
+        if (showLockPreview) {
+            Box(Modifier.fillMaxSize().background(Color.Black.copy(alpha = 0.25f)))
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(top = 150.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                val now = java.time.LocalTime.now()
+                Text(
+                    text = "%02d:%02d".format(now.hour, now.minute),
+                    color = Color.White,
+                    style = MaterialTheme.typography.displayLarge,
+                    fontWeight = FontWeight.Thin,
+                )
+                Text(
+                    text = java.time.LocalDate.now()
+                        .format(java.time.format.DateTimeFormatter.ofPattern("EEEE, d MMMM")),
+                    color = Color.White.copy(alpha = 0.9f),
+                    style = MaterialTheme.typography.titleMedium,
+                )
+                Spacer(Modifier.height(20.dp))
+                Icon(
+                    imageVector = Icons.Filled.Lock,
+                    contentDescription = null,
+                    tint = Color.White.copy(alpha = 0.85f),
+                )
+                Text(
+                    text = "Swipe up to unlock",
+                    color = Color.White.copy(alpha = 0.75f),
+                    style = MaterialTheme.typography.bodySmall,
+                    modifier = Modifier.padding(top = 8.dp),
+                )
+            }
         }
 
         Row(
@@ -189,6 +273,27 @@ fun DetailScreen(
                 modifier = Modifier.background(Color.Black.copy(alpha = 0.35f), CircleShape),
             ) {
                 Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back", tint = Color.White)
+            }
+            IconButton(
+                onClick = { showLockPreview = !showLockPreview },
+                modifier = Modifier.background(Color.Black.copy(alpha = 0.35f), CircleShape),
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.Lock,
+                    contentDescription = "Lock screen preview",
+                    tint = if (showLockPreview) MaterialTheme.colorScheme.primary else Color.White,
+                )
+            }
+            IconButton(
+                onClick = { zoom = if (zoom > 1f) 1f else 2.5f },
+                modifier = Modifier.background(Color.Black.copy(alpha = 0.35f), CircleShape),
+            ) {
+                Text(
+                    text = if (zoom > 1f) "1x" else "2x",
+                    color = if (zoom > 1f) MaterialTheme.colorScheme.primary else Color.White,
+                    style = MaterialTheme.typography.labelMedium,
+                    fontWeight = FontWeight.Bold,
+                )
             }
             Spacer(Modifier.weight(1f))
             IconButton(
