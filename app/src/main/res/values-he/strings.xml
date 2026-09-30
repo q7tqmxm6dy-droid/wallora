@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_description">טפט אקראי מ‑Wallora</string>
+    <string name="live_wallpaper_description">מחליף לאט בין הטפטים של Wallora</string>
+
+    <string name="sc_random">הפתע אותי</string>
+    <string name="sc_favourites">מועדפים</string>
+    <string name="sc_collections">אוספים</string>
+    <string name="sc_profile">פרופיל</string>
+
+    <string name="nav_home">בית</string>
+    <string name="nav_categories">קטגוריות</string>
+    <string name="nav_favorites">מועדפים</string>
+    <string name="nav_profile">פרופיל</string>
+    <string name="title_settings">הגדרות</string>
+    <string name="title_profile">פרופיל</string>
+    <string name="title_collections">אוספים</string>
+
+    <string name="search_hint">חיפוש טפטים</string>
+    <string name="recently_viewed">נצפו לאחרונה</string>
+    <string name="surprise_me">הפתע אותי</string>
+    <string name="any_tag">כל תג</string>
+
+    <string name="onb1_title">טפט לכל מצב רוח</string>
+    <string name="onb1_body">עיינו בזוהר, מעברים, גלים, גאומטריה, מינימלי, ניאון, מכוניות ופוסטרים. חפשו לפי שם או תג.</string>
+    <string name="onb2_title">בהיר וכהה, מובנה</string>
+    <string name="onb2_body">מעוצב לשני המצבים, ואפשר להפוך אותו לטפט חי שמחליף ביניהם לאט.</string>
+    <string name="onb3_title">שלכם לחלוטין</string>
+    <string name="onb3_body">הוסיפו למועדפים, בנו אוספים משלכם, והחילו אפקטים כמו טשטוש או שחור־לבן לפני ההגדרה.</string>
+    <string name="skip">דלג</string>
+    <string name="next">הבא</string>
+    <string name="get_started">בואו נתחיל</string>
+
+    <string name="set_wallpaper">הגדר כטפט</string>
+    <string name="action_save">שמור</string>
+    <string name="action_share">שתף</string>
+    <string name="add_to_collection">הוסף לאוסף</string>
+</resources>

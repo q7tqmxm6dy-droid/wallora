@@ -15,8 +15,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.wallora.app.R
 import com.wallora.app.ui.WallpaperViewModel
 import com.wallora.app.ui.components.CategoryCard
 
@@ -31,7 +33,7 @@ fun CategoriesScreen(
     val categories by viewModel.categories.collectAsStateWithLifecycle()
 
     Scaffold(
-        topBar = { TopAppBar(title = { Text("Categories") }) },
+        topBar = { TopAppBar(title = { Text(stringResource(R.string.nav_categories)) }) },
     ) { innerPadding ->
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),

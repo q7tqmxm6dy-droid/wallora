@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_description">خلفية عشوائية من Wallora</string>
+    <string name="live_wallpaper_description">يتنقل ببطء بين خلفيات Wallora</string>
+
+    <string name="sc_random">فاجئني</string>
+    <string name="sc_favourites">المفضلة</string>
+    <string name="sc_collections">المجموعات</string>
+    <string name="sc_profile">الملف الشخصي</string>
+
+    <string name="nav_home">الرئيسية</string>
+    <string name="nav_categories">الفئات</string>
+    <string name="nav_favorites">المفضلة</string>
+    <string name="nav_profile">الملف الشخصي</string>
+    <string name="title_settings">الإعدادات</string>
+    <string name="title_profile">الملف الشخصي</string>
+    <string name="title_collections">المجموعات</string>
+
+    <string name="search_hint">ابحث عن خلفية</string>
+    <string name="recently_viewed">شوهدت مؤخرًا</string>
+    <string name="surprise_me">فاجئني</string>
+    <string name="any_tag">أي وسم</string>
+
+    <string name="onb1_title">خلفية تناسب كل مزاج</string>
+    <string name="onb1_body">تصفّح الشفق، التدرجات، الأمواج، الأشكال الهندسية، البسيط، النيون، السيارات والملصقات. ابحث بالاسم أو حسب الوسم.</string>
+    <string name="onb2_title">الوضع الفاتح والداكن معًا</string>
+    <string name="onb2_body">مصمّمة للمظهرين، ويمكنك تحويلها إلى خلفية حية تتلاشى ببطء بينهما.</string>
+    <string name="onb3_title">اجعلها خاصة بك</string>
+    <string name="onb3_body">أضف ما تحب إلى المفضلة، وأنشئ مجموعاتك، وطبّق تأثيرات مثل التمويه أو أبيض وأسود قبل التعيين.</string>
+    <string name="skip">تخطّي</string>
+    <string name="next">التالي</string>
+    <string name="get_started">ابدأ الآن</string>
+
+    <string name="set_wallpaper">تعيين كخلفية</string>
+    <string name="action_save">حفظ</string>
+    <string name="action_share">مشاركة</string>
+    <string name="add_to_collection">إضافة إلى مجموعة</string>
+</resources>

@@ -38,6 +38,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -171,7 +172,7 @@ fun HomeScreen(
                                     }
                                 }
                             },
-                            placeholder = { Text("Search wallpapers") },
+                            placeholder = { Text(stringResource(R.string.search_hint)) },
                             modifier = Modifier.weight(1f),
                         )
                         Box {
@@ -196,7 +197,7 @@ fun HomeScreen(
                         IconButton(onClick = {
                             viewModel.randomWallpaper()?.let { onOpenWallpaper(it.id) }
                         }) {
-                            Icon(painterResource(R.drawable.ic_shuffle), contentDescription = "Surprise me")
+                            Icon(painterResource(R.drawable.ic_shuffle), contentDescription = stringResource(R.string.surprise_me))
                         }
                     }
 
@@ -217,7 +218,7 @@ fun HomeScreen(
                                 FilterChip(
                                     selected = selectedTag == null,
                                     onClick = { viewModel.selectedTag.value = null },
-                                    label = { Text("Any tag") },
+                                    label = { Text(stringResource(R.string.any_tag)) },
                                 )
                             }
                             items(tags) { tag ->
@@ -250,7 +251,7 @@ private fun RecentRow(
 ) {
     Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
         Text(
-            text = "Recently viewed",
+            text = stringResource(R.string.recently_viewed),
             style = androidx.compose.material3.MaterialTheme.typography.labelLarge,
         )
         LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {

@@ -54,6 +54,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
@@ -351,7 +352,7 @@ fun DetailScreen(
                 onClick = { showCollections = true },
                 modifier = Modifier.padding(top = 4.dp),
             ) {
-                Text("Add to collection", color = Color.White)
+                Text(stringResource(R.string.add_to_collection), color = Color.White)
             }
             LazyRow(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -403,7 +404,7 @@ fun DetailScreen(
             ) {
                 Icon(painterResource(R.drawable.ic_wallpaper), contentDescription = null)
                 Spacer(Modifier.width(8.dp))
-                Text("Set as wallpaper")
+                Text(stringResource(R.string.set_wallpaper))
             }
             Spacer(Modifier.height(10.dp))
             Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
@@ -432,7 +433,7 @@ fun DetailScreen(
                 ) {
                     Icon(painterResource(R.drawable.ic_download), contentDescription = null)
                     Spacer(Modifier.width(8.dp))
-                    Text("Save")
+                    Text(stringResource(R.string.action_save))
                 }
                 Button(
                     onClick = {
@@ -462,7 +463,7 @@ fun DetailScreen(
                 ) {
                     Icon(Icons.Filled.Share, contentDescription = null)
                     Spacer(Modifier.width(8.dp))
-                    Text("Share")
+                    Text(stringResource(R.string.action_share))
                 }
             }
         }

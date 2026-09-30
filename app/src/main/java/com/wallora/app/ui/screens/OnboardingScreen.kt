@@ -26,6 +26,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -48,21 +49,18 @@ private data class OnboardPage(
 fun OnboardingScreen(onDone: () -> Unit) {
     val pages = listOf(
         OnboardPage(
-            title = "A wallpaper for every mood",
-            body = "Browse Aurora, Gradients, Waves, Geometric, Minimal, Neon, Cars and " +
-                "Posters. Search by name or filter by tag.",
+            title = stringResource(R.string.onb1_title),
+            body = stringResource(R.string.onb1_body),
             image = R.drawable.wp_01,
         ),
         OnboardPage(
-            title = "Light and dark, built in",
-            body = "Designed for both themes, and you can turn it into a live wallpaper " +
-                "that slowly fades between them.",
+            title = stringResource(R.string.onb2_title),
+            body = stringResource(R.string.onb2_body),
             image = R.drawable.wp_21,
         ),
         OnboardPage(
-            title = "Make it yours",
-            body = "Favourite anything, build your own collections, and apply looks like " +
-                "Blur or B&W before you set it.",
+            title = stringResource(R.string.onb3_title),
+            body = stringResource(R.string.onb3_body),
             image = R.drawable.posters_p24,
         ),
     )
@@ -89,7 +87,7 @@ fun OnboardingScreen(onDone: () -> Unit) {
                 .align(Alignment.TopEnd)
                 .padding(8.dp),
         ) {
-            Text("Skip", color = Color.White)
+            Text(stringResource(R.string.skip), color = Color.White)
         }
 
         Column(
@@ -155,7 +153,7 @@ fun OnboardingScreen(onDone: () -> Unit) {
                     .fillMaxWidth()
                     .height(52.dp),
             ) {
-                Text(if (isLast) "Get started" else "Next")
+                Text(stringResource(if (isLast) R.string.get_started else R.string.next))
             }
             Spacer(Modifier.height(8.dp))
         }

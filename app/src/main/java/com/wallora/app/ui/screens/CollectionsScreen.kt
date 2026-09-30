@@ -34,8 +34,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.wallora.app.R
 import com.wallora.app.ui.WallpaperViewModel
 
 /** Local albums the user builds themselves; stored on the device. */
@@ -53,7 +55,7 @@ fun CollectionsScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Collections") },
+                title = { Text(stringResource(R.string.title_collections)) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")

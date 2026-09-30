@@ -19,6 +19,7 @@ you add — and lets you browse, favorite, preview, set, save and share them.
 - **Light & dark variants** — every wallpaper can have a dark-mode image. The app shows the
   matching variant in the grid and preview, and **Set / Save / Share use the same one**, so
   what you see is what gets applied.
+- **Localised** — Arabic and Hebrew (full RTL) plus English.
 - **Photo credits** — CC-licensed photos you add can carry a `credit` + `license` field,
   shown under the title on the detail screen.
 - **Cloud wallpapers (optional)** — Firebase Firestore catalogue + Cloud Storage images, so you can publish wallpapers without shipping an app update. Falls back to the bundled set when offline.

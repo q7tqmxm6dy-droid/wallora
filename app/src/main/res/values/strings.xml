@@ -3,8 +3,42 @@
     <string name="app_name">Wallora</string>
     <string name="widget_description">A random wallpaper from Wallora</string>
     <string name="live_wallpaper_description">Slowly cycles through your Wallora wallpapers</string>
+
+    <!-- launcher shortcuts -->
     <string name="sc_random">Surprise me</string>
     <string name="sc_favourites">Favourites</string>
     <string name="sc_collections">Collections</string>
     <string name="sc_profile">Profile</string>
+
+    <!-- navigation & titles -->
+    <string name="nav_home">Home</string>
+    <string name="nav_categories">Categories</string>
+    <string name="nav_favorites">Favorites</string>
+    <string name="nav_profile">Profile</string>
+    <string name="title_settings">Settings</string>
+    <string name="title_profile">Profile</string>
+    <string name="title_collections">Collections</string>
+
+    <!-- home -->
+    <string name="search_hint">Search wallpapers</string>
+    <string name="recently_viewed">Recently viewed</string>
+    <string name="surprise_me">Surprise me</string>
+    <string name="any_tag">Any tag</string>
+
+    <!-- onboarding -->
+    <string name="onb1_title">A wallpaper for every mood</string>
+    <string name="onb1_body">Browse Aurora, Gradients, Waves, Geometric, Minimal, Neon, Cars and Posters. Search by name or filter by tag.</string>
+    <string name="onb2_title">Light and dark, built in</string>
+    <string name="onb2_body">Designed for both themes, and you can turn it into a live wallpaper that slowly fades between them.</string>
+    <string name="onb3_title">Make it yours</string>
+    <string name="onb3_body">Favourite anything, build your own collections, and apply looks like Blur or B&amp;W before you set it.</string>
+    <string name="skip">Skip</string>
+    <string name="next">Next</string>
+    <string name="get_started">Get started</string>
+
+    <!-- actions -->
+    <string name="set_wallpaper">Set as wallpaper</string>
+    <string name="action_save">Save</string>
+    <string name="action_share">Share</string>
+    <string name="add_to_collection">Add to collection</string>
 </resources>

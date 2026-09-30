@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavType
@@ -100,25 +101,25 @@ fun WalloraApp(
                         selected = currentRoute == Routes.HOME,
                         onClick = { navigateToTopLevel(Routes.HOME) },
                         icon = { Icon(Icons.Filled.Home, contentDescription = null) },
-                        label = { Text("Home") },
+                        label = { Text(stringResource(R.string.nav_home)) },
                     )
                     NavigationBarItem(
                         selected = currentRoute == Routes.CATEGORIES,
                         onClick = { navigateToTopLevel(Routes.CATEGORIES) },
                         icon = { Icon(painterResource(R.drawable.ic_category), contentDescription = null) },
-                        label = { Text("Categories") },
+                        label = { Text(stringResource(R.string.nav_categories)) },
                     )
                     NavigationBarItem(
                         selected = currentRoute == Routes.FAVORITES,
                         onClick = { navigateToTopLevel(Routes.FAVORITES) },
                         icon = { Icon(Icons.Filled.Favorite, contentDescription = null) },
-                        label = { Text("Favorites") },
+                        label = { Text(stringResource(R.string.nav_favorites)) },
                     )
                     NavigationBarItem(
                         selected = currentRoute == Routes.PROFILE,
                         onClick = { navigateToTopLevel(Routes.PROFILE) },
                         icon = { Icon(Icons.Filled.Person, contentDescription = null) },
-                        label = { Text("Profile") },
+                        label = { Text(stringResource(R.string.nav_profile)) },
                     )
                 }
             }
