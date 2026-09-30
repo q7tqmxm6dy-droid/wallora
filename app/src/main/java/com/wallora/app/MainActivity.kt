@@ -32,11 +32,13 @@ import kotlinx.coroutines.withContext
 class MainActivity : ComponentActivity() {
 
     private val sharedImage = mutableStateOf<Uri?>(null)
+    private val startRoute = mutableStateOf<String?>(null)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         captureSharedImage(intent)
+        captureShortcutRoute(intent)
 
         setContent {
             val viewModel: WallpaperViewModel = viewModel()
@@ -49,6 +51,8 @@ class MainActivity : ComponentActivity() {
                     darkTheme = darkTheme,
                     darkModePreference = darkModePreference,
                     onSetDarkMode = { viewModel.setDarkMode(it) },
+                    startRoute = startRoute.value,
+                    onStartRouteHandled = { startRoute.value = null },
                 )
                 val incoming = sharedImage.value
                 if (incoming != null) {
@@ -61,6 +65,12 @@ class MainActivity : ComponentActivity() {
     override fun onNewIntent(intent: android.content.Intent) {
         super.onNewIntent(intent)
         captureSharedImage(intent)
+        captureShortcutRoute(intent)
+    }
+
+    /** App-icon shortcuts pass the destination screen in an extra. */
+    private fun captureShortcutRoute(intent: android.content.Intent?) {
+        intent?.getStringExtra("route")?.let { startRoute.value = it }
     }
 
     private fun captureSharedImage(intent: android.content.Intent?) {

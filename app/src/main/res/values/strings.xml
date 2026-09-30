@@ -3,4 +3,8 @@
     <string name="app_name">Wallora</string>
     <string name="widget_description">A random wallpaper from Wallora</string>
     <string name="live_wallpaper_description">Slowly cycles through your Wallora wallpapers</string>
+    <string name="sc_random">Surprise me</string>
+    <string name="sc_favourites">Favourites</string>
+    <string name="sc_collections">Collections</string>
+    <string name="sc_profile">Profile</string>
 </resources>

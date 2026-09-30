@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_shuffle"
+        android:shortcutId="random"
+        android:shortcutShortLabel="@string/sc_random">
+        <intent
+            android:action="com.wallora.app.SHORTCUT"
+            android:targetClass="com.wallora.app.MainActivity"
+            android:targetPackage="com.wallora.app">
+            <extra android:name="route" android:value="random" />
+        </intent>
+    </shortcut>
+
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_admin"
+        android:shortcutId="favourites"
+        android:shortcutShortLabel="@string/sc_favourites">
+        <intent
+            android:action="com.wallora.app.SHORTCUT"
+            android:targetClass="com.wallora.app.MainActivity"
+            android:targetPackage="com.wallora.app">
+            <extra android:name="route" android:value="favorites" />
+        </intent>
+    </shortcut>
+
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_category"
+        android:shortcutId="collections"
+        android:shortcutShortLabel="@string/sc_collections">
+        <intent
+            android:action="com.wallora.app.SHORTCUT"
+            android:targetClass="com.wallora.app.MainActivity"
+            android:targetPackage="com.wallora.app">
+            <extra android:name="route" android:value="collections" />
+        </intent>
+    </shortcut>
+
+    <shortcut
+        android:enabled="true"
+        android:icon="@drawable/ic_theme_auto"
+        android:shortcutId="profile"
+        android:shortcutShortLabel="@string/sc_profile">
+        <intent
+            android:action="com.wallora.app.SHORTCUT"
+            android:targetClass="com.wallora.app.MainActivity"
+            android:targetPackage="com.wallora.app">
+            <extra android:name="route" android:value="profile" />
+        </intent>
+    </shortcut>
+
+</shortcuts>

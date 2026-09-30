@@ -11,6 +11,7 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -57,8 +58,25 @@ fun WalloraApp(
     darkTheme: Boolean,
     darkModePreference: Boolean?,
     onSetDarkMode: (Boolean?) -> Unit,
+    startRoute: String? = null,
+    onStartRouteHandled: () -> Unit = {},
 ) {
     val navController = rememberNavController()
+
+    // Launcher shortcuts (long-press the app icon) land on a specific screen.
+    LaunchedEffect(startRoute) {
+        when (startRoute) {
+            null -> Unit
+            "random" -> viewModel.randomWallpaper()?.let {
+                navController.navigate(Routes.detail(it.id))
+            }
+            "favorites" -> navController.navigate(Routes.FAVORITES) { launchSingleTop = true }
+            "collections" -> navController.navigate(Routes.COLLECTIONS) { launchSingleTop = true }
+            "profile" -> navController.navigate(Routes.PROFILE) { launchSingleTop = true }
+            "settings" -> navController.navigate(Routes.SETTINGS) { launchSingleTop = true }
+        }
+        if (startRoute != null) onStartRouteHandled()
+    }
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = backStackEntry?.destination?.route
     val showBottomBar = currentRoute == Routes.HOME ||
