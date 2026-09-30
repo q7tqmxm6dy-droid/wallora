@@ -112,7 +112,6 @@ In the app, tap the **shield icon** in the top bar to open the admin screen and 
 with the account you created.
 
 ## Open it in Android Studio
-
 1. Open Android Studio.
 2. **File → Open…** and select this folder (`Wallora`).
 3. Let Gradle sync, then press **Run ▶**.
@@ -133,6 +132,27 @@ The debug APK is written to:
 
 ```
 app/build/outputs/apk/debug/app-debug.apk
+```
+
+## Release builds & CI
+
+```bash
+./gradlew :app:assembleRelease     # -> app/build/outputs/apk/release/app-release.apk
+```
+
+**R8 shrinking cuts the APK from ~61 MB (debug) to ~12 MB (release)** — minification,
+resource shrinking and removal of unused Compose/Firebase code.
+
+Signing: release builds are signed with your local **debug keystore** so they install
+straight away. **Replace `signingConfigs.release` with your own upload key before
+publishing.**
+
+GitHub Actions (`.github/workflows/android-ci.yml`) runs unit tests, builds both APKs on
+every push/PR, uploads them as artifacts, and attaches the release APK to a GitHub
+Release when you push a `v*` tag. It needs one secret:
+
+```bash
+base64 -w0 app/google-services.json | gh secret set GOOGLE_SERVICES_JSON
 ```
 
 ## Project structure
