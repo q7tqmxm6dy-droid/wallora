@@ -41,6 +41,7 @@ class PreferencesRepository(private val context: Context) {
         val STREAK = stringPreferencesKey("open_streak")
         val OPEN_DAYS = stringPreferencesKey("open_days")
         val COLLECTIONS = stringPreferencesKey("collections_json")
+        val ONBOARDING_DONE = booleanPreferencesKey("onboarding_done")
     }
 
     val favorites: Flow<Set<String>> =
@@ -79,6 +80,13 @@ class PreferencesRepository(private val context: Context) {
 
     val streak: Flow<Int> =
         context.dataStore.data.map { it[Keys.STREAK]?.toIntOrNull() ?: 0 }
+
+    val onboardingDone: Flow<Boolean> =
+        context.dataStore.data.map { it[Keys.ONBOARDING_DONE] ?: false }
+
+    suspend fun completeOnboarding() {
+        context.dataStore.edit { it[Keys.ONBOARDING_DONE] = true }
+    }
 
     val openDays: Flow<Int> =
         context.dataStore.data.map { it[Keys.OPEN_DAYS]?.toIntOrNull() ?: 0 }

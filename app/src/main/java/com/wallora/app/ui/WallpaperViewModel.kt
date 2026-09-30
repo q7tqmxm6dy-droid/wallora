@@ -103,6 +103,15 @@ class WallpaperViewModel(application: Application) : AndroidViewModel(applicatio
     val streak: StateFlow<Int> = preferences.streak
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), 0)
 
+    /** `null` until the stored value has been read, so we never flash the tour. */
+    val onboardingDone: StateFlow<Boolean?> = preferences.onboardingDone
+        .map { it as Boolean? }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), null)
+
+    fun completeOnboarding() {
+        viewModelScope.launch { preferences.completeOnboarding() }
+    }
+
     val openDays: StateFlow<Int> = preferences.openDays
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), 0)
 

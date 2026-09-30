@@ -22,6 +22,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.wallora.app.ui.WalloraApp
 import com.wallora.app.ui.WallpaperViewModel
+import com.wallora.app.ui.screens.OnboardingScreen
 import com.wallora.app.ui.theme.WalloraTheme
 import com.wallora.app.util.WallpaperSetter
 import com.wallora.app.util.WallpaperTarget
@@ -46,17 +47,24 @@ class MainActivity : ComponentActivity() {
             val darkTheme = darkModePreference ?: isSystemInDarkTheme()
 
             WalloraTheme(darkTheme = darkTheme) {
-                WalloraApp(
-                    viewModel = viewModel,
-                    darkTheme = darkTheme,
-                    darkModePreference = darkModePreference,
-                    onSetDarkMode = { viewModel.setDarkMode(it) },
-                    startRoute = startRoute.value,
-                    onStartRouteHandled = { startRoute.value = null },
-                )
-                val incoming = sharedImage.value
-                if (incoming != null) {
-                    SharedImageDialog(uri = incoming, onDismiss = { sharedImage.value = null })
+                val onboardingDone by viewModel.onboardingDone.collectAsStateWithLifecycle()
+                when (onboardingDone) {
+                    null -> Unit // still reading the stored preference
+                    false -> OnboardingScreen(onDone = { viewModel.completeOnboarding() })
+                    true -> {
+                        WalloraApp(
+                            viewModel = viewModel,
+                            darkTheme = darkTheme,
+                            darkModePreference = darkModePreference,
+                            onSetDarkMode = { viewModel.setDarkMode(it) },
+                            startRoute = startRoute.value,
+                            onStartRouteHandled = { startRoute.value = null },
+                        )
+                        val incoming = sharedImage.value
+                        if (incoming != null) {
+                            SharedImageDialog(uri = incoming, onDismiss = { sharedImage.value = null })
+                        }
+                    }
                 }
             }
         }
