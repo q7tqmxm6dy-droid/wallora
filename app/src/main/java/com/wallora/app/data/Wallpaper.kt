@@ -21,6 +21,9 @@ data class Wallpaper(
     /** Attribution for real photos (CC-BY etc.). */
     val credit: String? = null,
     val license: String? = null,
+    /** Admin controls: featured sorts first, order breaks ties, publishAt hides until then. */
+    val featured: Boolean = false,
+    val order: Long = 0,
 ) {
     val hasDarkVariant: Boolean get() = darkImageUrl != null || darkResId != null
 

@@ -117,6 +117,13 @@
     <div class="stats">
       <div class="stat"><div class="n" id="statWallpapers">0</div><div class="l">Cloud wallpapers</div></div>
       <div class="stat"><div class="n" id="statCategories">0</div><div class="l">Categories</div></div>
+      <div class="stat"><div class="n" id="statFeatured">0</div><div class="l">Featured</div></div>
+      <div class="stat"><div class="n" id="statScheduled">0</div><div class="l">Scheduled</div></div>
+    </div>
+
+    <div class="card" style="margin-top:18px">
+      <h2>By category</h2>
+      <div id="catChart"><span class="muted">Loading…</span></div>
     </div>
 
     <div class="card" style="margin-top:18px">
@@ -183,12 +190,14 @@
 
     <div class="card">
       <h2>Cloud wallpapers</h2>
+      <label for="search">Search</label>
+      <input id="search" placeholder="Filter by title or category…" />
       <table>
         <thead>
-          <tr><th></th><th>Title</th><th>Category</th><th>URL</th><th></th></tr>
+          <tr><th></th><th>Title</th><th>Category</th><th>★</th><th>Order</th><th>Publish</th><th></th></tr>
         </thead>
         <tbody id="rows">
-          <tr><td colspan="5" class="muted">Loading…</td></tr>
+          <tr><td colspan="7" class="muted">Loading…</td></tr>
         </tbody>
       </table>
     </div>
@@ -201,8 +210,8 @@ import {
   getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged,
 } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
 import {
-  getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot,
-  serverTimestamp,
+  getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot, updateDoc,
+  serverTimestamp, Timestamp,
 } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 import {
   getStorage, ref as storageRef, uploadBytesResumable, uploadBytes, getDownloadURL, deleteObject,
@@ -260,38 +269,106 @@ $("signOut").onclick = () => signOut(auth);
 // ---- data --------------------------------------------------------------
 let categories = [];
 
+let allWallpapers = [];
+
 function listenWallpapers() {
   onSnapshot(collection(db, "wallpapers"), (snap) => {
-    const items = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
-    $("statWallpapers").textContent = items.length;
-    const rows = $("rows");
-    rows.innerHTML = "";
-    if (!items.length) {
-      rows.innerHTML = '<tr><td colspan="5" class="muted">No cloud wallpapers yet — upload one above.</td></tr>';
-      return;
-    }
-    for (const w of items) {
-      const tr = document.createElement("tr");
-      tr.innerHTML = `
-        <td><img src="${w.url}" alt="" loading="lazy" /></td>
-        <td>${escapeHtml(w.title || "Untitled")}</td>
-        <td><span class="pill">${escapeHtml(w.category || "—")}</span></td>
-        <td><a href="${w.url}" target="_blank" rel="noopener" class="muted">open</a></td>
-        <td><button class="danger" data-id="${w.id}" data-path="${w.path || ""}" data-dark-path="${w.pathDark || ""}">Delete</button></td>`;
-      rows.appendChild(tr);
-    }
-    rows.querySelectorAll("button.danger").forEach((btn) => {
-      btn.onclick = async () => {
-        if (!confirm("Delete this wallpaper?")) return;
-        try {
-          if (btn.dataset.path) { try { await deleteObject(storageRef(storage, btn.dataset.path)); } catch (_) {} }
-          if (btn.dataset.darkPath) { try { await deleteObject(storageRef(storage, btn.dataset.darkPath)); } catch (_) {} }
-          await deleteDoc(doc(db, "wallpapers", btn.dataset.id));
-        } catch (e) { alert("Delete failed: " + e.message); }
-      };
-    });
+    allWallpapers = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+    $("statWallpapers").textContent = allWallpapers.length;
+    $("statFeatured").textContent = allWallpapers.filter((w) => w.featured).length;
+    $("statScheduled").textContent = allWallpapers.filter((w) => isScheduled(w)).length;
+    renderChart();
+    renderTable();
   });
 }
+
+function isScheduled(w) {
+  const t = w.publishAt?.toDate ? w.publishAt.toDate() : (w.publishAt ? new Date(w.publishAt) : null);
+  return !!t && t.getTime() > Date.now();
+}
+
+function renderChart() {
+  const counts = {};
+  for (const w of allWallpapers) {
+    const c = w.category || "—";
+    counts[c] = (counts[c] || 0) + 1;
+  }
+  const entries = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+  const max = Math.max(1, ...entries.map(([, n]) => n));
+  $("catChart").innerHTML = entries.length
+    ? entries.map(([c, n]) => `
+        <div style="display:flex;align-items:center;gap:10px;margin:6px 0">
+          <span style="width:96px;font-size:13px" class="muted">${escapeHtml(c)}</span>
+          <span style="flex:1;height:10px;background:#23262e;border-radius:99px;overflow:hidden">
+            <span style="display:block;height:100%;width:${Math.round((n / max) * 100)}%;background:var(--accent2)"></span>
+          </span>
+          <span style="width:28px;text-align:right;font-size:13px">${n}</span>
+        </div>`).join("")
+    : '<span class="muted">No wallpapers yet.</span>';
+}
+
+function renderTable() {
+  const q = ($("search").value || "").trim().toLowerCase();
+  const items = q
+    ? allWallpapers.filter((w) =>
+        (w.title || "").toLowerCase().includes(q) || (w.category || "").toLowerCase().includes(q))
+    : allWallpapers;
+
+  const rows = $("rows");
+  rows.innerHTML = "";
+  if (!items.length) {
+    rows.innerHTML = '<tr><td colspan="7" class="muted">No matching wallpapers.</td></tr>';
+    return;
+  }
+  for (const w of items) {
+    const publishValue = w.publishAt?.toDate
+      ? w.publishAt.toDate().toISOString().slice(0, 16)
+      : "";
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td><img src="${w.url}" alt="" loading="lazy" /></td>
+      <td>${escapeHtml(w.title || "Untitled")}${isScheduled(w) ? ' <span class="pill">scheduled</span>' : ""}</td>
+      <td><span class="pill">${escapeHtml(w.category || "—")}</span></td>
+      <td><button class="chip" data-feature="${w.id}">${w.featured ? "★" : "☆"}</button></td>
+      <td><input type="number" style="width:74px" value="${Number(w.order || 0)}" data-order="${w.id}" /></td>
+      <td><input type="datetime-local" value="${publishValue}" data-publish="${w.id}" /></td>
+      <td><button class="danger" data-id="${w.id}" data-path="${w.path || ""}" data-dark-path="${w.pathDark || ""}">Delete</button></td>`;
+    rows.appendChild(tr);
+  }
+
+  rows.querySelectorAll("button[data-feature]").forEach((btn) => {
+    btn.onclick = async () => {
+      const w = allWallpapers.find((x) => x.id === btn.dataset.feature);
+      try { await updateDoc(doc(db, "wallpapers", w.id), { featured: !w.featured }); }
+      catch (e) { alert("Failed: " + e.message); }
+    };
+  });
+  rows.querySelectorAll("input[data-order]").forEach((input) => {
+    input.onchange = async () => {
+      try { await updateDoc(doc(db, "wallpapers", input.dataset.order), { order: Number(input.value) || 0 }); }
+      catch (e) { alert("Failed: " + e.message); }
+    };
+  });
+  rows.querySelectorAll("input[data-publish]").forEach((input) => {
+    input.onchange = async () => {
+      const value = input.value ? Timestamp.fromDate(new Date(input.value)) : null;
+      try { await updateDoc(doc(db, "wallpapers", input.dataset.publish), { publishAt: value }); }
+      catch (e) { alert("Failed: " + e.message); }
+    };
+  });
+  rows.querySelectorAll("button.danger").forEach((btn) => {
+    btn.onclick = async () => {
+      if (!confirm("Delete this wallpaper?")) return;
+      try {
+        if (btn.dataset.path) { try { await deleteObject(storageRef(storage, btn.dataset.path)); } catch (_) {} }
+        if (btn.dataset.darkPath) { try { await deleteObject(storageRef(storage, btn.dataset.darkPath)); } catch (_) {} }
+        await deleteDoc(doc(db, "wallpapers", btn.dataset.id));
+      } catch (e) { alert("Delete failed: " + e.message); }
+    };
+  });
+}
+
+$("search").oninput = renderTable;
 
 function listenCategories() {
   onSnapshot(collection(db, "categories"), (snap) => {

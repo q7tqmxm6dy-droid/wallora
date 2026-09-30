@@ -25,6 +25,13 @@ class RemoteWallpaperRepository {
         val reference = db?.collection(COLLECTION) ?: return flowOf(emptyList())
         return reference.snapshotFlow()
             .map { snapshot -> snapshot.documents.mapNotNull { it.toWallpaper() } }
+            .map { list ->
+                list.sortedWith(
+                    compareByDescending<Wallpaper> { it.featured }
+                        .thenBy { it.order }
+                        .thenBy { it.title.lowercase() },
+                )
+            }
             .catch { emit(emptyList()) }
     }
 
@@ -50,6 +57,11 @@ class RemoteWallpaperRepository {
 
     private fun DocumentSnapshot.toWallpaper(): Wallpaper? {
         val url = getString("url")?.takeIf { it.isNotBlank() } ?: return null
+
+        // Scheduled publishing: hide until publishAt has passed.
+        val publishAt = getTimestamp("publishAt")
+        if (publishAt != null && publishAt.toDate().time > System.currentTimeMillis()) return null
+
         return Wallpaper(
             id = id,
             title = getString("title")?.takeIf { it.isNotBlank() } ?: "Untitled",
@@ -59,6 +71,8 @@ class RemoteWallpaperRepository {
             remote = true,
             credit = getString("credit")?.takeIf { it.isNotBlank() },
             license = getString("license")?.takeIf { it.isNotBlank() },
+            featured = getBoolean("featured") ?: false,
+            order = getLong("order") ?: 0L,
         )
     }
 
