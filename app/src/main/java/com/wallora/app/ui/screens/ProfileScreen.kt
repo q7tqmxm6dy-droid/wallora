@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,6 +28,7 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -61,6 +64,8 @@ fun ProfileScreen(
     val favorites by viewModel.favorites.collectAsStateWithLifecycle()
     val history by viewModel.history.collectAsStateWithLifecycle()
     val sets by viewModel.sets.collectAsStateWithLifecycle()
+    val streak by viewModel.streak.collectAsStateWithLifecycle()
+    val openDays by viewModel.openDays.collectAsStateWithLifecycle()
     val wallpapers by viewModel.wallpapers.collectAsStateWithLifecycle()
     val categories by viewModel.categories.collectAsStateWithLifecycle()
     val dailyRotation by viewModel.dailyRotation.collectAsStateWithLifecycle()
@@ -74,6 +79,15 @@ fun ProfileScreen(
     }
     val displayName = email ?: "Wallora Guest"
     val initial = (email?.trim()?.firstOrNull() ?: 'W').uppercaseChar().toString()
+    val dailyPick = remember(wallpapers) { viewModel.wallpaperOfTheDay() }
+    val badges = listOf(
+        "First favourite" to (favorites.size >= 1),
+        "Collector" to (favorites.size >= 10),
+        "Explorer" to (history.size >= 10),
+        "Decorator" to (sets >= 5),
+        "On a roll" to (streak >= 3),
+        "Devoted" to (streak >= 7),
+    )
 
     Scaffold(
         topBar = {
@@ -135,6 +149,15 @@ fun ProfileScreen(
                         style = MaterialTheme.typography.bodySmall,
                         color = Color.White.copy(alpha = 0.85f),
                     )
+                    if (streak > 0) {
+                        Text(
+                            text = "$streak-day streak · $openDays days opened",
+                            style = MaterialTheme.typography.labelMedium,
+                            color = Color.White.copy(alpha = 0.95f),
+                            fontWeight = FontWeight.SemiBold,
+                            modifier = Modifier.padding(top = 4.dp),
+                        )
+                    }
                 }
             }
 
@@ -173,6 +196,69 @@ fun ProfileScreen(
                                 .clickable { onOpenWallpaper(wallpaper.id) },
                         )
                     }
+                }
+            }
+
+            // ---- wallpaper of the day --------------------------------------
+            if (dailyPick != null) {
+                Text(
+                    text = "Wallpaper of the day",
+                    style = MaterialTheme.typography.titleSmall,
+                    modifier = Modifier.padding(start = 16.dp, top = 20.dp, bottom = 8.dp),
+                )
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp)
+                        .clickable { onOpenWallpaper(dailyPick.id) },
+                    shape = RoundedCornerShape(18.dp),
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        AsyncImage(
+                            model = dailyPick.model(darkTheme),
+                            contentDescription = dailyPick.title,
+                            contentScale = ContentScale.Crop,
+                            modifier = Modifier.size(width = 76.dp, height = 116.dp),
+                        )
+                        Column(Modifier.padding(14.dp)) {
+                            Text(
+                                text = dailyPick.title,
+                                style = MaterialTheme.typography.titleMedium,
+                                fontWeight = FontWeight.SemiBold,
+                            )
+                            Text(
+                                text = dailyPick.categoryId,
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            )
+                            Text(
+                                text = "Tap to set it",
+                                style = MaterialTheme.typography.labelMedium,
+                                color = MaterialTheme.colorScheme.primary,
+                                modifier = Modifier.padding(top = 6.dp),
+                            )
+                        }
+                    }
+                }
+            }
+
+            // ---- badges ----------------------------------------------------
+            Text(
+                text = "Badges",
+                style = MaterialTheme.typography.titleSmall,
+                modifier = Modifier.padding(start = 16.dp, top = 20.dp, bottom = 8.dp),
+            )
+            FlowRow(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalArrangement = Arrangement.spacedBy(4.dp),
+                modifier = Modifier.padding(horizontal = 16.dp),
+            ) {
+                badges.forEach { (label, earned) ->
+                    FilterChip(
+                        selected = earned,
+                        onClick = { },
+                        label = { Text(if (earned) "★ $label" else label) },
+                    )
                 }
             }
 

@@ -11,6 +11,7 @@ import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import java.time.LocalDate
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "wallora_prefs")
 
@@ -34,6 +35,9 @@ class PreferencesRepository(private val context: Context) {
         val LIVE_INTERVAL = stringPreferencesKey("live_interval")
         val LIVE_CATEGORIES = stringSetPreferencesKey("live_categories")
         val SETS = stringPreferencesKey("sets_count")
+        val LAST_OPEN = stringPreferencesKey("last_open_day")
+        val STREAK = stringPreferencesKey("open_streak")
+        val OPEN_DAYS = stringPreferencesKey("open_days")
     }
 
     val favorites: Flow<Set<String>> =
@@ -69,6 +73,34 @@ class PreferencesRepository(private val context: Context) {
     /** How many times a wallpaper has been applied. */
     val sets: Flow<Int> =
         context.dataStore.data.map { it[Keys.SETS]?.toIntOrNull() ?: 0 }
+
+    val streak: Flow<Int> =
+        context.dataStore.data.map { it[Keys.STREAK]?.toIntOrNull() ?: 0 }
+
+    val openDays: Flow<Int> =
+        context.dataStore.data.map { it[Keys.OPEN_DAYS]?.toIntOrNull() ?: 0 }
+
+    /** Keeps the consecutive-day streak up to date. Returns the new streak. */
+    suspend fun recordDailyOpen(): Int {
+        var streak = 1
+        context.dataStore.edit { prefs ->
+            val today = LocalDate.now()
+            val last = prefs[Keys.LAST_OPEN]?.let { runCatching { LocalDate.parse(it) }.getOrNull() }
+            val current = prefs[Keys.STREAK]?.toIntOrNull() ?: 0
+            streak = when {
+                last == null -> 1
+                last == today -> current.coerceAtLeast(1)
+                last == today.minusDays(1) -> current + 1
+                else -> 1
+            }
+            prefs[Keys.STREAK] = streak.toString()
+            prefs[Keys.LAST_OPEN] = today.toString()
+            if (last != today) {
+                prefs[Keys.OPEN_DAYS] = ((prefs[Keys.OPEN_DAYS]?.toIntOrNull() ?: 0) + 1).toString()
+            }
+        }
+        return streak
+    }
 
     val currentWallpaperId: Flow<String?> =
         context.dataStore.data.map { it[Keys.CURRENT_WALLPAPER] }

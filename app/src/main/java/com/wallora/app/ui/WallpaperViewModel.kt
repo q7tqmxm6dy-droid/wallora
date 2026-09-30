@@ -100,6 +100,25 @@ class WallpaperViewModel(application: Application) : AndroidViewModel(applicatio
     val sets: StateFlow<Int> = preferences.sets
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), 0)
 
+    val streak: StateFlow<Int> = preferences.streak
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), 0)
+
+    val openDays: StateFlow<Int> = preferences.openDays
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), 0)
+
+    init {
+        viewModelScope.launch { preferences.recordDailyOpen() }
+    }
+
+    /** Deterministic daily pick — same wallpaper for everyone for the whole day. */
+    fun wallpaperOfTheDay(): Wallpaper? {
+        val list = wallpapers.value
+        if (list.isEmpty()) return null
+        val epochDay = java.time.LocalDate.now().toEpochDay()
+        val index = Math.floorMod(epochDay, list.size.toLong()).toInt()
+        return list[index]
+    }
+
     fun setLiveMode(mode: String) {
         viewModelScope.launch { preferences.setLiveMode(mode) }
     }
