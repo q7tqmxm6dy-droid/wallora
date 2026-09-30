@@ -19,7 +19,6 @@ object WallpaperCatalog {
         Category("minimal", "Minimal"),
         Category("neon", "Neon"),
         Category("cars", "Cars"),
-        Category("moto", "Moto"),
         Category("posters", "Posters"),
     )
 
@@ -59,11 +58,6 @@ object WallpaperCatalog {
         Wallpaper("cars_02", "Night Runner", "cars", R.drawable.cars_02),
         Wallpaper("cars_03", "Tire Tracks", "cars", R.drawable.cars_03),
         Wallpaper("cars_04", "Highway Lines", "cars", R.drawable.cars_04),
-        // Moto
-        Wallpaper("moto_01", "Night Rider", "moto", R.drawable.moto_01),
-        Wallpaper("moto_02", "Cafe Racer", "moto", R.drawable.moto_02),
-        Wallpaper("moto_03", "Full Face", "moto", R.drawable.moto_03),
-        Wallpaper("moto_04", "Redline", "moto", R.drawable.moto_04),
         // Cars — flat-colour posters
         Wallpaper("cars_p01", "Scarlet Coupe", "cars", R.drawable.cars_p01),
         Wallpaper("cars_p02", "Azure Coupe", "cars", R.drawable.cars_p02),
@@ -72,10 +66,6 @@ object WallpaperCatalog {
         Wallpaper("cars_p05", "Violet Coupe", "cars", R.drawable.cars_p05),
         Wallpaper("cars_p06", "Graphite Coupe", "cars", R.drawable.cars_p06),
         // Moto — flat-colour posters
-        Wallpaper("moto_p01", "Teal Ride", "moto", R.drawable.moto_p01),
-        Wallpaper("moto_p02", "Coral Ride", "moto", R.drawable.moto_p02),
-        Wallpaper("moto_p03", "Indigo Ride", "moto", R.drawable.moto_p03),
-        Wallpaper("moto_p04", "Lime Ride", "moto", R.drawable.moto_p04),
         // Posters — colourful flat subjects
         Wallpaper("posters_p01", "Summit", "posters", R.drawable.posters_p01),
         Wallpaper("posters_p02", "Tropic", "posters", R.drawable.posters_p02),
