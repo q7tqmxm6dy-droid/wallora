@@ -33,6 +33,7 @@ class PreferencesRepository(private val context: Context) {
         val LIVE_MODE = stringPreferencesKey("live_mode")
         val LIVE_INTERVAL = stringPreferencesKey("live_interval")
         val LIVE_CATEGORIES = stringSetPreferencesKey("live_categories")
+        val SETS = stringPreferencesKey("sets_count")
     }
 
     val favorites: Flow<Set<String>> =
@@ -64,6 +65,10 @@ class PreferencesRepository(private val context: Context) {
     /** Empty set = every category. */
     val liveCategories: Flow<Set<String>> =
         context.dataStore.data.map { it[Keys.LIVE_CATEGORIES] ?: emptySet() }
+
+    /** How many times a wallpaper has been applied. */
+    val sets: Flow<Int> =
+        context.dataStore.data.map { it[Keys.SETS]?.toIntOrNull() ?: 0 }
 
     val currentWallpaperId: Flow<String?> =
         context.dataStore.data.map { it[Keys.CURRENT_WALLPAPER] }
@@ -156,6 +161,8 @@ class PreferencesRepository(private val context: Context) {
         context.dataStore.edit { prefs ->
             prefs[Keys.CURRENT_WALLPAPER] = id
             prefs[Keys.LAST_DARK] = dark
+            val current = prefs[Keys.SETS]?.toIntOrNull() ?: 0
+            prefs[Keys.SETS] = (current + 1).toString()
         }
     }
 

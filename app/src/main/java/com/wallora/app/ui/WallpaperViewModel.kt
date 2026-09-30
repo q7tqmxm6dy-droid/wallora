@@ -96,6 +96,10 @@ class WallpaperViewModel(application: Application) : AndroidViewModel(applicatio
     val liveCategories: StateFlow<Set<String>> = preferences.liveCategories
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptySet())
 
+    /** Number of times a wallpaper has been set. */
+    val sets: StateFlow<Int> = preferences.sets
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), 0)
+
     fun setLiveMode(mode: String) {
         viewModelScope.launch { preferences.setLiveMode(mode) }
     }

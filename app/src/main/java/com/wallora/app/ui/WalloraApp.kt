@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -27,6 +28,7 @@ import com.wallora.app.ui.screens.CategoryScreen
 import com.wallora.app.ui.screens.DetailScreen
 import com.wallora.app.ui.screens.FavoritesScreen
 import com.wallora.app.ui.screens.HomeScreen
+import com.wallora.app.ui.screens.ProfileScreen
 import com.wallora.app.ui.screens.SettingsScreen
 
 private object Routes {
@@ -37,6 +39,7 @@ private object Routes {
     const val DETAIL = "detail/{wallpaperId}"
     const val ADMIN = "admin"
     const val SETTINGS = "settings"
+    const val PROFILE = "profile"
 
     fun category(id: String) = "category/$id"
     fun detail(id: String) = "detail/$id"
@@ -54,7 +57,8 @@ fun WalloraApp(
     val currentRoute = backStackEntry?.destination?.route
     val showBottomBar = currentRoute == Routes.HOME ||
         currentRoute == Routes.CATEGORIES ||
-        currentRoute == Routes.FAVORITES
+        currentRoute == Routes.FAVORITES ||
+        currentRoute == Routes.PROFILE
 
     val navigateToTopLevel: (String) -> Unit = { route ->
         navController.navigate(route) {
@@ -85,6 +89,12 @@ fun WalloraApp(
                         onClick = { navigateToTopLevel(Routes.FAVORITES) },
                         icon = { Icon(Icons.Filled.Favorite, contentDescription = null) },
                         label = { Text("Favorites") },
+                    )
+                    NavigationBarItem(
+                        selected = currentRoute == Routes.PROFILE,
+                        onClick = { navigateToTopLevel(Routes.PROFILE) },
+                        icon = { Icon(Icons.Filled.Person, contentDescription = null) },
+                        label = { Text("Profile") },
                     )
                 }
             }
@@ -118,6 +128,16 @@ fun WalloraApp(
                     viewModel = viewModel,
                     dark = darkTheme,
                     onOpenWallpaper = { navController.navigate(Routes.detail(it)) },
+                )
+            }
+            composable(Routes.PROFILE) {
+                ProfileScreen(
+                    viewModel = viewModel,
+                    darkTheme = darkTheme,
+                    darkModePreference = darkModePreference,
+                    onOpenWallpaper = { navController.navigate(Routes.detail(it)) },
+                    onOpenSettings = { navController.navigate(Routes.SETTINGS) },
+                    onOpenAdmin = { navController.navigate(Routes.ADMIN) },
                 )
             }
             composable(Routes.SETTINGS) {
