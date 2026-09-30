@@ -20,6 +20,11 @@ object WallpaperCatalog {
         Category("neon", "Neon"),
         Category("cars", "Cars"),
         Category("posters", "Posters"),
+        Category("animals", "Animals"),
+        Category("space", "Space"),
+        Category("food", "Food"),
+        Category("patterns", "Patterns"),
+        Category("seasonal", "Seasonal"),
     )
 
     val wallpapers: List<Wallpaper> = listOf(
@@ -91,6 +96,26 @@ object WallpaperCatalog {
         Wallpaper("posters_p22", "Bloom", "posters", R.drawable.posters_p22),
         Wallpaper("posters_p23", "Starlight", "posters", R.drawable.posters_p23),
         Wallpaper("posters_p24", "Love", "posters", R.drawable.posters_p24),
+        Wallpaper("animals_01", "Brown Bear", "animals", R.drawable.animals_01_light, darkResId = R.drawable.animals_01_dark),
+        Wallpaper("animals_02", "Early Bird", "animals", R.drawable.animals_02_light, darkResId = R.drawable.animals_02_dark),
+        Wallpaper("animals_03", "Blue Whale", "animals", R.drawable.animals_03_light, darkResId = R.drawable.animals_03_dark),
+        Wallpaper("animals_04", "Butterfly", "animals", R.drawable.animals_04_light, darkResId = R.drawable.animals_04_dark),
+        Wallpaper("space_01", "Saturn", "space", R.drawable.space_01_light, darkResId = R.drawable.space_01_dark),
+        Wallpaper("space_02", "Comet", "space", R.drawable.space_02_light, darkResId = R.drawable.space_02_dark),
+        Wallpaper("space_03", "Astronaut", "space", R.drawable.space_03_light, darkResId = R.drawable.space_03_dark),
+        Wallpaper("space_04", "Galaxy", "space", R.drawable.space_04_light, darkResId = R.drawable.space_04_dark),
+        Wallpaper("food_01", "Pizza", "food", R.drawable.food_01_light, darkResId = R.drawable.food_01_dark),
+        Wallpaper("food_02", "Donut", "food", R.drawable.food_02_light, darkResId = R.drawable.food_02_dark),
+        Wallpaper("food_03", "Avocado", "food", R.drawable.food_03_light, darkResId = R.drawable.food_03_dark),
+        Wallpaper("food_04", "Cherries", "food", R.drawable.food_04_light, darkResId = R.drawable.food_04_dark),
+        Wallpaper("patterns_01", "Stripes", "patterns", R.drawable.patterns_01_light, darkResId = R.drawable.patterns_01_dark),
+        Wallpaper("patterns_02", "Dots", "patterns", R.drawable.patterns_02_light, darkResId = R.drawable.patterns_02_dark),
+        Wallpaper("patterns_03", "Checks", "patterns", R.drawable.patterns_03_light, darkResId = R.drawable.patterns_03_dark),
+        Wallpaper("patterns_04", "Diamonds", "patterns", R.drawable.patterns_04_light, darkResId = R.drawable.patterns_04_dark),
+        Wallpaper("seasonal_01", "First Frost", "seasonal", R.drawable.seasonal_01_light, darkResId = R.drawable.seasonal_01_dark),
+        Wallpaper("seasonal_02", "Falling Leaves", "seasonal", R.drawable.seasonal_02_light, darkResId = R.drawable.seasonal_02_dark),
+        Wallpaper("seasonal_03", "High Summer", "seasonal", R.drawable.seasonal_03_light, darkResId = R.drawable.seasonal_03_dark),
+        Wallpaper("seasonal_04", "Spring Bloom", "seasonal", R.drawable.seasonal_04_light, darkResId = R.drawable.seasonal_04_dark),
     )
 
     private val byId: Map<String, Wallpaper> = wallpapers.associateBy { it.id }
