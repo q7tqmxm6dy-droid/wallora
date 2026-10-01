@@ -51,17 +51,17 @@ fun OnboardingScreen(onDone: () -> Unit) {
         OnboardPage(
             title = stringResource(R.string.onb1_title),
             body = stringResource(R.string.onb1_body),
-            image = R.drawable.wp_01,
+            image = R.drawable.wp_01_light,
         ),
         OnboardPage(
             title = stringResource(R.string.onb2_title),
             body = stringResource(R.string.onb2_body),
-            image = R.drawable.wp_21,
+            image = R.drawable.wp_21_light,
         ),
         OnboardPage(
             title = stringResource(R.string.onb3_title),
             body = stringResource(R.string.onb3_body),
-            image = R.drawable.posters_p24,
+            image = R.drawable.posters_p24_light,
         ),
     )
 

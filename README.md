@@ -114,8 +114,8 @@ with the account you created.
 
 ## Image resolution (4K)
 
-The **cloud catalogue serves 4K** images — **2160×3840** (portrait UHD) — so anything you
-set, save or share from the app is full quality. Because cloud entries take priority over
+The **cloud catalogue serves 4K** images — **2160×3840** (portrait UHD) — for both the
+light and dark variant, so anything you set, save or share is full quality. Because cloud entries take priority over
 bundled ones by id, the app uses 4K whenever it's online.
 
 The **bundled** copies stay at 1080×1920, which keeps the APK small (~13 MB release) while
@@ -191,7 +191,7 @@ app/src/main/
 │     ├─ ShareUtils.kt             # FileProvider + ACTION_SEND
 │     └─ Analytics.kt              # Firebase Analytics + Crashlytics
 └─ res/
-   ├─ drawable-nodpi/               # 78 wallpapers, half light / half dark (1080×1920)
+   ├─ drawable-nodpi/               # 78 wallpapers × light+dark (156 images, 1080×1920)
    ├─ drawable/ic_*.xml            # app + UI icons (vector)
    └─ mipmap-anydpi-v26/           # adaptive launcher icon
 ```
