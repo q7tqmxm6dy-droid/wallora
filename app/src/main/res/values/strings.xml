@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Wallora</string>
+    <string name="app_name" translatable="false">Wallora</string>
     <string name="widget_description">A random wallpaper from Wallora</string>
     <string name="live_wallpaper_description">Slowly cycles through your Wallora wallpapers</string>
 
@@ -41,4 +41,122 @@
     <string name="action_save">Save</string>
     <string name="action_share">Share</string>
     <string name="add_to_collection">Add to collection</string>
+
+    <!-- empty states -->
+    <string name="no_results">No wallpapers found</string>
+    <string name="no_favorites">No favourites yet — tap the heart on any wallpaper.</string>
+    <string name="favorite_add">Add to favorites</string>
+    <string name="favorite_remove">Remove from favorites</string>
+    <string name="featured">Featured</string>
+
+    <!-- plurals -->
+    <plurals name="wallpaper_count">
+        <item quantity="one">%d wallpaper</item>
+        <item quantity="other">%d wallpapers</item>
+    </plurals>
+    <plurals name="collection_count">
+        <item quantity="one">%d collection</item>
+        <item quantity="other">%d collections</item>
+    </plurals>
+    <plurals name="favourite_count">
+        <item quantity="one">%d favourite</item>
+        <item quantity="other">%d favourites</item>
+    </plurals>
+    <plurals name="category_count">
+        <item quantity="one">%d category</item>
+        <item quantity="other">%d categories</item>
+    </plurals>
+
+    <string name="none_yet">None yet</string>
+
+    <!-- home chrome -->
+    <string name="sort">Sort</string>
+    <string name="sort_default">Default</string>
+    <string name="sort_name">Name A–Z</string>
+    <string name="sort_category">Category</string>
+    <string name="clear_search">Clear search</string>
+    <string name="category_all">All</string>
+
+    <!-- detail -->
+    <string name="strength">Strength</string>
+    <string name="effect_none">None</string>
+    <string name="effect_blur">Blur</string>
+    <string name="effect_mono">B&amp;W</string>
+    <string name="effect_warm">Warm</string>
+    <string name="effect_cool">Cool</string>
+    <string name="effect_vignette">Vignette</string>
+    <string name="back">Back</string>
+    <string name="lock_screen_preview">Lock screen preview</string>
+    <string name="toggle_favorite">Toggle favorite</string>
+
+    <!-- settings -->
+    <string name="pref_theme">Theme</string>
+    <string name="theme_auto">Auto (follow system)</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+    <string name="pref_daily_rotation">Daily rotation</string>
+    <string name="pref_daily_rotation_sub">Set a fresh wallpaper automatically every day</string>
+    <string name="pref_match_theme">Match phone theme</string>
+    <string name="pref_match_theme_sub">When the phone switches dark or light, re-apply the matching variant of your current wallpaper</string>
+    <string name="pref_live_wallpaper">Live wallpaper</string>
+    <string name="pref_live_wallpaper_sub">Slideshow cycles your wallpapers with a slow crossfade; the animated gradient is lighter on battery.</string>
+    <string name="live_slideshow">Slideshow</string>
+    <string name="live_gradient">Animated gradient</string>
+    <string name="pref_show_each_for">Show each for</string>
+    <string name="open_live_picker">Open live wallpaper picker</string>
+    <string name="action_clear">Clear</string>
+    <string name="settings_footer">Wallora — wallpapers follow your phone\'s light/dark theme.</string>
+
+    <!-- profile -->
+    <string name="your_favourites">Your favourites</string>
+    <string name="pref_collections">Collections</string>
+    <string name="pref_admin">Admin</string>
+    <string name="value_on">On</string>
+    <string name="value_off">Off</string>
+    <string name="not_signed_in">Not signed in</string>
+
+    <!-- settings extras -->
+    <string name="pref_apply_to">Apply to</string>
+    <string name="target_home">Home</string>
+    <string name="target_lock">Lock</string>
+    <string name="target_both">Both</string>
+    <string name="pref_categories">Categories</string>
+
+    <!-- collections + dialogs -->
+    <string name="collections_empty_title">No collections yet</string>
+    <string name="collections_empty_body">Create one with the + button, then add wallpapers from any wallpaper\'s page.</string>
+    <string name="new_collection">New collection</string>
+    <string name="action_name">Name</string>
+    <string name="action_create">Create</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_done">Done</string>
+    <string name="delete_collection_q">Delete collection?</string>
+    <string name="delete_collection_body">\"%1$s\" will be removed. Your wallpapers are not deleted.</string>
+    <string name="detail_no_collections">No collections yet — create one from Profile → Collections.</string>
+    <string name="set_wallpaper_dialog">Set wallpaper</string>
+    <string name="shared_image">Shared image</string>
+    <string name="set_shared_q">Set this image as your wallpaper?</string>
+
+    <!-- profile stats + badges -->
+    <string name="stat_favourites">Favourites</string>
+    <string name="stat_viewed">Viewed</string>
+    <string name="stat_applied">Applied</string>
+    <string name="wallpaper_of_the_day">Wallpaper of the day</string>
+    <string name="badges">Badges</string>
+    <string name="guest_user">Wallora Guest</string>
+    <string name="badge_first_favourite">First favourite</string>
+    <string name="badge_collector">Collector</string>
+    <string name="badge_explorer">Explorer</string>
+    <string name="badge_decorator">Decorator</string>
+    <string name="badge_on_a_roll">On a roll</string>
+    <string name="badge_devoted">Devoted</string>
+    <plurals name="streak_days">
+        <item quantity="one">%d-day streak</item>
+        <item quantity="other">%d-day streak</item>
+    </plurals>
+    <plurals name="days_opened">
+        <item quantity="one">%d day opened</item>
+        <item quantity="other">%d days opened</item>
+    </plurals>
 </resources>

@@ -157,6 +157,7 @@ fun HomeScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding),
+            emptyText = stringResource(R.string.no_results),
             header = {
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
@@ -168,7 +169,7 @@ fun HomeScreen(
                             trailingIcon = {
                                 if (query.isNotEmpty()) {
                                     IconButton(onClick = { viewModel.searchQuery.value = "" }) {
-                                        Icon(Icons.Filled.Clear, contentDescription = "Clear search")
+                                        Icon(Icons.Filled.Clear, contentDescription = stringResource(R.string.clear_search))
                                     }
                                 }
                             },
@@ -177,12 +178,12 @@ fun HomeScreen(
                         )
                         Box {
                             IconButton(onClick = { showSortMenu = true }) {
-                                Icon(Icons.AutoMirrored.Filled.List, contentDescription = "Sort")
+                                Icon(Icons.AutoMirrored.Filled.List, contentDescription = stringResource(R.string.sort))
                             }
                             DropdownMenu(showSortMenu, onDismissRequest = { showSortMenu = false }) {
                                 SortOrder.entries.forEach { option ->
                                     DropdownMenuItem(
-                                        text = { Text(option.label) },
+                                        text = { Text(stringResource(option.labelRes)) },
                                         trailingIcon = {
                                             if (option == sort) Icon(Icons.Filled.Check, contentDescription = null)
                                         },
@@ -227,7 +228,9 @@ fun HomeScreen(
                                     onClick = {
                                         viewModel.selectedTag.value = if (selectedTag == tag) null else tag
                                     },
-                                    label = { Text("#$tag") },
+                                    // Leading LRM keeps the "#" attached to the tag in RTL locales,
+                                    // otherwise bidi reorders it to the far side ("cute#" instead of "#cute").
+                                    label = { Text("\u200E#$tag") },
                                 )
                             }
                         }

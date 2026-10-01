@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_description">טפט אקראי מ‑Wallora</string>
+    <string name="live_wallpaper_description">מחליף לאט בין הטפטים של Wallora</string>
+
+    <string name="sc_random">הפתע אותי</string>
+    <string name="sc_favourites">מועדפים</string>
+    <string name="sc_collections">אוספים</string>
+    <string name="sc_profile">פרופיל</string>
+
+    <string name="nav_home">בית</string>
+    <string name="nav_categories">קטגוריות</string>
+    <string name="nav_favorites">מועדפים</string>
+    <string name="nav_profile">פרופיל</string>
+    <string name="title_settings">הגדרות</string>
+    <string name="title_profile">פרופיל</string>
+    <string name="title_collections">אוספים</string>
+
+    <string name="search_hint">חיפוש טפטים</string>
+    <string name="recently_viewed">נצפו לאחרונה</string>
+    <string name="surprise_me">הפתע אותי</string>
+    <string name="any_tag">כל תג</string>
+
+    <string name="onb1_title">טפט לכל מצב רוח</string>
+    <string name="onb1_body">עיינו בזוהר, מעברים, גלים, גאומטריה, מינימלי, ניאון, מכוניות ופוסטרים. חפשו לפי שם או תג.</string>
+    <string name="onb2_title">בהיר וכהה, מובנה</string>
+    <string name="onb2_body">מעוצב לשני המצבים, ואפשר להפוך אותו לטפט חי שמחליף ביניהם לאט.</string>
+    <string name="onb3_title">שלכם לחלוטין</string>
+    <string name="onb3_body">הוסיפו למועדפים, בנו אוספים משלכם, והחילו אפקטים כמו טשטוש או שחור־לבן לפני ההגדרה.</string>
+    <string name="skip">דלג</string>
+    <string name="next">הבא</string>
+    <string name="get_started">בואו נתחיל</string>
+
+    <string name="set_wallpaper">הגדר כטפט</string>
+    <string name="action_save">שמור</string>
+    <string name="action_share">שתף</string>
+    <string name="add_to_collection">הוסף לאוסף</string>
+
+    <!-- empty states -->
+    <string name="no_results">לא נמצאו טפטים</string>
+    <string name="no_favorites">אין מועדפים עדיין — הקש על הלב בכל טפט.</string>
+    <string name="favorite_add">הוסף למועדפים</string>
+    <string name="favorite_remove">הסר מהמועדפים</string>
+    <string name="featured">מומלץ</string>
+
+    <!-- plurals -->
+    <plurals name="wallpaper_count">
+        <item quantity="one">טפט אחד</item>
+        <item quantity="two">שני טפטים</item>
+        <item quantity="other">%d טפטים</item>
+    </plurals>
+    <plurals name="collection_count">
+        <item quantity="one">אוסף אחד</item>
+        <item quantity="two">שני אוספים</item>
+        <item quantity="other">%d אוספים</item>
+    </plurals>
+    <plurals name="favourite_count">
+        <item quantity="one">מועדף אחד</item>
+        <item quantity="two">שני מועדפים</item>
+        <item quantity="other">%d מועדפים</item>
+    </plurals>
+    <plurals name="category_count">
+        <item quantity="one">קטגוריה אחת</item>
+        <item quantity="two">שתי קטגוריות</item>
+        <item quantity="other">%d קטגוריות</item>
+    </plurals>
+
+    <string name="none_yet">אין עדיין</string>
+
+    <!-- home chrome -->
+    <string name="sort">מיון</string>
+    <string name="sort_default">ברירת מחדל</string>
+    <string name="sort_name">שם א–ת</string>
+    <string name="sort_category">קטגוריה</string>
+    <string name="clear_search">נקה חיפוש</string>
+    <string name="category_all">הכל</string>
+
+    <!-- detail -->
+    <string name="strength">עוצמה</string>
+    <string name="effect_none">ללא</string>
+    <string name="effect_blur">טשטוש</string>
+    <string name="effect_mono">שחור־לבן</string>
+    <string name="effect_warm">חם</string>
+    <string name="effect_cool">קר</string>
+    <string name="effect_vignette">וינייטה</string>
+    <string name="back">חזרה</string>
+    <string name="lock_screen_preview">תצוגה מקדימה של מסך הנעילה</string>
+    <string name="toggle_favorite">החלף מועדף</string>
+
+    <!-- settings -->
+    <string name="pref_theme">ערכת נושא</string>
+    <string name="theme_auto">אוטומטי (לפי המערכת)</string>
+    <string name="theme_light">בהיר</string>
+    <string name="theme_dark">כהה</string>
+    <string name="pref_daily_rotation">סבב יומי</string>
+    <string name="pref_daily_rotation_sub">הגדר טפט חדש אוטומטית בכל יום</string>
+    <string name="pref_match_theme">התאם לערכת הנושא של הטלפון</string>
+    <string name="pref_match_theme_sub">כשהטלפון עובר למצב כהה או בהיר, החל מחדש את הגרסה המתאימה של הטפט הנוכחי</string>
+    <string name="pref_live_wallpaper">טפט חי</string>
+    <string name="pref_live_wallpaper_sub">מצגת מחליפה בין הטפטים במעבר עדין; הגרדיאנט המונפש חסכוני יותר בסוללה.</string>
+    <string name="live_slideshow">מצגת</string>
+    <string name="live_gradient">גרדיאנט מונפש</string>
+    <string name="pref_show_each_for">הצג כל אחד למשך</string>
+    <string name="open_live_picker">פתח בורר טפטים חיים</string>
+    <string name="action_clear">נקה</string>
+    <string name="settings_footer">Wallora — הטפטים עוקבים אחרי מצב בהיר/כהה של הטלפון.</string>
+
+    <!-- profile -->
+    <string name="your_favourites">המועדפים שלך</string>
+    <string name="pref_collections">אוספים</string>
+    <string name="pref_admin">ניהול</string>
+    <string name="value_on">פועל</string>
+    <string name="value_off">כבוי</string>
+    <string name="not_signed_in">לא מחובר</string>
+
+    <!-- settings extras -->
+    <string name="pref_apply_to">החל על</string>
+    <string name="target_home">מסך הבית</string>
+    <string name="target_lock">מסך הנעילה</string>
+    <string name="target_both">שניהם</string>
+    <string name="pref_categories">קטגוריות</string>
+
+    <!-- collections + dialogs -->
+    <string name="collections_empty_title">אין אוספים עדיין</string>
+    <string name="collections_empty_body">צור אוסף עם כפתור + ואז הוסף טפטים מדף כל טפט.</string>
+    <string name="new_collection">אוסף חדש</string>
+    <string name="action_name">שם</string>
+    <string name="action_create">צור</string>
+    <string name="action_cancel">ביטול</string>
+    <string name="action_delete">מחק</string>
+    <string name="action_done">סיום</string>
+    <string name="delete_collection_q">למחוק את האוסף?</string>
+    <string name="delete_collection_body">\"%1$s\" יימחק. הטפטים שלך לא יימחקו.</string>
+    <string name="detail_no_collections">אין אוספים עדיין — צור אחד מהפרופיל ← אוספים.</string>
+    <string name="set_wallpaper_dialog">הגדר טפט</string>
+    <string name="shared_image">תמונה משותפת</string>
+    <string name="set_shared_q">להגדיר את התמונה הזו כטפט?</string>
+
+    <!-- profile stats + badges -->
+    <string name="stat_favourites">מועדפים</string>
+    <string name="stat_viewed">נצפו</string>
+    <string name="stat_applied">הוחלו</string>
+    <string name="wallpaper_of_the_day">הטפט של היום</string>
+    <string name="badges">תגים</string>
+    <string name="guest_user">אורח Wallora</string>
+    <string name="badge_first_favourite">מועדף ראשון</string>
+    <string name="badge_collector">אספן</string>
+    <string name="badge_explorer">מגלה</string>
+    <string name="badge_decorator">מעצב</string>
+    <string name="badge_on_a_roll">בקצב</string>
+    <string name="badge_devoted">מסור</string>
+    <plurals name="streak_days">
+        <item quantity="one">רצף של יום אחד</item>
+        <item quantity="two">רצף של יומיים</item>
+        <item quantity="other">רצף של %d ימים</item>
+    </plurals>
+    <plurals name="days_opened">
+        <item quantity="one">יום אחד שנפתח</item>
+        <item quantity="two">יומיים שנפתחו</item>
+        <item quantity="other">%d ימים שנפתחו</item>
+    </plurals>
+</resources>

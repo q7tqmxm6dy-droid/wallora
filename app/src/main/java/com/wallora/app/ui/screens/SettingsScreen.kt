@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -30,6 +31,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -43,6 +46,8 @@ import com.wallora.app.work.RotationScheduler
 @Composable
 fun SettingsScreen(
     viewModel: WallpaperViewModel,
+    darkModePreference: Boolean?,
+    onSetDarkMode: (Boolean?) -> Unit,
     onBack: () -> Unit,
 ) {
     val context = LocalContext.current
@@ -61,7 +66,7 @@ fun SettingsScreen(
                 title = { Text(stringResource(R.string.title_settings)) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.back))
                     }
                 },
             )
@@ -75,9 +80,30 @@ fun SettingsScreen(
                 .padding(horizontal = 16.dp, vertical = 8.dp),
             verticalArrangement = Arrangement.spacedBy(4.dp),
         ) {
+            Text(stringResource(R.string.pref_theme), style = MaterialTheme.typography.titleSmall)
+            FlowRow(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier.padding(top = 4.dp),
+            ) {
+                val themeOptions: List<Pair<Int, Boolean?>> = listOf(
+                    R.string.theme_auto to null,
+                    R.string.theme_light to false,
+                    R.string.theme_dark to true,
+                )
+                themeOptions.forEach { (labelRes, value) ->
+                    FilterChip(
+                        selected = darkModePreference == value,
+                        onClick = { onSetDarkMode(value) },
+                        label = { Text(stringResource(labelRes)) },
+                    )
+                }
+            }
+
+            HorizontalDivider(Modifier.padding(vertical = 12.dp))
+
             SettingRow(
-                title = "Daily rotation",
-                subtitle = "Set a fresh wallpaper automatically every day",
+                title = stringResource(R.string.pref_daily_rotation),
+                subtitle = stringResource(R.string.pref_daily_rotation_sub),
                 checked = dailyRotation,
                 onCheckedChange = { enabled ->
                     viewModel.setDailyRotation(enabled)
@@ -86,16 +112,20 @@ fun SettingsScreen(
             )
             if (dailyRotation) {
                 Text(
-                    text = "Apply to",
+                    text = stringResource(R.string.pref_apply_to),
                     style = MaterialTheme.typography.labelLarge,
                     modifier = Modifier.padding(top = 8.dp, bottom = 4.dp),
                 )
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    listOf("HOME" to "Home", "LOCK" to "Lock", "BOTH" to "Both").forEach { (id, label) ->
+                    listOf(
+                        "HOME" to R.string.target_home,
+                        "LOCK" to R.string.target_lock,
+                        "BOTH" to R.string.target_both,
+                    ).forEach { (id, labelRes) ->
                         FilterChip(
                             selected = rotationTarget == id,
                             onClick = { viewModel.setRotationTarget(id) },
-                            label = { Text(label) },
+                            label = { Text(stringResource(labelRes)) },
                         )
                     }
                 }
@@ -104,19 +134,17 @@ fun SettingsScreen(
             HorizontalDivider(Modifier.padding(vertical = 12.dp))
 
             SettingRow(
-                title = "Match phone theme",
-                subtitle = "When the phone switches dark or light, re-apply the matching variant " +
-                    "of your current wallpaper",
+                title = stringResource(R.string.pref_match_theme),
+                subtitle = stringResource(R.string.pref_match_theme_sub),
                 checked = autoTheme,
                 onCheckedChange = viewModel::setAutoThemeApply,
             )
 
             HorizontalDivider(Modifier.padding(vertical = 12.dp))
 
-            Text("Live wallpaper", style = MaterialTheme.typography.titleSmall)
+            Text(stringResource(R.string.pref_live_wallpaper), style = MaterialTheme.typography.titleSmall)
             Text(
-                "Slideshow cycles your wallpapers with a slow crossfade; the animated gradient " +
-                    "is lighter on battery.",
+                stringResource(R.string.pref_live_wallpaper_sub),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
@@ -124,18 +152,21 @@ fun SettingsScreen(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 modifier = Modifier.padding(top = 8.dp),
             ) {
-                listOf("slideshow" to "Slideshow", "gradient" to "Animated gradient").forEach { (id, label) ->
+                listOf(
+                    "slideshow" to R.string.live_slideshow,
+                    "gradient" to R.string.live_gradient,
+                ).forEach { (id, labelRes) ->
                     FilterChip(
                         selected = liveMode == id,
                         onClick = { viewModel.setLiveMode(id) },
-                        label = { Text(label) },
+                        label = { Text(stringResource(labelRes)) },
                     )
                 }
             }
 
             if (liveMode == "slideshow") {
                 Text(
-                    "Show each for",
+                    stringResource(R.string.pref_show_each_for),
                     style = MaterialTheme.typography.labelLarge,
                     modifier = Modifier.padding(top = 12.dp),
                 )
@@ -153,7 +184,7 @@ fun SettingsScreen(
                 }
 
                 Text(
-                    "Categories",
+                    stringResource(R.string.pref_categories),
                     style = MaterialTheme.typography.labelLarge,
                     modifier = Modifier.padding(top = 12.dp),
                 )
@@ -164,7 +195,7 @@ fun SettingsScreen(
                     FilterChip(
                         selected = liveCategories.isEmpty(),
                         onClick = { viewModel.clearLiveCategories() },
-                        label = { Text("All") },
+                        label = { Text(stringResource(R.string.category_all)) },
                     )
                     allCategories.forEach { category ->
                         FilterChip(
@@ -188,7 +219,7 @@ fun SettingsScreen(
                 },
                 modifier = Modifier.padding(top = 4.dp),
             ) {
-                Text("Open live wallpaper picker")
+                Text(stringResource(R.string.open_live_picker))
             }
 
             HorizontalDivider(Modifier.padding(vertical = 12.dp))
@@ -198,9 +229,9 @@ fun SettingsScreen(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Column(Modifier.weight(1f).padding(end = 12.dp)) {
-                    Text("Recently viewed", style = MaterialTheme.typography.titleSmall)
+                    Text(stringResource(R.string.recently_viewed), style = MaterialTheme.typography.titleSmall)
                     Text(
-                        "${history.size} wallpapers",
+                        pluralStringResource(R.plurals.wallpaper_count, history.size, history.size),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
@@ -208,7 +239,7 @@ fun SettingsScreen(
                 TextButton(
                     onClick = { viewModel.clearHistory() },
                     enabled = history.isNotEmpty(),
-                ) { Text("Clear") }
+                ) { Text(stringResource(R.string.action_clear)) }
             }
 
             HorizontalDivider(Modifier.padding(vertical = 12.dp))
@@ -261,6 +292,7 @@ private fun SettingRow(
     Row(
         modifier = Modifier
             .fillMaxWidth()
+            .toggleable(value = checked, role = Role.Switch, onValueChange = onCheckedChange)
             .padding(vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {

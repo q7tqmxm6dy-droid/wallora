@@ -18,6 +18,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.wallora.app.ui.WalloraApp
@@ -121,13 +122,17 @@ private fun SharedImageDialog(uri: Uri, onDismiss: () -> Unit) {
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Shared image") },
-        text = { Text("Set this image as your wallpaper?") },
+        title = { Text(stringResource(R.string.shared_image)) },
+        text = { Text(stringResource(R.string.set_shared_q)) },
         confirmButton = {
-            TextButton(onClick = { apply(WallpaperTarget.HOME) }, enabled = !busy) { Text("Home") }
+            TextButton(onClick = { apply(WallpaperTarget.HOME) }, enabled = !busy) {
+                Text(stringResource(R.string.target_home))
+            }
         },
         dismissButton = {
-            TextButton(onClick = { apply(WallpaperTarget.LOCK) }, enabled = !busy) { Text("Lock") }
+            TextButton(onClick = { apply(WallpaperTarget.LOCK) }, enabled = !busy) {
+                Text(stringResource(R.string.target_lock))
+            }
         },
     )
 }

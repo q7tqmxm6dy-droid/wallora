@@ -22,9 +22,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.wallora.app.R
 import com.wallora.app.data.Category
 import com.wallora.app.data.Wallpaper
 
@@ -43,7 +45,7 @@ fun CategoryChips(
             FilterChip(
                 selected = selected == null,
                 onClick = { onSelect(null) },
-                label = { Text("All") },
+                label = { Text(stringResource(R.string.category_all)) },
             )
         }
         categories.forEach { category ->

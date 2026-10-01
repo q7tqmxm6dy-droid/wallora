@@ -35,4 +35,146 @@
     <string name="action_save">حفظ</string>
     <string name="action_share">مشاركة</string>
     <string name="add_to_collection">إضافة إلى مجموعة</string>
+
+    <!-- empty states -->
+    <string name="no_results">لا توجد خلفيات</string>
+    <string name="no_favorites">لا توجد مفضلات بعد — اضغط على القلب في أي خلفية.</string>
+    <string name="favorite_add">إضافة إلى المفضلة</string>
+    <string name="favorite_remove">إزالة من المفضلة</string>
+    <string name="featured">مميّزة</string>
+
+    <!-- plurals -->
+    <plurals name="wallpaper_count">
+        <item quantity="zero">لا خلفيات</item>
+        <item quantity="one">خلفية واحدة</item>
+        <item quantity="two">خلفيتان</item>
+        <item quantity="few">%d خلفيات</item>
+        <item quantity="many">%d خلفية</item>
+        <item quantity="other">%d خلفية</item>
+    </plurals>
+    <plurals name="collection_count">
+        <item quantity="zero">لا مجموعات</item>
+        <item quantity="one">مجموعة واحدة</item>
+        <item quantity="two">مجموعتان</item>
+        <item quantity="few">%d مجموعات</item>
+        <item quantity="many">%d مجموعة</item>
+        <item quantity="other">%d مجموعة</item>
+    </plurals>
+    <plurals name="favourite_count">
+        <item quantity="zero">لا مفضلات</item>
+        <item quantity="one">مفضلة واحدة</item>
+        <item quantity="two">مفضلتان</item>
+        <item quantity="few">%d مفضلات</item>
+        <item quantity="many">%d مفضلة</item>
+        <item quantity="other">%d مفضلة</item>
+    </plurals>
+    <plurals name="category_count">
+        <item quantity="zero">لا فئات</item>
+        <item quantity="one">فئة واحدة</item>
+        <item quantity="two">فئتان</item>
+        <item quantity="few">%d فئات</item>
+        <item quantity="many">%d فئة</item>
+        <item quantity="other">%d فئة</item>
+    </plurals>
+
+    <string name="none_yet">لا شيء بعد</string>
+
+    <!-- home chrome -->
+    <string name="sort">ترتيب</string>
+    <string name="sort_default">افتراضي</string>
+    <string name="sort_name">الاسم أ–ي</string>
+    <string name="sort_category">الفئة</string>
+    <string name="clear_search">مسح البحث</string>
+    <string name="category_all">الكل</string>
+
+    <!-- detail -->
+    <string name="strength">الشدة</string>
+    <string name="effect_none">بلا</string>
+    <string name="effect_blur">ضبابي</string>
+    <string name="effect_mono">أبيض وأسود</string>
+    <string name="effect_warm">دافئ</string>
+    <string name="effect_cool">بارد</string>
+    <string name="effect_vignette">تظليل الأطراف</string>
+    <string name="back">رجوع</string>
+    <string name="lock_screen_preview">معاينة شاشة القفل</string>
+    <string name="toggle_favorite">تبديل المفضلة</string>
+
+    <!-- settings -->
+    <string name="pref_theme">المظهر</string>
+    <string name="theme_auto">تلقائي (حسب النظام)</string>
+    <string name="theme_light">فاتح</string>
+    <string name="theme_dark">داكن</string>
+    <string name="pref_daily_rotation">تدوير يومي</string>
+    <string name="pref_daily_rotation_sub">تعيين خلفية جديدة تلقائيًا كل يوم</string>
+    <string name="pref_match_theme">مطابقة مظهر الهاتف</string>
+    <string name="pref_match_theme_sub">عند تبديل الهاتف بين الداكن والفاتح، أعِد تعيين النسخة المطابقة لخلفيتك الحالية</string>
+    <string name="pref_live_wallpaper">خلفية حية</string>
+    <string name="pref_live_wallpaper_sub">تعرض الخلفية الحية خلفياتك بتلاشٍ بطيء؛ التدرّج المتحرك أخف على البطارية.</string>
+    <string name="live_slideshow">عرض الشرائح</string>
+    <string name="live_gradient">تدرّج متحرك</string>
+    <string name="pref_show_each_for">مدة العرض لكل خلفية</string>
+    <string name="open_live_picker">فتح منتقي الخلفيات الحية</string>
+    <string name="action_clear">مسح</string>
+    <string name="settings_footer">Wallora — تتبع الخلفيات مظهر هاتفك الفاتح/الداكن.</string>
+
+    <!-- profile -->
+    <string name="your_favourites">مفضلاتك</string>
+    <string name="pref_collections">المجموعات</string>
+    <string name="pref_admin">المشرف</string>
+    <string name="value_on">مفعّل</string>
+    <string name="value_off">متوقف</string>
+    <string name="not_signed_in">لم يتم تسجيل الدخول</string>
+
+    <!-- settings extras -->
+    <string name="pref_apply_to">التطبيق على</string>
+    <string name="target_home">الشاشة الرئيسية</string>
+    <string name="target_lock">شاشة القفل</string>
+    <string name="target_both">كلتاهما</string>
+    <string name="pref_categories">الفئات</string>
+
+    <!-- collections + dialogs -->
+    <string name="collections_empty_title">لا توجد مجموعات بعد</string>
+    <string name="collections_empty_body">أنشئ مجموعة بزر + ثم أضف خلفيات من صفحة أي خلفية.</string>
+    <string name="new_collection">مجموعة جديدة</string>
+    <string name="action_name">الاسم</string>
+    <string name="action_create">إنشاء</string>
+    <string name="action_cancel">إلغاء</string>
+    <string name="action_delete">حذف</string>
+    <string name="action_done">تم</string>
+    <string name="delete_collection_q">حذف المجموعة؟</string>
+    <string name="delete_collection_body">ستُحذف \"%1$s\". لن تُحذف خلفياتك.</string>
+    <string name="detail_no_collections">لا توجد مجموعات بعد — أنشئ واحدة من الملف الشخصي ← المجموعات.</string>
+    <string name="set_wallpaper_dialog">تعيين الخلفية</string>
+    <string name="shared_image">صورة مشتركة</string>
+    <string name="set_shared_q">تعيين هذه الصورة كخلفية؟</string>
+
+    <!-- profile stats + badges -->
+    <string name="stat_favourites">المفضلة</string>
+    <string name="stat_viewed">تمت المشاهدة</string>
+    <string name="stat_applied">تم التعيين</string>
+    <string name="wallpaper_of_the_day">خلفية اليوم</string>
+    <string name="badges">الشارات</string>
+    <string name="guest_user">زائر Wallora</string>
+    <string name="badge_first_favourite">أول مفضلة</string>
+    <string name="badge_collector">جامع</string>
+    <string name="badge_explorer">مستكشف</string>
+    <string name="badge_decorator">مُزيّن</string>
+    <string name="badge_on_a_roll">في تقدّم</string>
+    <string name="badge_devoted">مُخلص</string>
+    <plurals name="streak_days">
+        <item quantity="zero">لا سلسلة</item>
+        <item quantity="one">سلسلة يوم واحد</item>
+        <item quantity="two">سلسلة يومين</item>
+        <item quantity="few">سلسلة %d أيام</item>
+        <item quantity="many">سلسلة %d يومًا</item>
+        <item quantity="other">سلسلة %d يوم</item>
+    </plurals>
+    <plurals name="days_opened">
+        <item quantity="zero">لا أيام مفتوحة</item>
+        <item quantity="one">يوم واحد مفتوح</item>
+        <item quantity="two">يومان مفتوحان</item>
+        <item quantity="few">%d أيام مفتوحة</item>
+        <item quantity="many">%d يومًا مفتوحًا</item>
+        <item quantity="other">%d يوم مفتوح</item>
+    </plurals>
 </resources>

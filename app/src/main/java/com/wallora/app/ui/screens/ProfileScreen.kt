@@ -41,6 +41,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
@@ -82,16 +83,16 @@ fun ProfileScreen(
     val favouriteWallpapers = remember(favorites, wallpapers) {
         wallpapers.filter { it.id in favorites }
     }
-    val displayName = email ?: "Wallora Guest"
+    val displayName = email ?: stringResource(R.string.guest_user)
     val initial = (email?.trim()?.firstOrNull() ?: 'W').uppercaseChar().toString()
     val dailyPick = remember(wallpapers) { viewModel.wallpaperOfTheDay() }
     val badges = listOf(
-        "First favourite" to (favorites.size >= 1),
-        "Collector" to (favorites.size >= 10),
-        "Explorer" to (history.size >= 10),
-        "Decorator" to (sets >= 5),
-        "On a roll" to (streak >= 3),
-        "Devoted" to (streak >= 7),
+        R.string.badge_first_favourite to (favorites.size >= 1),
+        R.string.badge_collector to (favorites.size >= 10),
+        R.string.badge_explorer to (history.size >= 10),
+        R.string.badge_decorator to (sets >= 5),
+        R.string.badge_on_a_roll to (streak >= 3),
+        R.string.badge_devoted to (streak >= 7),
     )
 
     Scaffold(
@@ -100,7 +101,10 @@ fun ProfileScreen(
                 title = { Text(stringResource(R.string.title_profile)) },
                 actions = {
                     IconButton(onClick = onOpenSettings) {
-                        Icon(Icons.Filled.Settings, contentDescription = "Settings")
+                        Icon(
+                            Icons.Filled.Settings,
+                            contentDescription = stringResource(R.string.title_settings),
+                        )
                     }
                 },
             )
@@ -150,13 +154,17 @@ fun ProfileScreen(
                         fontWeight = FontWeight.SemiBold,
                     )
                     Text(
-                        text = "${favorites.size} favourites · ${wallpapers.size} wallpapers",
+                        text = listOf(
+                            pluralStringResource(R.plurals.favourite_count, favorites.size, favorites.size),
+                            pluralStringResource(R.plurals.wallpaper_count, wallpapers.size, wallpapers.size),
+                        ).joinToString(" · "),
                         style = MaterialTheme.typography.bodySmall,
                         color = Color.White.copy(alpha = 0.85f),
                     )
                     if (streak > 0) {
                         Text(
-                            text = "$streak-day streak · $openDays days opened",
+                            text = pluralStringResource(R.plurals.streak_days, streak, streak) + " · " +
+                                pluralStringResource(R.plurals.days_opened, openDays, openDays),
                             style = MaterialTheme.typography.labelMedium,
                             color = Color.White.copy(alpha = 0.95f),
                             fontWeight = FontWeight.SemiBold,
@@ -174,15 +182,15 @@ fun ProfileScreen(
                     .padding(top = 16.dp),
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
             ) {
-                StatCard("Favourites", favorites.size.toString(), Modifier.weight(1f))
-                StatCard("Viewed", history.size.toString(), Modifier.weight(1f))
-                StatCard("Applied", sets.toString(), Modifier.weight(1f))
+                StatCard(stringResource(R.string.stat_favourites), favorites.size.toString(), Modifier.weight(1f))
+                StatCard(stringResource(R.string.stat_viewed), history.size.toString(), Modifier.weight(1f))
+                StatCard(stringResource(R.string.stat_applied), sets.toString(), Modifier.weight(1f))
             }
 
             // ---- favourites strip ------------------------------------------
             if (favouriteWallpapers.isNotEmpty()) {
                 Text(
-                    text = "Your favourites",
+                    text = stringResource(R.string.your_favourites),
                     style = MaterialTheme.typography.titleSmall,
                     modifier = Modifier.padding(start = 16.dp, top = 20.dp, bottom = 8.dp),
                 )
@@ -207,7 +215,7 @@ fun ProfileScreen(
             // ---- wallpaper of the day --------------------------------------
             if (dailyPick != null) {
                 Text(
-                    text = "Wallpaper of the day",
+                    text = stringResource(R.string.wallpaper_of_the_day),
                     style = MaterialTheme.typography.titleSmall,
                     modifier = Modifier.padding(start = 16.dp, top = 20.dp, bottom = 8.dp),
                 )
@@ -249,7 +257,7 @@ fun ProfileScreen(
 
             // ---- badges ----------------------------------------------------
             Text(
-                text = "Badges",
+                text = stringResource(R.string.badges),
                 style = MaterialTheme.typography.titleSmall,
                 modifier = Modifier.padding(start = 16.dp, top = 20.dp, bottom = 8.dp),
             )
@@ -258,7 +266,8 @@ fun ProfileScreen(
                 verticalArrangement = Arrangement.spacedBy(4.dp),
                 modifier = Modifier.padding(horizontal = 16.dp),
             ) {
-                badges.forEach { (label, earned) ->
+                badges.forEach { (labelRes, earned) ->
+                    val label = stringResource(labelRes)
                     FilterChip(
                         selected = earned,
                         onClick = { },
@@ -271,42 +280,53 @@ fun ProfileScreen(
 
             // ---- preference summaries --------------------------------------
             InfoRow(
-                label = "Collections",
-                value = if (collections.isEmpty()) "None yet" else "${collections.size} collections",
+                label = stringResource(R.string.pref_collections),
+                value = if (collections.isEmpty()) {
+                    stringResource(R.string.none_yet)
+                } else {
+                    pluralStringResource(R.plurals.collection_count, collections.size, collections.size)
+                },
                 onClick = onOpenCollections,
             )
             InfoRow(
-                label = "Theme",
-                value = when (darkModePreference) {
-                    null -> "Auto (follow system)"
-                    true -> "Dark"
-                    false -> "Light"
-                },
+                label = stringResource(R.string.pref_theme),
+                value = stringResource(
+                    when (darkModePreference) {
+                        null -> R.string.theme_auto
+                        true -> R.string.theme_dark
+                        false -> R.string.theme_light
+                    },
+                ),
                 onClick = onOpenSettings,
             )
             InfoRow(
-                label = "Daily rotation",
-                value = if (dailyRotation) "On" else "Off",
+                label = stringResource(R.string.pref_daily_rotation),
+                value = stringResource(if (dailyRotation) R.string.value_on else R.string.value_off),
                 onClick = onOpenSettings,
             )
             InfoRow(
-                label = "Live wallpaper",
-                value = if (liveMode == "gradient") "Animated gradient" else "Slideshow",
+                label = stringResource(R.string.pref_live_wallpaper),
+                value = stringResource(
+                    if (liveMode == "gradient") R.string.live_gradient else R.string.live_slideshow,
+                ),
                 onClick = onOpenSettings,
             )
             InfoRow(
-                label = "Match phone theme",
-                value = if (autoTheme) "On" else "Off",
+                label = stringResource(R.string.pref_match_theme),
+                value = stringResource(if (autoTheme) R.string.value_on else R.string.value_off),
                 onClick = onOpenSettings,
             )
             InfoRow(
-                label = "Admin",
-                value = if (signedIn) (email ?: "Signed in") else "Not signed in",
+                label = stringResource(R.string.pref_admin),
+                value = if (signedIn) (email ?: stringResource(R.string.pref_admin)) else stringResource(R.string.not_signed_in),
                 onClick = onOpenAdmin,
             )
 
             Text(
-                text = "Wallora · ${categories.size} categories · ${wallpapers.size} wallpapers",
+                text = "Wallora · " + listOf(
+                    pluralStringResource(R.plurals.category_count, categories.size, categories.size),
+                    pluralStringResource(R.plurals.wallpaper_count, wallpapers.size, wallpapers.size),
+                ).joinToString(" · "),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(16.dp),

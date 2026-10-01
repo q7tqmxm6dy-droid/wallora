@@ -49,6 +49,7 @@ object WallpaperCatalog {
         Wallpaper("geometric_02", "Prism", "geometric", R.drawable.wp_14_light, darkResId = R.drawable.wp_14_dark),
         Wallpaper("geometric_03", "Facets", "geometric", R.drawable.wp_15_light, darkResId = R.drawable.wp_15_dark),
         Wallpaper("geometric_04", "Origami", "geometric", R.drawable.wp_16_light, darkResId = R.drawable.wp_16_dark),
+        Wallpaper("geometric_05", "Golden Ridge", "geometric", R.drawable.geometric_05_light, darkResId = R.drawable.geometric_05_dark),
         // Minimal
         Wallpaper("minimal_01", "Soft Circle", "minimal", R.drawable.wp_17_light, darkResId = R.drawable.wp_17_dark),
         Wallpaper("minimal_02", "Aqua Ring", "minimal", R.drawable.wp_18_light, darkResId = R.drawable.wp_18_dark),
@@ -71,7 +72,6 @@ object WallpaperCatalog {
         Wallpaper("cars_p04", "Emerald Coupe", "cars", R.drawable.cars_p04_light, darkResId = R.drawable.cars_p04_dark),
         Wallpaper("cars_p05", "Violet Coupe", "cars", R.drawable.cars_p05_light, darkResId = R.drawable.cars_p05_dark),
         Wallpaper("cars_p06", "Graphite Coupe", "cars", R.drawable.cars_p06_light, darkResId = R.drawable.cars_p06_dark),
-        // Moto — flat-colour posters
         // Posters — colourful flat subjects
         Wallpaper("posters_p01", "Summit", "posters", R.drawable.posters_p01_light, darkResId = R.drawable.posters_p01_dark),
         Wallpaper("posters_p02", "Tropic", "posters", R.drawable.posters_p02_light, darkResId = R.drawable.posters_p02_dark),

@@ -23,23 +23,33 @@ import kotlinx.coroutines.launch
  * re-applies the variant of the current wallpaper that matches the new theme.
  * Also makes sure the daily rotation job is scheduled after a reboot/update.
  */
-class WalloraApp : Application(), ComponentCallbacks {
+class WalloraApp : Application() {
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
 
+    /**
+     * A standalone callback rather than the Application implementing ComponentCallbacks itself.
+     *
+     * `Application.onConfigurationChanged` dispatches to every registered callback, so registering
+     * `this` and also overriding `onConfigurationChanged` makes the override call `super`, which
+     * dispatches straight back into the override — infinite recursion and a StackOverflowError on
+     * any theme, rotation or locale change.
+     */
+    private val themeWatcher = object : ComponentCallbacks {
+        override fun onConfigurationChanged(newConfig: Configuration) {
+            scope.launch { applyThemeIfChanged() }
+        }
+
+        override fun onLowMemory() = Unit
+    }
+
     override fun onCreate() {
         super.onCreate()
-        registerComponentCallbacks(this)
+        registerComponentCallbacks(themeWatcher)
         Notifications.ensureChannel(this)
         scope.launch { ensureRotationScheduled() }
         scope.launch { applyThemeIfChanged() }
     }
-
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        scope.launch { applyThemeIfChanged() }
-    }
-
-    override fun onLowMemory() = Unit
 
     private suspend fun ensureRotationScheduled() {
         val prefs = PreferencesRepository(this)

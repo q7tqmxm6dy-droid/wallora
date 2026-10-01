@@ -25,13 +25,16 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.wallora.app.R
 import com.wallora.app.data.Wallpaper
 import com.wallora.app.ui.theme.HeartRed
 
@@ -68,14 +71,16 @@ fun WallpaperCard(
             ) {
                 Icon(
                     imageVector = if (isFavorite) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder,
-                    contentDescription = if (isFavorite) "Remove from favorites" else "Add to favorites",
+                    contentDescription = stringResource(
+                        if (isFavorite) R.string.favorite_remove else R.string.favorite_add,
+                    ),
                     tint = if (isFavorite) HeartRed else Color.White,
                 )
             }
             if (wallpaper.featured) {
                 Icon(
                     imageVector = Icons.Filled.Star,
-                    contentDescription = "Featured",
+                    contentDescription = stringResource(R.string.featured),
                     tint = Color(0xFFFFC107),
                     modifier = Modifier
                         .align(Alignment.TopStart)
@@ -96,6 +101,7 @@ fun WallpaperGrid(
     onToggleFavorite: (String) -> Unit,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(12.dp),
+    emptyText: String? = null,
     header: (@Composable () -> Unit)? = null,
 ) {
     LazyVerticalGrid(
@@ -107,6 +113,22 @@ fun WallpaperGrid(
     ) {
         if (header != null) {
             item(span = { GridItemSpan(maxLineSpan) }) { header() }
+        }
+        if (wallpapers.isEmpty() && emptyText != null) {
+            item(span = { GridItemSpan(maxLineSpan) }) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 56.dp, start = 24.dp, end = 24.dp),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Text(
+                        text = emptyText,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
+            }
         }
         gridItems(items = wallpapers, key = { it.id }) { wallpaper ->
             WallpaperCard(

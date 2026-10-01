@@ -77,6 +77,7 @@ fun FavoritesScreen(
                 dark = dark,
                 onOpen = onOpenWallpaper,
                 onToggleFavorite = viewModel::toggleFavorite,
+                emptyText = stringResource(R.string.no_favorites),
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(innerPadding),

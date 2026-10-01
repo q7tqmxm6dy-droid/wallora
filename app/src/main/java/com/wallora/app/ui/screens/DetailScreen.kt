@@ -275,7 +275,11 @@ fun DetailScreen(
                 onClick = onBack,
                 modifier = Modifier.background(Color.Black.copy(alpha = 0.35f), CircleShape),
             ) {
-                Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back", tint = Color.White)
+                Icon(
+                    Icons.AutoMirrored.Filled.ArrowBack,
+                    contentDescription = stringResource(R.string.back),
+                    tint = Color.White,
+                )
             }
             IconButton(
                 onClick = { showLockPreview = !showLockPreview },
@@ -283,7 +287,7 @@ fun DetailScreen(
             ) {
                 Icon(
                     imageVector = Icons.Filled.Lock,
-                    contentDescription = "Lock screen preview",
+                    contentDescription = stringResource(R.string.lock_screen_preview),
                     tint = if (showLockPreview) MaterialTheme.colorScheme.primary else Color.White,
                 )
             }
@@ -312,7 +316,7 @@ fun DetailScreen(
             ) {
                 Icon(
                     imageVector = if (isFavorite) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder,
-                    contentDescription = "Toggle favorite",
+                    contentDescription = stringResource(R.string.toggle_favorite),
                     tint = if (isFavorite) HeartRed else Color.White,
                 )
             }
@@ -362,7 +366,7 @@ fun DetailScreen(
                     FilterChip(
                         selected = effect == option,
                         onClick = { effect = option },
-                        label = { Text(option.label) },
+                        label = { Text(effectLabel(option)) },
                     )
                 }
             }
@@ -372,7 +376,7 @@ fun DetailScreen(
                     modifier = Modifier.padding(top = 8.dp),
                 ) {
                     Text(
-                        text = "Strength",
+                        text = stringResource(R.string.strength),
                         color = Color.White,
                         style = MaterialTheme.typography.labelMedium,
                     )
@@ -480,11 +484,11 @@ fun DetailScreen(
         val collections by viewModel.collections.collectAsStateWithLifecycle()
         AlertDialog(
             onDismissRequest = { showCollections = false },
-            title = { Text("Add to collection") },
+            title = { Text(stringResource(R.string.add_to_collection)) },
             text = {
                 Column {
                     if (collections.isEmpty()) {
-                        Text("No collections yet — create one from Profile → Collections.")
+                        Text(stringResource(R.string.detail_no_collections))
                     } else {
                         collections.keys.sorted().forEach { name ->
                             val checked = wallpaper.id in (collections[name] ?: emptyList())
@@ -507,7 +511,7 @@ fun DetailScreen(
                 }
             },
             confirmButton = {
-                TextButton(onClick = { showCollections = false }) { Text("Done") }
+                TextButton(onClick = { showCollections = false }) { Text(stringResource(R.string.action_done)) }
             },
         )
     }
@@ -515,27 +519,50 @@ fun DetailScreen(
     if (showTargetDialog) {
         AlertDialog(
             onDismissRequest = { showTargetDialog = false },
-            title = { Text("Set wallpaper") },
+            title = { Text(stringResource(R.string.set_wallpaper_dialog)) },
             text = {
                 Column {
-                    TargetOption(rememberVectorPainter(Icons.Filled.Home), "Home screen") {
+                    TargetOption(
+                        rememberVectorPainter(Icons.Filled.Home),
+                        stringResource(R.string.target_home),
+                    ) {
                         applyTarget(WallpaperTarget.HOME)
                     }
-                    TargetOption(rememberVectorPainter(Icons.Filled.Lock), "Lock screen") {
+                    TargetOption(
+                        rememberVectorPainter(Icons.Filled.Lock),
+                        stringResource(R.string.target_lock),
+                    ) {
                         applyTarget(WallpaperTarget.LOCK)
                     }
-                    TargetOption(painterResource(R.drawable.ic_smartphone), "Both screens") {
+                    TargetOption(
+                        painterResource(R.drawable.ic_smartphone),
+                        stringResource(R.string.target_both),
+                    ) {
                         applyTarget(WallpaperTarget.BOTH)
                     }
                 }
             },
             confirmButton = {},
             dismissButton = {
-                TextButton(onClick = { showTargetDialog = false }) { Text("Cancel") }
+                TextButton(onClick = { showTargetDialog = false }) {
+                    Text(stringResource(R.string.action_cancel))
+                }
             },
         )
     }
 }
+
+@Composable
+private fun effectLabel(effect: Effect): String = stringResource(
+    when (effect) {
+        Effect.NONE -> R.string.effect_none
+        Effect.BLUR -> R.string.effect_blur
+        Effect.MONO -> R.string.effect_mono
+        Effect.WARM -> R.string.effect_warm
+        Effect.COOL -> R.string.effect_cool
+        Effect.VIGNETTE -> R.string.effect_vignette
+    },
+)
 
 @Composable
 private fun TargetOption(painter: Painter, label: String, onClick: () -> Unit) {

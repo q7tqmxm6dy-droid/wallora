@@ -188,6 +188,8 @@ fun WalloraApp(
             composable(Routes.SETTINGS) {
                 SettingsScreen(
                     viewModel = viewModel,
+                    darkModePreference = darkModePreference,
+                    onSetDarkMode = onSetDarkMode,
                     onBack = { navController.popBackStack() },
                 )
             }

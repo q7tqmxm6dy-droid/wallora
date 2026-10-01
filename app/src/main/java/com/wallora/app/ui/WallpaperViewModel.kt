@@ -1,8 +1,10 @@
 package com.wallora.app.ui
 
 import android.app.Application
+import androidx.annotation.StringRes
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.wallora.app.R
 import com.wallora.app.data.AdminRepository
 import com.wallora.app.data.Category
 import com.wallora.app.data.PreferencesRepository
@@ -18,10 +20,10 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-enum class SortOrder(val label: String) {
-    DEFAULT("Default"),
-    NAME("Name A–Z"),
-    CATEGORY("Category"),
+enum class SortOrder(@StringRes val labelRes: Int) {
+    DEFAULT(R.string.sort_default),
+    NAME(R.string.sort_name),
+    CATEGORY(R.string.sort_category),
 }
 
 class WallpaperViewModel(application: Application) : AndroidViewModel(application) {

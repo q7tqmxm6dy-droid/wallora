@@ -34,6 +34,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -78,9 +79,9 @@ fun CollectionsScreen(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Text("No collections yet", style = MaterialTheme.typography.titleMedium)
+                Text(stringResource(R.string.collections_empty_title), style = MaterialTheme.typography.titleMedium)
                 Text(
-                    "Create one with the + button, then add wallpapers from any wallpaper's page.",
+                    stringResource(R.string.collections_empty_body),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.padding(top = 8.dp),
@@ -109,13 +110,16 @@ fun CollectionsScreen(
                             Column(Modifier.weight(1f)) {
                                 Text(name, style = MaterialTheme.typography.titleSmall)
                                 Text(
-                                    "${ids.size} wallpapers",
+                                    pluralStringResource(R.plurals.wallpaper_count, ids.size, ids.size),
                                     style = MaterialTheme.typography.bodySmall,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                                 )
                             }
                             IconButton(onClick = { pendingDelete = name }) {
-                                Icon(Icons.Filled.Delete, contentDescription = "Delete collection")
+                                Icon(
+                                    Icons.Filled.Delete,
+                                    contentDescription = stringResource(R.string.action_delete),
+                                )
                             }
                             Icon(
                                 imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
@@ -134,12 +138,12 @@ fun CollectionsScreen(
         var name by remember { mutableStateOf("") }
         AlertDialog(
             onDismissRequest = { showCreate = false },
-            title = { Text("New collection") },
+            title = { Text(stringResource(R.string.new_collection)) },
             text = {
                 OutlinedTextField(
                     value = name,
                     onValueChange = { name = it },
-                    label = { Text("Name") },
+                    label = { Text(stringResource(R.string.action_name)) },
                     singleLine = true,
                 )
             },
@@ -151,10 +155,10 @@ fun CollectionsScreen(
                         showCreate = false
                     },
                     enabled = name.isNotBlank(),
-                ) { Text("Create") }
+                ) { Text(stringResource(R.string.action_create)) }
             },
             dismissButton = {
-                TextButton(onClick = { showCreate = false }) { Text("Cancel") }
+                TextButton(onClick = { showCreate = false }) { Text(stringResource(R.string.action_cancel)) }
             },
         )
     }
@@ -162,16 +166,16 @@ fun CollectionsScreen(
     pendingDelete?.let { name ->
         AlertDialog(
             onDismissRequest = { pendingDelete = null },
-            title = { Text("Delete collection?") },
-            text = { Text("\"$name\" will be removed. Your wallpapers are not deleted.") },
+            title = { Text(stringResource(R.string.delete_collection_q)) },
+            text = { Text(stringResource(R.string.delete_collection_body, name)) },
             confirmButton = {
                 TextButton(onClick = {
                     viewModel.deleteCollection(name)
                     pendingDelete = null
-                }) { Text("Delete") }
+                }) { Text(stringResource(R.string.action_delete)) }
             },
             dismissButton = {
-                TextButton(onClick = { pendingDelete = null }) { Text("Cancel") }
+                TextButton(onClick = { pendingDelete = null }) { Text(stringResource(R.string.action_cancel)) }
             },
         )
     }
