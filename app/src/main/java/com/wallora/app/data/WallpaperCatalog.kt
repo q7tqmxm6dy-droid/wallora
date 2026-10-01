@@ -25,6 +25,7 @@ object WallpaperCatalog {
         Category("food", "Food"),
         Category("patterns", "Patterns"),
         Category("seasonal", "Seasonal"),
+        Category("city", "City"),
     )
 
     val wallpapers: List<Wallpaper> = listOf(
@@ -116,6 +117,9 @@ object WallpaperCatalog {
         Wallpaper("seasonal_02", "Falling Leaves", "seasonal", R.drawable.seasonal_02_light, darkResId = R.drawable.seasonal_02_dark),
         Wallpaper("seasonal_03", "High Summer", "seasonal", R.drawable.seasonal_03_light, darkResId = R.drawable.seasonal_03_dark),
         Wallpaper("seasonal_04", "Spring Bloom", "seasonal", R.drawable.seasonal_04_light, darkResId = R.drawable.seasonal_04_dark),
+        // City — photographic renders (single image, no theme variant)
+        Wallpaper("city_01", "Neo-Kyoto", "city", R.drawable.city_01),
+        Wallpaper("city_02", "Lunar Spire", "city", R.drawable.city_02),
     )
 
     private val byId: Map<String, Wallpaper> = wallpapers.associateBy { it.id }
