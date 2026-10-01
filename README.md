@@ -112,6 +112,16 @@ Data model:
 In the app, tap the **shield icon** in the top bar to open the admin screen and sign in
 with the account you created.
 
+## Image resolution (4K)
+
+The **cloud catalogue serves 4K** images — **2160×3840** (portrait UHD) — so anything you
+set, save or share from the app is full quality. Because cloud entries take priority over
+bundled ones by id, the app uses 4K whenever it's online.
+
+The **bundled** copies stay at 1080×1920, which keeps the APK small (~13 MB release) while
+still giving you a complete offline fallback. Replacing a cloud image is just an upload via
+the dashboard — no app update needed.
+
 ## Open it in Android Studio
 1. Open Android Studio.
 2. **File → Open…** and select this folder (`Wallora`).
