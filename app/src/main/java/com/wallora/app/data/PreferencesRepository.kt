@@ -42,6 +42,10 @@ class PreferencesRepository(private val context: Context) {
         val OPEN_DAYS = stringPreferencesKey("open_days")
         val COLLECTIONS = stringPreferencesKey("collections_json")
         val ONBOARDING_DONE = booleanPreferencesKey("onboarding_done")
+
+        val NEW_ALERTS = booleanPreferencesKey("new_wallpaper_alerts")
+        val KNOWN_WALLPAPERS = stringSetPreferencesKey("known_wallpapers")
+        val ALERTS_SEEDED = booleanPreferencesKey("alerts_seeded")
     }
 
     val favorites: Flow<Set<String>> =
@@ -194,6 +198,41 @@ class PreferencesRepository(private val context: Context) {
 
     suspend fun setAutoThemeApply(enabled: Boolean) {
         context.dataStore.edit { it[Keys.AUTO_THEME] = enabled }
+    }
+
+    // ---- new-wallpaper alerts -------------------------------------------------
+
+    /** Defaults to on: this is the feature's opt-in state, the OS still gates it by permission. */
+    val newAlerts: Flow<Boolean> =
+        context.dataStore.data.map { it[Keys.NEW_ALERTS] ?: true }
+
+    suspend fun newAlertsEnabled(): Boolean = newAlerts.first()
+
+    suspend fun setNewAlerts(enabled: Boolean) {
+        context.dataStore.edit { it[Keys.NEW_ALERTS] = enabled }
+    }
+
+    /** Ids we have already told the user about. */
+    suspend fun knownWallpaperIds(): Set<String> =
+        context.dataStore.data.first()[Keys.KNOWN_WALLPAPERS] ?: emptySet()
+
+    suspend fun alertsSeeded(): Boolean =
+        context.dataStore.data.first()[Keys.ALERTS_SEEDED] ?: false
+
+    /** Seeds the baseline silently so a fresh install doesn't announce the whole catalogue. */
+    suspend fun seedKnownWallpapers(ids: Set<String>) {
+        context.dataStore.edit {
+            it[Keys.KNOWN_WALLPAPERS] = ids
+            it[Keys.ALERTS_SEEDED] = true
+        }
+    }
+
+    /**
+     * Grows the known set monotonically. Unioning (rather than replacing) means an offline read
+     * that only sees the bundled catalogue can never make the cloud wallpapers look "new" later.
+     */
+    suspend fun rememberKnownWallpapers(ids: Set<String>) {
+        context.dataStore.edit { it[Keys.KNOWN_WALLPAPERS] = it[Keys.KNOWN_WALLPAPERS].orEmpty() + ids }
     }
 
     suspend fun setLiveMode(mode: String) {

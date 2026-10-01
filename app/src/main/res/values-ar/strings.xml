@@ -182,4 +182,19 @@
     <string name="theme_icon_desc">المظهر: فاتح أو داكن أو تلقائي</string>
     <string name="cd_selected">محدد</string>
     <string name="wallpaper_label">خلفية</string>
+
+    <!-- new wallpaper alerts -->
+    <string name="notif_channel_name">خلفيات جديدة</string>
+    <string name="notif_channel_desc">إشعارات عند نشر خلفيات جديدة</string>
+    <string name="notif_title">خلفيات جديدة</string>
+    <plurals name="notif_body">
+        <item quantity="zero">لا خلفيات جديدة</item>
+        <item quantity="one">خلفية جديدة واحدة جاهزة للتعيين.</item>
+        <item quantity="two">خلفيتان جديدتان جاهزتان للتعيين.</item>
+        <item quantity="few">%d خلفيات جديدة جاهزة للتعيين.</item>
+        <item quantity="many">%d خلفية جديدة جاهزة للتعيين.</item>
+        <item quantity="other">%d خلفية جديدة جاهزة للتعيين.</item>
+    </plurals>
+    <string name="pref_new_alerts">تنبيهات الخلفيات الجديدة</string>
+    <string name="pref_new_alerts_sub">أبلغني عند نشر خلفيات جديدة</string>
 </resources>

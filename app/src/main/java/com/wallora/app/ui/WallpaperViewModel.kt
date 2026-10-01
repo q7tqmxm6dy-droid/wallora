@@ -89,6 +89,13 @@ class WallpaperViewModel(application: Application) : AndroidViewModel(applicatio
         viewModelScope.launch { preferences.setAutoThemeApply(enabled) }
     }
 
+    val newAlerts: StateFlow<Boolean> = preferences.newAlerts
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), true)
+
+    fun setNewAlerts(enabled: Boolean) {
+        viewModelScope.launch { preferences.setNewAlerts(enabled) }
+    }
+
     val liveMode: StateFlow<String> = preferences.liveMode
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), "slideshow")
 

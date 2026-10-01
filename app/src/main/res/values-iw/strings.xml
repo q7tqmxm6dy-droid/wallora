@@ -164,4 +164,16 @@
     <string name="theme_icon_desc">ערכת נושא: בהיר, כהה או אוטומטי</string>
     <string name="cd_selected">נבחר</string>
     <string name="wallpaper_label">טפט</string>
+
+    <!-- new wallpaper alerts -->
+    <string name="notif_channel_name">טפטים חדשים</string>
+    <string name="notif_channel_desc">התראות כשמתפרסמים טפטים חדשים</string>
+    <string name="notif_title">טפטים חדשים</string>
+    <plurals name="notif_body">
+        <item quantity="one">טפט חדש אחד מוכן להגדרה.</item>
+        <item quantity="two">שני טפטים חדשים מוכנים להגדרה.</item>
+        <item quantity="other">%d טפטים חדשים מוכנים להגדרה.</item>
+    </plurals>
+    <string name="pref_new_alerts">התראות על טפטים חדשים</string>
+    <string name="pref_new_alerts_sub">עדכן אותי כשמתפרסמים טפטים חדשים</string>
 </resources>

@@ -164,4 +164,15 @@
     <string name="theme_icon_desc">Theme: light, dark or auto</string>
     <string name="cd_selected">Selected</string>
     <string name="wallpaper_label">Wallpaper</string>
+
+    <!-- new wallpaper alerts -->
+    <string name="notif_channel_name">New wallpapers</string>
+    <string name="notif_channel_desc">Announcements when new wallpapers are published</string>
+    <string name="notif_title">New wallpapers</string>
+    <plurals name="notif_body">
+        <item quantity="one">1 new wallpaper is ready to set.</item>
+        <item quantity="other">%d new wallpapers are ready to set.</item>
+    </plurals>
+    <string name="pref_new_alerts">New wallpaper alerts</string>
+    <string name="pref_new_alerts_sub">Notify me when new wallpapers are published</string>
 </resources>

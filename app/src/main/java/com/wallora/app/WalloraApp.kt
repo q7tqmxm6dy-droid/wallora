@@ -3,14 +3,17 @@ package com.wallora.app
 import android.app.Application
 import android.content.ComponentCallbacks
 import android.content.res.Configuration
+import com.google.firebase.messaging.FirebaseMessaging
 import com.wallora.app.data.PreferencesRepository
 import com.wallora.app.data.RemoteWallpaperRepository
 import com.wallora.app.data.Wallpaper
 import com.wallora.app.data.WallpaperCatalog
+import com.wallora.app.notify.NewWallpaperAlerts
 import com.wallora.app.util.Notifications
 import com.wallora.app.util.WallpaperImages
 import com.wallora.app.util.WallpaperSetter
 import com.wallora.app.util.WallpaperTarget
+import com.wallora.app.work.NewWallpaperScheduler
 import com.wallora.app.work.RotationScheduler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -48,7 +51,24 @@ class WalloraApp : Application() {
         registerComponentCallbacks(themeWatcher)
         Notifications.ensureChannel(this)
         scope.launch { ensureRotationScheduled() }
+        scope.launch { ensureAlertsScheduled() }
         scope.launch { applyThemeIfChanged() }
+        // Announce anything published since the last check, without waiting for the periodic job.
+        scope.launch { runCatching { NewWallpaperAlerts.check(this@WalloraApp) } }
+        subscribeToNewWallpaperTopic()
+    }
+
+    /**
+     * Best effort: lets a server-side Firestore trigger reach this device over FCM. A no-op when
+     * Play services are missing, and harmless while no trigger is deployed (the local check above
+     * is what actually drives notifications today).
+     */
+    private fun subscribeToNewWallpaperTopic() {
+        runCatching { FirebaseMessaging.getInstance().subscribeToTopic(NewWallpaperAlerts.TOPIC) }
+    }
+
+    private suspend fun ensureAlertsScheduled() {
+        NewWallpaperScheduler.sync(this, PreferencesRepository(this).newAlertsEnabled())
     }
 
     private suspend fun ensureRotationScheduled() {

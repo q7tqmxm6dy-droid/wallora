@@ -40,6 +40,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wallora.app.R
 import com.wallora.app.live.WalloraLiveWallpaper
 import com.wallora.app.ui.WallpaperViewModel
+import com.wallora.app.work.NewWallpaperScheduler
 import com.wallora.app.work.RotationScheduler
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -54,6 +55,7 @@ fun SettingsScreen(
     val dailyRotation by viewModel.dailyRotation.collectAsStateWithLifecycle()
     val rotationTarget by viewModel.rotationTarget.collectAsStateWithLifecycle()
     val autoTheme by viewModel.autoThemeApply.collectAsStateWithLifecycle()
+    val newAlerts by viewModel.newAlerts.collectAsStateWithLifecycle()
     val history by viewModel.history.collectAsStateWithLifecycle()
     val liveMode by viewModel.liveMode.collectAsStateWithLifecycle()
     val liveInterval by viewModel.liveInterval.collectAsStateWithLifecycle()
@@ -138,6 +140,18 @@ fun SettingsScreen(
                 subtitle = stringResource(R.string.pref_match_theme_sub),
                 checked = autoTheme,
                 onCheckedChange = viewModel::setAutoThemeApply,
+            )
+
+            HorizontalDivider(Modifier.padding(vertical = 12.dp))
+
+            SettingRow(
+                title = stringResource(R.string.pref_new_alerts),
+                subtitle = stringResource(R.string.pref_new_alerts_sub),
+                checked = newAlerts,
+                onCheckedChange = { enabled ->
+                    viewModel.setNewAlerts(enabled)
+                    NewWallpaperScheduler.sync(context, enabled)
+                },
             )
 
             HorizontalDivider(Modifier.padding(vertical = 12.dp))

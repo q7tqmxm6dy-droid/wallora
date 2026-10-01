@@ -24,11 +24,20 @@ object Notifications {
             manager.createNotificationChannel(
                 NotificationChannel(
                     CHANNEL_ID,
-                    "New wallpapers",
+                    context.getString(R.string.notif_channel_name),
                     NotificationManager.IMPORTANCE_DEFAULT,
-                ).apply { description = "Announcements when new wallpapers are published" },
+                ).apply { description = context.getString(R.string.notif_channel_desc) },
             )
         }
+    }
+
+    /** Announces newly published wallpapers; tapping the notification opens the app. */
+    fun showNewWallpapers(context: Context, count: Int) {
+        show(
+            context,
+            context.getString(R.string.notif_title),
+            context.resources.getQuantityString(R.plurals.notif_body, count, count),
+        )
     }
 
     fun show(context: Context, title: String, body: String) {
