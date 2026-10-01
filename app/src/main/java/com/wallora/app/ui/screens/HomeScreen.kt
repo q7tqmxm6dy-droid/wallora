@@ -95,7 +95,7 @@ fun HomeScreen(
                                         false -> R.drawable.ic_light_mode
                                     },
                                 ),
-                                contentDescription = "Theme: light, dark or auto",
+                                contentDescription = stringResource(R.string.theme_icon_desc),
                             )
                         }
                         DropdownMenu(showThemeMenu, onDismissRequest = { showThemeMenu = false }) {
@@ -111,10 +111,10 @@ fun HomeScreen(
                         }
                     }
                     IconButton(onClick = onOpenSettings) {
-                        Icon(Icons.Filled.Settings, contentDescription = "Settings")
+                        Icon(Icons.Filled.Settings, contentDescription = stringResource(R.string.title_settings))
                     }
                     IconButton(onClick = onOpenAdmin) {
-                        Icon(painterResource(R.drawable.ic_admin), contentDescription = "Admin")
+                        Icon(painterResource(R.drawable.ic_admin), contentDescription = stringResource(R.string.pref_admin))
                     }
                 },
             )
@@ -284,7 +284,7 @@ private fun ThemeOption(
     DropdownMenuItem(
         text = { Text(label) },
         leadingIcon = { Icon(painterResource(iconRes), contentDescription = null) },
-        trailingIcon = { if (selected) Icon(Icons.Filled.Check, contentDescription = "Selected") },
+        trailingIcon = { if (selected) Icon(Icons.Filled.Check, contentDescription = stringResource(R.string.cd_selected)) },
         onClick = onClick,
     )
 }

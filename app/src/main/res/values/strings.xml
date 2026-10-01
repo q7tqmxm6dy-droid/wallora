@@ -159,4 +159,9 @@
         <item quantity="one">%d day opened</item>
         <item quantity="other">%d days opened</item>
     </plurals>
+
+    <!-- accessibility -->
+    <string name="theme_icon_desc">Theme: light, dark or auto</string>
+    <string name="cd_selected">Selected</string>
+    <string name="wallpaper_label">Wallpaper</string>
 </resources>

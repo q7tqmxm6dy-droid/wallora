@@ -59,12 +59,12 @@ fun CollectionsScreen(
                 title = { Text(stringResource(R.string.title_collections)) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.back))
                     }
                 },
                 actions = {
                     IconButton(onClick = { showCreate = true }) {
-                        Icon(Icons.Filled.Add, contentDescription = "New collection")
+                        Icon(Icons.Filled.Add, contentDescription = stringResource(R.string.new_collection))
                     }
                 },
             )

@@ -245,7 +245,7 @@ fun SettingsScreen(
             HorizontalDivider(Modifier.padding(vertical = 12.dp))
 
             Text(
-                "Wallora — wallpapers follow your phone's light/dark theme.",
+                stringResource(R.string.settings_footer),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )

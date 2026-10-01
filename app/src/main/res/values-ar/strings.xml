@@ -177,4 +177,9 @@
         <item quantity="many">%d يومًا مفتوحًا</item>
         <item quantity="other">%d يوم مفتوح</item>
     </plurals>
+
+    <!-- accessibility -->
+    <string name="theme_icon_desc">المظهر: فاتح أو داكن أو تلقائي</string>
+    <string name="cd_selected">محدد</string>
+    <string name="wallpaper_label">خلفية</string>
 </resources>

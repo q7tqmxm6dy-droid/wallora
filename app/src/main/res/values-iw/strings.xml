@@ -159,4 +159,9 @@
         <item quantity="two">יומיים שנפתחו</item>
         <item quantity="other">%d ימים שנפתחו</item>
     </plurals>
+
+    <!-- accessibility -->
+    <string name="theme_icon_desc">ערכת נושא: בהיר, כהה או אוטומטי</string>
+    <string name="cd_selected">נבחר</string>
+    <string name="wallpaper_label">טפט</string>
 </resources>

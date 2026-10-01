@@ -7,6 +7,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
+import androidx.glance.LocalContext
 import androidx.glance.Image
 import androidx.glance.ImageProvider
 import androidx.glance.action.ActionParameters
@@ -27,6 +28,7 @@ import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
 import com.wallora.app.MainActivity
+import com.wallora.app.R
 import com.wallora.app.data.WallpaperCatalog
 
 /** Home-screen widget showing a random bundled wallpaper. */
@@ -40,6 +42,7 @@ class WallpaperWidget : GlanceAppWidget() {
 
     @Composable
     private fun WidgetContent(resId: Int?, intent: Intent) {
+        val context = LocalContext.current
         Box(
             modifier = GlanceModifier
                 .fillMaxSize()
@@ -50,7 +53,7 @@ class WallpaperWidget : GlanceAppWidget() {
             if (resId != null) {
                 Image(
                     provider = ImageProvider(resId),
-                    contentDescription = "Wallpaper",
+                    contentDescription = context.getString(R.string.wallpaper_label),
                     modifier = GlanceModifier.fillMaxSize(),
                 )
             }
