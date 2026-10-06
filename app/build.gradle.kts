@@ -116,6 +116,9 @@ dependencies {
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.crashlytics)
     implementation(libs.firebase.messaging)
+
+    implementation(libs.play.services.ads)
+    implementation(libs.user.messaging.platform)
     implementation(libs.androidx.work.runtime)
     implementation(libs.androidx.glance.appwidget)
     implementation(libs.androidx.glance.material3)

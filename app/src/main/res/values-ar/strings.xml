@@ -197,4 +197,10 @@
     </plurals>
     <string name="pref_new_alerts">تنبيهات الخلفيات الجديدة</string>
     <string name="pref_new_alerts_sub">أبلغني عند نشر خلفيات جديدة</string>
+
+    <!-- ads -->
+    <string name="ad_label">إعلان</string>
+    <string name="pref_ad_privacy">إعدادات خصوصية الإعلانات</string>
+    <string name="pref_ad_privacy_sub">يعرض Wallora إعلانات ليبقى التطبيق مجانيًا. يمكنك تغيير اختيارك في أي وقت.</string>
+    <string name="pref_ad_privacy_action">تغيير إعدادات خصوصية الإعلانات</string>
 </resources>

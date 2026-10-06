@@ -26,6 +26,9 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.google.android.gms.ads.MobileAds
+import com.wallora.app.ads.AdsConsent
+import com.wallora.app.ads.InterstitialAds
 import com.wallora.app.ui.WalloraApp
 import com.wallora.app.ui.WallpaperViewModel
 import com.wallora.app.ui.screens.OnboardingScreen
@@ -50,6 +53,20 @@ class MainActivity : ComponentActivity() {
      * alerts are silently dropped, so ask on first launch. Safe to call repeatedly: the system
      * only shows the dialog while the user hasn't decided.
      */
+    /**
+     * Consent first, then the SDK.
+     *
+     * Google requires the consent form to be resolved before any ad is requested, so SDK
+     * initialisation and the interstitial preload are chained off its callback rather than run
+     * at startup. The callback fires even when there is nothing to consent to (outside the EEA)
+     * or when the lookup fails, so ads are never silently blocked by a network problem.
+     */
+    private fun initialiseAds() {
+        AdsConsent.request(this) {
+            MobileAds.initialize(this) { InterstitialAds.preload(this) }
+        }
+    }
+
     private fun requestNotificationPermissionIfNeeded() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) return
         val granted = ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) ==
@@ -69,6 +86,7 @@ class MainActivity : ComponentActivity() {
         captureSharedImage(intent)
         captureShortcutRoute(intent)
         requestNotificationPermissionIfNeeded()
+        initialiseAds()
 
         setContent {
             val viewModel: WallpaperViewModel = viewModel()

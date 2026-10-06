@@ -55,8 +55,10 @@ SET IT YOUR WAY
 • Quick Settings tile, home-screen widget and share-target support
 
 PRIVATE BY DESIGN
-No account, no sign-in, no ads and no tracking for advertising. Your favourites,
-collections and settings stay on your device.
+No account and no sign-in. Your favourites, collections and settings stay on your device.
+Wallora is free and supported by ads served through Google AdMob; you are asked for consent
+before any personalised ad is requested, and you can change that choice in Settings at any
+time.
 
 Note: wallpapers are original artwork. Photographs used in the "Cars" category are
 freely licensed (CC0 / CC BY) and credited inside the app.
@@ -75,12 +77,12 @@ chat and no user content sharing between users — expect **Everyone / PEGI 3**.
 
 | Question | Answer |
 |---|---|
-| Does your app collect or share user data? | **Yes** (diagnostics only) |
-| Data types collected | **App activity** (in-app actions, e.g. “wallpaper set”), **App info & performance** (crash logs, diagnostics), **Device or other IDs** (random app-instance ID) |
-| Is this data shared with third parties? | **No** — it is processed by Google Firebase on our behalf, not shared for advertising |
+| Does your app collect or share user data? | **Yes** |
+| Data types collected | **App activity** (in-app actions, e.g. “wallpaper set”), **App info & performance** (crash logs, diagnostics), **Device or other IDs** (advertising ID, random app-instance ID) |
+| Is this data shared with third parties? | **Yes** — the advertising identifier is shared with Google AdMob for advertising. Analytics and crash data are processed by Google Firebase on our behalf |
 | Is data encrypted in transit? | **Yes** |
 | Can users request deletion? | **Yes** — uninstalling removes all local data; there is no account to delete |
-| Is data used for advertising or tracking? | **No** |
+| Is data used for advertising or tracking? | **Yes** — advertising only, via AdMob. Not used for cross-app tracking beyond that, and opt-in where consent is required |
 | Photos / videos collected? | **No** (a shared image is only used locally to set your wallpaper) |
 | Location, contacts, messages, health, financial info? | **No** |
 

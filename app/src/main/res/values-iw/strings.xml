@@ -176,4 +176,10 @@
     </plurals>
     <string name="pref_new_alerts">התראות על טפטים חדשים</string>
     <string name="pref_new_alerts_sub">עדכן אותי כשמתפרסמים טפטים חדשים</string>
+
+    <!-- ads -->
+    <string name="ad_label">פרסומת</string>
+    <string name="pref_ad_privacy">הגדרות פרטיות פרסומות</string>
+    <string name="pref_ad_privacy_sub">Wallora מציג פרסומות כדי שהאפליקציה תישאר בחינם. אפשר לשנות את הבחירה בכל עת.</string>
+    <string name="pref_ad_privacy_action">שנה הגדרות פרטיות פרסומות</string>
 </resources>

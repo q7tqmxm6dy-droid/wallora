@@ -43,6 +43,9 @@ class PreferencesRepository(private val context: Context) {
         val COLLECTIONS = stringPreferencesKey("collections_json")
         val ONBOARDING_DONE = booleanPreferencesKey("onboarding_done")
 
+        val INTERSTITIAL_COUNT = stringPreferencesKey("interstitial_count")
+        val LAST_INTERSTITIAL = stringPreferencesKey("last_interstitial_ms")
+
         val NEW_ALERTS = booleanPreferencesKey("new_wallpaper_alerts")
         val KNOWN_WALLPAPERS = stringSetPreferencesKey("known_wallpapers")
         val ALERTS_SEEDED = booleanPreferencesKey("alerts_seeded")
@@ -198,6 +201,24 @@ class PreferencesRepository(private val context: Context) {
 
     suspend fun setAutoThemeApply(enabled: Boolean) {
         context.dataStore.edit { it[Keys.AUTO_THEME] = enabled }
+    }
+
+    // ---- interstitial frequency capping ---------------------------------------
+    // Persisted rather than held in memory so the cap survives restarts; otherwise force-quitting
+    // would reset the counter and every launch would show an ad again.
+
+    suspend fun interstitialCount(): Int =
+        context.dataStore.data.first()[Keys.INTERSTITIAL_COUNT]?.toIntOrNull() ?: 0
+
+    suspend fun setInterstitialCount(value: Int) {
+        context.dataStore.edit { it[Keys.INTERSTITIAL_COUNT] = value.toString() }
+    }
+
+    suspend fun lastInterstitialMs(): Long =
+        context.dataStore.data.first()[Keys.LAST_INTERSTITIAL]?.toLongOrNull() ?: 0L
+
+    suspend fun setLastInterstitialMs(value: Long) {
+        context.dataStore.edit { it[Keys.LAST_INTERSTITIAL] = value.toString() }
     }
 
     // ---- new-wallpaper alerts -------------------------------------------------

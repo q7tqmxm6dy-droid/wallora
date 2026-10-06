@@ -1,5 +1,6 @@
 package com.wallora.app.ui
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
@@ -24,6 +25,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.wallora.app.R
+import com.wallora.app.ads.AdBanner
 import com.wallora.app.ui.screens.AdminScreen
 import com.wallora.app.ui.screens.CategoriesScreen
 import com.wallora.app.ui.screens.CollectionScreen
@@ -96,7 +98,11 @@ fun WalloraApp(
     Scaffold(
         bottomBar = {
             if (showBottomBar) {
-                NavigationBar {
+                // Anchored above the tab bar so it is always in the same place and never covers
+                // content. Kept off the full-screen routes (detail, live wallpaper picker).
+                Column {
+                    AdBanner()
+                    NavigationBar {
                     NavigationBarItem(
                         selected = currentRoute == Routes.HOME,
                         onClick = { navigateToTopLevel(Routes.HOME) },
@@ -121,6 +127,7 @@ fun WalloraApp(
                         icon = { Icon(Icons.Filled.Person, contentDescription = null) },
                         label = { Text(stringResource(R.string.nav_profile)) },
                     )
+                    }
                 }
             }
         },

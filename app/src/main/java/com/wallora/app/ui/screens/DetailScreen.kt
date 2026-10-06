@@ -1,5 +1,6 @@
 package com.wallora.app.ui.screens
 
+import android.app.Activity
 import android.graphics.Bitmap
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -72,6 +73,8 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.wallora.app.R
+import com.wallora.app.ads.InterstitialAds
+import com.wallora.app.data.PreferencesRepository
 import com.wallora.app.ui.WallpaperViewModel
 import com.wallora.app.ui.theme.HeartRed
 import com.wallora.app.util.Analytics
@@ -175,7 +178,11 @@ fun DetailScreen(
                 mapOf("id" to wallpaper.id, "target" to target.name, "ok" to applied),
             )
             notify(if (applied) "Wallpaper applied" else "Couldn't set wallpaper")
-            if (applied) viewModel.rememberApplied(wallpaper.id, dark)
+            if (applied) {
+                viewModel.rememberApplied(wallpaper.id, dark)
+                // Interstitial after a completed action, never on launch, and rate limited.
+                InterstitialAds.maybeShowAfterSet(context as? Activity, PreferencesRepository(context))
+            }
             busy = false
         }
     }

@@ -1,5 +1,6 @@
 package com.wallora.app.ui.screens
 
+import android.app.Activity
 import android.app.WallpaperManager
 import android.content.ComponentName
 import android.content.Intent
@@ -38,6 +39,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wallora.app.R
+import com.wallora.app.ads.AdsConsent
 import com.wallora.app.live.WalloraLiveWallpaper
 import com.wallora.app.ui.WallpaperViewModel
 import com.wallora.app.work.NewWallpaperScheduler
@@ -153,6 +155,23 @@ fun SettingsScreen(
                     NewWallpaperScheduler.sync(context, enabled)
                 },
             )
+
+            // Google requires a way back to the consent form wherever one applies. Hidden when
+            // it does not (the user is outside the EEA, or already declined the form).
+            val activity = context as? Activity
+            if (activity != null && AdsConsent.privacyOptionsRequired(activity)) {
+                HorizontalDivider(Modifier.padding(vertical = 12.dp))
+                SettingRow(
+                    title = stringResource(R.string.pref_ad_privacy),
+                    subtitle = stringResource(R.string.pref_ad_privacy_sub),
+                    checked = false,
+                    onCheckedChange = { },
+                )
+                TextButton(
+                    onClick = { AdsConsent.showPrivacyOptions(activity) },
+                    modifier = Modifier.padding(bottom = 4.dp),
+                ) { Text(stringResource(R.string.pref_ad_privacy_action)) }
+            }
 
             HorizontalDivider(Modifier.padding(vertical = 12.dp))
 
