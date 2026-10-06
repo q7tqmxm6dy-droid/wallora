@@ -27,3 +27,7 @@ app/build/
 
 # Firebase Android config contains your project API key — download your own (see firebase/SETUP.md)
 /app/google-services.json
+
+# release signing key -- never commit
+/keystore.properties
+/keys/

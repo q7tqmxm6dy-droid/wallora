@@ -10,6 +10,13 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    # Surfaced as env so steps can test whether the signing key is available.
+    # A release build without it would be unsigned, so those steps are skipped rather than
+    # producing an artifact that Play would reject.
+    env:
+      KEYSTORE_B64: ${{ secrets.WALLORA_KEYSTORE_BASE64 }}
+
     steps:
       - uses: actions/checkout@v4
 
@@ -33,13 +40,28 @@ jobs:
       - name: Restore google-services.json
         run: echo "${{ secrets.GOOGLE_SERVICES_JSON }}" | base64 -d > app/google-services.json
 
+      # Store the upload key once with:
+      #   base64 -w0 keys/wallora-upload.jks | gh secret set WALLORA_KEYSTORE_BASE64
+      #   gh secret set WALLORA_KEYSTORE_PASSWORD   (then WALLORA_KEY_ALIAS, WALLORA_KEY_PASSWORD)
+      - name: Restore upload keystore
+        if: env.KEYSTORE_B64 != ''
+        run: |
+          mkdir -p keys
+          echo "$KEYSTORE_B64" | base64 -d > keys/wallora-upload.jks
+          {
+            echo "storeFile=keys/wallora-upload.jks"
+            echo "storePassword=${{ secrets.WALLORA_KEYSTORE_PASSWORD }}"
+            echo "keyAlias=${{ secrets.WALLORA_KEY_ALIAS }}"
+            echo "keyPassword=${{ secrets.WALLORA_KEY_PASSWORD }}"
+          } > keystore.properties
+
       - name: Unit tests
         run: |
           chmod +x gradlew
           ./gradlew :app:testDebugUnitTest --no-daemon --stacktrace
 
-      - name: Build debug + release
-        run: ./gradlew :app:assembleDebug :app:assembleRelease --no-daemon --stacktrace
+      - name: Build debug
+        run: ./gradlew :app:assembleDebug --no-daemon --stacktrace
 
       - name: Upload debug APK
         uses: actions/upload-artifact@v4
@@ -47,15 +69,19 @@ jobs:
           name: wallora-debug-apk
           path: app/build/outputs/apk/debug/app-debug.apk
 
-      - name: Upload release APK
+      - name: Build signed release
+        if: env.KEYSTORE_B64 != ''
+        run: ./gradlew :app:assembleRelease :app:bundleRelease --no-daemon --stacktrace
+
+      - name: Upload release AAB
+        if: env.KEYSTORE_B64 != ''
         uses: actions/upload-artifact@v4
         with:
-          name: wallora-release-apk
-          path: app/build/outputs/apk/release/app-release.apk
+          name: wallora-release-aab
+          path: app/build/outputs/bundle/release/app-release.aab
 
-      - name: Attach APK to GitHub release
-        if: startsWith(github.ref, 'refs/tags/v')
+      - name: Attach AAB to GitHub release
+        if: startsWith(github.ref, 'refs/tags/v') && env.KEYSTORE_B64 != ''
         uses: softprops/action-gh-release@v2
         with:
-          files: app/build/outputs/apk/release/app-release.apk
-          generate_release_notes: true
+          files: app/build/outputs/bundle/release/app-release.aab

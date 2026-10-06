@@ -7,17 +7,23 @@ service firebase.storage {
     match /wallpapers/{fileName} {
       allow read: if true;
 
-      // Uploads must be real images and reasonably sized.
-      allow create, update: if request.auth != null
+      // Uploads must be real images and reasonably sized, and must come from the owner.
+      allow create, update: if isAdmin()
                             && request.resource.size < 20 * 1024 * 1024
                             && request.resource.contentType.matches('image/.*');
 
       // Deletes don't carry a resource, so they get their own rule.
-      allow delete: if request.auth != null;
+      allow delete: if isAdmin();
     }
 
     match /{allPaths=**} {
       allow read, write: if false;
     }
+  }
+
+  // See the note in firestore.rules: `request.auth != null` was too weak while sign-up was open.
+  function isAdmin() {
+    return request.auth != null
+      && request.auth.uid == 'W63zSk1QAmXe0QJusXrrpSVHYNC2';
   }
 }
