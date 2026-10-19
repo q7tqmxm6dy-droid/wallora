@@ -32,6 +32,7 @@ object InterstitialAds {
 
     /** Fetches an ad ahead of time so showing one never makes the user wait. */
     fun preload(context: Context) {
+        if (!AdsConfig.ADS_ENABLED) return
         if (ad != null || loading) return
         loading = true
         InterstitialAd.load(
@@ -59,6 +60,7 @@ object InterstitialAds {
      * Must be called on the main thread.
      */
     suspend fun maybeShowAfterSet(activity: Activity?, prefs: PreferencesRepository) {
+        if (!AdsConfig.ADS_ENABLED) return
         val host = activity ?: return
 
         val count = prefs.interstitialCount() + 1

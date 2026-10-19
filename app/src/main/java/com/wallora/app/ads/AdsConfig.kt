@@ -18,7 +18,14 @@ package com.wallora.app.ads
  */
 object AdsConfig {
 
-    /** Master switch. Keep true until real unit ids are in place. */
+    /**
+     * Master switch. Set to false to ship with no ads at all: no banner view is created and no
+     * ad is ever requested, so nothing is charged, nothing is collected and no blank space is
+     * left in the layout. Useful while an AdMob account is under review.
+     */
+    const val ADS_ENABLED = true
+
+    /** Keep true until real unit ids are in place. */
     const val USE_TEST_ADS = true
 
     private const val TEST_BANNER = "ca-app-pub-3940256099942544/6300978111"
