@@ -26,14 +26,14 @@ object AdsConfig {
     const val ADS_ENABLED = true
 
     /** Keep true until real unit ids are in place. */
-    const val USE_TEST_ADS = true
+    const val USE_TEST_ADS = false
 
     private const val TEST_BANNER = "ca-app-pub-3940256099942544/6300978111"
     private const val TEST_INTERSTITIAL = "ca-app-pub-3940256099942544/1033173712"
 
     // ---- replace these two when going live ------------------------------------------------
-    private const val REAL_BANNER = "ca-app-pub-3940256099942544/6300978111"
-    private const val REAL_INTERSTITIAL = "ca-app-pub-3940256099942544/1033173712"
+    private const val REAL_BANNER = "ca-app-pub-1868881840290691/1885192575"
+    private const val REAL_INTERSTITIAL = "ca-app-pub-1868881840290691/4858840271"
     // ---------------------------------------------------------------------------------------
 
     val bannerUnitId: String get() = if (USE_TEST_ADS) TEST_BANNER else REAL_BANNER
