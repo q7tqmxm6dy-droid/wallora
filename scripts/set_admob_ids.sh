@@ -48,6 +48,17 @@ case "$INTERSTITIAL_ID" in
   *) fail "interstitial unit id must look like ca-app-pub-1234567890123456/2222222222 (note the slash)" ;;
 esac
 
+# All three ids must belong to the same AdMob publisher (the number after ca-app-pub-).
+# A mixed set is accepted by every tool and then simply never serves, which is a miserable
+# thing to debug, so catch it here.
+publisher_of() { echo "$1" | sed -E 's#ca-app-pub-([0-9]+)[~/].*#\1#'; }
+APP_PUB="$(publisher_of "$APP_ID")"
+BANNER_PUB="$(publisher_of "$BANNER_ID")"
+INTERSTITIAL_PUB="$(publisher_of "$INTERSTITIAL_ID")"
+if [ "$APP_PUB" != "$BANNER_PUB" ] || [ "$APP_PUB" != "$INTERSTITIAL_PUB" ]; then
+  fail "the ids come from different AdMob publishers ($APP_PUB / $BANNER_PUB / $INTERSTITIAL_PUB); ads would never serve"
+fi
+
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 STRINGS="$REPO_ROOT/app/src/main/res/values/strings.xml"
 CONFIG="$REPO_ROOT/app/src/main/java/com/wallora/app/ads/AdsConfig.kt"
