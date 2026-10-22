@@ -26,6 +26,7 @@ object WallpaperCatalog {
         Category("patterns", "Patterns"),
         Category("seasonal", "Seasonal"),
         Category("city", "City"),
+        Category("trending", "Trending"),
     )
 
     val wallpapers: List<Wallpaper> = listOf(
@@ -120,6 +121,14 @@ object WallpaperCatalog {
         // City — photographic renders (single image, no theme variant)
         Wallpaper("city_01", "Neo-Kyoto", "city", R.drawable.city_01),
         Wallpaper("city_02", "Lunar Spire", "city", R.drawable.city_02),
+
+        // Trending — original artwork in current social-media styles
+        Wallpaper("trend_aura", "Aura Glow", "trending", R.drawable.trend_aura_light, darkResId = R.drawable.trend_aura_dark),
+        Wallpaper("trend_chrome_star", "Chrome Star", "trending", R.drawable.trend_chrome_star_light, darkResId = R.drawable.trend_chrome_star_dark),
+        Wallpaper("trend_coquette", "Coquette", "trending", R.drawable.trend_coquette_light, darkResId = R.drawable.trend_coquette_dark),
+        Wallpaper("trend_arches", "Boho Arches", "trending", R.drawable.trend_arches_light, darkResId = R.drawable.trend_arches_dark),
+        Wallpaper("trend_liquid_metal", "Liquid Metal", "trending", R.drawable.trend_liquid_metal_light, darkResId = R.drawable.trend_liquid_metal_dark),
+        Wallpaper("trend_cyber_grid", "Cyber Grid", "trending", R.drawable.trend_cyber_grid_light, darkResId = R.drawable.trend_cyber_grid_dark),
     )
 
     private val byId: Map<String, Wallpaper> = wallpapers.associateBy { it.id }
