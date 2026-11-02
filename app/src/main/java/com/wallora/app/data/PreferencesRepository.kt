@@ -49,6 +49,19 @@ class PreferencesRepository(private val context: Context) {
         val NEW_ALERTS = booleanPreferencesKey("new_wallpaper_alerts")
         val KNOWN_WALLPAPERS = stringSetPreferencesKey("known_wallpapers")
         val ALERTS_SEEDED = booleanPreferencesKey("alerts_seeded")
+        val IS_PRO = booleanPreferencesKey("is_pro")
+    }
+
+    /**
+     * Last known Wallora Pro entitlement. Cached so ads stay off (and Pro features stay on) at
+     * startup and offline; [com.wallora.app.billing.ProManager] refreshes it from Google Play.
+     */
+    val isPro: Flow<Boolean> = context.dataStore.data.map { it[Keys.IS_PRO] ?: false }
+
+    suspend fun isProNow(): Boolean = isPro.first()
+
+    suspend fun setPro(value: Boolean) {
+        context.dataStore.edit { it[Keys.IS_PRO] = value }
     }
 
     val favorites: Flow<Set<String>> =

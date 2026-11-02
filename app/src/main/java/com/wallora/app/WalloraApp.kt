@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.ComponentCallbacks
 import android.content.res.Configuration
 import com.google.firebase.messaging.FirebaseMessaging
+import com.wallora.app.billing.ProManager
 import com.wallora.app.data.PreferencesRepository
 import com.wallora.app.data.RemoteWallpaperRepository
 import com.wallora.app.data.Wallpaper
@@ -49,6 +50,7 @@ class WalloraApp : Application() {
     override fun onCreate() {
         super.onCreate()
         registerComponentCallbacks(themeWatcher)
+        ProManager.start(this)
         Notifications.ensureChannel(this)
         scope.launch { ensureRotationScheduled() }
         scope.launch { ensureAlertsScheduled() }

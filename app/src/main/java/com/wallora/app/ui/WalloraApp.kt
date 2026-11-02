@@ -34,6 +34,7 @@ import com.wallora.app.ui.screens.CategoryScreen
 import com.wallora.app.ui.screens.DetailScreen
 import com.wallora.app.ui.screens.FavoritesScreen
 import com.wallora.app.ui.screens.HomeScreen
+import com.wallora.app.ui.screens.ProScreen
 import com.wallora.app.ui.screens.ProfileScreen
 import com.wallora.app.ui.screens.SettingsScreen
 
@@ -46,6 +47,7 @@ private object Routes {
     const val ADMIN = "admin"
     const val SETTINGS = "settings"
     const val PROFILE = "profile"
+    const val PRO = "pro"
     const val COLLECTIONS = "collections"
     const val COLLECTION = "collection/{collectionName}"
 
@@ -77,6 +79,7 @@ fun WalloraApp(
             "collections" -> navController.navigate(Routes.COLLECTIONS) { launchSingleTop = true }
             "profile" -> navController.navigate(Routes.PROFILE) { launchSingleTop = true }
             "settings" -> navController.navigate(Routes.SETTINGS) { launchSingleTop = true }
+            "pro" -> navController.navigate(Routes.PRO) { launchSingleTop = true }
         }
         if (startRoute != null) onStartRouteHandled()
     }
@@ -97,36 +100,37 @@ fun WalloraApp(
 
     Scaffold(
         bottomBar = {
-            if (showBottomBar) {
-                // Anchored above the tab bar so it is always in the same place and never covers
-                // content. Kept off the full-screen routes (detail, live wallpaper picker).
-                Column {
-                    AdBanner()
+            // The banner stays composed on every route and is only hidden off the tab screens, so
+            // opening a wallpaper and coming back reuses the same ad instead of requesting a new
+            // one. It sits above the tab bar so it never covers content.
+            Column {
+                AdBanner(visible = showBottomBar)
+                if (showBottomBar) {
                     NavigationBar {
-                    NavigationBarItem(
-                        selected = currentRoute == Routes.HOME,
-                        onClick = { navigateToTopLevel(Routes.HOME) },
-                        icon = { Icon(Icons.Filled.Home, contentDescription = null) },
-                        label = { Text(stringResource(R.string.nav_home)) },
-                    )
-                    NavigationBarItem(
-                        selected = currentRoute == Routes.CATEGORIES,
-                        onClick = { navigateToTopLevel(Routes.CATEGORIES) },
-                        icon = { Icon(painterResource(R.drawable.ic_category), contentDescription = null) },
-                        label = { Text(stringResource(R.string.nav_categories)) },
-                    )
-                    NavigationBarItem(
-                        selected = currentRoute == Routes.FAVORITES,
-                        onClick = { navigateToTopLevel(Routes.FAVORITES) },
-                        icon = { Icon(Icons.Filled.Favorite, contentDescription = null) },
-                        label = { Text(stringResource(R.string.nav_favorites)) },
-                    )
-                    NavigationBarItem(
-                        selected = currentRoute == Routes.PROFILE,
-                        onClick = { navigateToTopLevel(Routes.PROFILE) },
-                        icon = { Icon(Icons.Filled.Person, contentDescription = null) },
-                        label = { Text(stringResource(R.string.nav_profile)) },
-                    )
+                        NavigationBarItem(
+                            selected = currentRoute == Routes.HOME,
+                            onClick = { navigateToTopLevel(Routes.HOME) },
+                            icon = { Icon(Icons.Filled.Home, contentDescription = null) },
+                            label = { Text(stringResource(R.string.nav_home)) },
+                        )
+                        NavigationBarItem(
+                            selected = currentRoute == Routes.CATEGORIES,
+                            onClick = { navigateToTopLevel(Routes.CATEGORIES) },
+                            icon = { Icon(painterResource(R.drawable.ic_category), contentDescription = null) },
+                            label = { Text(stringResource(R.string.nav_categories)) },
+                        )
+                        NavigationBarItem(
+                            selected = currentRoute == Routes.FAVORITES,
+                            onClick = { navigateToTopLevel(Routes.FAVORITES) },
+                            icon = { Icon(Icons.Filled.Favorite, contentDescription = null) },
+                            label = { Text(stringResource(R.string.nav_favorites)) },
+                        )
+                        NavigationBarItem(
+                            selected = currentRoute == Routes.PROFILE,
+                            onClick = { navigateToTopLevel(Routes.PROFILE) },
+                            icon = { Icon(Icons.Filled.Person, contentDescription = null) },
+                            label = { Text(stringResource(R.string.nav_profile)) },
+                        )
                     }
                 }
             }
@@ -190,6 +194,7 @@ fun WalloraApp(
                     onOpenSettings = { navController.navigate(Routes.SETTINGS) },
                     onOpenAdmin = { navController.navigate(Routes.ADMIN) },
                     onOpenCollections = { navController.navigate(Routes.COLLECTIONS) },
+                    onOpenPro = { navController.navigate(Routes.PRO) },
                 )
             }
             composable(Routes.SETTINGS) {
@@ -197,8 +202,12 @@ fun WalloraApp(
                     viewModel = viewModel,
                     darkModePreference = darkModePreference,
                     onSetDarkMode = onSetDarkMode,
+                    onOpenPro = { navController.navigate(Routes.PRO) },
                     onBack = { navController.popBackStack() },
                 )
+            }
+            composable(Routes.PRO) {
+                ProScreen(onBack = { navController.popBackStack() })
             }
             composable(Routes.ADMIN) {
                 AdminScreen(
@@ -227,6 +236,7 @@ fun WalloraApp(
                     wallpaperId = entry.arguments?.getString("wallpaperId").orEmpty(),
                     viewModel = viewModel,
                     dark = darkTheme,
+                    onOpenPro = { navController.navigate(Routes.PRO) },
                     onBack = { navController.popBackStack() },
                 )
             }

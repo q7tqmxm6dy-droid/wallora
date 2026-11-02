@@ -29,7 +29,15 @@ object WallpaperImages {
                         connectTimeout = 15_000
                         readTimeout = 20_000
                     }
-                    connection.inputStream.use { BitmapFactory.decodeStream(it) }
+                    try {
+                        if (connection.responseCode != HttpURLConnection.HTTP_OK) {
+                            null
+                        } else {
+                            connection.inputStream.use { BitmapFactory.decodeStream(it) }
+                        }
+                    } finally {
+                        connection.disconnect()
+                    }
                 }
             }.getOrNull()
         }

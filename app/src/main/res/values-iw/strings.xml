@@ -182,4 +182,38 @@
     <string name="pref_ad_privacy">הגדרות פרטיות פרסומות</string>
     <string name="pref_ad_privacy_sub">Wallora מציג פרסומות כדי שהאפליקציה תישאר בחינם. אפשר לשנות את הבחירה בכל עת.</string>
     <string name="pref_ad_privacy_action">שנה הגדרות פרטיות פרסומות</string>
+    <!-- Wallora Pro -->
+    <string name="pro_title">Wallora Pro</string>
+    <string name="pro_tagline">תשלום אחד. שלך לתמיד.</string>
+    <string name="pro_benefit_noads">בלי פרסומות בשום מקום</string>
+    <string name="pro_benefit_effects">אפקטים לתמונה: טשטוש, שחור-לבן, חם, קר, עיגול פינות</string>
+    <string name="pro_benefit_rotation">החלפת רקע יומית</string>
+    <string name="pro_benefit_support">תמכו במפתח עצמאי</string>
+    <string name="pro_buy">פתח Pro · %1$s</string>
+    <string name="pro_buy_loading">פתח Pro</string>
+    <string name="pro_restore">שחזור רכישה</string>
+    <string name="pro_active">יש לך Wallora Pro. תודה!</string>
+    <string name="pro_msg_purchased">ברוכים הבאים ל-Wallora Pro!</string>
+    <string name="pro_msg_restored">Wallora Pro שוחזר</string>
+    <string name="pro_msg_nothing">לא נמצאה רכישה בחשבון Google הזה</string>
+    <string name="pro_msg_pending">הרכישה ממתינה. Pro ייפתח ברגע שהתשלום יושלם.</string>
+    <string name="pro_msg_unavailable">Google Play אינו זמין כרגע. נסו שוב מאוחר יותר.</string>
+    <string name="pro_msg_failed">הרכישה לא הושלמה</string>
+    <string name="pro_badge">Pro</string>
+    <string name="pro_cta_title">שדרגו ל-Pro</string>
+    <string name="pro_cta_sub">הסירו פרסומות ופתחו את כל התכונות</string>
+    <string name="pro_member">חבר Pro</string>
+    <string name="pro_locked_effect">אפקטים לתמונה הם תכונת Pro</string>
+    <string name="pro_locked_rotation">החלפה יומית היא תכונת Pro</string>
+    <string name="pro_see">הצג Pro</string>
+
+    <string name="wallpaper_applied">הרקע הוחל</string>
+    <string name="wallpaper_set_failed">לא ניתן להגדיר את הרקע</string>
+    <string name="saved_to_pictures">נשמר ב-Pictures/Wallora</string>
+    <string name="save_failed">לא ניתן לשמור את התמונה</string>
+    <string name="load_failed">לא ניתן לטעון את התמונה</string>
+    <string name="photo_credit">תמונה: %1$s</string>
+    <string name="swipe_to_unlock">החליקו למעלה כדי לפתוח</string>
+    <string name="share_wallpaper">שיתוף רקע</string>
+    <string name="seconds_short">%1$dש׳</string>
 </resources>

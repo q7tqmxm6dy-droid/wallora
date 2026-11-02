@@ -5,6 +5,7 @@ import androidx.annotation.StringRes
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.wallora.app.R
+import com.wallora.app.billing.ProManager
 import com.wallora.app.data.AdminRepository
 import com.wallora.app.data.Category
 import com.wallora.app.data.PreferencesRepository
@@ -53,6 +54,11 @@ class WallpaperViewModel(application: Application) : AndroidViewModel(applicatio
 
     val isAdminSignedIn: StateFlow<Boolean> = admin.authState()
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), false)
+
+    /** Wallora Pro entitlement (cached, then confirmed by Google Play). */
+    val isPro: StateFlow<Boolean> = ProManager.state
+        .map { it.isPro }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), ProManager.state.value.isPro)
 
     // ---- browsing ----------------------------------------------------------
 

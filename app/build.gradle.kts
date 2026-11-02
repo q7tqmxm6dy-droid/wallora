@@ -118,6 +118,7 @@ dependencies {
     implementation(libs.firebase.messaging)
 
     implementation(libs.play.services.ads)
+    implementation(libs.billing.ktx)
     implementation(libs.user.messaging.platform)
     implementation(libs.androidx.work.runtime)
     implementation(libs.androidx.glance.appwidget)

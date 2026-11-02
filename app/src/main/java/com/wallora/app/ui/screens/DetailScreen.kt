@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
@@ -30,6 +31,7 @@ import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Share
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -48,7 +50,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -97,24 +98,31 @@ fun DetailScreen(
     wallpaperId: String,
     viewModel: WallpaperViewModel,
     dark: Boolean,
+    onOpenPro: () -> Unit,
     onBack: () -> Unit,
 ) {
     // Swipe through the catalogue: the detail screen starts at the tapped wallpaper
     // and horizontal swipes move to its neighbours.
     val catalogue by viewModel.wallpapers.collectAsStateWithLifecycle()
-    val startIndex = remember(wallpaperId, catalogue.size) {
-        catalogue.indexOfFirst { it.id == wallpaperId }.coerceAtLeast(0)
-    }
-    var pageIndex by remember { mutableIntStateOf(startIndex) }
+    // Track the current page by id, not by index: the cloud catalogue arrives after the screen
+    // opens and re-sorts the list, which would silently move an index onto a different wallpaper.
+    var currentId by remember(wallpaperId) { mutableStateOf(wallpaperId) }
+    val pageIndex = catalogue.indexOfFirst { it.id == currentId }
     val wallpaper = catalogue.getOrNull(pageIndex)
-        ?: viewModel.wallpaper(wallpaperId)
+        ?: viewModel.wallpaper(currentId)
         ?: return
+    val isPro by viewModel.isPro.collectAsStateWithLifecycle()
     var swipeDrag by remember { mutableFloatStateOf(0f) }
 
     val context = LocalContext.current
     val favorites by viewModel.favorites.collectAsStateWithLifecycle()
     val isFavorite = wallpaper.id in favorites
     val snackbarHostState = remember { SnackbarHostState() }
+    val msgApplied = stringResource(R.string.wallpaper_applied)
+    val msgSetFailed = stringResource(R.string.wallpaper_set_failed)
+    val msgSaved = stringResource(R.string.saved_to_pictures)
+    val msgSaveFailed = stringResource(R.string.save_failed)
+    val msgLoadFailed = stringResource(R.string.load_failed)
     val scope = rememberCoroutineScope()
     var showTargetDialog by remember { mutableStateOf(false) }
     var showCollections by remember { mutableStateOf(false) }
@@ -124,6 +132,9 @@ fun DetailScreen(
     var effect by remember { mutableStateOf(Effect.NONE) }
     var strength by remember { mutableStateOf(0.6f) }
     var previewImage by remember { mutableStateOf<ImageBitmap?>(null) }
+    // Half-size copy of the current wallpaper, loaded once per wallpaper so dragging the effect
+    // slider re-processes memory instead of re-downloading the image on every tick.
+    var previewBase by remember { mutableStateOf<Bitmap?>(null) }
 
     LaunchedEffect(wallpaper.id) {
         effect = Effect.NONE
@@ -145,11 +156,10 @@ fun DetailScreen(
         return processed
     }
 
-    // Real processed preview, so what you see is exactly what gets applied
-    // (Modifier.blur only works on Android 12+, hence rendering it ourselves).
-    LaunchedEffect(wallpaper.id, dark, effect, strength) {
-        delay(120) // debounce slider drags
-        val bitmap = withContext(Dispatchers.Default) {
+    LaunchedEffect(wallpaper.id, dark) {
+        previewBase = null
+        previewImage = null
+        previewBase = withContext(Dispatchers.Default) {
             val raw = WallpaperImages.loadBitmap(context, wallpaper, dark) ?: return@withContext null
             val half = Bitmap.createScaledBitmap(
                 raw,
@@ -157,12 +167,23 @@ fun DetailScreen(
                 maxOf(1, raw.height / 2),
                 true,
             )
-            raw.recycle()
-            val processed = ImageEffects.apply(effect, half, strength)
-            if (processed !== half) half.recycle()
-            processed
+            if (half !== raw) raw.recycle()
+            half
         }
-        previewImage = bitmap?.asImageBitmap()
+    }
+
+    // Real processed preview, so what you see is exactly what gets applied
+    // (Modifier.blur only works on Android 12+, hence rendering it ourselves).
+    LaunchedEffect(previewBase, effect, strength) {
+        val base = previewBase ?: return@LaunchedEffect
+        if (effect == Effect.NONE) {
+            previewImage = base.asImageBitmap()
+            return@LaunchedEffect
+        }
+        delay(120) // debounce slider drags
+        previewImage = withContext(Dispatchers.Default) {
+            ImageEffects.apply(effect, base, strength).asImageBitmap()
+        }
     }
 
     fun applyTarget(target: WallpaperTarget) {
@@ -177,7 +198,7 @@ fun DetailScreen(
                 Analytics.Events.WALLPAPER_SET,
                 mapOf("id" to wallpaper.id, "target" to target.name, "ok" to applied),
             )
-            notify(if (applied) "Wallpaper applied" else "Couldn't set wallpaper")
+            notify(if (applied) msgApplied else msgSetFailed)
             if (applied) {
                 viewModel.rememberApplied(wallpaper.id, dark)
                 // Interstitial after a completed action, never on launch, and rate limited.
@@ -191,15 +212,15 @@ fun DetailScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.Black)
-            .pointerInput(wallpaper.id, catalogue.size) {
+            .pointerInput(wallpaper.id, catalogue) {
                 coroutineScope {
                     launch {
                         detectHorizontalDragGestures(
                             onDragEnd = {
-                                if (swipeDrag < -140f && pageIndex < catalogue.lastIndex) {
-                                    pageIndex += 1
-                                } else if (swipeDrag > 140f && pageIndex > 0) {
-                                    pageIndex -= 1
+                                if (swipeDrag < -140f) {
+                                    catalogue.getOrNull(pageIndex + 1)?.let { currentId = it.id }
+                                } else if (swipeDrag > 140f) {
+                                    catalogue.getOrNull(pageIndex - 1)?.let { currentId = it.id }
                                 }
                                 swipeDrag = 0f
                             },
@@ -263,7 +284,7 @@ fun DetailScreen(
                     tint = Color.White.copy(alpha = 0.85f),
                 )
                 Text(
-                    text = "Swipe up to unlock",
+                    text = stringResource(R.string.swipe_to_unlock),
                     color = Color.White.copy(alpha = 0.75f),
                     style = MaterialTheme.typography.bodySmall,
                     modifier = Modifier.padding(top = 8.dp),
@@ -350,8 +371,7 @@ fun DetailScreen(
             if (!wallpaper.credit.isNullOrBlank()) {
                 Text(
                     text = buildString {
-                        append("Photo: ")
-                        append(wallpaper.credit)
+                        append(stringResource(R.string.photo_credit, wallpaper.credit))
                         wallpaper.license?.takeIf { it.isNotBlank() }?.let { append(" · $it") }
                     },
                     color = Color.White.copy(alpha = 0.72f),
@@ -370,10 +390,22 @@ fun DetailScreen(
                 modifier = Modifier.padding(top = 12.dp),
             ) {
                 items(Effect.entries.toList()) { option ->
+                    val locked = option != Effect.NONE && !isPro
                     FilterChip(
                         selected = effect == option,
-                        onClick = { effect = option },
+                        onClick = {
+                            if (locked) onOpenPro() else effect = option
+                        },
                         label = { Text(effectLabel(option)) },
+                        trailingIcon = if (locked) {
+                            {
+                                Icon(
+                                    Icons.Filled.Star,
+                                    contentDescription = stringResource(R.string.pro_locked_effect),
+                                    modifier = Modifier.size(14.dp),
+                                )
+                            }
+                        } else null,
                     )
                 }
             }
@@ -431,7 +463,7 @@ fun DetailScreen(
                                 Analytics.Events.WALLPAPER_SAVED,
                                 mapOf("id" to wallpaper.id, "ok" to saved),
                             )
-                            notify(if (saved) "Saved to Pictures/Wallora" else "Couldn't save image")
+                            notify(if (saved) msgSaved else msgSaveFailed)
                             busy = false
                         }
                     },
@@ -455,7 +487,7 @@ fun DetailScreen(
                                 ShareUtils.share(context, bitmap, wallpaper.id)
                                 bitmap.recycle()
                             } else {
-                                notify("Couldn't load image")
+                                notify(msgLoadFailed)
                             }
                             Analytics.log(
                                 context,

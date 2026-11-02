@@ -28,6 +28,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.android.gms.ads.MobileAds
 import com.wallora.app.ads.AdsConsent
+import com.wallora.app.ads.AdsGate
 import com.wallora.app.ads.InterstitialAds
 import com.wallora.app.ui.WalloraApp
 import com.wallora.app.ui.WallpaperViewModel
@@ -43,16 +44,14 @@ class MainActivity : ComponentActivity() {
 
     private companion object {
         const val REQUEST_POST_NOTIFICATIONS = 1001
+
+        @Volatile
+        var adsStarted = false
     }
 
     private val sharedImage = mutableStateOf<Uri?>(null)
     private val startRoute = mutableStateOf<String?>(null)
 
-    /**
-     * Android 13+ gates notifications behind a runtime permission. Without it the new-wallpaper
-     * alerts are silently dropped, so ask on first launch. Safe to call repeatedly: the system
-     * only shows the dialog while the user hasn't decided.
-     */
     /**
      * Consent first, then the SDK.
      *
@@ -62,11 +61,26 @@ class MainActivity : ComponentActivity() {
      * or when the lookup fails, so ads are never silently blocked by a network problem.
      */
     private fun initialiseAds() {
+        // The activity is recreated on rotation and theme changes; run the flow once per process.
+        if (adsStarted) return
+        adsStarted = true
+        val appContext = applicationContext
         AdsConsent.request(this) {
-            MobileAds.initialize(this) { InterstitialAds.preload(this) }
+            // If the user declined and Google says ads cannot be requested, the gate stays shut.
+            if (AdsConsent.canRequestAds(this)) {
+                MobileAds.initialize(appContext) {
+                    AdsGate.open()
+                    InterstitialAds.preload(appContext)
+                }
+            }
         }
     }
 
+    /**
+     * Android 13+ gates notifications behind a runtime permission. Without it the new-wallpaper
+     * alerts are silently dropped, so ask on first launch. Safe to call repeatedly: the system
+     * only shows the dialog while the user hasn't decided.
+     */
     private fun requestNotificationPermissionIfNeeded() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) return
         val granted = ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) ==
@@ -145,6 +159,8 @@ private fun SharedImageDialog(uri: Uri, onDismiss: () -> Unit) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     var busy by remember { mutableStateOf(false) }
+    val msgApplied = stringResource(R.string.wallpaper_applied)
+    val msgSetFailed = stringResource(R.string.wallpaper_set_failed)
 
     fun apply(target: WallpaperTarget) {
         busy = true
@@ -158,7 +174,7 @@ private fun SharedImageDialog(uri: Uri, onDismiss: () -> Unit) {
             bitmap?.recycle()
             Toast.makeText(
                 context,
-                if (applied) "Wallpaper applied" else "Couldn't set wallpaper",
+                if (applied) msgApplied else msgSetFailed,
                 Toast.LENGTH_SHORT,
             ).show()
             busy = false

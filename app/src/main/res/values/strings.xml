@@ -188,4 +188,39 @@
     <string name="pref_ad_privacy">Ad privacy settings</string>
     <string name="pref_ad_privacy_sub">Wallora shows ads to keep the app free. You can change your choice any time.</string>
     <string name="pref_ad_privacy_action">Change ad privacy settings</string>
+    <!-- Wallora Pro -->
+    <string name="pro_title">Wallora Pro</string>
+    <string name="pro_tagline">One payment. Yours forever.</string>
+    <string name="pro_benefit_noads">No ads, anywhere</string>
+    <string name="pro_benefit_effects">Photo effects: blur, B&amp;W, warm, cool, vignette</string>
+    <string name="pro_benefit_rotation">Daily wallpaper rotation</string>
+    <string name="pro_benefit_support">Support an independent developer</string>
+    <string name="pro_buy">Unlock Pro · %1$s</string>
+    <string name="pro_buy_loading">Unlock Pro</string>
+    <string name="pro_restore">Restore purchase</string>
+    <string name="pro_active">You have Wallora Pro. Thank you!</string>
+    <string name="pro_msg_purchased">Welcome to Wallora Pro!</string>
+    <string name="pro_msg_restored">Wallora Pro restored</string>
+    <string name="pro_msg_nothing">No purchase found on this Google account</string>
+    <string name="pro_msg_pending">Your purchase is pending. Pro unlocks as soon as payment completes.</string>
+    <string name="pro_msg_unavailable">Google Play isn\'t available right now. Try again later.</string>
+    <string name="pro_msg_failed">The purchase didn\'t go through</string>
+    <string name="pro_badge">Pro</string>
+    <string name="pro_cta_title">Go Pro</string>
+    <string name="pro_cta_sub">Remove ads and unlock every feature</string>
+    <string name="pro_member">Pro member</string>
+    <string name="pro_locked_effect">Photo effects are a Pro feature</string>
+    <string name="pro_locked_rotation">Daily rotation is a Pro feature</string>
+    <string name="pro_see">See Pro</string>
+
+    <!-- Messages that used to be hardcoded English -->
+    <string name="wallpaper_applied">Wallpaper applied</string>
+    <string name="wallpaper_set_failed">Couldn\'t set wallpaper</string>
+    <string name="saved_to_pictures">Saved to Pictures/Wallora</string>
+    <string name="save_failed">Couldn\'t save image</string>
+    <string name="load_failed">Couldn\'t load image</string>
+    <string name="photo_credit">Photo: %1$s</string>
+    <string name="swipe_to_unlock">Swipe up to unlock</string>
+    <string name="share_wallpaper">Share wallpaper</string>
+    <string name="seconds_short">%1$ds</string>
 </resources>

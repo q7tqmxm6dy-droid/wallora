@@ -203,4 +203,38 @@
     <string name="pref_ad_privacy">إعدادات خصوصية الإعلانات</string>
     <string name="pref_ad_privacy_sub">يعرض Wallora إعلانات ليبقى التطبيق مجانيًا. يمكنك تغيير اختيارك في أي وقت.</string>
     <string name="pref_ad_privacy_action">تغيير إعدادات خصوصية الإعلانات</string>
+    <!-- Wallora Pro -->
+    <string name="pro_title">Wallora Pro</string>
+    <string name="pro_tagline">دفعة واحدة. لك إلى الأبد.</string>
+    <string name="pro_benefit_noads">بدون إعلانات في أي مكان</string>
+    <string name="pro_benefit_effects">تأثيرات الصور: ضبابي، أبيض وأسود، دافئ، بارد، تظليل الحواف</string>
+    <string name="pro_benefit_rotation">تغيير الخلفية يوميًا</string>
+    <string name="pro_benefit_support">ادعم مطورًا مستقلًا</string>
+    <string name="pro_buy">افتح Pro · %1$s</string>
+    <string name="pro_buy_loading">افتح Pro</string>
+    <string name="pro_restore">استعادة الشراء</string>
+    <string name="pro_active">لديك Wallora Pro. شكرًا لك!</string>
+    <string name="pro_msg_purchased">مرحبًا بك في Wallora Pro!</string>
+    <string name="pro_msg_restored">تمت استعادة Wallora Pro</string>
+    <string name="pro_msg_nothing">لم يتم العثور على عملية شراء في حساب Google هذا</string>
+    <string name="pro_msg_pending">عملية الشراء قيد الانتظار. سيتم فتح Pro فور اكتمال الدفع.</string>
+    <string name="pro_msg_unavailable">Google Play غير متاح حاليًا. حاول مرة أخرى لاحقًا.</string>
+    <string name="pro_msg_failed">لم تكتمل عملية الشراء</string>
+    <string name="pro_badge">Pro</string>
+    <string name="pro_cta_title">انتقل إلى Pro</string>
+    <string name="pro_cta_sub">أزل الإعلانات وافتح جميع الميزات</string>
+    <string name="pro_member">عضو Pro</string>
+    <string name="pro_locked_effect">تأثيرات الصور ميزة في Pro</string>
+    <string name="pro_locked_rotation">التغيير اليومي ميزة في Pro</string>
+    <string name="pro_see">عرض Pro</string>
+
+    <string name="wallpaper_applied">تم تطبيق الخلفية</string>
+    <string name="wallpaper_set_failed">تعذّر تعيين الخلفية</string>
+    <string name="saved_to_pictures">تم الحفظ في Pictures/Wallora</string>
+    <string name="save_failed">تعذّر حفظ الصورة</string>
+    <string name="load_failed">تعذّر تحميل الصورة</string>
+    <string name="photo_credit">الصورة: %1$s</string>
+    <string name="swipe_to_unlock">اسحب لأعلى لفتح القفل</string>
+    <string name="share_wallpaper">مشاركة الخلفية</string>
+    <string name="seconds_short">%1$dث</string>
 </resources>

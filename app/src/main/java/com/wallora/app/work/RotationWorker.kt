@@ -20,7 +20,8 @@ class RotationWorker(
     override suspend fun doWork(): Result {
         val prefs = PreferencesRepository(applicationContext)
         val (enabled, index, targetName) = prefs.readRotationConfig()
-        if (!enabled) return Result.success()
+        // Daily rotation is a Pro feature; if Pro lapsed (a refund, say) the job stops doing work.
+        if (!enabled || !prefs.isProNow()) return Result.success()
 
         val all = WallpaperCatalog.wallpapers
         if (all.isEmpty()) return Result.success()

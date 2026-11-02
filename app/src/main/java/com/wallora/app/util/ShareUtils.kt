@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import androidx.core.content.FileProvider
+import com.wallora.app.R
 import java.io.File
 
 /** Shares a wallpaper bitmap through the system share sheet. */
@@ -20,7 +21,10 @@ object ShareUtils {
                 putExtra(Intent.EXTRA_STREAM, uri)
                 addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             }
-            context.startActivity(Intent.createChooser(intent, "Share wallpaper"))
+            context.startActivity(
+                Intent.createChooser(intent, context.getString(R.string.share_wallpaper))
+                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK),
+            )
         } catch (t: Throwable) {
             Analytics.recordError(t)
         }

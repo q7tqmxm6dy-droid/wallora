@@ -25,6 +25,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -65,6 +66,7 @@ fun ProfileScreen(
     onOpenSettings: () -> Unit,
     onOpenAdmin: () -> Unit,
     onOpenCollections: () -> Unit,
+    onOpenPro: () -> Unit,
 ) {
     val favorites by viewModel.favorites.collectAsStateWithLifecycle()
     val history by viewModel.history.collectAsStateWithLifecycle()
@@ -77,6 +79,7 @@ fun ProfileScreen(
     val liveMode by viewModel.liveMode.collectAsStateWithLifecycle()
     val autoTheme by viewModel.autoThemeApply.collectAsStateWithLifecycle()
     val signedIn by viewModel.isAdminSignedIn.collectAsStateWithLifecycle()
+    val isPro by viewModel.isPro.collectAsStateWithLifecycle()
     val collections by viewModel.collections.collectAsStateWithLifecycle()
 
     val email = remember(signedIn) { viewModel.adminEmail() }
@@ -161,6 +164,15 @@ fun ProfileScreen(
                         style = MaterialTheme.typography.bodySmall,
                         color = Color.White.copy(alpha = 0.85f),
                     )
+                    if (isPro) {
+                        Text(
+                            text = "★ " + stringResource(R.string.pro_member),
+                            style = MaterialTheme.typography.labelMedium,
+                            color = Color.White,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.padding(top = 4.dp),
+                        )
+                    }
                     if (streak > 0) {
                         Text(
                             text = pluralStringResource(R.plurals.streak_days, streak, streak) + " · " +
@@ -172,6 +184,13 @@ fun ProfileScreen(
                         )
                     }
                 }
+            }
+
+            if (!isPro) {
+                ProCard(
+                    onClick = onOpenPro,
+                    modifier = Modifier.padding(horizontal = 16.dp).padding(top = 16.dp),
+                )
             }
 
             // ---- stats -----------------------------------------------------
@@ -385,5 +404,45 @@ private fun InfoRow(label: String, value: String, onClick: () -> Unit) {
             contentDescription = null,
             tint = MaterialTheme.colorScheme.onSurfaceVariant,
         )
+    }
+}
+
+/** Upsell card shown to free users on Profile and Settings. */
+@Composable
+internal fun ProCard(onClick: () -> Unit, modifier: Modifier = Modifier) {
+    Card(
+        onClick = onClick,
+        modifier = modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
+    ) {
+        Row(
+            modifier = Modifier.padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Icon(
+                Icons.Filled.Star,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                modifier = Modifier.size(28.dp),
+            )
+            Column(Modifier.weight(1f).padding(horizontal = 14.dp)) {
+                Text(
+                    stringResource(R.string.pro_cta_title),
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                )
+                Text(
+                    stringResource(R.string.pro_cta_sub),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                )
+            }
+            Icon(
+                Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onPrimaryContainer,
+            )
+        }
     }
 }

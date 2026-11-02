@@ -13,6 +13,11 @@ import com.google.android.ump.UserMessagingPlatform
  */
 object AdsConsent {
 
+    /** True once the consent state allows requesting ads (including "no consent needed"). */
+    fun canRequestAds(activity: Activity): Boolean =
+        runCatching { UserMessagingPlatform.getConsentInformation(activity).canRequestAds() }
+            .getOrDefault(false)
+
     fun request(activity: Activity, onFinished: () -> Unit) {
         val params = ConsentRequestParameters.Builder()
             .setTagForUnderAgeOfConsent(false)

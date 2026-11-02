@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.WallpaperManager
 import android.content.ComponentName
 import android.content.Intent
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -51,9 +52,11 @@ fun SettingsScreen(
     viewModel: WallpaperViewModel,
     darkModePreference: Boolean?,
     onSetDarkMode: (Boolean?) -> Unit,
+    onOpenPro: () -> Unit,
     onBack: () -> Unit,
 ) {
     val context = LocalContext.current
+    val isPro by viewModel.isPro.collectAsStateWithLifecycle()
     val dailyRotation by viewModel.dailyRotation.collectAsStateWithLifecycle()
     val rotationTarget by viewModel.rotationTarget.collectAsStateWithLifecycle()
     val autoTheme by viewModel.autoThemeApply.collectAsStateWithLifecycle()
@@ -84,6 +87,10 @@ fun SettingsScreen(
                 .padding(horizontal = 16.dp, vertical = 8.dp),
             verticalArrangement = Arrangement.spacedBy(4.dp),
         ) {
+            if (!isPro) {
+                ProCard(onClick = onOpenPro, modifier = Modifier.padding(bottom = 12.dp))
+            }
+
             Text(stringResource(R.string.pref_theme), style = MaterialTheme.typography.titleSmall)
             FlowRow(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -108,13 +115,25 @@ fun SettingsScreen(
             SettingRow(
                 title = stringResource(R.string.pref_daily_rotation),
                 subtitle = stringResource(R.string.pref_daily_rotation_sub),
-                checked = dailyRotation,
+                checked = dailyRotation && isPro,
                 onCheckedChange = { enabled ->
-                    viewModel.setDailyRotation(enabled)
-                    RotationScheduler.sync(context, enabled)
+                    if (enabled && !isPro) {
+                        onOpenPro()
+                    } else {
+                        viewModel.setDailyRotation(enabled)
+                        RotationScheduler.sync(context, enabled)
+                    }
                 },
             )
-            if (dailyRotation) {
+            if (!isPro) {
+                Text(
+                    text = stringResource(R.string.pro_locked_rotation),
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.clickable(onClick = onOpenPro).padding(bottom = 4.dp),
+                )
+            }
+            if (dailyRotation && isPro) {
                 Text(
                     text = stringResource(R.string.pref_apply_to),
                     style = MaterialTheme.typography.labelLarge,
@@ -161,11 +180,11 @@ fun SettingsScreen(
             val activity = context as? Activity
             if (activity != null && AdsConsent.privacyOptionsRequired(activity)) {
                 HorizontalDivider(Modifier.padding(vertical = 12.dp))
-                SettingRow(
-                    title = stringResource(R.string.pref_ad_privacy),
-                    subtitle = stringResource(R.string.pref_ad_privacy_sub),
-                    checked = false,
-                    onCheckedChange = { },
+                Text(stringResource(R.string.pref_ad_privacy), style = MaterialTheme.typography.titleSmall)
+                Text(
+                    stringResource(R.string.pref_ad_privacy_sub),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
                 TextButton(
                     onClick = { AdsConsent.showPrivacyOptions(activity) },
@@ -211,7 +230,7 @@ fun SettingsScreen(
                         FilterChip(
                             selected = liveInterval == seconds,
                             onClick = { viewModel.setLiveInterval(seconds) },
-                            label = { Text("${seconds}s") },
+                            label = { Text(stringResource(R.string.seconds_short, seconds)) },
                         )
                     }
                 }
