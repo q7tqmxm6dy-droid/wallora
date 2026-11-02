@@ -2,494 +2,108 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<meta name="theme-color" content="#0f1115" />
-<link rel="manifest" href="manifest.webmanifest" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Wallora — wallpapers that match your phone</title>
+<meta name="description" content="Wallora is a wallpaper app for Android with original artwork in light and dark variants, a live wallpaper, collections and photo effects." />
+<link rel="icon" href="icon-192.png" />
 <link rel="apple-touch-icon" href="apple-touch-icon.png" />
-<meta name="mobile-web-app-capable" content="yes" />
-<meta name="apple-mobile-web-app-capable" content="yes" />
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-<meta name="apple-mobile-web-app-title" content="Wallora" />
-<title>Wallora Admin</title>
 <style>
-  :root {
-    --bg: #0f1115;
-    --card: #181b22;
-    --line: #272b34;
-    --text: #e9ecf1;
-    --muted: #97a0ad;
-    --accent: #7c4dff;
-    --accent2: #00bfa5;
-    --danger: #ff4d6d;
-  }
+  :root { --bg:#0f1115; --card:#181b22; --line:#272b34; --text:#e9ecf1; --muted:#97a0ad; --accent:#7c4dff; --teal:#00bfa5; }
   * { box-sizing: border-box; }
-  body {
-    margin: 0; background: var(--bg); color: var(--text);
-    font: 15px/1.5 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  body { margin:0; background:var(--bg); color:var(--text);
+         font:16px/1.65 system-ui,-apple-system,Segoe UI,Roboto,sans-serif; }
+  main { max-width:860px; margin:0 auto; padding:48px 24px 64px; }
+  header { display:flex; align-items:center; gap:14px; margin-bottom:8px; }
+  header img { width:56px; height:56px; border-radius:14px; }
+  h1 { font-size:32px; margin:0; letter-spacing:-0.02em; }
+  .tag { color:var(--muted); margin:2px 0 0; font-size:15px; }
+  .lead { font-size:18px; color:#d7dbe3; margin:22px 0 0; max-width:640px; }
+  .cta { display:flex; flex-wrap:wrap; gap:10px; margin:24px 0 8px; }
+  .btn { display:inline-block; padding:12px 20px; border-radius:12px; text-decoration:none;
+         font-weight:600; font-size:15px; border:1px solid var(--line); color:var(--text); }
+  .btn.primary { background:var(--accent); border-color:var(--accent); color:#fff; }
+  .btn[aria-disabled="true"] { opacity:.6; cursor:default; }
+  .note { color:var(--muted); font-size:13px; margin-top:4px; }
+  .shots { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin:36px 0 8px; }
+  .shots img { width:100%; border-radius:14px; border:1px solid var(--line); display:block; }
+  .features { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin-top:32px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:16px 18px; }
+  .card h3 { margin:0 0 4px; font-size:15px; }
+  .card p { margin:0; color:#c3c9d4; font-size:14px; }
+  footer { margin-top:44px; padding-top:18px; border-top:1px solid var(--line);
+           color:var(--muted); font-size:13px; display:flex; flex-wrap:wrap; gap:16px; }
+  footer a { color:var(--muted); text-decoration:none; }
+  footer a:hover { color:var(--text); }
+  .dot { color:var(--teal); }
+  @media (max-width:640px) {
+    .shots { grid-template-columns:repeat(2,1fr); }
+    .features { grid-template-columns:1fr; }
+    h1 { font-size:26px; }
   }
-  header {
-    display: flex; align-items: center; gap: 14px;
-    padding: 16px 24px; border-bottom: 1px solid var(--line);
-    position: sticky; top: 0; background: rgba(15,17,21,.9); backdrop-filter: blur(8px);
-  }
-  header h1 { font-size: 18px; margin: 0; font-weight: 650; }
-  header .dot { color: var(--accent2); }
-  header .spacer { flex: 1; }
-  header .who { color: var(--muted); font-size: 13px; }
-  main { max-width: 1040px; margin: 0 auto; padding: 24px; }
-  .card {
-    background: var(--card); border: 1px solid var(--line);
-    border-radius: 14px; padding: 18px; margin-bottom: 18px;
-  }
-  .card h2 { margin: 0 0 14px; font-size: 15px; font-weight: 620; }
-  .stats { display: flex; gap: 18px; flex-wrap: wrap; }
-  .stat {
-    flex: 1; min-width: 150px; background: var(--card);
-    border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px;
-  }
-  .stat .n { font-size: 30px; font-weight: 700; }
-  .stat .l { color: var(--muted); font-size: 13px; }
-  label { display: block; font-size: 13px; color: var(--muted); margin: 12px 0 6px; }
-  input, select {
-    width: 100%; padding: 11px 12px; border-radius: 10px;
-    border: 1px solid var(--line); background: #12141a; color: var(--text);
-    font: inherit;
-  }
-  input:focus, select:focus { outline: 2px solid var(--accent); border-color: transparent; }
-  button {
-    margin-top: 14px; padding: 11px 18px; border: 0; border-radius: 10px;
-    background: var(--accent); color: #fff; font: inherit; font-weight: 600; cursor: pointer;
-  }
-  button.secondary { background: #23262e; }
-  button.danger { background: transparent; color: var(--danger); border: 1px solid var(--danger); font-weight: 500; padding: 6px 12px; margin: 0; }
-  button:disabled { opacity: .5; cursor: not-allowed; }
-  .row { display: flex; gap: 14px; flex-wrap: wrap; }
-  .row > div { flex: 1; min-width: 220px; }
-  .bar { height: 8px; background: #23262e; border-radius: 99px; overflow: hidden; margin-top: 14px; }
-  .bar > i { display: block; height: 100%; width: 0; background: var(--accent2); transition: width .2s; }
-  table { width: 100%; border-collapse: collapse; }
-  th, td { text-align: left; padding: 10px 8px; border-bottom: 1px solid var(--line); font-size: 14px; }
-  th { color: var(--muted); font-weight: 500; font-size: 12px; text-transform: uppercase; letter-spacing: .04em; }
-  td img { width: 46px; height: 46px; object-fit: cover; border-radius: 8px; display: block; }
-  .pill {
-    display: inline-block; padding: 2px 9px; border-radius: 99px;
-    background: #23262e; color: var(--muted); font-size: 12px;
-  }
-  .msg { margin-top: 12px; font-size: 13px; min-height: 18px; }
-  .msg.err { color: var(--danger); }
-  .msg.ok { color: var(--accent2); }
-  .chips { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
-  .chip {
-    padding: 5px 11px; border-radius: 99px; background: #23262e;
-    color: var(--text); font-size: 12px; cursor: pointer; border: 1px solid var(--line);
-  }
-  .chip:hover { border-color: var(--accent); }
-  .muted { color: var(--muted); font-size: 13px; }
-  code { background: #23262e; padding: 2px 6px; border-radius: 6px; font-size: 13px; }
 </style>
 </head>
 <body>
-
-<header>
-  <h1>Wallora <span class="dot">●</span> Admin</h1>
-  <div class="spacer"></div>
-  <span class="who" id="who"></span>
-  <button class="secondary" id="signOut" style="display:none">Sign out</button>
-</header>
-
 <main>
-  <!-- Sign in -->
-  <section id="login" class="card" style="max-width:420px;margin:40px auto">
-    <h2>Sign in</h2>
-    <label for="email">Email</label>
-    <input id="email" type="email" autocomplete="username" placeholder="admin@example.com" />
-    <label for="password">Password</label>
-    <input id="password" type="password" autocomplete="current-password" placeholder="••••••••" />
-    <button id="signIn">Sign in</button>
-    <div class="msg" id="loginMsg"></div>
-    <p class="muted" style="margin-top:16px">
-      Create this account in the Firebase Console under <b>Authentication → Users</b>.
-    </p>
+  <header>
+    <img src="icon-192.png" alt="Wallora icon" />
+    <div>
+      <h1>Wallora</h1>
+      <p class="tag">Wallpapers for Android</p>
+    </div>
+  </header>
+
+  <p class="lead">
+    A hand-made collection of wallpapers that match your phone. Every design ships in a
+    light and a dark version, so your home screen always fits the rest of your system.
+  </p>
+
+  <div class="cta">
+    <!-- Once the app is live, replace this with:
+         <a class="btn primary" href="https://play.google.com/store/apps/details?id=com.wallora.app">Get it on Google Play</a> -->
+    <span class="btn primary" aria-disabled="true">Coming soon on Google Play</span>
+    <a class="btn" href="#features">What's inside</a>
+  </div>
+  <p class="note">Free, with ads. No account needed.</p>
+
+  <div class="shots">
+    <img src="shots/01-home.jpg" alt="Wallora home screen" loading="lazy" />
+    <img src="shots/02-categories.jpg" alt="Browsing categories" loading="lazy" />
+    <img src="shots/04-lock-preview.jpg" alt="Lock screen preview" loading="lazy" />
+    <img src="shots/06-live-wallpaper.jpg" alt="Live wallpaper settings" loading="lazy" />
+  </div>
+
+  <section class="features" id="features">
+    <div class="card">
+      <h3>Light and dark built in</h3>
+      <p>Every wallpaper has a variant for each theme. Follow your system, or pick one yourself.</p>
+    </div>
+    <div class="card">
+      <h3>Live wallpaper</h3>
+      <p>A slow slideshow with gentle crossfades, or a lighter animated gradient when you want to save battery.</p>
+    </div>
+    <div class="card">
+      <h3>Find it fast</h3>
+      <p>Categories, search, tags and sorting. Favourite anything, or build your own collections.</p>
+    </div>
+    <div class="card">
+      <h3>Looks before you set</h3>
+      <p>Blur, black and white, warm, cool and vignette — each with an adjustable strength.</p>
+    </div>
+    <div class="card">
+      <h3>Set it your way</h3>
+      <p>Home screen, lock screen or both. Preview it behind your lock screen first.</p>
+    </div>
+    <div class="card">
+      <h3>A little routine</h3>
+      <p>Wallpaper of the day, a daily rotation option, and a home-screen widget.</p>
+    </div>
   </section>
 
-  <!-- Dashboard -->
-  <section id="dash" hidden>
-    <div class="stats">
-      <div class="stat"><div class="n" id="statWallpapers">0</div><div class="l">Cloud wallpapers</div></div>
-      <div class="stat"><div class="n" id="statCategories">0</div><div class="l">Categories</div></div>
-      <div class="stat"><div class="n" id="statFeatured">0</div><div class="l">Featured</div></div>
-      <div class="stat"><div class="n" id="statScheduled">0</div><div class="l">Scheduled</div></div>
-    </div>
-
-    <div class="card" style="margin-top:18px">
-      <h2>By category</h2>
-      <div id="catChart"><span class="muted">Loading…</span></div>
-    </div>
-
-    <div class="card" style="margin-top:18px">
-      <h2>Upload wallpaper</h2>
-      <div class="row">
-        <div>
-          <label for="title">Title</label>
-          <input id="title" placeholder="Sunset Fade" />
-        </div>
-        <div>
-          <label for="category">Category</label>
-          <select id="category"></select>
-        </div>
-      </div>
-      <label for="file">Image (portrait JPEG/PNG)</label>
-      <input id="file" type="file" accept="image/*" />
-      <label for="fileDark">Dark-mode variant (optional)</label>
-      <input id="fileDark" type="file" accept="image/*" />
-      <div class="chips" id="categoryChips"></div>
-      <button id="upload">Upload</button>
-      <div class="bar"><i id="progress"></i></div>
-      <div class="msg" id="uploadMsg"></div>
-    </div>
-
-    <div class="card">
-      <h2>Add by image URL</h2>
-      <p class="muted" style="margin:0 0 6px">
-        Host the image anywhere public and paste the link — no Cloud Storage needed.
-        (Cloud Storage for Firebase now requires the Blaze plan on new projects.)
-      </p>
-      <div class="row">
-        <div>
-          <label for="urlTitle">Title</label>
-          <input id="urlTitle" placeholder="Sunset Fade" />
-        </div>
-        <div>
-          <label for="urlCategory">Category</label>
-          <select id="urlCategory"></select>
-        </div>
-      </div>
-      <label for="urlValue">Image URL</label>
-      <input id="urlValue" placeholder="https://example.com/wallpaper.jpg" />
-      <label for="urlDarkValue">Dark-mode variant URL (optional)</label>
-      <input id="urlDarkValue" placeholder="https://example.com/wallpaper-dark.jpg" />
-      <button id="addByUrl">Add wallpaper</button>
-      <div class="msg" id="urlMsg"></div>
-    </div>
-
-    <div class="card">
-      <h2>Add category</h2>
-      <div class="row">
-        <div>
-          <label for="catId">Id</label>
-          <input id="catId" placeholder="nature" />
-        </div>
-        <div>
-          <label for="catTitle">Display name</label>
-          <input id="catTitle" placeholder="Nature" />
-        </div>
-      </div>
-      <button id="addCategory">Add category</button>
-      <div class="msg" id="catMsg"></div>
-    </div>
-
-    <div class="card">
-      <h2>Cloud wallpapers</h2>
-      <label for="search">Search</label>
-      <input id="search" placeholder="Filter by title or category…" />
-      <table>
-        <thead>
-          <tr><th></th><th>Title</th><th>Category</th><th>Tags</th><th>★</th><th>Order</th><th>Publish</th><th></th></tr>
-        </thead>
-        <tbody id="rows">
-          <tr><td colspan="7" class="muted">Loading…</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
+  <footer>
+    <a href="privacy.html">Privacy policy</a>
+    <a href="mailto:ahmad.qiblawi112@gmail.com">Contact</a>
+    <a href="admin.html" style="margin-left:auto">Publisher sign-in</a>
+  </footer>
 </main>
-
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
-import {
-  getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged,
-} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
-import {
-  getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot, updateDoc,
-  serverTimestamp, Timestamp,
-} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
-import {
-  getStorage, ref as storageRef, uploadBytesResumable, uploadBytes, getDownloadURL, deleteObject,
-} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-storage.js";
-import { firebaseConfig } from "./firebase-config.js";
-
-const configured = !firebaseConfig.apiKey.includes("REPLACE");
-const loginMsg = document.getElementById("loginMsg");
-const uploadMsg = document.getElementById("uploadMsg");
-const catMsg = document.getElementById("catMsg");
-const urlMsg = document.getElementById("urlMsg");
-
-if (!configured) {
-  loginMsg.className = "msg err";
-  loginMsg.textContent =
-    "firebase-config.js still has placeholder values. Paste the config from Firebase Console → Project settings → Your apps → Web app.";
-}
-
-let app, auth, db, storage;
-try {
-  app = initializeApp(firebaseConfig);
-  auth = getAuth(app);
-  db = getFirestore(app);
-  storage = getStorage(app);
-} catch (e) {
-  loginMsg.className = "msg err";
-  loginMsg.textContent = "Firebase init failed: " + e.message;
-}
-
-const $ = (id) => document.getElementById(id);
-const setMsg = (el, text, ok) => { el.className = "msg " + (ok ? "ok" : "err"); el.textContent = text || ""; };
-
-// ---- auth --------------------------------------------------------------
-if (auth) {
-  onAuthStateChanged(auth, (user) => {
-    const signedIn = !!user;
-    $("login").hidden = signedIn;
-    $("dash").hidden = !signedIn;
-    $("signOut").style.display = signedIn ? "" : "none";
-    $("who").textContent = signedIn ? user.email : "";
-    if (signedIn) { listenWallpapers(); listenCategories(); }
-  });
-}
-
-$("signIn").onclick = async () => {
-  setMsg(loginMsg, "Signing in…");
-  try {
-    await signInWithEmailAndPassword(auth, $("email").value.trim(), $("password").value);
-  } catch (e) {
-    setMsg(loginMsg, e.message);
-  }
-};
-$("signOut").onclick = () => signOut(auth);
-
-// ---- data --------------------------------------------------------------
-let categories = [];
-
-let allWallpapers = [];
-
-function listenWallpapers() {
-  onSnapshot(collection(db, "wallpapers"), (snap) => {
-    allWallpapers = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
-    $("statWallpapers").textContent = allWallpapers.length;
-    $("statFeatured").textContent = allWallpapers.filter((w) => w.featured).length;
-    $("statScheduled").textContent = allWallpapers.filter((w) => isScheduled(w)).length;
-    renderChart();
-    renderTable();
-  });
-}
-
-function isScheduled(w) {
-  const t = w.publishAt?.toDate ? w.publishAt.toDate() : (w.publishAt ? new Date(w.publishAt) : null);
-  return !!t && t.getTime() > Date.now();
-}
-
-function renderChart() {
-  const counts = {};
-  for (const w of allWallpapers) {
-    const c = w.category || "—";
-    counts[c] = (counts[c] || 0) + 1;
-  }
-  const entries = Object.entries(counts).sort((a, b) => b[1] - a[1]);
-  const max = Math.max(1, ...entries.map(([, n]) => n));
-  $("catChart").innerHTML = entries.length
-    ? entries.map(([c, n]) => `
-        <div style="display:flex;align-items:center;gap:10px;margin:6px 0">
-          <span style="width:96px;font-size:13px" class="muted">${escapeHtml(c)}</span>
-          <span style="flex:1;height:10px;background:#23262e;border-radius:99px;overflow:hidden">
-            <span style="display:block;height:100%;width:${Math.round((n / max) * 100)}%;background:var(--accent2)"></span>
-          </span>
-          <span style="width:28px;text-align:right;font-size:13px">${n}</span>
-        </div>`).join("")
-    : '<span class="muted">No wallpapers yet.</span>';
-}
-
-function renderTable() {
-  const q = ($("search").value || "").trim().toLowerCase();
-  const items = q
-    ? allWallpapers.filter((w) =>
-        (w.title || "").toLowerCase().includes(q) || (w.category || "").toLowerCase().includes(q))
-    : allWallpapers;
-
-  const rows = $("rows");
-  rows.innerHTML = "";
-  if (!items.length) {
-    rows.innerHTML = '<tr><td colspan="7" class="muted">No matching wallpapers.</td></tr>';
-    return;
-  }
-  for (const w of items) {
-    const publishValue = w.publishAt?.toDate
-      ? w.publishAt.toDate().toISOString().slice(0, 16)
-      : "";
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td><img src="${w.url}" alt="" loading="lazy" /></td>
-      <td>${escapeHtml(w.title || "Untitled")}${isScheduled(w) ? ' <span class="pill">scheduled</span>' : ""}</td>
-      <td><span class="pill">${escapeHtml(w.category || "—")}</span></td>
-      <td><input style="width:150px" placeholder="car, dark" value="${(w.tags || []).join(", ")}" data-tags="${w.id}" /></td>
-      <td><button class="chip" data-feature="${w.id}">${w.featured ? "★" : "☆"}</button></td>
-      <td><input type="number" style="width:74px" value="${Number(w.order || 0)}" data-order="${w.id}" /></td>
-      <td><input type="datetime-local" value="${publishValue}" data-publish="${w.id}" /></td>
-      <td><button class="danger" data-id="${w.id}" data-path="${w.path || ""}" data-dark-path="${w.pathDark || ""}">Delete</button></td>`;
-    rows.appendChild(tr);
-  }
-
-  rows.querySelectorAll("button[data-feature]").forEach((btn) => {
-    btn.onclick = async () => {
-      const w = allWallpapers.find((x) => x.id === btn.dataset.feature);
-      try { await updateDoc(doc(db, "wallpapers", w.id), { featured: !w.featured }); }
-      catch (e) { alert("Failed: " + e.message); }
-    };
-  });
-  rows.querySelectorAll("input[data-tags]").forEach((input) => {
-    input.onchange = async () => {
-      const tags = input.value.split(",").map((s) => s.trim()).filter(Boolean);
-      try { await updateDoc(doc(db, "wallpapers", input.dataset.tags), { tags }); }
-      catch (e) { alert("Failed: " + e.message); }
-    };
-  });
-  rows.querySelectorAll("input[data-order]").forEach((input) => {
-    input.onchange = async () => {
-      try { await updateDoc(doc(db, "wallpapers", input.dataset.order), { order: Number(input.value) || 0 }); }
-      catch (e) { alert("Failed: " + e.message); }
-    };
-  });
-  rows.querySelectorAll("input[data-publish]").forEach((input) => {
-    input.onchange = async () => {
-      const value = input.value ? Timestamp.fromDate(new Date(input.value)) : null;
-      try { await updateDoc(doc(db, "wallpapers", input.dataset.publish), { publishAt: value }); }
-      catch (e) { alert("Failed: " + e.message); }
-    };
-  });
-  rows.querySelectorAll("button.danger").forEach((btn) => {
-    btn.onclick = async () => {
-      if (!confirm("Delete this wallpaper?")) return;
-      try {
-        if (btn.dataset.path) { try { await deleteObject(storageRef(storage, btn.dataset.path)); } catch (_) {} }
-        if (btn.dataset.darkPath) { try { await deleteObject(storageRef(storage, btn.dataset.darkPath)); } catch (_) {} }
-        await deleteDoc(doc(db, "wallpapers", btn.dataset.id));
-      } catch (e) { alert("Delete failed: " + e.message); }
-    };
-  });
-}
-
-$("search").oninput = renderTable;
-
-function listenCategories() {
-  onSnapshot(collection(db, "categories"), (snap) => {
-    categories = snap.docs.map((d) => ({ id: d.id, title: d.data().title || d.id }));
-    $("statCategories").textContent = categories.length;
-    const select = $("category");
-    const current = select.value;
-    select.innerHTML = "";
-    for (const c of categories) {
-      const o = document.createElement("option");
-      o.value = c.id; o.textContent = `${c.title} (${c.id})`;
-      select.appendChild(o);
-    }
-    if (current) select.value = current;
-
-    const select2 = $("urlCategory");
-    const current2 = select2.value;
-    select2.innerHTML = "";
-    for (const c of categories) {
-      const o = document.createElement("option");
-      o.value = c.id; o.textContent = `${c.title} (${c.id})`;
-      select2.appendChild(o);
-    }
-    if (current2) select2.value = current2;
-    const chips = $("categoryChips");
-    chips.innerHTML = "";
-    for (const c of categories) {
-      const el = document.createElement("span");
-      el.className = "chip"; el.textContent = c.id;
-      el.onclick = () => { select.value = c.id; };
-      chips.appendChild(el);
-    }
-  });
-}
-
-// ---- upload ------------------------------------------------------------
-$("upload").onclick = () => {
-  const file = $("file").files[0];
-  const darkFile = $("fileDark").files[0];
-  const title = $("title").value.trim();
-  const category = $("category").value;
-  if (!file) return setMsg(uploadMsg, "Choose an image first.");
-  if (!title) return setMsg(uploadMsg, "Enter a title.");
-  if (!category) return setMsg(uploadMsg, "Add a category first (below).");
-
-  const path = `wallpapers/${crypto.randomUUID()}.jpg`;
-  const task = uploadBytesResumable(storageRef(storage, path), file);
-  setMsg(uploadMsg, "Uploading…");
-
-  task.on("state_changed",
-    (s) => { $("progress").style.width = Math.round((s.bytesTransferred / s.totalBytes) * 100) + "%"; },
-    (e) => setMsg(uploadMsg, "Upload failed: " + e.message),
-    async () => {
-      try {
-        const doc = {
-          title, category,
-          url: await getDownloadURL(task.snapshot.ref),
-          path,
-          createdAt: serverTimestamp(),
-        };
-        if (darkFile) {
-          const darkPath = `wallpapers/${crypto.randomUUID()}_dark.jpg`;
-          const darkResult = await uploadBytes(storageRef(storage, darkPath), darkFile);
-          doc.urlDark = await getDownloadURL(darkResult.ref);
-          doc.pathDark = darkPath;
-        }
-        await addDoc(collection(db, "wallpapers"), doc);
-        $("progress").style.width = "0%";
-        $("title").value = ""; $("file").value = ""; $("fileDark").value = "";
-        setMsg(uploadMsg, darkFile ? "Uploaded with dark variant ✓" : "Uploaded ✓", true);
-      } catch (e) {
-        setMsg(uploadMsg, "Saved file but failed to write Firestore: " + e.message);
-      }
-    });
-};
-
-$("addByUrl").onclick = async () => {
-  const title = $("urlTitle").value.trim();
-  const category = $("urlCategory").value;
-  const url = $("urlValue").value.trim();
-  if (!title || !category || !url) return setMsg(urlMsg, "Fill in a title, category and image URL.");
-  const urlDark = $("urlDarkValue").value.trim();
-  try {
-    const doc = { title, category, url, createdAt: serverTimestamp() };
-    if (urlDark) doc.urlDark = urlDark;
-    await addDoc(collection(db, "wallpapers"), doc);
-    $("urlTitle").value = "";
-    $("urlValue").value = "";
-    $("urlDarkValue").value = "";
-    setMsg(urlMsg, urlDark ? "Wallpaper added with dark variant ✓" : "Wallpaper added ✓", true);
-  } catch (e) {
-    setMsg(urlMsg, e.message);
-  }
-};
-
-$("addCategory").onclick = async () => {  const id = $("catId").value.trim().toLowerCase().replace(/[^a-z0-9_]/g, "");
-  const title = $("catTitle").value.trim();
-  if (!id || !title) return setMsg(catMsg, "Enter both an id and a display name.");
-  try {
-    await setDocSafe(id, title);
-    $("catId").value = ""; $("catTitle").value = "";
-    setMsg(catMsg, "Category added ✓", true);
-  } catch (e) { setMsg(catMsg, e.message); }
-};
-
-async function setDocSafe(id, title) {
-  const { setDoc } = await import("https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js");
-  await setDoc(doc(db, "categories", id), { title });
-}
-
-function escapeHtml(s) {
-  return String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-}
-</script>
 </body>
 </html>
