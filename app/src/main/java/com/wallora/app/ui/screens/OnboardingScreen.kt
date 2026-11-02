@@ -82,16 +82,6 @@ fun OnboardingScreen(onDone: () -> Unit) {
                 ),
             ),
     ) {
-        TextButton(
-            onClick = onDone,
-            modifier = Modifier
-                .align(Alignment.TopEnd)
-                .statusBarsPadding()
-                .padding(8.dp),
-        ) {
-            Text(stringResource(R.string.skip), color = Color.White)
-        }
-
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -158,6 +148,18 @@ fun OnboardingScreen(onDone: () -> Unit) {
                 Text(stringResource(if (isLast) R.string.get_started else R.string.next))
             }
             Spacer(Modifier.height(8.dp))
+        }
+
+        // Declared last so it sits above the full-screen column; earlier it was underneath and
+        // only a sliver at the screen edge received taps.
+        TextButton(
+            onClick = onDone,
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .statusBarsPadding()
+                .padding(8.dp),
+        ) {
+            Text(stringResource(R.string.skip), color = Color.White)
         }
     }
 }
