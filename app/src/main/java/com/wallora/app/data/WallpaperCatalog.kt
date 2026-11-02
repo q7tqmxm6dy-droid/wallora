@@ -129,6 +129,19 @@ object WallpaperCatalog {
         Wallpaper("trend_arches", "Boho Arches", "trending", R.drawable.trend_arches_light, darkResId = R.drawable.trend_arches_dark),
         Wallpaper("trend_liquid_metal", "Liquid Metal", "trending", R.drawable.trend_liquid_metal_light, darkResId = R.drawable.trend_liquid_metal_dark),
         Wallpaper("trend_cyber_grid", "Cyber Grid", "trending", R.drawable.trend_cyber_grid_light, darkResId = R.drawable.trend_cyber_grid_dark),
+
+        // Trending — real photographs, freely licensed (CC0 / public domain / CC BY). Credits: PHOTO_CREDITS.md
+        Wallpaper("photo_milky_way", "Milky Way", "trending", R.drawable.photo_milky_way, credit = "W.carter via Wikimedia Commons (cropped)", license = "CC0"),
+        Wallpaper("photo_aurora_hut", "Aurora Hut", "trending", R.drawable.photo_aurora_hut, credit = "Ted.ns via Wikimedia Commons (cropped)", license = "CC BY 4.0"),
+        Wallpaper("photo_blossom", "Cherry Blossom", "trending", R.drawable.photo_blossom, credit = "Syced via Wikimedia Commons (cropped)", license = "CC0"),
+        Wallpaper("photo_foggy_trail", "Foggy Trail", "trending", R.drawable.photo_foggy_trail, credit = "Mar Mkrtchyan via Wikimedia Commons (cropped)", license = "CC0"),
+        Wallpaper("photo_forest_stream", "Forest Stream", "trending", R.drawable.photo_forest_stream, credit = "Tom Hall via Wikimedia Commons (cropped)", license = "CC BY 2.0"),
+        Wallpaper("photo_sand_ripples", "Sand Ripples", "trending", R.drawable.photo_sand_ripples, credit = "Vyacheslav Argenberg via Wikimedia Commons (cropped)", license = "CC BY 4.0"),
+        Wallpaper("photo_tokyo_night", "Tokyo Night", "trending", R.drawable.photo_tokyo_night, credit = "Zengame via Wikimedia Commons (cropped)", license = "CC BY 2.0"),
+        Wallpaper("photo_palm_sunset", "Palm Sunset", "trending", R.drawable.photo_palm_sunset, credit = "John Robert McPherson via Wikimedia Commons (cropped)", license = "CC0"),
+        Wallpaper("photo_lake_louise", "Lake Louise", "trending", R.drawable.photo_lake_louise, credit = "Terry D. Ott via Wikimedia Commons (cropped)", license = "CC BY 2.0"),
+        Wallpaper("photo_earthrise", "Earthrise", "trending", R.drawable.photo_earthrise, credit = "NASA / LRO via Wikimedia Commons (cropped)", license = "Public domain"),
+        Wallpaper("photo_manhattan_night", "Manhattan Night", "trending", R.drawable.photo_manhattan_night, credit = "Tom Bullock via Wikimedia Commons (cropped)", license = "CC BY 2.0"),
     )
 
     private val byId: Map<String, Wallpaper> = wallpapers.associateBy { it.id }
