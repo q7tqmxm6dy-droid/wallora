@@ -413,7 +413,7 @@ function listenCategories() {
 }
 
 // ---- upload ------------------------------------------------------------
-$("upload").onclick = () => {
+$("upload").onclick = async () => {
   const file = $("file").files[0];
   const darkFile = $("fileDark").files[0];
   const title = $("title").value.trim();
@@ -423,6 +423,13 @@ $("upload").onclick = () => {
   if (!category) return setMsg(uploadMsg, "Add a category first (below).");
 
   const path = `wallpapers/${crypto.randomUUID()}.jpg`;
+  // Read the image size first so genuine 4K uploads can be flagged (the app badges them).
+  let size = null;
+  try {
+    const bmp = await createImageBitmap(file);
+    size = { width: bmp.width, height: bmp.height };
+    bmp.close();
+  } catch (_) { /* not fatal: the upload simply isn't flagged */ }
   const task = uploadBytesResumable(storageRef(storage, path), file);
   setMsg(uploadMsg, "Uploading…");
 
@@ -437,6 +444,10 @@ $("upload").onclick = () => {
           path,
           createdAt: serverTimestamp(),
         };
+        if (size) {
+          doc.width = size.width; doc.height = size.height;
+          if (Math.min(size.width, size.height) >= 2160 && Math.max(size.width, size.height) >= 3840) doc.uhd = true;
+        }
         if (darkFile) {
           const darkPath = `wallpapers/${crypto.randomUUID()}_dark.jpg`;
           const darkResult = await uploadBytes(storageRef(storage, darkPath), darkFile);

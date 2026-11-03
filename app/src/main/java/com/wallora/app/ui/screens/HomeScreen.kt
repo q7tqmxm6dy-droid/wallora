@@ -79,6 +79,7 @@ fun HomeScreen(
     val selectedTag by viewModel.selectedTag.collectAsStateWithLifecycle()
 
     var selectedCategory by remember { mutableStateOf<String?>(null) }
+    var only4k by remember { mutableStateOf(false) }
     var showThemeMenu by remember { mutableStateOf(false) }
     var showSortMenu by remember { mutableStateOf(false) }
 
@@ -126,8 +127,9 @@ fun HomeScreen(
             )
         },
     ) { innerPadding ->
-        val visible = remember(wallpapers, selectedCategory, query, sort, selectedTag) {
+        val visible = remember(wallpapers, selectedCategory, query, sort, selectedTag, only4k) {
             wallpapers.asSequence()
+                .filter { !only4k || it.uhd }
                 .filter { selectedCategory == null || it.categoryId == selectedCategory }
                 .filter { w -> selectedTag == null || selectedTag in w.tags }
                 .filter { w ->
@@ -218,6 +220,16 @@ fun HomeScreen(
                             }
                         },
                     )
+
+                    // Only offered once the cloud catalogue actually has 4K images, so it never
+                    // leads to an empty screen.
+                    if (wallpapers.any { it.uhd }) {
+                        FilterChip(
+                            selected = only4k,
+                            onClick = { only4k = !only4k },
+                            label = { Text(stringResource(R.string.uhd_filter)) },
+                        )
+                    }
 
                     if (tags.isNotEmpty()) {
                         LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {

@@ -1,6 +1,6 @@
 # Photo credits
 
-The photographs below are bundled in Wallora and come from Wikimedia Commons. Each was cropped to a 9:16 phone aspect ratio and resized to 1080 × 1920; no other changes were made.
+The photographs below are bundled in Wallora and come from Wikimedia Commons (Trending, Supercars and Sports categories). Each was cropped to a 9:16 phone aspect ratio and resized to 1080 × 1920; no other changes were made.
 
 | Wallpaper | Author | License | Source |
 |---|---|---|---|
@@ -15,5 +15,14 @@ The photographs below are bundled in Wallora and come from Wikimedia Commons. Ea
 | Lake Louise | Terry D. Ott | CC BY 2.0 | <https://commons.wikimedia.org/wiki/File:Sunrise_Highlights_-_Lake_Louise,_Alberta,_Canada.jpg> |
 | Earthrise | NASA / LRO | Public domain | <https://commons.wikimedia.org/wiki/File:Earthrise_over_Compton_crater_-LRO_full_res.jpg> |
 | Manhattan Night | Tom Bullock | CC BY 2.0 | <https://commons.wikimedia.org/wiki/File:2013_Night_New_York_view_HDR.jpg> |
+| White Supercar at Dusk | Emran Kassim | CC BY 2.0 | <https://commons.wikimedia.org/wiki/File:Lamborghini_in_Nagoya.jpg> |
+| Green Supercar | Retired electrician | CC0 | <https://commons.wikimedia.org/wiki/File:Moscow,_Lamborghini,_green,_no_plates_Aug_2025_01.jpg> |
+| Black Supercar | Syced | CC0 | <https://commons.wikimedia.org/wiki/File:Black_McLaren_in_Tokyo_(89198).jpg> |
+| Neon Garage | Iamjosemom | CC0 | <https://commons.wikimedia.org/wiki/File:Lamborghini_Hurac%C3%A1n_Performante.jpg> |
+| Match Ball | C MA chancema | CC0 | <https://commons.wikimedia.org/wiki/File:Football_on_fall_ground_(Unsplash).jpg> |
+| Floodlit Fog | W.carter | CC0 | <https://commons.wikimedia.org/wiki/File:Trees_around_Brastad_soccer_arena_in_fog_(6).jpg> |
+| Stadium Haze | W.carter | CC0 | <https://commons.wikimedia.org/wiki/File:Trees_around_Brastad_soccer_arena_in_fog_(15).jpg> |
+| Court at Sunset | Alyssiui | CC0 | <https://commons.wikimedia.org/wiki/File:Amplus_Basketball_Court_-_October_2023.jpg> |
+| Night Hoop | Ximonic (Simo Räsänen) | CC BY 3.0 | <https://commons.wikimedia.org/wiki/File:Autumn_night_at_basketball_court_at_Havukoski_youth_centre,_Havukoski,_Vantaa,_Finland,_2021_October.jpg> |
 
 CC BY licenses: <https://creativecommons.org/licenses/by/4.0/> (and the 2.0 variant for the 2.0 entries). CC0 and public-domain items need no attribution but are credited anyway.

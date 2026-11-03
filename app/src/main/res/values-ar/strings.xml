@@ -242,4 +242,6 @@
     <string name="about_privacy">سياسة الخصوصية</string>
     <string name="about_contact">التواصل مع الدعم</string>
     <string name="about_rate">قيّم Wallora</string>
+    <string name="uhd_badge">4K</string>
+    <string name="uhd_filter">4K فائق الدقة</string>
 </resources>

@@ -52,4 +52,43 @@ class CatalogMergeTest {
         assertEquals(24, merged.size)
         assertEquals(merged.size, merged.map { it.id }.toSet().size)
     }
+
+    @Test
+    fun `cloud entry with the same title and category replaces the bundled one`() {
+        val bundledPhoto = Wallpaper(
+            "photo_lake", "Lake Louise", "trending", resId = 1,
+            credit = "T. Ott via Wikimedia Commons", license = "CC BY 2.0",
+        )
+        val cloud4k = Wallpaper(
+            "auto-id-123", " lake louise ", "trending", imageUrl = "https://x/4k.jpg",
+            remote = true, uhd = true,
+        )
+
+        val merged = mergeCatalog(listOf(cloud4k), listOf(bundledPhoto))
+
+        assertEquals(listOf("auto-id-123"), merged.map { it.id })
+        assertTrue(merged.single().uhd)
+    }
+
+    @Test
+    fun `replacement keeps the bundled credit and license`() {
+        val bundledPhoto = Wallpaper(
+            "photo_lake", "Lake Louise", "trending", resId = 1,
+            credit = "T. Ott via Wikimedia Commons", license = "CC BY 2.0",
+        )
+        val cloud = Wallpaper("n1", "Lake Louise", "trending", imageUrl = "u", remote = true)
+
+        val result = mergeCatalog(listOf(cloud), listOf(bundledPhoto)).single()
+
+        assertEquals("T. Ott via Wikimedia Commons", result.credit)
+        assertEquals("CC BY 2.0", result.license)
+    }
+
+    @Test
+    fun `same title in a different category is not treated as a duplicate`() {
+        val bundledItem = Wallpaper("a", "Sunset", "gradient", resId = 1)
+        val cloud = Wallpaper("b", "Sunset", "seasonal", imageUrl = "u", remote = true)
+
+        assertEquals(2, mergeCatalog(listOf(cloud), listOf(bundledItem)).size)
+    }
 }

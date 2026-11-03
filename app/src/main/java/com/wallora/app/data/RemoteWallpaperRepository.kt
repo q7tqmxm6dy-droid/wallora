@@ -74,6 +74,7 @@ class RemoteWallpaperRepository {
             featured = getBoolean("featured") ?: false,
             order = getLong("order") ?: 0L,
             tags = (get("tags") as? List<*>)?.filterIsInstance<String>() ?: emptyList(),
+            uhd = getBoolean("uhd") ?: isUhd((getLong("width") ?: 0L).toInt(), (getLong("height") ?: 0L).toInt()),
         )
     }
 

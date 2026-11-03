@@ -32,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.wallora.app.R
@@ -75,6 +76,19 @@ fun WallpaperCard(
                         if (isFavorite) R.string.favorite_remove else R.string.favorite_add,
                     ),
                     tint = if (isFavorite) HeartRed else Color.White,
+                )
+            }
+            if (wallpaper.uhd) {
+                Text(
+                    text = stringResource(R.string.uhd_badge),
+                    color = Color.White,
+                    style = MaterialTheme.typography.labelSmall,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier
+                        .align(Alignment.BottomStart)
+                        .padding(8.dp)
+                        .background(Color.Black.copy(alpha = 0.55f), RoundedCornerShape(6.dp))
+                        .padding(horizontal = 6.dp, vertical = 2.dp),
                 )
             }
             if (wallpaper.featured) {

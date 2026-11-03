@@ -31,3 +31,6 @@ app/build/
 # release signing key -- never commit
 /keystore.properties
 /keys/
+
+# generated 4K upload pack (see firebase/UHD_UPLOAD.md)
+/uhd-upload/

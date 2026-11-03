@@ -27,6 +27,8 @@ object WallpaperCatalog {
         Category("seasonal", "Seasonal"),
         Category("city", "City"),
         Category("trending", "Trending"),
+        Category("supercars", "Supercars"),
+        Category("sports", "Sports"),
     )
 
     val wallpapers: List<Wallpaper> = listOf(
@@ -142,6 +144,17 @@ object WallpaperCatalog {
         Wallpaper("photo_lake_louise", "Lake Louise", "trending", R.drawable.photo_lake_louise, credit = "Terry D. Ott via Wikimedia Commons (cropped)", license = "CC BY 2.0"),
         Wallpaper("photo_earthrise", "Earthrise", "trending", R.drawable.photo_earthrise, credit = "NASA / LRO via Wikimedia Commons (cropped)", license = "Public domain"),
         Wallpaper("photo_manhattan_night", "Manhattan Night", "trending", R.drawable.photo_manhattan_night, credit = "Tom Bullock via Wikimedia Commons (cropped)", license = "CC BY 2.0"),
+
+        // Supercars and Sports — real photographs, freely licensed. Credits: PHOTO_CREDITS.md
+        Wallpaper("photo_supercar_dusk", "White Supercar at Dusk", "supercars", R.drawable.photo_supercar_dusk, credit = "Emran Kassim via Wikimedia Commons (cropped)", license = "CC BY 2.0"),
+        Wallpaper("photo_supercar_green", "Green Supercar", "supercars", R.drawable.photo_supercar_green, credit = "Retired electrician via Wikimedia Commons (cropped)", license = "CC0"),
+        Wallpaper("photo_supercar_black", "Black Supercar", "supercars", R.drawable.photo_supercar_black, credit = "Syced via Wikimedia Commons (cropped)", license = "CC0"),
+        Wallpaper("photo_supercar_garage", "Neon Garage", "supercars", R.drawable.photo_supercar_garage, credit = "Iamjosemom via Wikimedia Commons (cropped)", license = "CC0"),
+        Wallpaper("photo_sport_ball", "Match Ball", "sports", R.drawable.photo_sport_ball, credit = "C MA chancema via Wikimedia Commons (cropped)", license = "CC0"),
+        Wallpaper("photo_sport_floodlit_fog", "Floodlit Fog", "sports", R.drawable.photo_sport_floodlit_fog, credit = "W.carter via Wikimedia Commons (cropped)", license = "CC0"),
+        Wallpaper("photo_sport_stadium_haze", "Stadium Haze", "sports", R.drawable.photo_sport_stadium_haze, credit = "W.carter via Wikimedia Commons (cropped)", license = "CC0"),
+        Wallpaper("photo_sport_court_sunset", "Court at Sunset", "sports", R.drawable.photo_sport_court_sunset, credit = "Alyssiui via Wikimedia Commons (cropped)", license = "CC0"),
+        Wallpaper("photo_sport_night_hoop", "Night Hoop", "sports", R.drawable.photo_sport_night_hoop, credit = "Ximonic (Simo Räsänen) via Wikimedia Commons (cropped)", license = "CC BY 3.0"),
     )
 
     private val byId: Map<String, Wallpaper> = wallpapers.associateBy { it.id }

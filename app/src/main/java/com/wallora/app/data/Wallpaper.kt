@@ -25,6 +25,8 @@ data class Wallpaper(
     val featured: Boolean = false,
     val order: Long = 0,
     val tags: List<String> = emptyList(),
+    /** True when the image is genuine 2160x3840 (4K); drives the badge and the 4K filter. */
+    val uhd: Boolean = false,
 ) {
     val hasDarkVariant: Boolean get() = darkImageUrl != null || darkResId != null
 
@@ -39,3 +41,7 @@ data class Category(
     val id: String,
     val title: String,
 )
+
+/** 4K means at least 2160 x 3840 in portrait (or the same pixels turned sideways). */
+fun isUhd(width: Int, height: Int): Boolean =
+    minOf(width, height) >= 2160 && maxOf(width, height) >= 3840

@@ -229,4 +229,7 @@
     <string name="about_privacy">Privacy policy</string>
     <string name="about_contact">Contact support</string>
     <string name="about_rate">Rate Wallora</string>
+    <!-- 4K -->
+    <string name="uhd_badge">4K</string>
+    <string name="uhd_filter">4K Ultra HD</string>
 </resources>

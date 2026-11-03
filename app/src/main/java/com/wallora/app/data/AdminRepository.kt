@@ -1,5 +1,6 @@
 package com.wallora.app.data
 
+import android.graphics.BitmapFactory
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
@@ -88,12 +89,24 @@ class AdminRepository {
                 "path" to fileRef.path,
                 "createdAt" to FieldValue.serverTimestamp(),
             )
+            // Flag genuine 4K uploads so the app can badge them and offer the 4K filter.
+            imageSize(bytes)?.let { (w, h) ->
+                document["width"] = w
+                document["height"] = h
+                if (isUhd(w, h)) document["uhd"] = true
+            }
             if (darkUrl != null && darkPath != null) {
                 document["urlDark"] = darkUrl
                 document["pathDark"] = darkPath
             }
             firestore.collection(RemoteWallpaperRepository.COLLECTION).add(document).await()
         }.map { }
+    }
+
+    private fun imageSize(bytes: ByteArray): Pair<Int, Int>? {
+        val bounds = BitmapFactory.Options().apply { inJustDecodeBounds = true }
+        BitmapFactory.decodeByteArray(bytes, 0, bytes.size, bounds)
+        return if (bounds.outWidth > 0 && bounds.outHeight > 0) bounds.outWidth to bounds.outHeight else null
     }
 
     suspend fun deleteWallpaper(id: String): Result<Unit> = withContext(Dispatchers.IO) {
