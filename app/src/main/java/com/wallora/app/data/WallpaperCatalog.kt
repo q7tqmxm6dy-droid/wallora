@@ -27,6 +27,7 @@ object WallpaperCatalog {
         Category("seasonal", "Seasonal"),
         Category("city", "City"),
         Category("trending", "Trending"),
+        Category("luxury", "Luxury"),
         Category("supercars", "Supercars"),
         Category("sports", "Sports"),
     )
@@ -144,6 +145,14 @@ object WallpaperCatalog {
         Wallpaper("photo_lake_louise", "Lake Louise", "trending", R.drawable.photo_lake_louise, credit = "Terry D. Ott via Wikimedia Commons (cropped)", license = "CC BY 2.0"),
         Wallpaper("photo_earthrise", "Earthrise", "trending", R.drawable.photo_earthrise, credit = "NASA / LRO via Wikimedia Commons (cropped)", license = "Public domain"),
         Wallpaper("photo_manhattan_night", "Manhattan Night", "trending", R.drawable.photo_manhattan_night, credit = "Tom Bullock via Wikimedia Commons (cropped)", license = "CC BY 2.0"),
+
+        // Luxury — original embossed-monogram patterns drawn for Wallora (no third-party marks)
+        Wallpaper("lux_midnight_gold", "Midnight Gold", "luxury", R.drawable.lux_midnight_gold),
+        Wallpaper("lux_noir_gold", "Noir Gold", "luxury", R.drawable.lux_noir_gold),
+        Wallpaper("lux_burgundy_crest", "Burgundy Crest", "luxury", R.drawable.lux_burgundy_crest),
+        Wallpaper("lux_emerald_royale", "Emerald Royale", "luxury", R.drawable.lux_emerald_royale),
+        Wallpaper("lux_ivory_cocoa", "Ivory Cocoa", "luxury", R.drawable.lux_ivory_cocoa),
+        Wallpaper("lux_silver_storm", "Silver Storm", "luxury", R.drawable.lux_silver_storm),
 
         // Supercars and Sports — real photographs, freely licensed. Credits: PHOTO_CREDITS.md
         Wallpaper("photo_supercar_dusk", "White Supercar at Dusk", "supercars", R.drawable.photo_supercar_dusk, credit = "Emran Kassim via Wikimedia Commons (cropped)", license = "CC BY 2.0"),

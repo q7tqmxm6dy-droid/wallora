@@ -1,6 +1,6 @@
 # Uploading the 4K pack
 
-`uhd-upload/` (git-ignored, ~21 MB) holds genuine **2160 × 3840** versions of the photos that have a real 4K source. Nothing is upscaled.
+`uhd-upload/` (git-ignored, ~21 MB) holds genuine **2160 × 3840** versions: the photos that have a real 4K source, and the original Luxury patterns, which are drawn directly at 4K. Nothing is upscaled.
 
 ## How it works in the app
 
@@ -29,5 +29,11 @@
 | `photo_palm_sunset.jpg` | Palm Sunset | trending |
 | `photo_earthrise.jpg` | Earthrise | trending |
 | `photo_manhattan_night.jpg` | Manhattan Night | trending |
+| `lux_midnight_gold.jpg` | Midnight Gold | luxury |
+| `lux_noir_gold.jpg` | Noir Gold | luxury |
+| `lux_burgundy_crest.jpg` | Burgundy Crest | luxury |
+| `lux_emerald_royale.jpg` | Emerald Royale | luxury |
+| `lux_ivory_cocoa.jpg` | Ivory Cocoa | luxury |
+| `lux_silver_storm.jpg` | Silver Storm | luxury |
 
 Not included (the free source photos are below 4K, so a 4K version would be fake): White Supercar at Dusk, Green Supercar, Black Supercar, Neon Garage, Night Hoop.
