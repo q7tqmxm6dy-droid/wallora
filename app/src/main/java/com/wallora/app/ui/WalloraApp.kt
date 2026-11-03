@@ -1,6 +1,8 @@
 package com.wallora.app.ui
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
@@ -99,6 +101,9 @@ fun WalloraApp(
     }
 
     Scaffold(
+        // Each screen's own Scaffold/TopAppBar already pads for the status bar; letting this outer
+        // Scaffold do it as well pushed every title down by a full extra status-bar height.
+        contentWindowInsets = WindowInsets(0, 0, 0, 0),
         bottomBar = {
             // The banner stays composed on every route and is only hidden off the tab screens, so
             // opening a wallpaper and coming back reuses the same ad instead of requesting a new
@@ -139,7 +144,9 @@ fun WalloraApp(
         NavHost(
             navController = navController,
             startDestination = Routes.HOME,
-            modifier = Modifier.padding(innerPadding),
+            modifier = Modifier
+                .padding(innerPadding)
+                .consumeWindowInsets(innerPadding),
         ) {
             composable(Routes.HOME) {
                 HomeScreen(

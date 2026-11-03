@@ -1,6 +1,8 @@
 package com.wallora.app.ui.screens
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -55,7 +57,7 @@ import com.wallora.app.ui.components.CategoryChips
 import com.wallora.app.ui.components.WallpaperGrid
 import com.wallora.app.util.Analytics
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun HomeScreen(
     viewModel: WallpaperViewModel,
@@ -83,7 +85,14 @@ fun HomeScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Wallora", fontWeight = FontWeight.SemiBold) },
+                // The publisher's admin area is not advertised to ordinary users: long-press the title.
+                title = {
+                    Text(
+                        "Wallora",
+                        fontWeight = FontWeight.SemiBold,
+                        modifier = Modifier.combinedClickable(onClick = {}, onLongClick = onOpenAdmin),
+                    )
+                },
                 actions = {
                     Box {
                         IconButton(onClick = { showThemeMenu = true }) {
@@ -99,22 +108,19 @@ fun HomeScreen(
                             )
                         }
                         DropdownMenu(showThemeMenu, onDismissRequest = { showThemeMenu = false }) {
-                            ThemeOption("Auto (follow system)", R.drawable.ic_theme_auto, darkModePreference == null) {
+                            ThemeOption(stringResource(R.string.theme_auto), R.drawable.ic_theme_auto, darkModePreference == null) {
                                 onSetDarkMode(null); showThemeMenu = false
                             }
-                            ThemeOption("Light", R.drawable.ic_light_mode, darkModePreference == false) {
+                            ThemeOption(stringResource(R.string.theme_light), R.drawable.ic_light_mode, darkModePreference == false) {
                                 onSetDarkMode(false); showThemeMenu = false
                             }
-                            ThemeOption("Dark", R.drawable.ic_dark_mode, darkModePreference == true) {
+                            ThemeOption(stringResource(R.string.theme_dark), R.drawable.ic_dark_mode, darkModePreference == true) {
                                 onSetDarkMode(true); showThemeMenu = false
                             }
                         }
                     }
                     IconButton(onClick = onOpenSettings) {
                         Icon(Icons.Filled.Settings, contentDescription = stringResource(R.string.title_settings))
-                    }
-                    IconButton(onClick = onOpenAdmin) {
-                        Icon(painterResource(R.drawable.ic_admin), contentDescription = stringResource(R.string.pref_admin))
                     }
                 },
             )

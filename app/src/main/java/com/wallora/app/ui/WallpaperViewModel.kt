@@ -165,11 +165,13 @@ class WallpaperViewModel(application: Application) : AndroidViewModel(applicatio
 
     /** Deterministic daily pick — same wallpaper for everyone for the whole day. */
     fun wallpaperOfTheDay(): Wallpaper? {
-        val list = wallpapers.value
-        if (list.isEmpty()) return null
+        // Index into the bundled catalogue: the merged list grows and reorders as the cloud
+        // catalogue loads, which made the "same pick for everyone" change under the user.
+        val bundled = WallpaperCatalog.wallpapers
+        if (bundled.isEmpty()) return null
         val epochDay = java.time.LocalDate.now().toEpochDay()
-        val index = Math.floorMod(epochDay, list.size.toLong()).toInt()
-        return list[index]
+        val pick = bundled[Math.floorMod(epochDay, bundled.size.toLong()).toInt()]
+        return wallpapers.value.firstOrNull { it.id == pick.id } ?: pick
     }
 
     fun setLiveMode(mode: String) {

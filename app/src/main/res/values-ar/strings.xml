@@ -237,4 +237,9 @@
     <string name="swipe_to_unlock">اسحب لأعلى لفتح القفل</string>
     <string name="share_wallpaper">مشاركة الخلفية</string>
     <string name="seconds_short">%1$dث</string>
+    <string name="about_title">حول التطبيق</string>
+    <string name="about_version">الإصدار %1$s</string>
+    <string name="about_privacy">سياسة الخصوصية</string>
+    <string name="about_contact">التواصل مع الدعم</string>
+    <string name="about_rate">قيّم Wallora</string>
 </resources>

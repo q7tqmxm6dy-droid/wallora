@@ -335,11 +335,13 @@ fun ProfileScreen(
                 value = stringResource(if (autoTheme) R.string.value_on else R.string.value_off),
                 onClick = onOpenSettings,
             )
-            InfoRow(
-                label = stringResource(R.string.pref_admin),
-                value = if (signedIn) (email ?: stringResource(R.string.pref_admin)) else stringResource(R.string.not_signed_in),
-                onClick = onOpenAdmin,
-            )
+            if (signedIn) {
+                InfoRow(
+                    label = stringResource(R.string.pref_admin),
+                    value = email ?: stringResource(R.string.pref_admin),
+                    onClick = onOpenAdmin,
+                )
+            }
 
             Text(
                 text = "Wallora · " + listOf(

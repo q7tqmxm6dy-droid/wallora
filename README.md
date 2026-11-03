@@ -23,7 +23,7 @@ you add — and lets you browse, favorite, preview, set, save and share them.
 - **Photo credits** — CC-licensed photos you add can carry a `credit` + `license` field,
   shown under the title on the detail screen.
 - **Cloud wallpapers (optional)** — Firebase Firestore catalogue + Cloud Storage images, so you can publish wallpapers without shipping an app update. Falls back to the bundled set when offline.
-- **Admin panel** — manage the catalogue from the app (shield icon → sign in) or from a browser dashboard.
+- **Admin panel** — manage the catalogue from the app (long-press the "Wallora" title on Home → sign in) or from a browser dashboard.
 - **Analytics & Crashlytics** — Firebase Analytics events (set / save / share / favourite) and crash reporting.
 
 ## Screenshots
@@ -109,7 +109,7 @@ Data model:
 | `categories/{id}` | `title` |
 | Storage `wallpapers/{uuid}.jpg` | the image file (plus `{uuid}_dark.jpg` when a dark variant is uploaded) |
 
-In the app, tap the **shield icon** in the top bar to open the admin screen and sign in
+In the app, long-press the **Wallora** title on the Home screen to open the admin screen and sign in
 with the account you created.
 
 ## Image resolution (4K)

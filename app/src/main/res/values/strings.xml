@@ -223,4 +223,10 @@
     <string name="swipe_to_unlock">Swipe up to unlock</string>
     <string name="share_wallpaper">Share wallpaper</string>
     <string name="seconds_short">%1$ds</string>
+    <!-- About -->
+    <string name="about_title">About</string>
+    <string name="about_version">Version %1$s</string>
+    <string name="about_privacy">Privacy policy</string>
+    <string name="about_contact">Contact support</string>
+    <string name="about_rate">Rate Wallora</string>
 </resources>

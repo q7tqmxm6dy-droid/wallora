@@ -31,6 +31,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
@@ -43,6 +44,7 @@ import com.wallora.app.R
 import com.wallora.app.ads.AdsConsent
 import com.wallora.app.live.WalloraLiveWallpaper
 import com.wallora.app.ui.WallpaperViewModel
+import com.wallora.app.util.AppLinks
 import com.wallora.app.work.NewWallpaperScheduler
 import com.wallora.app.work.RotationScheduler
 
@@ -292,6 +294,30 @@ fun SettingsScreen(
                     onClick = { viewModel.clearHistory() },
                     enabled = history.isNotEmpty(),
                 ) { Text(stringResource(R.string.action_clear)) }
+            }
+
+            HorizontalDivider(Modifier.padding(vertical = 12.dp))
+
+            Text(stringResource(R.string.about_title), style = MaterialTheme.typography.titleSmall)
+            val appName = stringResource(R.string.app_name)
+            val versionName = remember {
+                runCatching { context.packageManager.getPackageInfo(context.packageName, 0).versionName }.getOrNull()
+            }
+            Text(
+                stringResource(R.string.about_version, versionName.orEmpty()),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+            Row {
+                TextButton(onClick = { AppLinks.openPrivacyPolicy(context) }) {
+                    Text(stringResource(R.string.about_privacy))
+                }
+                TextButton(onClick = { AppLinks.contactSupport(context, appName) }) {
+                    Text(stringResource(R.string.about_contact))
+                }
+            }
+            TextButton(onClick = { AppLinks.rateApp(context) }) {
+                Text(stringResource(R.string.about_rate))
             }
 
             HorizontalDivider(Modifier.padding(vertical = 12.dp))

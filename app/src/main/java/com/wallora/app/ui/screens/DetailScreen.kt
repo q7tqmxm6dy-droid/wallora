@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -37,6 +38,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.FilterChip
+import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -350,15 +352,24 @@ fun DetailScreen(
             }
         }
 
+        // A taller scrim than the controls themselves, so the title stays readable over bright
+        // wallpapers instead of sitting on the faint top edge of the gradient.
+        Box(
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .fillMaxWidth()
+                .fillMaxHeight(0.55f)
+                .background(
+                    Brush.verticalGradient(
+                        listOf(Color.Transparent, Color.Black.copy(alpha = 0.6f), Color.Black.copy(alpha = 0.9f)),
+                    ),
+                ),
+        )
+
         Column(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .fillMaxWidth()
-                .background(
-                    Brush.verticalGradient(
-                        listOf(Color.Transparent, Color.Black.copy(alpha = 0.85f)),
-                    ),
-                )
                 .navigationBarsPadding()
                 .padding(horizontal = 20.dp, vertical = 24.dp),
         ) {
@@ -397,6 +408,20 @@ fun DetailScreen(
                             if (locked) onOpenPro() else effect = option
                         },
                         label = { Text(effectLabel(option)) },
+                        // These sit on the dark scrim whatever the app theme is, so the colours are
+                        // fixed rather than taken from the (possibly light) Material theme.
+                        colors = FilterChipDefaults.filterChipColors(
+                            labelColor = Color.White,
+                            iconColor = Color.White,
+                            selectedContainerColor = Color.White,
+                            selectedLabelColor = Color.Black,
+                        ),
+                        border = FilterChipDefaults.filterChipBorder(
+                            enabled = true,
+                            selected = effect == option,
+                            borderColor = Color.White.copy(alpha = 0.55f),
+                            selectedBorderColor = Color.White,
+                        ),
                         trailingIcon = if (locked) {
                             {
                                 Icon(
