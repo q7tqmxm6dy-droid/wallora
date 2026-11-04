@@ -1,6 +1,5 @@
 package com.wallora.app.ui.screens
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
@@ -12,280 +11,178 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
+import androidx.compose.foundation.lazy.staggeredgrid.itemsIndexed
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.List
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Scaffold
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.util.lerp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import coil.compose.AsyncImage
 import com.wallora.app.R
-import com.wallora.app.data.Wallpaper
-import com.wallora.app.ui.SortOrder
+import com.wallora.app.data.Curation
+import com.wallora.app.data.Taxonomy
 import com.wallora.app.ui.WallpaperViewModel
-import com.wallora.app.ui.components.CategoryChips
-import com.wallora.app.ui.components.WallpaperGrid
-import com.wallora.app.util.Analytics
+import com.wallora.app.ui.components.GlowBackground
+import com.wallora.app.ui.components.HeroCard
+import com.wallora.app.ui.components.PosterCard
+import com.wallora.app.ui.components.SectionHeader
+import com.wallora.app.ui.components.WallpaperCard
+import com.wallora.app.ui.components.appear
+import com.wallora.app.ui.theme.Pink
+import com.wallora.app.ui.theme.TealDark
+import com.wallora.app.ui.theme.VioletDark
+import kotlinx.coroutines.delay
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import kotlin.math.absoluteValue
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomeScreen(
     viewModel: WallpaperViewModel,
     darkTheme: Boolean,
-    darkModePreference: Boolean?,
-    onSetDarkMode: (Boolean?) -> Unit,
     onOpenWallpaper: (String) -> Unit,
+    onOpenCategory: (String) -> Unit,
+    onOpenTrending: () -> Unit,
+    onOpenDiscover: () -> Unit,
+    onOpenProfile: () -> Unit,
     onOpenAdmin: () -> Unit,
-    onOpenSettings: () -> Unit,
 ) {
-    val context = LocalContext.current
-    val favorites by viewModel.favorites.collectAsStateWithLifecycle()
     val wallpapers by viewModel.wallpapers.collectAsStateWithLifecycle()
+    val favorites by viewModel.favorites.collectAsStateWithLifecycle()
     val categories by viewModel.categories.collectAsStateWithLifecycle()
-    val history by viewModel.history.collectAsStateWithLifecycle()
-    val query by viewModel.searchQuery.collectAsStateWithLifecycle()
-    val sort by viewModel.sortOrder.collectAsStateWithLifecycle()
-    val tags by viewModel.tags.collectAsStateWithLifecycle()
-    val selectedTag by viewModel.selectedTag.collectAsStateWithLifecycle()
 
-    var selectedCategory by remember { mutableStateOf<String?>(null) }
-    var only4k by remember { mutableStateOf(false) }
-    var showThemeMenu by remember { mutableStateOf(false) }
-    var showSortMenu by remember { mutableStateOf(false) }
+    val today = remember { LocalDate.now() }
+    val day = today.toEpochDay()
+    val featured = remember(wallpapers) { Curation.featured(wallpapers, day, 6) }
+    val trending = remember(wallpapers) { Curation.trending(wallpapers, day, 12) }
+    val drop = remember(wallpapers) { Curation.dailyDrop(wallpapers, day, 8) }
+    val feed = remember(wallpapers) { Curation.feed(wallpapers, day) }
+    val dropDate = remember(today) { today.format(DateTimeFormatter.ofPattern("EEE, MMM d")) }
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                // The publisher's admin area is not advertised to ordinary users: long-press the title.
-                title = {
-                    Text(
-                        "Wallora",
-                        fontWeight = FontWeight.SemiBold,
-                        modifier = Modifier.combinedClickable(onClick = {}, onLongClick = onOpenAdmin),
-                    )
-                },
-                actions = {
-                    Box {
-                        IconButton(onClick = { showThemeMenu = true }) {
-                            Icon(
-                                painter = painterResource(
-                                    when (darkModePreference) {
-                                        null -> R.drawable.ic_theme_auto
-                                        true -> R.drawable.ic_dark_mode
-                                        false -> R.drawable.ic_light_mode
-                                    },
-                                ),
-                                contentDescription = stringResource(R.string.theme_icon_desc),
-                            )
-                        }
-                        DropdownMenu(showThemeMenu, onDismissRequest = { showThemeMenu = false }) {
-                            ThemeOption(stringResource(R.string.theme_auto), R.drawable.ic_theme_auto, darkModePreference == null) {
-                                onSetDarkMode(null); showThemeMenu = false
-                            }
-                            ThemeOption(stringResource(R.string.theme_light), R.drawable.ic_light_mode, darkModePreference == false) {
-                                onSetDarkMode(false); showThemeMenu = false
-                            }
-                            ThemeOption(stringResource(R.string.theme_dark), R.drawable.ic_dark_mode, darkModePreference == true) {
-                                onSetDarkMode(true); showThemeMenu = false
-                            }
-                        }
-                    }
-                    IconButton(onClick = onOpenSettings) {
-                        Icon(Icons.Filled.Settings, contentDescription = stringResource(R.string.title_settings))
-                    }
-                },
-            )
-        },
-    ) { innerPadding ->
-        val visible = remember(wallpapers, selectedCategory, query, sort, selectedTag, only4k) {
-            wallpapers.asSequence()
-                .filter { !only4k || it.uhd }
-                .filter { selectedCategory == null || it.categoryId == selectedCategory }
-                .filter { w -> selectedTag == null || selectedTag in w.tags }
-                .filter { w ->
-                    query.isBlank() ||
-                        w.title.contains(query, ignoreCase = true) ||
-                        w.categoryId.contains(query, ignoreCase = true)
-                }
-                .let { seq ->
-                    when (sort) {
-                        SortOrder.NAME -> seq.sortedBy { it.title.lowercase() }
-                        SortOrder.CATEGORY -> seq.sortedWith(
-                            compareBy({ it.categoryId }, { it.title.lowercase() }),
+    Box(Modifier.fillMaxSize()) {
+        GlowBackground()
+        LazyVerticalStaggeredGrid(
+            columns = StaggeredGridCells.Adaptive(minSize = 150.dp),
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 24.dp),
+            verticalItemSpacing = 12.dp,
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
+        ) {
+            item(span = StaggeredGridItemSpan.FullLine) {
+                Row(
+                    modifier = Modifier.fillMaxWidth().statusBarsPadding().padding(top = 12.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Column(Modifier.weight(1f)) {
+                        // The publisher's admin area is not advertised to ordinary users: long-press the title.
+                        Text(
+                            "Wallora",
+                            style = MaterialTheme.typography.headlineMedium.copy(
+                                fontWeight = FontWeight.Black,
+                                brush = Brush.linearGradient(listOf(VioletDark, Pink, TealDark)),
+                            ),
+                            modifier = Modifier.combinedClickable(onClick = {}, onLongClick = onOpenAdmin),
                         )
-                        SortOrder.DEFAULT -> seq
+                        Text(
+                            stringResource(R.string.home_tagline),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                    }
+                    IconButton(onClick = onOpenDiscover) {
+                        Icon(Icons.Filled.Search, contentDescription = stringResource(R.string.nav_discover))
+                    }
+                    IconButton(onClick = onOpenProfile) {
+                        Icon(Icons.Filled.Person, contentDescription = stringResource(R.string.nav_profile))
                     }
                 }
-                .toList()
-        }
+            }
 
-        WallpaperGrid(
-            wallpapers = visible,
-            favorites = favorites,
-            dark = darkTheme,
-            onOpen = onOpenWallpaper,
-            onToggleFavorite = { id ->
-                viewModel.toggleFavorite(id)
-                Analytics.log(
-                    context,
-                    Analytics.Events.FAVORITE_TOGGLED,
-                    mapOf("id" to id, "favorite" to (id !in favorites)),
+            if (featured.isNotEmpty()) item(span = StaggeredGridItemSpan.FullLine) {
+                HeroCarousel(featured, darkTheme, viewModel, onOpenWallpaper)
+            }
+
+            item(span = StaggeredGridItemSpan.FullLine) {
+                Column {
+                SectionHeader(
+                    stringResource(R.string.home_trending_now),
+                    action = stringResource(R.string.see_all),
+                    onAction = onOpenTrending,
                 )
-            },
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding),
-            emptyText = stringResource(R.string.no_results),
-            header = {
-                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        OutlinedTextField(
-                            value = query,
-                            onValueChange = { viewModel.searchQuery.value = it },
-                            singleLine = true,
-                            leadingIcon = { Icon(Icons.Filled.Search, contentDescription = null) },
-                            trailingIcon = {
-                                if (query.isNotEmpty()) {
-                                    IconButton(onClick = { viewModel.searchQuery.value = "" }) {
-                                        Icon(Icons.Filled.Clear, contentDescription = stringResource(R.string.clear_search))
-                                    }
-                                }
-                            },
-                            placeholder = { Text(stringResource(R.string.search_hint)) },
-                            modifier = Modifier.weight(1f),
-                        )
-                        Box {
-                            IconButton(onClick = { showSortMenu = true }) {
-                                Icon(Icons.AutoMirrored.Filled.List, contentDescription = stringResource(R.string.sort))
-                            }
-                            DropdownMenu(showSortMenu, onDismissRequest = { showSortMenu = false }) {
-                                SortOrder.entries.forEach { option ->
-                                    DropdownMenuItem(
-                                        text = { Text(stringResource(option.labelRes)) },
-                                        trailingIcon = {
-                                            if (option == sort) Icon(Icons.Filled.Check, contentDescription = null)
-                                        },
-                                        onClick = {
-                                            viewModel.sortOrder.value = option
-                                            showSortMenu = false
-                                        },
-                                    )
-                                }
-                            }
-                        }
-                        IconButton(onClick = {
-                            viewModel.randomWallpaper()?.let { onOpenWallpaper(it.id) }
-                        }) {
-                            Icon(painterResource(R.drawable.ic_shuffle), contentDescription = stringResource(R.string.surprise_me))
-                        }
-                    }
-
-                    CategoryChips(
-                        categories = categories,
-                        selected = selectedCategory,
-                        onSelect = { category ->
-                            selectedCategory = category
-                            if (category != null) {
-                                Analytics.log(context, Analytics.Events.OPEN_CATEGORY, mapOf("category" to category))
-                            }
-                        },
-                    )
-
-                    // Only offered once the cloud catalogue actually has 4K images, so it never
-                    // leads to an empty screen.
-                    if (wallpapers.any { it.uhd }) {
-                        FilterChip(
-                            selected = only4k,
-                            onClick = { only4k = !only4k },
-                            label = { Text(stringResource(R.string.uhd_filter)) },
-                        )
-                    }
-
-                    if (tags.isNotEmpty()) {
-                        LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                            item {
-                                FilterChip(
-                                    selected = selectedTag == null,
-                                    onClick = { viewModel.selectedTag.value = null },
-                                    label = { Text(stringResource(R.string.any_tag)) },
-                                )
-                            }
-                            items(tags) { tag ->
-                                FilterChip(
-                                    selected = selectedTag == tag,
-                                    onClick = {
-                                        viewModel.selectedTag.value = if (selectedTag == tag) null else tag
-                                    },
-                                    // Leading LRM keeps the "#" attached to the tag in RTL locales,
-                                    // otherwise bidi reorders it to the far side ("cute#" instead of "#cute").
-                                    label = { Text("\u200E#$tag") },
-                                )
-                            }
-                        }
-                    }
-
-                    if (query.isBlank() && history.isNotEmpty()) {
-                        RecentRow(history = history, dark = darkTheme, onOpen = onOpenWallpaper)
+                LazyRow(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                    items(trending, key = { it.id }) { w ->
+                        PosterCard(w, darkTheme, 138.dp, onClick = { onOpenWallpaper(w.id) })
                     }
                 }
-            },
-            contentPadding = PaddingValues(12.dp),
-        )
-    }
-}
+            }
+            }
 
-@Composable
-private fun RecentRow(
-    history: List<Wallpaper>,
-    dark: Boolean,
-    onOpen: (String) -> Unit,
-) {
-    Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
-        Text(
-            text = stringResource(R.string.recently_viewed),
-            style = androidx.compose.material3.MaterialTheme.typography.labelLarge,
-        )
-        LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            items(history.size) { index ->
-                val wallpaper = history[index]
-                AsyncImage(
-                    model = wallpaper.model(dark),
-                    contentDescription = wallpaper.title,
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .size(width = 62.dp, height = 110.dp)
-                        .clip(RoundedCornerShape(10.dp))
-                        .clickable { onOpen(wallpaper.id) },
+            item(span = StaggeredGridItemSpan.FullLine) {
+                Column {
+                SectionHeader(stringResource(R.string.home_browse))
+                LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    items(categories, key = { it.id }) { c ->
+                        FilterChip(
+                            selected = false,
+                            onClick = { onOpenCategory(c.id) },
+                            label = { Text(listOf(c.emoji, c.title).filter { it.isNotBlank() }.joinToString(" ")) },
+                        )
+                    }
+                }
+            }
+            }
+
+            if (drop.isNotEmpty()) item(span = StaggeredGridItemSpan.FullLine) {
+                Column {
+                SectionHeader(
+                    stringResource(R.string.todays_drop),
+                    subtitle = stringResource(R.string.todays_drop_sub, dropDate),
+                )
+                LazyRow(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                    items(drop, key = { it.id }) { w ->
+                        PosterCard(w, darkTheme, 176.dp, onClick = { onOpenWallpaper(w.id) }, aspect = 9f / 15f)
+                    }
+                }
+            }
+            }
+
+            item(span = StaggeredGridItemSpan.FullLine) {
+                SectionHeader(stringResource(R.string.for_you), subtitle = stringResource(R.string.for_you_sub))
+            }
+            itemsIndexed(feed, key = { _, w -> "feed-" + w.id }) { index, w ->
+                WallpaperCard(
+                    wallpaper = w,
+                    isFavorite = w.id in favorites,
+                    dark = darkTheme,
+                    onOpen = { onOpenWallpaper(w.id) },
+                    onToggleFavorite = { viewModel.toggleFavorite(w.id) },
+                    aspect = Curation.cardRatio(w.id),
+                    modifier = Modifier.animateItem().appear(index),
                 )
             }
         }
@@ -293,16 +190,38 @@ private fun RecentRow(
 }
 
 @Composable
-private fun ThemeOption(
-    label: String,
-    iconRes: Int,
-    selected: Boolean,
-    onClick: () -> Unit,
+private fun HeroCarousel(
+    featured: List<com.wallora.app.data.Wallpaper>,
+    dark: Boolean,
+    viewModel: WallpaperViewModel,
+    onOpen: (String) -> Unit,
 ) {
-    DropdownMenuItem(
-        text = { Text(label) },
-        leadingIcon = { Icon(painterResource(iconRes), contentDescription = null) },
-        trailingIcon = { if (selected) Icon(Icons.Filled.Check, contentDescription = stringResource(R.string.cd_selected)) },
-        onClick = onClick,
-    )
+    val pager = rememberPagerState(pageCount = { featured.size })
+    LaunchedEffect(featured.size) {
+        while (true) {
+            delay(4500)
+            if (!pager.isScrollInProgress) pager.animateScrollToPage((pager.currentPage + 1) % featured.size)
+        }
+    }
+    HorizontalPager(
+        state = pager,
+        pageSpacing = 14.dp,
+        modifier = Modifier.fillMaxWidth().height(470.dp).padding(top = 14.dp),
+    ) { page ->
+        val w = featured[page]
+        HeroCard(
+            wallpaper = w,
+            categoryLabel = viewModel.categoryTitle(w.categoryId),
+            dark = dark,
+            onClick = { onOpen(w.id) },
+            modifier = Modifier
+                .fillMaxSize()
+                .graphicsLayer {
+                    val offset = ((pager.currentPage - page) + pager.currentPageOffsetFraction).absoluteValue.coerceIn(0f, 1f)
+                    val s = lerp(0.9f, 1f, 1f - offset)
+                    scaleX = s; scaleY = s
+                    alpha = lerp(0.55f, 1f, 1f - offset)
+                },
+        )
+    }
 }

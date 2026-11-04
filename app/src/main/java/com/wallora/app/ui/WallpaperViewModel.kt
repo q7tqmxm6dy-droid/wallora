@@ -10,6 +10,7 @@ import com.wallora.app.data.AdminRepository
 import com.wallora.app.data.Category
 import com.wallora.app.data.PreferencesRepository
 import com.wallora.app.data.RemoteWallpaperRepository
+import com.wallora.app.data.Taxonomy
 import com.wallora.app.data.Wallpaper
 import com.wallora.app.data.WallpaperCatalog
 import com.wallora.app.data.mergeCatalog
@@ -37,7 +38,7 @@ class WallpaperViewModel(application: Application) : AndroidViewModel(applicatio
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptySet())
 
     val darkMode: StateFlow<Boolean?> = preferences.darkMode
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), null)
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), true)
 
     /** Remote wallpapers (Firestore) first, then the bundled ones as offline fallback. */
     val wallpapers: StateFlow<List<Wallpaper>> = remote.wallpapers()
@@ -47,8 +48,8 @@ class WallpaperViewModel(application: Application) : AndroidViewModel(applicatio
     /** Bundled categories, plus any extra categories defined in Firestore. */
     val categories: StateFlow<List<Category>> = remote.categories()
         .map { remoteCategories ->
-            val bundledIds = WallpaperCatalog.categories.map { it.id }.toSet()
-            WallpaperCatalog.categories + remoteCategories.filter { it.id !in bundledIds }
+            val known = WallpaperCatalog.categories.map { it.id }.toSet() + Taxonomy.legacyIds
+            WallpaperCatalog.categories + remoteCategories.filter { it.id !in known }
         }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), WallpaperCatalog.categories)
 

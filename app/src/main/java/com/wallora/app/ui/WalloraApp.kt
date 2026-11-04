@@ -1,5 +1,10 @@
 package com.wallora.app.ui
 
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.consumeWindowInsets
@@ -7,7 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -29,7 +34,8 @@ import androidx.navigation.navArgument
 import com.wallora.app.R
 import com.wallora.app.ads.AdBanner
 import com.wallora.app.ui.screens.AdminScreen
-import com.wallora.app.ui.screens.CategoriesScreen
+import com.wallora.app.ui.screens.DiscoverScreen
+import com.wallora.app.ui.screens.TrendingScreen
 import com.wallora.app.ui.screens.CollectionScreen
 import com.wallora.app.ui.screens.CollectionsScreen
 import com.wallora.app.ui.screens.CategoryScreen
@@ -42,7 +48,8 @@ import com.wallora.app.ui.screens.SettingsScreen
 
 private object Routes {
     const val HOME = "home"
-    const val CATEGORIES = "categories"
+    const val DISCOVER = "discover"
+    const val TRENDING = "trending"
     const val FAVORITES = "favorites"
     const val CATEGORY = "category/{categoryId}"
     const val DETAIL = "detail/{wallpaperId}"
@@ -88,9 +95,9 @@ fun WalloraApp(
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = backStackEntry?.destination?.route
     val showBottomBar = currentRoute == Routes.HOME ||
-        currentRoute == Routes.CATEGORIES ||
-        currentRoute == Routes.FAVORITES ||
-        currentRoute == Routes.PROFILE
+        currentRoute == Routes.DISCOVER ||
+        currentRoute == Routes.TRENDING ||
+        currentRoute == Routes.FAVORITES
 
     val navigateToTopLevel: (String) -> Unit = { route ->
         navController.navigate(route) {
@@ -119,22 +126,22 @@ fun WalloraApp(
                             label = { Text(stringResource(R.string.nav_home)) },
                         )
                         NavigationBarItem(
-                            selected = currentRoute == Routes.CATEGORIES,
-                            onClick = { navigateToTopLevel(Routes.CATEGORIES) },
-                            icon = { Icon(painterResource(R.drawable.ic_category), contentDescription = null) },
-                            label = { Text(stringResource(R.string.nav_categories)) },
+                            selected = currentRoute == Routes.DISCOVER,
+                            onClick = { navigateToTopLevel(Routes.DISCOVER) },
+                            icon = { Icon(Icons.Filled.Search, contentDescription = null) },
+                            label = { Text(stringResource(R.string.nav_discover)) },
+                        )
+                        NavigationBarItem(
+                            selected = currentRoute == Routes.TRENDING,
+                            onClick = { navigateToTopLevel(Routes.TRENDING) },
+                            icon = { Icon(painterResource(R.drawable.ic_trending), contentDescription = null) },
+                            label = { Text(stringResource(R.string.nav_trending)) },
                         )
                         NavigationBarItem(
                             selected = currentRoute == Routes.FAVORITES,
                             onClick = { navigateToTopLevel(Routes.FAVORITES) },
                             icon = { Icon(Icons.Filled.Favorite, contentDescription = null) },
                             label = { Text(stringResource(R.string.nav_favorites)) },
-                        )
-                        NavigationBarItem(
-                            selected = currentRoute == Routes.PROFILE,
-                            onClick = { navigateToTopLevel(Routes.PROFILE) },
-                            icon = { Icon(Icons.Filled.Person, contentDescription = null) },
-                            label = { Text(stringResource(R.string.nav_profile)) },
                         )
                     }
                 }
@@ -144,6 +151,10 @@ fun WalloraApp(
         NavHost(
             navController = navController,
             startDestination = Routes.HOME,
+            enterTransition = { fadeIn(tween(260)) + slideInHorizontally(tween(260)) { it / 14 } },
+            exitTransition = { fadeOut(tween(160)) },
+            popEnterTransition = { fadeIn(tween(240)) },
+            popExitTransition = { fadeOut(tween(200)) + slideOutHorizontally(tween(200)) { it / 14 } },
             modifier = Modifier
                 .padding(innerPadding)
                 .consumeWindowInsets(innerPadding),
@@ -152,18 +163,27 @@ fun WalloraApp(
                 HomeScreen(
                     viewModel = viewModel,
                     darkTheme = darkTheme,
-                    darkModePreference = darkModePreference,
-                    onSetDarkMode = onSetDarkMode,
                     onOpenWallpaper = { navController.navigate(Routes.detail(it)) },
+                    onOpenCategory = { navController.navigate(Routes.category(it)) },
+                    onOpenTrending = { navigateToTopLevel(Routes.TRENDING) },
+                    onOpenDiscover = { navigateToTopLevel(Routes.DISCOVER) },
+                    onOpenProfile = { navController.navigate(Routes.PROFILE) },
                     onOpenAdmin = { navController.navigate(Routes.ADMIN) },
-                    onOpenSettings = { navController.navigate(Routes.SETTINGS) },
                 )
             }
-            composable(Routes.CATEGORIES) {
-                CategoriesScreen(
+            composable(Routes.DISCOVER) {
+                DiscoverScreen(
                     viewModel = viewModel,
                     dark = darkTheme,
                     onOpenCategory = { navController.navigate(Routes.category(it)) },
+                    onOpenWallpaper = { navController.navigate(Routes.detail(it)) },
+                )
+            }
+            composable(Routes.TRENDING) {
+                TrendingScreen(
+                    viewModel = viewModel,
+                    dark = darkTheme,
+                    onOpenWallpaper = { navController.navigate(Routes.detail(it)) },
                 )
             }
             composable(Routes.FAVORITES) {
@@ -199,6 +219,7 @@ fun WalloraApp(
                     darkModePreference = darkModePreference,
                     onOpenWallpaper = { navController.navigate(Routes.detail(it)) },
                     onOpenSettings = { navController.navigate(Routes.SETTINGS) },
+                    onBack = { navController.popBackStack() },
                     onOpenAdmin = { navController.navigate(Routes.ADMIN) },
                     onOpenCollections = { navController.navigate(Routes.COLLECTIONS) },
                     onOpenPro = { navController.navigate(Routes.PRO) },

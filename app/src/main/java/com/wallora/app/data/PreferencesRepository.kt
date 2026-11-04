@@ -24,6 +24,7 @@ class PreferencesRepository(private val context: Context) {
         val FAVORITES = stringSetPreferencesKey("favorites")
         val DARK_MODE = booleanPreferencesKey("dark_mode")
         val DARK_MODE_SET = booleanPreferencesKey("dark_mode_set")
+        val THEME_CHOSEN = booleanPreferencesKey("theme_chosen")
 
         val DAILY_ROTATION = booleanPreferencesKey("daily_rotation")
         val ROTATION_TARGET = stringPreferencesKey("rotation_target")
@@ -67,9 +68,13 @@ class PreferencesRepository(private val context: Context) {
     val favorites: Flow<Set<String>> =
         context.dataStore.data.map { prefs -> prefs[Keys.FAVORITES] ?: emptySet() }
 
-    /** `null` means "follow the system setting". */
+    /** `null` means "follow the system setting". Until the user picks, Wallora is dark. */
     val darkMode: Flow<Boolean?> = context.dataStore.data.map { prefs ->
-        if (prefs[Keys.DARK_MODE_SET] == true) prefs[Keys.DARK_MODE] else null
+        when {
+            prefs[Keys.THEME_CHOSEN] != true -> true
+            prefs[Keys.DARK_MODE_SET] == true -> prefs[Keys.DARK_MODE]
+            else -> null
+        }
     }
 
     val dailyRotation: Flow<Boolean> =
@@ -194,6 +199,7 @@ class PreferencesRepository(private val context: Context) {
 
     suspend fun setDarkMode(value: Boolean?) {
         context.dataStore.edit { prefs ->
+            prefs[Keys.THEME_CHOSEN] = true
             if (value == null) {
                 prefs.remove(Keys.DARK_MODE)
                 prefs[Keys.DARK_MODE_SET] = false

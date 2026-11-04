@@ -1,6 +1,6 @@
 # Uploading the 4K pack
 
-`uhd-upload/` (git-ignored, ~21 MB) holds genuine **2160 × 3840** versions: the photos that have a real 4K source, and the original Luxury patterns, which are drawn directly at 4K. Nothing is upscaled.
+`uhd-upload/` (git-ignored, ~21 MB) holds genuine **2160 × 3840** versions: the photos that have a real 4K source, and the original Luxury and Dreamscapes artwork, which is drawn directly at 4K. Nothing is upscaled.
 
 ## How it works in the app
 
@@ -35,5 +35,17 @@
 | `lux_emerald_royale.jpg` | Emerald Royale | luxury |
 | `lux_ivory_cocoa.jpg` | Ivory Cocoa | luxury |
 | `lux_silver_storm.jpg` | Silver Storm | luxury |
+| `dream_paper_dawn.jpg` | Paper Dawn | dreamscapes |
+| `dream_event_horizon.jpg` | Event Horizon | dreamscapes |
+| `dream_ringed_giant.jpg` | Ringed Giant | dreamscapes |
+| `dream_amethyst_geode.jpg` | Amethyst Geode | dreamscapes |
+| `dream_deep_glow.jpg` | Deep Glow | dreamscapes |
+| `dream_glass_orbs.jpg` | Glass Orbs | dreamscapes |
+| `viral_midnight_curves.jpg` | Midnight Curves | dark |
+| `viral_ember_curves.jpg` | Ember Curves | dark |
+| `viral_cotton_clouds.jpg` | Cotton Clouds | pinterest |
+| `viral_black_gold_marble.jpg` | Black Gold Marble | luxury |
+| `viral_neon_rain.jpg` | Neon Rain | city |
+| `viral_sakura_drive.jpg` | Sakura Night Drive | cars |
 
 Not included (the free source photos are below 4K, so a 4K version would be fake): White Supercar at Dusk, Green Supercar, Black Supercar, Neon Garage, Night Hoop.

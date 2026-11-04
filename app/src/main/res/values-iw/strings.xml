@@ -32,7 +32,7 @@
     <string name="get_started">בואו נתחיל</string>
 
     <string name="set_wallpaper">הגדר כטפט</string>
-    <string name="action_save">שמור</string>
+    <string name="action_save">הורדה</string>
     <string name="action_share">שתף</string>
     <string name="add_to_collection">הוסף לאוסף</string>
 
@@ -223,4 +223,19 @@
     <string name="about_rate">דרגו את Wallora</string>
     <string name="uhd_badge">4K</string>
     <string name="uhd_filter">4K אולטרה HD</string>
+    <string name="nav_discover">גלו</string>
+    <string name="nav_trending">טרנדי</string>
+    <string name="home_tagline">רקעים טרנדיים, חדשים כל יום</string>
+    <string name="home_trending_now">טרנדי עכשיו</string>
+    <string name="see_all">הצג הכול</string>
+    <string name="home_browse">עיינו לפי סגנון</string>
+    <string name="todays_drop">האוסף של היום</string>
+    <string name="todays_drop_sub">אוסף חדש ל-%1$s</string>
+    <string name="for_you">בשבילך</string>
+    <string name="for_you_sub">מיקס אחר בכל יום</string>
+    <string name="discover_search_hint">חפשו רקעים, סגנונות ואווירות</string>
+    <string name="discover_browse">עיינו בקטגוריות</string>
+    <string name="trending_sub">מראות ויראליים נבחרים, מתחדשים כל %1$d ימים</string>
+    <string name="top_ten">10 המובילים עכשיו</string>
+    <string name="viral_styles">סגנונות ויראליים</string>
 </resources>

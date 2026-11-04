@@ -38,7 +38,7 @@
 
     <!-- actions -->
     <string name="set_wallpaper">Set as wallpaper</string>
-    <string name="action_save">Save</string>
+    <string name="action_save">Download</string>
     <string name="action_share">Share</string>
     <string name="add_to_collection">Add to collection</string>
 
@@ -232,4 +232,20 @@
     <!-- 4K -->
     <string name="uhd_badge">4K</string>
     <string name="uhd_filter">4K Ultra HD</string>
+    <!-- Premium navigation and discovery -->
+    <string name="nav_discover">Discover</string>
+    <string name="nav_trending">Trending</string>
+    <string name="home_tagline">Trending wallpapers, fresh every day</string>
+    <string name="home_trending_now">Trending now</string>
+    <string name="see_all">See all</string>
+    <string name="home_browse">Browse by vibe</string>
+    <string name="todays_drop">Today\'s Drop</string>
+    <string name="todays_drop_sub">A new collection for %1$s</string>
+    <string name="for_you">For you</string>
+    <string name="for_you_sub">A different mix every day</string>
+    <string name="discover_search_hint">Search wallpapers, styles, vibes</string>
+    <string name="discover_browse">Browse categories</string>
+    <string name="trending_sub">Handpicked viral looks, refreshed every %1$d days</string>
+    <string name="top_ten">Top 10 right now</string>
+    <string name="viral_styles">Viral styles</string>
 </resources>

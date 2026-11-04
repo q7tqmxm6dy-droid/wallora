@@ -11,28 +11,10 @@ import com.wallora.app.R
  */
 object WallpaperCatalog {
 
-    val categories: List<Category> = listOf(
-        Category("aurora", "Aurora"),
-        Category("gradient", "Gradients"),
-        Category("waves", "Waves"),
-        Category("geometric", "Geometric"),
-        Category("minimal", "Minimal"),
-        Category("neon", "Neon"),
-        Category("cars", "Cars"),
-        Category("posters", "Posters"),
-        Category("animals", "Animals"),
-        Category("space", "Space"),
-        Category("food", "Food"),
-        Category("patterns", "Patterns"),
-        Category("seasonal", "Seasonal"),
-        Category("city", "City"),
-        Category("trending", "Trending"),
-        Category("luxury", "Luxury"),
-        Category("supercars", "Supercars"),
-        Category("sports", "Sports"),
-    )
+    val categories: List<Category> = Taxonomy.categories
 
-    val wallpapers: List<Wallpaper> = listOf(
+    /** Entries below keep their original category ids; [Taxonomy] files them under the ten browsing categories. */
+    private val entries: List<Wallpaper> = listOf(
         // Aurora
         Wallpaper("aurora_01", "Polar Glow", "aurora", R.drawable.wp_01_light, darkResId = R.drawable.wp_01_dark),
         Wallpaper("aurora_02", "Northern Sky", "aurora", R.drawable.wp_02_light, darkResId = R.drawable.wp_02_dark),
@@ -146,6 +128,22 @@ object WallpaperCatalog {
         Wallpaper("photo_earthrise", "Earthrise", "trending", R.drawable.photo_earthrise, credit = "NASA / LRO via Wikimedia Commons (cropped)", license = "Public domain"),
         Wallpaper("photo_manhattan_night", "Manhattan Night", "trending", R.drawable.photo_manhattan_night, credit = "Tom Bullock via Wikimedia Commons (cropped)", license = "CC BY 2.0"),
 
+        // Dreamscapes — original illustrations drawn for Wallora (paper-cut, space, crystal, ocean, glass)
+        Wallpaper("dream_paper_dawn", "Paper Dawn", "dreamscapes", R.drawable.dream_paper_dawn),
+        Wallpaper("dream_event_horizon", "Event Horizon", "dreamscapes", R.drawable.dream_event_horizon),
+        Wallpaper("dream_ringed_giant", "Ringed Giant", "dreamscapes", R.drawable.dream_ringed_giant),
+        Wallpaper("dream_amethyst_geode", "Amethyst Geode", "dreamscapes", R.drawable.dream_amethyst_geode),
+        Wallpaper("dream_deep_glow", "Deep Glow", "dreamscapes", R.drawable.dream_deep_glow),
+        Wallpaper("dream_glass_orbs", "Glass Orbs", "dreamscapes", R.drawable.dream_glass_orbs),
+
+        // Viral moods — original artwork in the styles people save most: dark curves, cotton clouds, black-gold marble, neon rain, sakura night drive
+        Wallpaper("viral_midnight_curves", "Midnight Curves", "dark", R.drawable.viral_midnight_curves),
+        Wallpaper("viral_ember_curves", "Ember Curves", "dark", R.drawable.viral_ember_curves),
+        Wallpaper("viral_cotton_clouds", "Cotton Clouds", "pinterest", R.drawable.viral_cotton_clouds),
+        Wallpaper("viral_black_gold_marble", "Black Gold Marble", "luxury", R.drawable.viral_black_gold_marble),
+        Wallpaper("viral_neon_rain", "Neon Rain", "city", R.drawable.viral_neon_rain),
+        Wallpaper("viral_sakura_drive", "Sakura Night Drive", "cars", R.drawable.viral_sakura_drive),
+
         // Luxury — original embossed-monogram patterns drawn for Wallora (no third-party marks)
         Wallpaper("lux_midnight_gold", "Midnight Gold", "luxury", R.drawable.lux_midnight_gold),
         Wallpaper("lux_noir_gold", "Noir Gold", "luxury", R.drawable.lux_noir_gold),
@@ -165,6 +163,8 @@ object WallpaperCatalog {
         Wallpaper("photo_sport_court_sunset", "Court at Sunset", "sports", R.drawable.photo_sport_court_sunset, credit = "Alyssiui via Wikimedia Commons (cropped)", license = "CC0"),
         Wallpaper("photo_sport_night_hoop", "Night Hoop", "sports", R.drawable.photo_sport_night_hoop, credit = "Ximonic (Simo Räsänen) via Wikimedia Commons (cropped)", license = "CC BY 3.0"),
     )
+
+    val wallpapers: List<Wallpaper> = entries.map { it.copy(categoryId = Taxonomy.categoryFor(it.categoryId, it.title)) }
 
     private val byId: Map<String, Wallpaper> = wallpapers.associateBy { it.id }
 

@@ -32,7 +32,7 @@
     <string name="get_started">ابدأ الآن</string>
 
     <string name="set_wallpaper">تعيين كخلفية</string>
-    <string name="action_save">حفظ</string>
+    <string name="action_save">تنزيل</string>
     <string name="action_share">مشاركة</string>
     <string name="add_to_collection">إضافة إلى مجموعة</string>
 
@@ -244,4 +244,19 @@
     <string name="about_rate">قيّم Wallora</string>
     <string name="uhd_badge">4K</string>
     <string name="uhd_filter">4K فائق الدقة</string>
+    <string name="nav_discover">استكشف</string>
+    <string name="nav_trending">الرائج</string>
+    <string name="home_tagline">خلفيات رائجة، جديدة كل يوم</string>
+    <string name="home_trending_now">الرائج الآن</string>
+    <string name="see_all">عرض الكل</string>
+    <string name="home_browse">تصفح حسب الأجواء</string>
+    <string name="todays_drop">مجموعة اليوم</string>
+    <string name="todays_drop_sub">مجموعة جديدة ليوم %1$s</string>
+    <string name="for_you">لك</string>
+    <string name="for_you_sub">تشكيلة مختلفة كل يوم</string>
+    <string name="discover_search_hint">ابحث عن خلفيات وأنماط وأجواء</string>
+    <string name="discover_browse">تصفح الفئات</string>
+    <string name="trending_sub">إطلالات رائجة مختارة، تتجدد كل %1$d أيام</string>
+    <string name="top_ten">أفضل 10 الآن</string>
+    <string name="viral_styles">أنماط منتشرة</string>
 </resources>

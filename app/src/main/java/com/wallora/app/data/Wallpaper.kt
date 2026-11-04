@@ -40,6 +40,7 @@ data class Wallpaper(
 data class Category(
     val id: String,
     val title: String,
+    val emoji: String = "",
 )
 
 /** 4K means at least 2160 x 3840 in portrait (or the same pixels turned sideways). */

@@ -118,9 +118,10 @@ class WalloraLiveWallpaper : WallpaperService() {
                 next?.recycle(); next = null
                 return
             }
+            // Category choices saved under the old ids would match nothing; fall back to everything.
             val list = WallpaperCatalog.wallpapers.filter {
                 categories.isEmpty() || it.categoryId in categories
-            }
+            }.ifEmpty { WallpaperCatalog.wallpapers }
             if (list.isEmpty()) return
             order = list.shuffled()
             index = 0

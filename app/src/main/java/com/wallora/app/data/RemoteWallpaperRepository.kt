@@ -62,10 +62,13 @@ class RemoteWallpaperRepository {
         val publishAt = getTimestamp("publishAt")
         if (publishAt != null && publishAt.toDate().time > System.currentTimeMillis()) return null
 
+        // Uploads named after the file ("White Audi R8 fl.jpg") read better without the extension.
+        val title = (getString("title")?.takeIf { it.isNotBlank() } ?: "Untitled")
+            .replace(Regex("\\.(jpe?g|png|webp)$", RegexOption.IGNORE_CASE), "").trim()
         return Wallpaper(
             id = id,
-            title = getString("title")?.takeIf { it.isNotBlank() } ?: "Untitled",
-            categoryId = getString("category")?.takeIf { it.isNotBlank() } ?: "remote",
+            title = title,
+            categoryId = Taxonomy.categoryFor(getString("category")?.takeIf { it.isNotBlank() } ?: "remote", title),
             imageUrl = url,
             darkImageUrl = getString("urlDark")?.takeIf { it.isNotBlank() },
             remote = true,
