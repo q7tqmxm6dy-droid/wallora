@@ -69,6 +69,8 @@ fun ProfileScreen(
     onOpenCollections: () -> Unit,
     onOpenPro: () -> Unit,
     onBack: (() -> Unit)? = null,
+    onOpenDownloads: () -> Unit = {},
+    onOpenRoadmap: () -> Unit = {},
 ) {
     val favorites by viewModel.favorites.collectAsStateWithLifecycle()
     val history by viewModel.history.collectAsStateWithLifecycle()
@@ -82,6 +84,7 @@ fun ProfileScreen(
     val autoTheme by viewModel.autoThemeApply.collectAsStateWithLifecycle()
     val signedIn by viewModel.isAdminSignedIn.collectAsStateWithLifecycle()
     val isPro by viewModel.isPro.collectAsStateWithLifecycle()
+    val downloads by viewModel.downloads.collectAsStateWithLifecycle()
     val collections by viewModel.collections.collectAsStateWithLifecycle()
 
     val email = remember(signedIn) { viewModel.adminEmail() }
@@ -296,11 +299,18 @@ fun ProfileScreen(
             ) {
                 badges.forEach { (labelRes, earned) ->
                     val label = stringResource(labelRes)
-                    FilterChip(
-                        selected = earned,
-                        onClick = { },
-                        label = { Text(if (earned) "★ $label" else label) },
-                    )
+                    // A badge is a status, not a button, so it is a plain pill that does not respond to taps.
+                    androidx.compose.material3.Surface(
+                        shape = RoundedCornerShape(50),
+                        color = if (earned) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceVariant,
+                    ) {
+                        Text(
+                            if (earned) "★ $label" else label,
+                            style = MaterialTheme.typography.labelLarge,
+                            color = if (earned) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant,
+                            modifier = Modifier.padding(horizontal = 14.dp, vertical = 8.dp),
+                        )
+                    }
                 }
             }
 
@@ -344,6 +354,8 @@ fun ProfileScreen(
                 value = stringResource(if (autoTheme) R.string.value_on else R.string.value_off),
                 onClick = onOpenSettings,
             )
+            InfoRow(label = stringResource(R.string.downloads_title), value = downloads.size.toString(), onClick = onOpenDownloads)
+            InfoRow(label = stringResource(R.string.roadmap_title), value = stringResource(R.string.coming_soon), onClick = onOpenRoadmap)
             if (signedIn) {
                 InfoRow(
                     label = stringResource(R.string.pref_admin),

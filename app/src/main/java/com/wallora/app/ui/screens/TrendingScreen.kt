@@ -47,9 +47,14 @@ fun TrendingScreen(
 ) {
     val wallpapers by viewModel.wallpapers.collectAsStateWithLifecycle()
     val favorites by viewModel.favorites.collectAsStateWithLifecycle()
+    val downloads by viewModel.downloads.collectAsStateWithLifecycle()
     val day = remember { LocalDate.now().toEpochDay() }
     val topTen = remember(wallpapers) { Curation.trending(wallpapers, day, 10) }
     val styles = Curation.viralStyles
+    val topDownloads = remember(wallpapers, downloads) {
+        val byId = wallpapers.associateBy { it.id }
+        downloads.groupingBy { it.id }.eachCount().entries.sortedByDescending { it.value }.mapNotNull { byId[it.key] }.take(10)
+    }
     var selected by rememberSaveable { mutableIntStateOf(0) }
     val style = styles[selected.coerceIn(0, styles.lastIndex)]
     val inStyle = remember(wallpapers, selected) {
@@ -88,6 +93,16 @@ fun TrendingScreen(
                     }
                 }
             }
+            }
+            if (topDownloads.isNotEmpty()) item(span = StaggeredGridItemSpan.FullLine) {
+                Column {
+                    SectionHeader(stringResource(R.string.your_top_downloads))
+                    LazyRow(horizontalArrangement = Arrangement.spacedBy(14.dp)) {
+                        itemsIndexed(topDownloads, key = { _, w -> "dl-" + w.id }) { i, w ->
+                            RankedCard(i + 1, w, dark, onClick = { onOpenWallpaper(w.id) })
+                        }
+                    }
+                }
             }
             item(span = StaggeredGridItemSpan.FullLine) {
                 Column {

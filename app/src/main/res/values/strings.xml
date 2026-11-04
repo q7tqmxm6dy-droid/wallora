@@ -248,4 +248,58 @@
     <string name="trending_sub">Handpicked viral looks, refreshed every %1$d days</string>
     <string name="top_ten">Top 10 right now</string>
     <string name="viral_styles">Viral styles</string>
+    <!-- Smart search filters -->
+    <string name="color_red">Red</string><string name="color_orange">Orange</string><string name="color_yellow">Yellow</string>
+    <string name="color_green">Green</string><string name="color_teal">Teal</string><string name="color_blue">Blue</string>
+    <string name="color_purple">Purple</string><string name="color_pink">Pink</string><string name="color_brown">Brown</string>
+    <string name="color_black">Black</string><string name="color_gray">Gray</string><string name="color_white">White</string>
+    <!-- Download quality, simulator and reporting -->
+    <string name="quality_title">Download quality</string>
+    <string name="quality_original">Original quality</string>
+    <string name="quality_original_4k">Original · 4K Ultra HD</string>
+    <string name="quality_medium">Medium · 720p (smaller file)</string>
+    <string name="quality_small">Small · 480p (smallest file)</string>
+    <string name="home_screen_preview">Home screen preview</string>
+    <string name="report_content">Report</string>
+    <!-- History, personalisation and roadmap -->
+    <string name="downloads_title">Downloads</string>
+    <string name="downloads_empty">Nothing saved yet. Tap Download on any wallpaper and it will appear here.</string>
+    <string name="picked_for_you">Picked for you</string>
+    <string name="picked_for_you_sub">Based on what you favourite, view and download. Stays on your phone.</string>
+    <string name="your_top_downloads">Your most downloaded</string>
+    <string name="roadmap_title">What\'s coming</string>
+    <string name="coming_soon">Coming soon</string>
+    <string name="roadmap_intro">These features need a server, user accounts or moderation, so they are not switched on yet. Nothing here is a button: each one ships when it can work properly and safely.</string>
+    <string name="rm_accounts">Accounts and profiles</string>
+    <string name="rm_accounts_why">Secure sign-in, a public profile and cloud-synced favourites. Needs account sign-up turned on in the backend, with rules that stop one user touching another\'s data.</string>
+    <string name="rm_uploads">Community uploads with moderation</string>
+    <string name="rm_uploads_why">Upload your own wallpapers. Every upload would be reviewed before it is public, with reporting and blocking, as Google Play requires for user-generated content.</string>
+    <string name="rm_social">Likes, following and creator pages</string>
+    <string name="rm_social_why">Follow creators and like wallpapers. Depends on accounts and uploads.</string>
+    <string name="rm_ai">AI wallpaper generation from a prompt</string>
+    <string name="rm_ai_why">Type an idea, get a wallpaper. Needs a cloud image model, a usage quota and content filtering. The Create tab already makes designs on your phone.</string>
+    <string name="rm_icons">Matching icon packs</string>
+    <string name="rm_icons_why">Icon sets tinted to match a wallpaper. Needs launcher integration that varies by phone maker.</string>
+    <string name="rm_subs">Subscription plans</string>
+    <string name="rm_subs_why">Monthly and yearly options. Wallora Pro is a one-time purchase today.</string>
+    <string name="rm_global">Worldwide most-downloaded ranking</string>
+    <string name="rm_global_why">Needs a shared download counter on the server. Your own most-downloaded list works now.</string>
+    <string name="rm_admin">Admin: users and analytics</string>
+    <string name="rm_admin_why">The admin page manages wallpapers and categories today. User management and analytics need accounts; analytics are in the Firebase console meanwhile.</string>
+    <!-- Create studio -->
+    <string name="nav_create">Create</string>
+    <string name="create_sub">Design your own wallpaper in seconds. Made on your phone, free.</string>
+    <string name="create_preview">Wallpaper preview</string>
+    <string name="create_style">Style</string>
+    <string name="create_palette">Colors</string>
+    <string name="create_grain">Grain</string>
+    <string name="create_shuffle">Shuffle</string>
+    <string name="gen_aura">Aura</string>
+    <string name="gen_gradient">Gradient</string>
+    <string name="gen_waves">Waves</string>
+    <string name="gen_orbs">Orbs</string>
+    <string name="create_size_hd">Full HD · 1080 × 1920</string>
+    <string name="create_size_4k">4K Ultra HD · 2160 × 3840</string>
+    <string name="create_size_4k_pro">4K Ultra HD · 2160 × 3840 (Pro)</string>
+    <string name="create_ai_note">Describe a wallpaper and have it drawn for you.</string>
 </resources>

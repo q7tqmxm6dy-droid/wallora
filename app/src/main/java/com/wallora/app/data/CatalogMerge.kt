@@ -25,6 +25,7 @@ internal fun mergeCatalog(remote: List<Wallpaper>, bundled: List<Wallpaper>): Li
             categoryId = twin.categoryId,
             credit = cloud.credit ?: twin.credit,
             license = cloud.license ?: twin.license,
+            colors = cloud.colors.ifEmpty { twin.colors },
         )
     }
     bundled.forEach { local -> if (local.id !in replaced) merged.putIfAbsent(local.id, local) }

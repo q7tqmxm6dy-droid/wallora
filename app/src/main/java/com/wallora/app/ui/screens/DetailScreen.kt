@@ -83,6 +83,7 @@ import com.wallora.app.ui.theme.HeartRed
 import com.wallora.app.util.Analytics
 import com.wallora.app.util.Effect
 import com.wallora.app.util.ImageEffects
+import com.wallora.app.util.AppLinks
 import com.wallora.app.util.ImageSaver
 import com.wallora.app.util.ShareUtils
 import com.wallora.app.util.WallpaperImages
@@ -129,6 +130,8 @@ fun DetailScreen(
     var showTargetDialog by remember { mutableStateOf(false) }
     var showCollections by remember { mutableStateOf(false) }
     var showLockPreview by remember { mutableStateOf(false) }
+    var showHomePreview by remember { mutableStateOf(false) }
+    var showQuality by remember { mutableStateOf(false) }
     var zoom by remember { mutableFloatStateOf(1f) }
     var busy by remember { mutableStateOf(false) }
     var effect by remember { mutableStateOf(Effect.NONE) }
@@ -185,6 +188,28 @@ fun DetailScreen(
         delay(120) // debounce slider drags
         previewImage = withContext(Dispatchers.Default) {
             ImageEffects.apply(effect, base, strength).asImageBitmap()
+        }
+    }
+
+    /** Saves a copy to Pictures/Wallora, optionally scaled down to [maxWidth], and remembers it in the history. */
+    fun download(maxWidth: Int?, label: String) {
+        showQuality = false
+        busy = true
+        scope.launch {
+            val bitmap = loadProcessed()
+            val out = if (bitmap != null && maxWidth != null && bitmap.width > maxWidth) {
+                val h = (bitmap.height * maxWidth.toFloat() / bitmap.width).toInt()
+                Bitmap.createScaledBitmap(bitmap, maxWidth, h, true).also { if (it !== bitmap) bitmap.recycle() }
+            } else bitmap
+            val name = if (maxWidth != null) "${wallpaper.id}_${maxWidth}w" else wallpaper.id
+            val saved = out != null && ImageSaver.saveToGallery(context, out, name)
+            val w = out?.width ?: 0
+            val h = out?.height ?: 0
+            out?.recycle()
+            Analytics.log(context, Analytics.Events.WALLPAPER_SAVED, mapOf("id" to wallpaper.id, "ok" to saved, "w" to w))
+            if (saved) viewModel.recordDownload(wallpaper.id, label, w, h)
+            notify(if (saved) msgSaved else msgSaveFailed)
+            busy = false
         }
     }
 
@@ -258,6 +283,8 @@ fun DetailScreen(
             )
         }
 
+        if (showHomePreview) HomeScreenMock()
+
         if (showLockPreview) {
             Box(Modifier.fillMaxSize().background(Color.Black.copy(alpha = 0.25f)))
             Column(
@@ -312,13 +339,23 @@ fun DetailScreen(
                 )
             }
             IconButton(
-                onClick = { showLockPreview = !showLockPreview },
+                onClick = { showLockPreview = !showLockPreview; if (showLockPreview) showHomePreview = false },
                 modifier = Modifier.background(Color.Black.copy(alpha = 0.35f), CircleShape),
             ) {
                 Icon(
                     imageVector = Icons.Filled.Lock,
                     contentDescription = stringResource(R.string.lock_screen_preview),
                     tint = if (showLockPreview) MaterialTheme.colorScheme.primary else Color.White,
+                )
+            }
+            IconButton(
+                onClick = { showHomePreview = !showHomePreview; if (showHomePreview) showLockPreview = false },
+                modifier = Modifier.background(Color.Black.copy(alpha = 0.35f), CircleShape),
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.ic_smartphone),
+                    contentDescription = stringResource(R.string.home_screen_preview),
+                    tint = if (showHomePreview) MaterialTheme.colorScheme.primary else Color.White,
                 )
             }
             IconButton(
@@ -390,11 +427,14 @@ fun DetailScreen(
                     modifier = Modifier.padding(top = 4.dp),
                 )
             }
-            TextButton(
-                onClick = { showCollections = true },
-                modifier = Modifier.padding(top = 4.dp),
-            ) {
-                Text(stringResource(R.string.add_to_collection), color = Color.White)
+            Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(top = 4.dp)) {
+                TextButton(onClick = { showCollections = true }) {
+                    Text(stringResource(R.string.add_to_collection), color = Color.White)
+                }
+                Spacer(Modifier.weight(1f))
+                TextButton(onClick = { AppLinks.reportContent(context, wallpaper.id, wallpaper.title) }) {
+                    Text(stringResource(R.string.report_content), color = Color.White.copy(alpha = 0.7f))
+                }
             }
             LazyRow(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -477,21 +517,7 @@ fun DetailScreen(
             Spacer(Modifier.height(10.dp))
             Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 Button(
-                    onClick = {
-                        busy = true
-                        scope.launch {
-                            val bitmap = loadProcessed()
-                            val saved = bitmap != null && ImageSaver.saveToGallery(context, bitmap, wallpaper.id)
-                            bitmap?.recycle()
-                            Analytics.log(
-                                context,
-                                Analytics.Events.WALLPAPER_SAVED,
-                                mapOf("id" to wallpaper.id, "ok" to saved),
-                            )
-                            notify(if (saved) msgSaved else msgSaveFailed)
-                            busy = false
-                        }
-                    },
+                    onClick = { showQuality = true },
                     enabled = !busy,
                     modifier = Modifier.weight(1f),
                     colors = ButtonDefaults.buttonColors(
@@ -580,6 +606,24 @@ fun DetailScreen(
         )
     }
 
+    if (showQuality) {
+        AlertDialog(
+            onDismissRequest = { showQuality = false },
+            title = { Text(stringResource(R.string.quality_title)) },
+            text = {
+                Column {
+                    TargetOption(painterResource(R.drawable.ic_download), stringResource(if (wallpaper.uhd) R.string.quality_original_4k else R.string.quality_original)) {
+                        download(null, if (wallpaper.uhd) "4K" else "Original")
+                    }
+                    TargetOption(painterResource(R.drawable.ic_download), stringResource(R.string.quality_medium)) { download(720, "720p") }
+                    TargetOption(painterResource(R.drawable.ic_download), stringResource(R.string.quality_small)) { download(480, "480p") }
+                }
+            },
+            confirmButton = {},
+            dismissButton = { TextButton(onClick = { showQuality = false }) { Text(stringResource(R.string.action_cancel)) } },
+        )
+    }
+
     if (showTargetDialog) {
         AlertDialog(
             onDismissRequest = { showTargetDialog = false },
@@ -641,5 +685,29 @@ private fun TargetOption(painter: Painter, label: String, onClick: () -> Unit) {
         Icon(painter, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
         Spacer(Modifier.width(16.dp))
         Text(label, style = MaterialTheme.typography.bodyLarge)
+    }
+}
+
+/** A stand-in launcher drawn over the wallpaper, so the user can judge how icons will sit on it. */
+@Composable
+private fun HomeScreenMock() {
+    val tints = listOf(Color(0xFF4DD0E1), Color(0xFFFF8A65), Color(0xFFBA68C8), Color(0xFF81C784), Color(0xFFFFD54F), Color(0xFF64B5F6))
+    Box(Modifier.fillMaxSize().background(Color.Black.copy(alpha = 0.12f))) {
+        Column(
+            modifier = Modifier.fillMaxSize().statusBarsPadding().padding(top = 70.dp, start = 22.dp, end = 22.dp),
+            verticalArrangement = Arrangement.spacedBy(26.dp),
+        ) {
+            Box(Modifier.fillMaxWidth().height(50.dp).clip(RoundedCornerShape(25.dp)).background(Color.White.copy(alpha = 0.22f)))
+            repeat(5) { row ->
+                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                    repeat(4) { col ->
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Box(Modifier.size(58.dp).clip(RoundedCornerShape(17.dp)).background(tints[(row * 4 + col) % tints.size].copy(alpha = 0.92f)))
+                            Box(Modifier.padding(top = 6.dp).width(34.dp).height(5.dp).clip(RoundedCornerShape(3.dp)).background(Color.White.copy(alpha = 0.7f)))
+                        }
+                    }
+                }
+            }
+        }
     }
 }

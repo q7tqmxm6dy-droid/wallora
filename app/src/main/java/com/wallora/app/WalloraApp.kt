@@ -3,6 +3,10 @@ package com.wallora.app
 import android.app.Application
 import android.content.ComponentCallbacks
 import android.content.res.Configuration
+import coil.ImageLoader
+import coil.ImageLoaderFactory
+import coil.disk.DiskCache
+import coil.memory.MemoryCache
 import com.google.firebase.messaging.FirebaseMessaging
 import com.wallora.app.billing.ProManager
 import com.wallora.app.data.PreferencesRepository
@@ -27,7 +31,19 @@ import kotlinx.coroutines.launch
  * re-applies the variant of the current wallpaper that matches the new theme.
  * Also makes sure the daily rotation job is scheduled after a reboot/update.
  */
-class WalloraApp : Application() {
+class WalloraApp : Application(), ImageLoaderFactory {
+
+    /**
+     * One shared image loader: a quarter of the app's memory for decoded bitmaps and a 256 MB disk cache, so cloud
+     * wallpapers load instantly the second time and scrolling a large grid stays smooth.
+     */
+    override fun newImageLoader(): ImageLoader = ImageLoader.Builder(this)
+        .memoryCache { MemoryCache.Builder(this).maxSizePercent(0.25).build() }
+        .diskCache { DiskCache.Builder().directory(cacheDir.resolve("image_cache")).maxSizeBytes(256L * 1024 * 1024).build() }
+        .crossfade(true)
+        .respectCacheHeaders(false)
+        .build()
+
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
 

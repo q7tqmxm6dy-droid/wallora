@@ -259,4 +259,54 @@
     <string name="trending_sub">إطلالات رائجة مختارة، تتجدد كل %1$d أيام</string>
     <string name="top_ten">أفضل 10 الآن</string>
     <string name="viral_styles">أنماط منتشرة</string>
+    <string name="color_red">أحمر</string><string name="color_orange">برتقالي</string><string name="color_yellow">أصفر</string>
+    <string name="color_green">أخضر</string><string name="color_teal">تركوازي</string><string name="color_blue">أزرق</string>
+    <string name="color_purple">بنفسجي</string><string name="color_pink">وردي</string><string name="color_brown">بني</string>
+    <string name="color_black">أسود</string><string name="color_gray">رمادي</string><string name="color_white">أبيض</string>
+    <string name="quality_title">جودة التنزيل</string>
+    <string name="quality_original">الجودة الأصلية</string>
+    <string name="quality_original_4k">الأصلية · 4K فائق الدقة</string>
+    <string name="quality_medium">متوسطة · 720p (ملف أصغر)</string>
+    <string name="quality_small">صغيرة · 480p (أصغر ملف)</string>
+    <string name="home_screen_preview">معاينة الشاشة الرئيسية</string>
+    <string name="report_content">إبلاغ</string>
+    <string name="downloads_title">التنزيلات</string>
+    <string name="downloads_empty">لم تحفظ أي شيء بعد. اضغط تنزيل على أي خلفية وستظهر هنا.</string>
+    <string name="picked_for_you">مختارة لك</string>
+    <string name="picked_for_you_sub">بناءً على ما تفضّله وتشاهده وتنزّله. تبقى على هاتفك.</string>
+    <string name="your_top_downloads">الأكثر تنزيلًا عندك</string>
+    <string name="roadmap_title">ما هو قادم</string>
+    <string name="coming_soon">قريبًا</string>
+    <string name="nav_create">إنشاء</string>
+    <string name="create_sub">صمّم خلفيتك في ثوانٍ. تُنشأ على هاتفك ومجانًا.</string>
+    <string name="create_preview">معاينة الخلفية</string>
+    <string name="create_style">النمط</string>
+    <string name="create_palette">الألوان</string>
+    <string name="create_grain">الحبيبات</string>
+    <string name="create_shuffle">عشوائي</string>
+    <string name="gen_aura">هالة</string>
+    <string name="gen_gradient">تدرّج</string>
+    <string name="gen_waves">أمواج</string>
+    <string name="gen_orbs">كرات</string>
+    <string name="create_size_hd">Full HD · 1080 × 1920</string>
+    <string name="create_size_4k">4K فائق الدقة · 2160 × 3840</string>
+    <string name="create_size_4k_pro">4K فائق الدقة · 2160 × 3840 (Pro)</string>
+    <string name="create_ai_note">صِف خلفية ودع الذكاء الاصطناعي يرسمها لك.</string>
+    <string name="roadmap_intro">هذه الميزات تحتاج إلى خادم أو حسابات مستخدمين أو إشراف، لذلك لم تُفعَّل بعد. لا توجد هنا أزرار: كل ميزة تصدر عندما تعمل بشكل صحيح وآمن.</string>
+    <string name="rm_accounts">الحسابات والملفات الشخصية</string>
+    <string name="rm_accounts_why">تسجيل دخول آمن وملف شخصي ومفضلات متزامنة. تحتاج إلى تفعيل التسجيل في الخادم مع قواعد تمنع أي مستخدم من لمس بيانات غيره.</string>
+    <string name="rm_uploads">رفع المجتمع مع الإشراف</string>
+    <string name="rm_uploads_why">ارفع خلفياتك. تُراجَع كل خلفية قبل نشرها مع الإبلاغ والحظر كما يشترط Google Play للمحتوى الذي ينشئه المستخدمون.</string>
+    <string name="rm_social">الإعجابات والمتابعة وصفحات المبدعين</string>
+    <string name="rm_social_why">تابع المبدعين وأعجب بالخلفيات. تعتمد على الحسابات والرفع.</string>
+    <string name="rm_ai">إنشاء خلفيات بالذكاء الاصطناعي من وصف</string>
+    <string name="rm_ai_why">اكتب فكرة واحصل على خلفية. تحتاج إلى نموذج صور سحابي وحصة استخدام وتصفية للمحتوى. تبتكر لك تبويبة إنشاء تصاميم على هاتفك الآن.</string>
+    <string name="rm_icons">حزم أيقونات متناسقة</string>
+    <string name="rm_icons_why">أيقونات بألوان تناسب الخلفية. تحتاج إلى تكامل مع الشاشة الرئيسية يختلف بين الشركات.</string>
+    <string name="rm_subs">خطط الاشتراك</string>
+    <string name="rm_subs_why">خيارات شهرية وسنوية. Wallora Pro حاليًا عملية شراء لمرة واحدة.</string>
+    <string name="rm_global">ترتيب الأكثر تنزيلًا عالميًا</string>
+    <string name="rm_global_why">يحتاج إلى عداد تنزيلات مشترك على الخادم. قائمتك الخاصة تعمل الآن.</string>
+    <string name="rm_admin">المشرف: المستخدمون والتحليلات</string>
+    <string name="rm_admin_why">صفحة المشرف تدير الخلفيات والفئات حاليًا. إدارة المستخدمين والتحليلات تحتاج إلى حسابات؛ التحليلات متاحة في وحدة تحكم Firebase.</string>
 </resources>

@@ -27,6 +27,8 @@ data class Wallpaper(
     val tags: List<String> = emptyList(),
     /** True when the image is genuine 2160x3840 (4K); drives the badge and the 4K filter. */
     val uhd: Boolean = false,
+    /** Up to two dominant colour names (see [WallpaperColors]); drives the colour filter. */
+    val colors: List<String> = emptyList(),
 ) {
     val hasDarkVariant: Boolean get() = darkImageUrl != null || darkResId != null
 

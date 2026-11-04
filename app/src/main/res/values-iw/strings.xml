@@ -238,4 +238,54 @@
     <string name="trending_sub">מראות ויראליים נבחרים, מתחדשים כל %1$d ימים</string>
     <string name="top_ten">10 המובילים עכשיו</string>
     <string name="viral_styles">סגנונות ויראליים</string>
+    <string name="color_red">אדום</string><string name="color_orange">כתום</string><string name="color_yellow">צהוב</string>
+    <string name="color_green">ירוק</string><string name="color_teal">טורקיז</string><string name="color_blue">כחול</string>
+    <string name="color_purple">סגול</string><string name="color_pink">ורוד</string><string name="color_brown">חום</string>
+    <string name="color_black">שחור</string><string name="color_gray">אפור</string><string name="color_white">לבן</string>
+    <string name="quality_title">איכות הורדה</string>
+    <string name="quality_original">איכות מקורית</string>
+    <string name="quality_original_4k">מקורית · 4K אולטרה HD</string>
+    <string name="quality_medium">בינונית · 720p (קובץ קטן יותר)</string>
+    <string name="quality_small">קטנה · 480p (הקובץ הקטן ביותר)</string>
+    <string name="home_screen_preview">תצוגה מקדימה של מסך הבית</string>
+    <string name="report_content">דווח</string>
+    <string name="downloads_title">הורדות</string>
+    <string name="downloads_empty">עוד לא שמרתם כלום. לחצו על הורדה בכל רקע והוא יופיע כאן.</string>
+    <string name="picked_for_you">נבחר בשבילך</string>
+    <string name="picked_for_you_sub">לפי מה שאתם מסמנים, צופים ומורידים. נשאר בטלפון.</string>
+    <string name="your_top_downloads">הכי הורדתם</string>
+    <string name="roadmap_title">מה בדרך</string>
+    <string name="coming_soon">בקרוב</string>
+    <string name="nav_create">יצירה</string>
+    <string name="create_sub">עצבו רקע משלכם בשניות. נוצר בטלפון, בחינם.</string>
+    <string name="create_preview">תצוגה מקדימה של הרקע</string>
+    <string name="create_style">סגנון</string>
+    <string name="create_palette">צבעים</string>
+    <string name="create_grain">גרגיריות</string>
+    <string name="create_shuffle">ערבוב</string>
+    <string name="gen_aura">הילה</string>
+    <string name="gen_gradient">מעבר צבעים</string>
+    <string name="gen_waves">גלים</string>
+    <string name="gen_orbs">כדורים</string>
+    <string name="create_size_hd">Full HD · 1080 × 1920</string>
+    <string name="create_size_4k">4K אולטרה HD · 2160 × 3840</string>
+    <string name="create_size_4k_pro">4K אולטרה HD · 2160 × 3840 (Pro)</string>
+    <string name="create_ai_note">תארו רקע וקבלו אותו מצויר.</string>
+    <string name="roadmap_intro">התכונות האלה דורשות שרת, חשבונות משתמשים או פיקוח, ולכן עוד לא פעילות. אין כאן כפתורים: כל תכונה תושק כשתעבוד כראוי ובבטחה.</string>
+    <string name="rm_accounts">חשבונות ופרופילים</string>
+    <string name="rm_accounts_why">כניסה מאובטחת, פרופיל ציבורי ומועדפים מסונכרנים. דורש הפעלת הרשמה בשרת עם כללים שמונעים ממשתמש לגעת בנתוני אחר.</string>
+    <string name="rm_uploads">העלאות קהילה עם פיקוח</string>
+    <string name="rm_uploads_why">העלו רקעים משלכם. כל העלאה תיבדק לפני פרסום, עם דיווח וחסימה כפי ש-Google Play דורשת לתוכן משתמשים.</string>
+    <string name="rm_social">לייקים, מעקב ודפי יוצרים</string>
+    <string name="rm_social_why">עקבו אחרי יוצרים וסמנו לייק. תלוי בחשבונות ובהעלאות.</string>
+    <string name="rm_ai">יצירת רקעים בבינה מלאכותית מתיאור</string>
+    <string name="rm_ai_why">כתבו רעיון וקבלו רקע. דורש מודל תמונות בענן, מכסת שימוש וסינון תוכן. לשונית היצירה כבר מעצבת עבורכם בטלפון.</string>
+    <string name="rm_icons">חבילות אייקונים תואמות</string>
+    <string name="rm_icons_why">אייקונים בגוון שמתאים לרקע. דורש שילוב עם המשגר שמשתנה בין יצרנים.</string>
+    <string name="rm_subs">תוכניות מנוי</string>
+    <string name="rm_subs_why">אפשרויות חודשיות ושנתיות. Wallora Pro הוא כיום רכישה חד-פעמית.</string>
+    <string name="rm_global">דירוג ההורדות העולמי</string>
+    <string name="rm_global_why">דורש מונה הורדות משותף בשרת. הרשימה האישית שלכם פועלת כבר עכשיו.</string>
+    <string name="rm_admin">מנהל: משתמשים וניתוח נתונים</string>
+    <string name="rm_admin_why">דף הניהול מנהל כיום רקעים וקטגוריות. ניהול משתמשים וניתוחים דורשים חשבונות; הניתוחים זמינים בקונסולת Firebase.</string>
 </resources>

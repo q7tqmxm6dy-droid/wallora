@@ -17,6 +17,9 @@ import java.time.LocalDate
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "wallora_prefs")
 
+/** One saved copy of a wallpaper, kept so the user can find it again. */
+data class DownloadRecord(val id: String, val at: Long, val label: String, val width: Int, val height: Int)
+
 /** Persists favourites, preferences, wallpaper history and rotation settings. */
 class PreferencesRepository(private val context: Context) {
 
@@ -33,6 +36,7 @@ class PreferencesRepository(private val context: Context) {
         val LAST_DARK = booleanPreferencesKey("last_dark")
         val ROTATION_INDEX = stringPreferencesKey("rotation_index")
         val HISTORY = stringPreferencesKey("history")
+        val DOWNLOADS = stringPreferencesKey("downloads_json")
 
         val LIVE_MODE = stringPreferencesKey("live_mode")
         val LIVE_INTERVAL = stringPreferencesKey("live_interval")
@@ -188,6 +192,37 @@ class PreferencesRepository(private val context: Context) {
     /** Most recent first, capped. */
     val history: Flow<List<String>> = context.dataStore.data.map { prefs ->
         prefs[Keys.HISTORY]?.split("|")?.filter { it.isNotBlank() } ?: emptyList()
+    }
+
+    // ---- download history ---------------------------------------------------
+
+    /** Most recent first, capped at 300. */
+    val downloads: Flow<List<DownloadRecord>> = context.dataStore.data.map { parseDownloads(it[Keys.DOWNLOADS]) }
+
+    private fun parseDownloads(raw: String?): List<DownloadRecord> {
+        if (raw.isNullOrBlank()) return emptyList()
+        return runCatching {
+            val array = JSONArray(raw)
+            List(array.length()) { i ->
+                val o = array.getJSONObject(i)
+                DownloadRecord(o.getString("id"), o.getLong("at"), o.optString("label"), o.optInt("w"), o.optInt("h"))
+            }
+        }.getOrDefault(emptyList())
+    }
+
+    suspend fun recordDownload(record: DownloadRecord) {
+        context.dataStore.edit { prefs ->
+            val updated = (listOf(record) + parseDownloads(prefs[Keys.DOWNLOADS])).take(300)
+            prefs[Keys.DOWNLOADS] = JSONArray().also { arr ->
+                updated.forEach { r ->
+                    arr.put(JSONObject().put("id", r.id).put("at", r.at).put("label", r.label).put("w", r.width).put("h", r.height))
+                }
+            }.toString()
+        }
+    }
+
+    suspend fun clearDownloads() {
+        context.dataStore.edit { it.remove(Keys.DOWNLOADS) }
     }
 
     suspend fun toggleFavorite(id: String) {

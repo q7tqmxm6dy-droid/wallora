@@ -16,6 +16,14 @@ object AppLinks {
         Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:$SUPPORT_EMAIL")).putExtra(Intent.EXTRA_SUBJECT, subject),
     )
 
+    /** Opens a prefilled email so a user can flag a wallpaper; no server is needed for it to work. */
+    fun reportContent(context: Context, wallpaperId: String, title: String) = open(
+        context,
+        Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:$SUPPORT_EMAIL"))
+            .putExtra(Intent.EXTRA_SUBJECT, "Report: $title")
+            .putExtra(Intent.EXTRA_TEXT, "I'd like to report this wallpaper.\n\nTitle: $title\nId: $wallpaperId\nReason: "),
+    )
+
     /** Opens the Play Store page, or the web page when no store app is installed. */
     fun rateApp(context: Context) {
         val id = context.packageName

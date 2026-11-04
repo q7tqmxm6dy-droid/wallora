@@ -44,6 +44,7 @@ import androidx.compose.ui.util.lerp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wallora.app.R
 import com.wallora.app.data.Curation
+import com.wallora.app.data.Recommender
 import com.wallora.app.data.Taxonomy
 import com.wallora.app.ui.WallpaperViewModel
 import com.wallora.app.ui.components.GlowBackground
@@ -75,6 +76,8 @@ fun HomeScreen(
     val wallpapers by viewModel.wallpapers.collectAsStateWithLifecycle()
     val favorites by viewModel.favorites.collectAsStateWithLifecycle()
     val categories by viewModel.categories.collectAsStateWithLifecycle()
+    val history by viewModel.history.collectAsStateWithLifecycle()
+    val downloads by viewModel.downloads.collectAsStateWithLifecycle()
 
     val today = remember { LocalDate.now() }
     val day = today.toEpochDay()
@@ -82,6 +85,9 @@ fun HomeScreen(
     val trending = remember(wallpapers) { Curation.trending(wallpapers, day, 12) }
     val drop = remember(wallpapers) { Curation.dailyDrop(wallpapers, day, 8) }
     val feed = remember(wallpapers) { Curation.feed(wallpapers, day) }
+    val picks = remember(wallpapers, favorites, history, downloads) {
+        Recommender.pick(wallpapers, favorites, history.map { it.id }, downloads.map { it.id }, day, 10)
+    }
     val dropDate = remember(today) { today.format(DateTimeFormatter.ofPattern("EEE, MMM d")) }
 
     Box(Modifier.fillMaxSize()) {
@@ -140,6 +146,28 @@ fun HomeScreen(
                     }
                 }
             }
+            }
+
+            if (history.isNotEmpty()) item(span = StaggeredGridItemSpan.FullLine) {
+                Column {
+                    SectionHeader(stringResource(R.string.recently_viewed))
+                    LazyRow(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                        items(history.take(12), key = { "recent-" + it.id }) { w ->
+                            PosterCard(w, darkTheme, 110.dp, onClick = { onOpenWallpaper(w.id) }, aspect = 9f / 14f)
+                        }
+                    }
+                }
+            }
+
+            item(span = StaggeredGridItemSpan.FullLine) {
+                Column {
+                    SectionHeader(stringResource(R.string.picked_for_you), subtitle = stringResource(R.string.picked_for_you_sub))
+                    LazyRow(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                        items(picks, key = { "pick-" + it.id }) { w ->
+                            PosterCard(w, darkTheme, 150.dp, onClick = { onOpenWallpaper(w.id) })
+                        }
+                    }
+                }
             }
 
             item(span = StaggeredGridItemSpan.FullLine) {

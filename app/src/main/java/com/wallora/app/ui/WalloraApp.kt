@@ -34,7 +34,10 @@ import androidx.navigation.navArgument
 import com.wallora.app.R
 import com.wallora.app.ads.AdBanner
 import com.wallora.app.ui.screens.AdminScreen
+import com.wallora.app.ui.screens.CreateScreen
 import com.wallora.app.ui.screens.DiscoverScreen
+import com.wallora.app.ui.screens.DownloadsScreen
+import com.wallora.app.ui.screens.RoadmapScreen
 import com.wallora.app.ui.screens.TrendingScreen
 import com.wallora.app.ui.screens.CollectionScreen
 import com.wallora.app.ui.screens.CollectionsScreen
@@ -50,6 +53,7 @@ private object Routes {
     const val HOME = "home"
     const val DISCOVER = "discover"
     const val TRENDING = "trending"
+    const val CREATE = "create"
     const val FAVORITES = "favorites"
     const val CATEGORY = "category/{categoryId}"
     const val DETAIL = "detail/{wallpaperId}"
@@ -57,6 +61,8 @@ private object Routes {
     const val SETTINGS = "settings"
     const val PROFILE = "profile"
     const val PRO = "pro"
+    const val DOWNLOADS = "downloads"
+    const val ROADMAP = "roadmap"
     const val COLLECTIONS = "collections"
     const val COLLECTION = "collection/{collectionName}"
 
@@ -97,6 +103,7 @@ fun WalloraApp(
     val showBottomBar = currentRoute == Routes.HOME ||
         currentRoute == Routes.DISCOVER ||
         currentRoute == Routes.TRENDING ||
+        currentRoute == Routes.CREATE ||
         currentRoute == Routes.FAVORITES
 
     val navigateToTopLevel: (String) -> Unit = { route ->
@@ -130,6 +137,12 @@ fun WalloraApp(
                             onClick = { navigateToTopLevel(Routes.DISCOVER) },
                             icon = { Icon(Icons.Filled.Search, contentDescription = null) },
                             label = { Text(stringResource(R.string.nav_discover)) },
+                        )
+                        NavigationBarItem(
+                            selected = currentRoute == Routes.CREATE,
+                            onClick = { navigateToTopLevel(Routes.CREATE) },
+                            icon = { Icon(painterResource(R.drawable.ic_create), contentDescription = null) },
+                            label = { Text(stringResource(R.string.nav_create)) },
                         )
                         NavigationBarItem(
                             selected = currentRoute == Routes.TRENDING,
@@ -179,6 +192,13 @@ fun WalloraApp(
                     onOpenWallpaper = { navController.navigate(Routes.detail(it)) },
                 )
             }
+            composable(Routes.CREATE) {
+                CreateScreen(
+                    viewModel = viewModel,
+                    onOpenPro = { navController.navigate(Routes.PRO) },
+                    onOpenRoadmap = { navController.navigate(Routes.ROADMAP) },
+                )
+            }
             composable(Routes.TRENDING) {
                 TrendingScreen(
                     viewModel = viewModel,
@@ -223,6 +243,8 @@ fun WalloraApp(
                     onOpenAdmin = { navController.navigate(Routes.ADMIN) },
                     onOpenCollections = { navController.navigate(Routes.COLLECTIONS) },
                     onOpenPro = { navController.navigate(Routes.PRO) },
+                    onOpenDownloads = { navController.navigate(Routes.DOWNLOADS) },
+                    onOpenRoadmap = { navController.navigate(Routes.ROADMAP) },
                 )
             }
             composable(Routes.SETTINGS) {
@@ -234,6 +256,15 @@ fun WalloraApp(
                     onBack = { navController.popBackStack() },
                 )
             }
+            composable(Routes.DOWNLOADS) {
+                DownloadsScreen(
+                    viewModel = viewModel,
+                    dark = darkTheme,
+                    onBack = { navController.popBackStack() },
+                    onOpenWallpaper = { navController.navigate(Routes.detail(it)) },
+                )
+            }
+            composable(Routes.ROADMAP) { RoadmapScreen(onBack = { navController.popBackStack() }) }
             composable(Routes.PRO) {
                 ProScreen(onBack = { navController.popBackStack() })
             }

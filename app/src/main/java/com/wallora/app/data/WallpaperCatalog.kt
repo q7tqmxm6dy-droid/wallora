@@ -198,7 +198,12 @@ object WallpaperCatalog {
         Wallpaper("photo_sport_night_hoop", "Night Hoop", "sports", R.drawable.photo_sport_night_hoop, credit = "Ximonic (Simo Räsänen) via Wikimedia Commons (cropped)", license = "CC BY 3.0"),
     )
 
-    val wallpapers: List<Wallpaper> = entries.map { it.copy(categoryId = Taxonomy.categoryFor(it.categoryId, it.title)) }
+    val wallpapers: List<Wallpaper> = entries.map {
+        it.copy(
+            categoryId = Taxonomy.categoryFor(it.categoryId, it.title),
+            colors = ColorIndex.byId[it.id].orEmpty(),
+        )
+    }
 
     private val byId: Map<String, Wallpaper> = wallpapers.associateBy { it.id }
 

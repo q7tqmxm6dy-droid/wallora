@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.wallora.app.R
 import com.wallora.app.billing.ProManager
 import com.wallora.app.data.AdminRepository
+import com.wallora.app.data.DownloadRecord
 import com.wallora.app.data.Category
 import com.wallora.app.data.PreferencesRepository
 import com.wallora.app.data.RemoteWallpaperRepository
@@ -60,6 +61,19 @@ class WallpaperViewModel(application: Application) : AndroidViewModel(applicatio
     val isPro: StateFlow<Boolean> = ProManager.state
         .map { it.isPro }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), ProManager.state.value.isPro)
+
+    // ---- download history ----------------------------------------------------
+
+    val downloads: StateFlow<List<DownloadRecord>> = preferences.downloads
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
+
+    fun recordDownload(wallpaperId: String, label: String, width: Int, height: Int) {
+        viewModelScope.launch { preferences.recordDownload(DownloadRecord(wallpaperId, System.currentTimeMillis(), label, width, height)) }
+    }
+
+    fun clearDownloads() {
+        viewModelScope.launch { preferences.clearDownloads() }
+    }
 
     // ---- browsing ----------------------------------------------------------
 

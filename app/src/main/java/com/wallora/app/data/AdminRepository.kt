@@ -89,6 +89,7 @@ class AdminRepository {
                 "path" to fileRef.path,
                 "createdAt" to FieldValue.serverTimestamp(),
             )
+            DominantColor.of(bytes).takeIf { it.isNotEmpty() }?.let { document["colors"] = it }
             // Flag genuine 4K uploads so the app can badge them and offer the 4K filter.
             imageSize(bytes)?.let { (w, h) ->
                 document["width"] = w
