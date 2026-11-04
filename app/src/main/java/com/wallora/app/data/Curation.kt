@@ -29,7 +29,7 @@ object Curation {
     }
 
     /** Photographs, dreamscapes, luxury and the trend set are the flagship art; the simple posters are not. */
-    private val FLAGSHIP_PREFIXES = listOf("photo_", "dream_", "lux_", "trend_", "viral_")
+    private val FLAGSHIP_PREFIXES = listOf("photo_", "dream_", "lux_", "trend_", "viral_", "nightcar_")
     fun isFlagship(w: Wallpaper): Boolean = w.uhd || FLAGSHIP_PREFIXES.any { w.id.startsWith(it) }
 
     fun trendScore(w: Wallpaper, epochDay: Long): Int {

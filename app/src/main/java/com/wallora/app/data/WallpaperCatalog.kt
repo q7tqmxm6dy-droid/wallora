@@ -138,6 +138,25 @@ object WallpaperCatalog {
         Wallpaper("viral_neon_rain", "Neon Rain", "city", R.drawable.viral_neon_rain),
         Wallpaper("viral_sakura_drive", "Sakura Night Drive", "cars", R.drawable.viral_sakura_drive),
 
+        // Night cars — supplied by the app owner from the 'Wallpaper App Prompt_files' folder; see NIGHT_CARS_SOURCE.md
+        Wallpaper("nightcar_01", "City Night Sedan", "cars", R.drawable.nightcar_01),
+        Wallpaper("nightcar_02", "Smoke Drift", "cars", R.drawable.nightcar_02),
+        Wallpaper("nightcar_03", "Red Legend", "cars", R.drawable.nightcar_03),
+        Wallpaper("nightcar_04", "Gas Station Noir", "cars", R.drawable.nightcar_04),
+        Wallpaper("nightcar_05", "Tunnel Run", "cars", R.drawable.nightcar_05),
+        Wallpaper("nightcar_06", "Bridge Fog", "cars", R.drawable.nightcar_06),
+        Wallpaper("nightcar_07", "Cherry Blossom Drive", "cars", R.drawable.nightcar_07),
+        Wallpaper("nightcar_08", "Violet Skyline", "cars", R.drawable.nightcar_08),
+        Wallpaper("nightcar_09", "Snowfall Drive", "cars", R.drawable.nightcar_09),
+        Wallpaper("nightcar_10", "Black Muscle", "cars", R.drawable.nightcar_10),
+        Wallpaper("nightcar_11", "Pink Neon Skyline", "cars", R.drawable.nightcar_11),
+        Wallpaper("nightcar_12", "Silver Streets", "cars", R.drawable.nightcar_12),
+        Wallpaper("nightcar_13", "Concrete Silence", "cars", R.drawable.nightcar_13),
+        Wallpaper("nightcar_14", "Midnight Blue", "cars", R.drawable.nightcar_14),
+        Wallpaper("nightcar_15", "Orange Rain", "cars", R.drawable.nightcar_15),
+        Wallpaper("nightcar_16", "Black Mist", "cars", R.drawable.nightcar_16),
+        Wallpaper("nightcar_17", "Red Line", "cars", R.drawable.nightcar_17),
+
         // Luxury — original embossed-monogram patterns drawn for Wallora (no third-party marks)
         Wallpaper("lux_midnight_gold", "Midnight Gold", "luxury", R.drawable.lux_midnight_gold),
         Wallpaper("lux_noir_gold", "Noir Gold", "luxury", R.drawable.lux_noir_gold),
