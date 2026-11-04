@@ -157,6 +157,27 @@ object WallpaperCatalog {
         Wallpaper("nightcar_16", "Black Mist", "cars", R.drawable.nightcar_16),
         Wallpaper("nightcar_17", "Red Line", "cars", R.drawable.nightcar_17),
 
+        // Mood images — supplied by the app owner from the 'Wallpaper App Prompt_files' folder; see MOOD_IMAGES_SOURCE.md
+        Wallpaper("mood_01", "Blue Pedestal", "dark", R.drawable.mood_01),
+        Wallpaper("mood_02", "Moonlit Shore", "nature", R.drawable.mood_02),
+        Wallpaper("mood_03", "Black Rose", "dark", R.drawable.mood_03),
+        Wallpaper("mood_04", "Private Cabin", "luxury", R.drawable.mood_04),
+        Wallpaper("mood_05", "Gothic Keep", "dark", R.drawable.mood_05),
+        Wallpaper("mood_06", "Misty Peak", "nature", R.drawable.mood_06),
+        Wallpaper("mood_07", "Black Silhouette", "luxury", R.drawable.mood_07),
+        Wallpaper("mood_08", "Violet Night Sky", "pinterest", R.drawable.mood_08),
+        Wallpaper("mood_09", "Dark Wings", "dark", R.drawable.mood_09),
+        Wallpaper("mood_10", "Red Shadow", "gaming", R.drawable.mood_10),
+        Wallpaper("mood_11", "Green Blade", "gaming", R.drawable.mood_11),
+        Wallpaper("mood_12", "Violet Hunter", "gaming", R.drawable.mood_12),
+        Wallpaper("mood_13", "Retro Sunset PC", "gaming", R.drawable.mood_13),
+        Wallpaper("mood_14", "Steel Chronograph", "luxury", R.drawable.mood_14),
+        Wallpaper("mood_15", "Neon Avenue", "city", R.drawable.mood_15),
+        Wallpaper("mood_16", "Purple Tide", "nature", R.drawable.mood_16),
+        Wallpaper("mood_17", "Liquid Chrome", "abstract3d", R.drawable.mood_17),
+        Wallpaper("mood_18", "Skyline Penthouse", "luxury", R.drawable.mood_18),
+        Wallpaper("mood_19", "Silver Gaze", "gaming", R.drawable.mood_19),
+
         // Luxury — original embossed-monogram patterns drawn for Wallora (no third-party marks)
         Wallpaper("lux_midnight_gold", "Midnight Gold", "luxury", R.drawable.lux_midnight_gold),
         Wallpaper("lux_noir_gold", "Noir Gold", "luxury", R.drawable.lux_noir_gold),
