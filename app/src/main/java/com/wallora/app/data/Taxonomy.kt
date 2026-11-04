@@ -60,6 +60,16 @@ object Taxonomy {
         "match ball" to "dark", "floodlit fog" to "dark", "night hoop" to "city",
     )
 
+    /**
+     * Wallpapers taken out of the app. The cloud catalogue still holds copies under the same ids
+     * (they were seeded from the bundled set), so they are filtered out when the cloud list is read.
+     * Delete them from the admin page to retire them for good.
+     */
+    val retiredIds: Set<String> = setOf(
+        // flat white-car-on-colour illustrations ("Scarlet Coupe" ... "Graphite Coupe")
+        "cars_p01", "cars_p02", "cars_p03", "cars_p04", "cars_p05", "cars_p06",
+    )
+
     /** Old ids that must not show up as extra categories when the cloud still lists them. */
     val legacyIds: Set<String> = byOldId.keys
 

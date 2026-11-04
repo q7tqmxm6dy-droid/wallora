@@ -67,4 +67,10 @@ class CurationTest {
         assertTrue(ratios.size > 2)
         assertEquals(Curation.cardRatio("abc"), Curation.cardRatio("abc"))
     }
+
+    @Test
+    fun `retired wallpapers are not bundled`() {
+        val ids = WallpaperCatalog.wallpapers.map { it.id }.toSet()
+        assertTrue(Taxonomy.retiredIds.none { it in ids })
+    }
 }

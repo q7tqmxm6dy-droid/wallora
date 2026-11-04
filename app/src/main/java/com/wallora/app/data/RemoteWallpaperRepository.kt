@@ -24,7 +24,7 @@ class RemoteWallpaperRepository {
     fun wallpapers(): Flow<List<Wallpaper>> {
         val reference = db?.collection(COLLECTION) ?: return flowOf(emptyList())
         return reference.snapshotFlow()
-            .map { snapshot -> snapshot.documents.mapNotNull { it.toWallpaper() } }
+            .map { snapshot -> snapshot.documents.filter { it.id !in Taxonomy.retiredIds }.mapNotNull { it.toWallpaper() } }
             .map { list ->
                 list.sortedWith(
                     compareByDescending<Wallpaper> { it.featured }

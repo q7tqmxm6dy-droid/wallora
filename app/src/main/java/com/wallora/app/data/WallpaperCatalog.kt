@@ -52,12 +52,6 @@ object WallpaperCatalog {
         Wallpaper("cars_03", "Tire Tracks", "cars", R.drawable.cars_03_light, darkResId = R.drawable.cars_03_dark),
         Wallpaper("cars_04", "Highway Lines", "cars", R.drawable.cars_04_light, darkResId = R.drawable.cars_04_dark),
         // Cars — flat-colour posters
-        Wallpaper("cars_p01", "Scarlet Coupe", "cars", R.drawable.cars_p01_light, darkResId = R.drawable.cars_p01_dark),
-        Wallpaper("cars_p02", "Azure Coupe", "cars", R.drawable.cars_p02_light, darkResId = R.drawable.cars_p02_dark),
-        Wallpaper("cars_p03", "Amber Coupe", "cars", R.drawable.cars_p03_light, darkResId = R.drawable.cars_p03_dark),
-        Wallpaper("cars_p04", "Emerald Coupe", "cars", R.drawable.cars_p04_light, darkResId = R.drawable.cars_p04_dark),
-        Wallpaper("cars_p05", "Violet Coupe", "cars", R.drawable.cars_p05_light, darkResId = R.drawable.cars_p05_dark),
-        Wallpaper("cars_p06", "Graphite Coupe", "cars", R.drawable.cars_p06_light, darkResId = R.drawable.cars_p06_dark),
         // Posters — colourful flat subjects
         Wallpaper("posters_p01", "Summit", "posters", R.drawable.posters_p01_light, darkResId = R.drawable.posters_p01_dark),
         Wallpaper("posters_p02", "Tropic", "posters", R.drawable.posters_p02_light, darkResId = R.drawable.posters_p02_dark),
