@@ -208,6 +208,7 @@
     <string name="pro_badge">Pro</string>
     <string name="pro_cta_title">Go Pro</string>
     <string name="pro_cta_sub">Remove ads and unlock every feature</string>
+    <string name="pro_cta_sub_noads">Unlock every feature</string>
     <string name="pro_member">Pro member</string>
     <string name="pro_locked_effect">Photo effects are a Pro feature</string>
     <string name="pro_locked_rotation">Daily rotation is a Pro feature</string>

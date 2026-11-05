@@ -27,6 +27,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.android.gms.ads.MobileAds
+import com.wallora.app.ads.AdsConfig
 import com.wallora.app.ads.AdsConsent
 import com.wallora.app.ads.AdsGate
 import com.wallora.app.ads.InterstitialAds
@@ -62,7 +63,7 @@ class MainActivity : ComponentActivity() {
      */
     private fun initialiseAds() {
         // The activity is recreated on rotation and theme changes; run the flow once per process.
-        if (adsStarted) return
+        if (!AdsConfig.ADS_ENABLED || adsStarted) return
         adsStarted = true
         val appContext = applicationContext
         AdsConsent.request(this) {

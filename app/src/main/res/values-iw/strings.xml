@@ -202,6 +202,7 @@
     <string name="pro_badge">Pro</string>
     <string name="pro_cta_title">שדרגו ל-Pro</string>
     <string name="pro_cta_sub">הסירו פרסומות ופתחו את כל התכונות</string>
+    <string name="pro_cta_sub_noads">פתחו את כל התכונות</string>
     <string name="pro_member">חבר Pro</string>
     <string name="pro_locked_effect">אפקטים לתמונה הם תכונת Pro</string>
     <string name="pro_locked_rotation">החלפה יומית היא תכונת Pro</string>

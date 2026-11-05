@@ -223,6 +223,7 @@
     <string name="pro_badge">Pro</string>
     <string name="pro_cta_title">انتقل إلى Pro</string>
     <string name="pro_cta_sub">أزل الإعلانات وافتح جميع الميزات</string>
+    <string name="pro_cta_sub_noads">افتح جميع الميزات</string>
     <string name="pro_member">عضو Pro</string>
     <string name="pro_locked_effect">تأثيرات الصور ميزة في Pro</string>
     <string name="pro_locked_rotation">التغيير اليومي ميزة في Pro</string>

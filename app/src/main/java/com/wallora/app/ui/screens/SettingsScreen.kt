@@ -41,6 +41,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wallora.app.R
+import com.wallora.app.ads.AdsConfig
 import com.wallora.app.ads.AdsConsent
 import com.wallora.app.live.WalloraLiveWallpaper
 import com.wallora.app.ui.WallpaperViewModel
@@ -180,7 +181,7 @@ fun SettingsScreen(
             // Google requires a way back to the consent form wherever one applies. Hidden when
             // it does not (the user is outside the EEA, or already declined the form).
             val activity = context as? Activity
-            if (activity != null && AdsConsent.privacyOptionsRequired(activity)) {
+            if (AdsConfig.ADS_ENABLED && activity != null && AdsConsent.privacyOptionsRequired(activity)) {
                 HorizontalDivider(Modifier.padding(vertical = 12.dp))
                 Text(stringResource(R.string.pref_ad_privacy), style = MaterialTheme.typography.titleSmall)
                 Text(

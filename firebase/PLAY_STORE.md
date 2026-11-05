@@ -56,13 +56,14 @@ SET IT YOUR WAY
 • Quick Settings tile, home-screen widget and share-target support
 
 WALLORA PRO
-Wallora is free and supported by ads. Upgrade once with Wallora Pro to remove every ad,
-unlock the photo effects and turn on daily wallpaper rotation. One payment, no subscription.
+Wallora is free to use. Upgrade once with Wallora Pro to unlock the photo effects and turn on
+daily wallpaper rotation. One payment, no subscription.
+(When ads are switched back on, use: "Wallora is free and supported by ads. Upgrade once with Wallora Pro to remove every ad, ...")
 
 PRIVATE BY DESIGN
 No account and no sign-in. Your favourites, collections and settings stay on your device.
-Ads are served through Google AdMob; you are asked for consent before any personalised ad
-is requested, and you can change that choice in Settings at any time.
+(Only once ads are switched back on: Ads are served through Google AdMob; you are asked for consent before any
+personalised ad is requested, and you can change that choice in Settings at any time.)
 
 Note: most wallpapers are original artwork. The photographs in the Trending category are
 freely licensed (CC0, public domain or CC BY) and credited on each wallpaper inside the app.
@@ -91,11 +92,14 @@ chat and no user content sharing between users — expect **Everyone / PEGI 3**.
 | Photos / videos collected? | **No** (a shared image is only used locally to set your wallpaper) |
 | Location, contacts, messages, health, financial info? | **No** |
 
+> **Ads are off in the first release.** AdMob declined the account application, so `ADS_ENABLED` is false. The AdMob SDK is still bundled, so keep
+> the Data safety answers about the advertising ID as they are; Play checks the SDKs inside the bundle.
+
 ## App content declarations (Play Console → Policy → App content)
 
 | Declaration | Answer |
 |---|---|
-| Ads | **Yes, contains ads** (Google AdMob banner + interstitial after a wallpaper is set) |
+| Ads | **No ads in the first release** (`AdsConfig.ADS_ENABLED = false` while AdMob is not approved). Switch to **Yes, contains ads** when ads are turned back on |
 | In-app purchases | **Yes** — Wallora Pro |
 | Target audience | **13 and over** (not designed for children, so the Families policy does not apply) |
 | News app / government / health / financial features | **No** |

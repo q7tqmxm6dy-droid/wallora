@@ -55,6 +55,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.wallora.app.R
+import com.wallora.app.ads.AdsConfig
 import com.wallora.app.ui.WallpaperViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -456,7 +457,7 @@ internal fun ProCard(onClick: () -> Unit, modifier: Modifier = Modifier) {
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
                 )
                 Text(
-                    stringResource(R.string.pro_cta_sub),
+                    stringResource(if (AdsConfig.ADS_ENABLED) R.string.pro_cta_sub else R.string.pro_cta_sub_noads),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
                 )

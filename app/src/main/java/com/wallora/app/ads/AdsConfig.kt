@@ -22,8 +22,11 @@ object AdsConfig {
      * Master switch. Set to false to ship with no ads at all: no banner view is created and no
      * ad is ever requested, so nothing is charged, nothing is collected and no blank space is
      * left in the layout. Useful while an AdMob account is under review.
+     *
+     * Off for the first Play release because AdMob had not accepted the account. While it is off the
+     * consent flow and the ad SDK are never started, and the Pro screen and Settings drop their ad wording.
      */
-    const val ADS_ENABLED = true
+    const val ADS_ENABLED = false
 
     /** Keep true until real unit ids are in place. */
     const val USE_TEST_ADS = false
