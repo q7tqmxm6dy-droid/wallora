@@ -1,6 +1,6 @@
 # Mood images: source, rights and risk
 
-These 19 wallpapers (`mood_01` to `mood_19`) were added at the app owner's request from the local folder
+These wallpapers (`mood_01` to `mood_37`) were added at the app owner's request from the local folder
 `Wallpaper App Prompt_files` (images saved from a web page). **Their origin and licence were not verified.**
 Most look AI-generated. One image from the folder, a silver cross pendant (320 x 640), was left out on request.
 
@@ -46,3 +46,40 @@ Each source image was either cropped to fill 1080 x 1920 (`crop`) or fitted over
 | `mood_17` | Liquid Chrome | abstract3d | n17 | 1005x1508 | fit |
 | `mood_18` | Skyline Penthouse | luxury | n18 | 1024x1024 | fit |
 | `mood_19` | Silver Gaze | gaming | n20 | 1024x1821 | crop |
+
+## Second batch: `mood_20` to `mood_37` (18 images)
+Added later from the same folder. The folder now holds about 120 images; 36 were already in the app. Of the rest, these 18
+were added. Origin and licence are unverified, as above.
+
+| id | title | category | source file (start of name) | original size | handling |
+|---|---|---|---|---|---|
+| `mood_20` | Your Own Priority | pinterest | 1D-hEYCqkdNlQB… | 675x1200 | crop |
+| `mood_21` | Built in Silence | luxury | 3yvt23FnS8ywdl… | 857x1200 | fit |
+| `mood_22` | Stoic Power | dark | 6G-rSCnEAZeUcM… | 800x1000 | fit |
+| `mood_23` | Dark Silk | abstract3d | 7MQUda5XJyqXI1… | 1529x860 | crop |
+| `mood_24` | Forge | dark | DfSCQyOsIwIqdw… | 1024x1024 | fit |
+| `mood_25` | Violet Nebula | space | L7G6XE8FXm7Pji… | 1320x860 | crop |
+| `mood_26` | Sunset Run | nature | NtgCZlfFNQB3Bw… | 1024x1024 | fit |
+| `mood_27` | Discipline | dark | OW03lygsicKamD… | 1024x1818 | crop |
+| `mood_28` | Mirror Lake Galaxy | space | TYeJDe0CCaTVeh… | 1000x1777 | crop |
+| `mood_29` | Neon Facets | abstract3d | U5WO0TAMAXt4xw… | 1024x1820 | crop |
+| `mood_30` | Heavy Lift | dark | ZdajMM06iVL4vX… | 768x1344 | crop |
+| `mood_31` | Black Gloves | dark | alCfVmOT7tNXfB… | 1024x1024 | fit |
+| `mood_32` | Chrome Flow | abstract3d | ejcSOXcwenmSAG… | 1000x667 | crop |
+| `mood_33` | Stop When Done | dark | euwFuB1CH0KYB_… | 850x1511 | crop |
+| `mood_34` | Empty Gym | dark | orAvAa4NKxnpBr… | 1024x1024 | fit |
+| `mood_35` | Teal Peaks | nature | r46lXxQfe2EQtN… | 616x952 | crop |
+| `mood_36` | Pastel Haze | pinterest | sijKVamzivw9w-… | 1024x2217 | crop |
+| `mood_37` | Day One | dark | umYBWF-bRhx3g6… | 736x1104 | crop |
+
+The text on the quote wallpapers (`mood_20`, `mood_21`, `mood_22`, `mood_27`, `mood_33`, `mood_37`) is part of the pictures.
+`mood_22` carries a quote attributed to Marcus Aurelius; the attribution is printed on the image and was not checked.
+
+### Left out of the second batch, and why
+- **About 60 images of Marvel characters, comic covers, film stills and real actors** (Iron Man, Spider-Man, Wolverine, Venom,
+  Thor, Hulk, Thanos, Doctor Strange and others, plus a photo of a real bodybuilder). These are Disney/Marvel's copyrighted
+  characters and people's likenesses, and publishing them on a Play Store account risks removal of the whole app.
+- **Phone mock-ups and app screenshots** (not wallpapers).
+- **Pictures skipped on earlier rounds:** the silver cross, a car with a tyre-brand banner and plate, a game-franchise livery,
+  a photograph carrying a photographer's signature, a portrait of a real person, and images under 700 px.
+- A completely black image.
