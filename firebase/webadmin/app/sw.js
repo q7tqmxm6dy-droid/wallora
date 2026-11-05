@@ -1,8 +1,9 @@
 // Wallora web app service worker: opens instantly and keeps working offline.
-//  - the app shell (HTML, JS, CSS, catalogue) is served from the cache and refreshed in the background
+//  - the app shell (HTML, JS, CSS) is served from the cache and refreshed in the background
+//  - the catalogue is network-first, so new wallpapers show on the next load; the cache is only its offline fallback
 //  - wallpaper images are cache-first, capped so the cache cannot grow without bound
 // Bump VERSION to force every visitor onto a fresh set of caches.
-const VERSION = 'v1';
+const VERSION = 'v2';
 const SHELL = `wallora-shell-${VERSION}`;
 const IMAGES = `wallora-img-${VERSION}`;
 const IMAGE_LIMIT = 400;
@@ -33,6 +34,19 @@ self.addEventListener('fetch', (event) => {
       const res = await fetch(req);
       if (res.ok) { cache.put(req, res.clone()); trim(cache); }
       return res;
+    }));
+    return;
+  }
+
+  if (url.pathname.endsWith('/catalog.json')) {
+    event.respondWith(caches.open(SHELL).then(async (cache) => {
+      try {
+        const res = await fetch(req, { cache: 'no-cache' });
+        if (res.ok) cache.put(req, res.clone());
+        return res;
+      } catch (e) {
+        return (await cache.match(req, { ignoreSearch: true })) || Response.error();
+      }
     }));
     return;
   }
