@@ -1,4 +1,4 @@
-# Deploys the Wallora admin dashboard to Firebase Hosting when main is updated.
+# Deploys the Wallora admin dashboard and web app to Firebase Hosting when main is updated.
 name: Deploy to Firebase Hosting on merge
 on:
   push:
@@ -9,7 +9,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      # Static site: no build step needed.
+      # The web app's catalogue and images are generated from the Android sources (they are git-ignored), so build
+      # them here. Without this step the site deploys without any wallpapers.
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Build the web app catalogue and images
+        run: |
+          pip install pillow
+          python3 scripts/export_web_catalog.py
+          node firebase/webadmin/app/tests.mjs
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
