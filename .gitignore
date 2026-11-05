@@ -34,3 +34,7 @@ app/build/
 
 # generated 4K upload pack (see firebase/UHD_UPLOAD.md)
 /uhd-upload/
+
+# generated web-app images and catalogue (python3 scripts/export_web_catalog.py)
+/firebase/webadmin/app/img/
+/firebase/webadmin/app/catalog.json

@@ -42,6 +42,30 @@ Proof the wallpaper is applied to the device (launcher now shows the chosen wall
 
 ![Applied](screenshots/wallpaper-applied.png)
 
+## Web app (iPhone, and any browser)
+
+An installable web app (PWA) lives in `firebase/webadmin/app/` and is served at `/app/` next to the admin page. It is
+plain HTML, CSS and JavaScript (no build step, no dependencies) and works on iPhone Safari, Android Chrome and desktop.
+
+- **What it has:** Home (hero carousel, trending, picked for you, today's drop, daily feed), Discover (search, colour
+  swatches, style chips, categories), Trending, Create (on-device generator), favourites, download history, lock-screen
+  and home-screen simulators, light/dark variants, report, share, offline use, and Add to Home Screen.
+- **What it cannot do on iPhone:** Apple does not let any app or website set the wallpaper. Download saves a picture,
+  and the user then uses Photos, Share, Use as Wallpaper. There is no live wallpaper, rotation or widget.
+- **No Pro on the web:** payments are Google Play Billing, so every web feature is free.
+
+```bash
+python3 scripts/export_web_catalog.py      # regenerate catalog.json and the web-sized images from the Android sources
+node firebase/webadmin/app/tests.mjs       # unit tests for the shared logic
+(cd firebase/webadmin && python3 -m http.server 8099)    # then open http://localhost:8099/app/
+firebase deploy --only hosting --project wallora-bc950  # publish (admin page + web app)
+```
+
+`catalog.json` and `app/img/` are generated and git-ignored, so run the export before every deploy. The owner-supplied
+`nightcar_*` and `mood_*` sets are left out of the open web on purpose (their rights are unverified); pass
+`--include-unverified` to the export to publish them. See `firebase/WEB_APP.md` for hosting notes and the one-time
+storage CORS step that unlocks full-quality 4K downloads.
+
 ## Tech stack
 
 | Piece | Version |

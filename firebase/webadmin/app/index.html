@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Wallora — trending wallpapers, fresh every day</title>
+<meta name="description" content="Browse and download trending phone wallpapers in 4K. Dark aesthetic, space, cars, luxury, nature and more. Free, no account." />
+<meta name="theme-color" content="#0A0A12" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="Wallora" />
+<link rel="manifest" href="manifest.webmanifest" />
+<link rel="icon" href="icons/icon-192.png" />
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<div id="glow" aria-hidden="true"></div>
+<main id="view" aria-live="polite"></main>
+<nav id="tabs" aria-label="Main"></nav>
+<section id="detail" hidden aria-label="Wallpaper"></section>
+<div id="sheet" hidden></div>
+<div id="banner" hidden></div>
+<div id="toast" role="status" aria-live="polite"></div>
+<noscript><p style="padding:24px;color:#fff">Wallora needs JavaScript to browse wallpapers.</p></noscript>
+<script type="module" src="main.js"></script>
+</body>
+</html>
