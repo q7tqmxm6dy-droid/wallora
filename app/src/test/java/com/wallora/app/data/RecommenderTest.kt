@@ -37,7 +37,8 @@ class RecommenderTest {
 
     @Test
     fun `colour index covers the bundled catalogue`() {
-        val missing = catalogue.filter { it.colors.isEmpty() }.map { it.id }
+        // the private debug-only pack (personal_*) has no committed colour data
+        val missing = catalogue.filter { it.colors.isEmpty() && !it.id.startsWith("personal_") }.map { it.id }
         assertTrue("wallpapers without colours (run scripts/gen_color_index.py): $missing", missing.isEmpty())
         assertFalse(catalogue.any { it.colors.size > 2 })
     }
