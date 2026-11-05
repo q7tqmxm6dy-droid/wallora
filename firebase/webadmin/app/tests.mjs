@@ -65,4 +65,10 @@ test('old category ids are mapped', () => {
   assert.equal(core.categoryFor('dark', 'x', catalog.taxonomy, ids), 'dark');
   assert.equal(core.categoryFor('unknown', 'x', catalog.taxonomy, ids), 'pinterest');
 });
+test('no cars or unreviewed unverified images are published on the web', () => {
+  const allowed = new Set(['mood_01', 'mood_02', 'mood_03', 'mood_06', 'mood_08', 'mood_09', 'mood_16', 'mood_17', 'mood_20', 'mood_21', 'mood_22', 'mood_23',
+    'mood_25', 'mood_26', 'mood_27', 'mood_28', 'mood_29', 'mood_32', 'mood_33', 'mood_35', 'mood_36', 'mood_37']);
+  assert.deepEqual(all.filter((w) => w.id.startsWith('nightcar_')).map((w) => w.id), []);
+  assert.deepEqual(all.filter((w) => w.id.startsWith('mood_') && !allowed.has(w.id)).map((w) => w.id), []);
+});
 console.log(process.exitCode ? 'FAILED' : `all ${passed} tests passed`);

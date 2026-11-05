@@ -5,8 +5,11 @@ Reads the same Kotlin sources as the Android app (WallpaperCatalog.kt, Taxonomy.
 app cannot drift from it. Run from the repo root:   python3 scripts/export_web_catalog.py
 
 Images whose rights have not been verified (the owner-supplied nightcar_* and mood_* sets) are NOT published on
-the open web unless you pass --include-unverified: a public website is crawled and indexed in a way a store listing
-is not. See NIGHT_CARS_SOURCE.md and MOOD_IMAGES_SOURCE.md.
+the open web, because a public website is crawled and indexed in a way a store listing is not. Two exceptions:
+  * WEB_ALLOWED_UNVERIFIED: a short allow-list of pictures judged low-risk (scenery, space, abstract art, quote art,
+    gradients: no people, characters, cars or brands), chosen by the owner for the website.
+  * --include-unverified publishes everything.
+See NIGHT_CARS_SOURCE.md and MOOD_IMAGES_SOURCE.md.
 """
 import json, re, sys
 from pathlib import Path
@@ -17,6 +20,13 @@ DATA = ROOT / "app/src/main/java/com/wallora/app/data"
 RES = ROOT / "app/src/main/res/drawable-nodpi"
 OUT = ROOT / "firebase/webadmin/app"
 UNVERIFIED = ("nightcar_", "mood_")
+# Owner-approved subset of the unverified sets for the open web. Everything else (cars, gym photos, anime characters,
+# interiors, product shots, people) stays app-only.
+WEB_ALLOWED_UNVERIFIED = {
+    "mood_01", "mood_02", "mood_03", "mood_06", "mood_08", "mood_09", "mood_16", "mood_17",   # tech render, shore, rose, peak, sky, wings, tide, chrome
+    "mood_20", "mood_21", "mood_22", "mood_23", "mood_25", "mood_26", "mood_27", "mood_28",   # quote art, silk, nebula, sunset runner, galaxy
+    "mood_29", "mood_32", "mood_33", "mood_35", "mood_36", "mood_37",                         # neon facets, chrome, quote art, peaks, gradient
+}
 THUMB_W, FULL_W = 420, 1080
 
 include_unverified = "--include-unverified" in sys.argv
@@ -42,7 +52,7 @@ def category_for(old, title):
 rows = []
 for m in re.finditer(r'Wallpaper\("([^"]+)", "([^"]+)", "([^"]+)", R\.drawable\.(\w+)([^\n]*)\),', catalog_src):
     wid, title, cat, light, rest = m.groups()
-    if not include_unverified and wid.startswith(UNVERIFIED): continue
+    if not include_unverified and wid.startswith(UNVERIFIED) and wid not in WEB_ALLOWED_UNVERIFIED: continue
     dark = re.search(r"darkResId = R\.drawable\.(\w+)", rest)
     credit = re.search(r'credit = "([^"]*)"', rest); lic = re.search(r'license = "([^"]*)"', rest)
     rows.append(dict(id=wid, title=title, cat=category_for(cat, title), light=light, dark=dark.group(1) if dark else None,
@@ -69,5 +79,5 @@ catalog = dict(
     taxonomy=dict(byOldId=by_old, byTitle=by_title), retired=retired, wallpapers=out)
 (OUT / "catalog.json").write_text(json.dumps(catalog, ensure_ascii=False, separators=(",", ":")))
 total = sum(f.stat().st_size for f in (OUT / "img").rglob("*.webp"))
-print(f"{len(out)} wallpapers ({len(rows)} parsed, unverified sets {'included' if include_unverified else 'excluded'}); "
+print(f"{len(out)} wallpapers ({len(rows)} parsed, unverified sets {'all included' if include_unverified else 'limited to the allow-list'}); "
       f"{len(ids)} categories; images {total/1e6:.1f} MB; catalog {(OUT/'catalog.json').stat().st_size/1e3:.0f} KB")

@@ -83,3 +83,10 @@ The text on the quote wallpapers (`mood_20`, `mood_21`, `mood_22`, `mood_27`, `m
 - **Pictures skipped on earlier rounds:** the silver cross, a car with a tyre-brand banner and plate, a game-franchise livery,
   a photograph carrying a photographer's signature, a portrait of a real person, and images under 700 px.
 - A completely black image.
+
+## Which of these are on the public website
+The web app publishes only these 22: `mood_01`, `02`, `03`, `06`, `08`, `09`, `16`, `17`, `20`, `21`, `22`, `23`, `25`, `26`,
+`27`, `28`, `29`, `32`, `33`, `35`, `36`, `37` (scenery, space, abstract art, quote art and gradients). Everything else here, and
+all `nightcar_*` images, are Android-only. The allow-list is `WEB_ALLOWED_UNVERIFIED` in `scripts/export_web_catalog.py`;
+a test in `firebase/webadmin/app/tests.mjs` fails if anything outside it reaches the web build. To take a picture off the
+website, delete its id from that list, run the export and deploy.

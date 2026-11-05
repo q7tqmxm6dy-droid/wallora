@@ -61,9 +61,11 @@ node firebase/webadmin/app/tests.mjs       # unit tests for the shared logic
 firebase deploy --only hosting --project wallora-bc950  # publish (admin page + web app)
 ```
 
-`catalog.json` and `app/img/` are generated and git-ignored, so run the export before every deploy. The owner-supplied
-`nightcar_*` and `mood_*` sets are left out of the open web on purpose (their rights are unverified); pass
-`--include-unverified` to the export to publish them. See `firebase/WEB_APP.md` for hosting notes and the one-time
+`catalog.json` and `app/img/` are generated and git-ignored, and the hosting workflows rebuild them on every push. The
+owner-supplied `nightcar_*` and `mood_*` sets have unverified rights, so the open web publishes only a 22-picture
+allow-list of low-risk ones (scenery, space, abstract and quote art; see `WEB_ALLOWED_UNVERIFIED` in
+`scripts/export_web_catalog.py`). All the cars, gym photos, anime characters and interiors stay in the Android app only;
+pass `--include-unverified` to the export to publish everything. See `firebase/WEB_APP.md` for hosting notes and the one-time
 storage CORS step that unlocks full-quality 4K downloads.
 
 ## Tech stack
