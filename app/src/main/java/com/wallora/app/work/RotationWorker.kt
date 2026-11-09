@@ -11,7 +11,7 @@ import com.wallora.app.util.WallpaperImages
 import com.wallora.app.util.WallpaperSetter
 import com.wallora.app.util.WallpaperTarget
 
-/** Changes the wallpaper once a day, cycling through the bundled catalogue. */
+/** Changes the wallpaper once a day, cycling through the bundled catalogue (or just the user's favourites). */
 class RotationWorker(
     context: Context,
     params: WorkerParameters,
@@ -23,7 +23,9 @@ class RotationWorker(
         // Daily rotation is a Pro feature; if Pro lapsed (a refund, say) the job stops doing work.
         if (!enabled || !prefs.isProNow()) return Result.success()
 
-        val all = WallpaperCatalog.wallpapers
+        // Favourites mode uses the bundled favourites; with none saved it falls back to everything.
+        val favorites = if (prefs.readRotationFavoritesOnly()) prefs.readFavorites() else emptySet()
+        val all = WallpaperCatalog.wallpapers.filter { it.id in favorites }.ifEmpty { WallpaperCatalog.wallpapers }
         if (all.isEmpty()) return Result.success()
 
         val dark = isDark()

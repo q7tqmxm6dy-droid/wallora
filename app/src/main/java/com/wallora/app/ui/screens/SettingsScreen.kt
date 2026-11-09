@@ -46,6 +46,7 @@ import com.wallora.app.ads.AdsConsent
 import com.wallora.app.live.WalloraLiveWallpaper
 import com.wallora.app.ui.WallpaperViewModel
 import com.wallora.app.util.AppLinks
+import com.wallora.app.work.DailyDropScheduler
 import com.wallora.app.work.NewWallpaperScheduler
 import com.wallora.app.work.RotationScheduler
 
@@ -64,6 +65,8 @@ fun SettingsScreen(
     val rotationTarget by viewModel.rotationTarget.collectAsStateWithLifecycle()
     val autoTheme by viewModel.autoThemeApply.collectAsStateWithLifecycle()
     val newAlerts by viewModel.newAlerts.collectAsStateWithLifecycle()
+    val dailyDropAlerts by viewModel.dailyDropAlerts.collectAsStateWithLifecycle()
+    val rotationFavoritesOnly by viewModel.rotationFavoritesOnly.collectAsStateWithLifecycle()
     val history by viewModel.history.collectAsStateWithLifecycle()
     val liveMode by viewModel.liveMode.collectAsStateWithLifecycle()
     val liveInterval by viewModel.liveInterval.collectAsStateWithLifecycle()
@@ -155,6 +158,23 @@ fun SettingsScreen(
                         )
                     }
                 }
+                Text(
+                    text = stringResource(R.string.pref_rotate_from),
+                    style = MaterialTheme.typography.labelLarge,
+                    modifier = Modifier.padding(top = 8.dp, bottom = 4.dp),
+                )
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    FilterChip(
+                        selected = !rotationFavoritesOnly,
+                        onClick = { viewModel.setRotationFavoritesOnly(false) },
+                        label = { Text(stringResource(R.string.rotate_from_all)) },
+                    )
+                    FilterChip(
+                        selected = rotationFavoritesOnly,
+                        onClick = { viewModel.setRotationFavoritesOnly(true) },
+                        label = { Text(stringResource(R.string.rotate_from_favorites)) },
+                    )
+                }
             }
 
             HorizontalDivider(Modifier.padding(vertical = 12.dp))
@@ -175,6 +195,16 @@ fun SettingsScreen(
                 onCheckedChange = { enabled ->
                     viewModel.setNewAlerts(enabled)
                     NewWallpaperScheduler.sync(context, enabled)
+                },
+            )
+
+            SettingRow(
+                title = stringResource(R.string.pref_daily_drop),
+                subtitle = stringResource(R.string.pref_daily_drop_sub),
+                checked = dailyDropAlerts,
+                onCheckedChange = { enabled ->
+                    viewModel.setDailyDropAlerts(enabled)
+                    DailyDropScheduler.sync(context, enabled)
                 },
             )
 

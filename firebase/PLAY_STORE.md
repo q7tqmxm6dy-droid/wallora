@@ -13,60 +13,55 @@ Wallora
 **Short description (max 80 chars)**
 
 ```
-Beautiful wallpapers for your phone — light & dark, live wallpaper, no clutter.
+Fresh wallpapers every day: dark, space, cars, luxury & 3D. Make your own too.
 ```
 
 **Full description (max 4000 chars)**
 
 ```
-Wallora keeps your phone looking fresh with a hand-made collection of wallpapers that
-match your mood, your theme and your home screen.
+Wallora is your daily dose of fresh wallpapers: dark aesthetics, deep space, supercars,
+luxury textures, Pinterest-style soft looks and 3D art, picked and refreshed every day.
 
-LIGHT & DARK BUILT IN
-Every wallpaper is designed for both modes, so your home screen always fits the rest of
-your phone. Pick Light, Dark, or let Wallora follow your system setting.
+TODAY'S DROP
+Every morning Wallora picks one wallpaper for you. Open the app, or tap the notification,
+and set it in a single tap.
 
-LIVE WALLPAPER
-Turn your home screen into a slow, calm slideshow: wallpapers crossfade with a gentle
-zoom, or switch to the animated gradient mode when you want something lighter on battery.
-Choose the interval (5 / 10 / 30 / 60 seconds) and which categories it cycles.
+10 CATEGORIES
+Dark Aesthetic, Space & Galaxy, Cars, Luxury Lifestyle, Pinterest Aesthetic, Gaming,
+City Nights, Nature, Cute & Soft and 3D & Abstract.
 
-FIND YOUR FAVOURITE FAST
-• 100+ wallpapers in 15 categories — Trending, Aurora, Gradients, Waves, Geometric, Minimal, Neon, Cars, Posters, Space and more
-• Trending: fresh looks plus real photographs of the Milky Way, aurora, cherry blossom, Lake Louise, Earthrise and more
-• Search by name, or filter by tag
-• Sort by name or category
-• Shuffle button when you can't decide
+TRENDING NOW
+A Top 10 that changes every few days, plus viral styles like Aura & Dreamy and Y2K Chrome.
 
-MAKE IT YOURS
-• Favourite anything and find it again instantly
-• Build your own collections
-• Apply looks before you set: Blur, B&W, Warm, Cool and Vignette, each with an
-  adjustable strength slider
-• Save to your gallery or share with a friend
-• See exactly how a wallpaper will look behind your lock screen before you set it
+FIND IT FAST
+• Search by name, style or vibe
+• Filter by colour with one tap
+• A "for you" feed that learns what you like
 
-DAILY ROUTINE
-Wallpaper of the day, a daily streak and badges to collect as you go. Turn on daily
-rotation and Wallora changes your wallpaper for you each day.
-
-SET IT YOUR WAY
+SEE IT BEFORE YOU SET IT
+• Preview any wallpaper behind your lock screen or your home-screen icons
 • Home screen, lock screen, or both
 • Swipe between wallpapers without leaving the page
-• Quick Settings tile, home-screen widget and share-target support
+
+CREATE YOUR OWN
+Design a wallpaper in seconds: pick a style (Aura, Gradient, Waves, Orbs) and your colours,
+then set it or save it.
+
+MAKE IT YOURS
+• Favourites and your own collections
+• Photo effects: Blur, B&W, Warm, Cool and Vignette
+• Live wallpaper that slowly crossfades through your favourite categories
+• Download history, a home-screen widget and a Quick Settings tile
 
 WALLORA PRO
-Wallora is free to use. Upgrade once with Wallora Pro to unlock the photo effects and turn on
-daily wallpaper rotation. One payment, no subscription.
+Wallora is free to use. Upgrade once with Wallora Pro to unlock the photo effects and daily
+rotation, from every wallpaper or just your favourites. One payment, no subscription.
 (When ads are switched back on, use: "Wallora is free and supported by ads. Upgrade once with Wallora Pro to remove every ad, ...")
 
 PRIVATE BY DESIGN
 No account and no sign-in. Your favourites, collections and settings stay on your device.
 (Only once ads are switched back on: Ads are served through Google AdMob; you are asked for consent before any
 personalised ad is requested, and you can change that choice in Settings at any time.)
-
-Note: most wallpapers are original artwork. The photographs in the Trending category are
-freely licensed (CC0, public domain or CC BY) and credited on each wallpaper inside the app.
 ```
 
 **App category:** Personalization

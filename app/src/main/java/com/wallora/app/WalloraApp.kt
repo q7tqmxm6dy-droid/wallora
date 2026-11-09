@@ -18,6 +18,7 @@ import com.wallora.app.util.Notifications
 import com.wallora.app.util.WallpaperImages
 import com.wallora.app.util.WallpaperSetter
 import com.wallora.app.util.WallpaperTarget
+import com.wallora.app.work.DailyDropScheduler
 import com.wallora.app.work.NewWallpaperScheduler
 import com.wallora.app.work.RotationScheduler
 import kotlinx.coroutines.CoroutineScope
@@ -70,6 +71,7 @@ class WalloraApp : Application(), ImageLoaderFactory {
         Notifications.ensureChannel(this)
         scope.launch { ensureRotationScheduled() }
         scope.launch { ensureAlertsScheduled() }
+        scope.launch { ensureDailyDropScheduled() }
         scope.launch { applyThemeIfChanged() }
         // Announce anything published since the last check, without waiting for the periodic job.
         scope.launch { runCatching { NewWallpaperAlerts.check(this@WalloraApp) } }
@@ -87,6 +89,10 @@ class WalloraApp : Application(), ImageLoaderFactory {
 
     private suspend fun ensureAlertsScheduled() {
         NewWallpaperScheduler.sync(this, PreferencesRepository(this).newAlertsEnabled())
+    }
+
+    private suspend fun ensureDailyDropScheduled() {
+        DailyDropScheduler.sync(this, PreferencesRepository(this).dailyDropAlertsEnabled())
     }
 
     private suspend fun ensureRotationScheduled() {

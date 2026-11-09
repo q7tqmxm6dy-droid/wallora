@@ -57,29 +57,29 @@ object InterstitialAds {
     }
 
     /**
-     * Counts the set, then shows an ad only if both caps allow it.
+     * Counts the set, then shows an ad only if both caps allow it. Returns true when an ad was shown.
      *
      * [activity] may be null (the host context may not be an Activity); the ad is simply skipped.
      * Must be called on the main thread.
      */
-    suspend fun maybeShowAfterSet(activity: Activity?, prefs: PreferencesRepository) {
-        if (!AdsConfig.ADS_ENABLED || ProManager.state.value.isPro) return
-        val host = activity ?: return
+    suspend fun maybeShowAfterSet(activity: Activity?, prefs: PreferencesRepository): Boolean {
+        if (!AdsConfig.ADS_ENABLED || ProManager.state.value.isPro) return false
+        val host = activity ?: return false
 
         val count = prefs.interstitialCount() + 1
         prefs.setInterstitialCount(count)
 
         if (count % SHOW_EVERY != 0) {
             preload(host)
-            return
+            return false
         }
         val now = System.currentTimeMillis()
         if (now - prefs.lastInterstitialMs() < MIN_GAP_MS) {
             preload(host)
-            return
+            return false
         }
 
-        val ready = ad ?: run { preload(host); return }
+        val ready = ad ?: run { preload(host); return false }
 
         ready.fullScreenContentCallback = object : FullScreenContentCallback() {
             override fun onAdDismissedFullScreenContent() {
@@ -95,5 +95,6 @@ object InterstitialAds {
         ad = null
         prefs.setLastInterstitialMs(now)
         ready.show(host)
+        return true
     }
 }

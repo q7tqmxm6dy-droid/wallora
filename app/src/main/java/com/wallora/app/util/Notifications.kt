@@ -13,10 +13,13 @@ import androidx.core.content.ContextCompat
 import com.wallora.app.MainActivity
 import com.wallora.app.R
 
-/** Local notification helper (used by FCM messages announcing new wallpapers). */
+/** Local notification helper (new-wallpaper announcements and the morning "Today's Drop"). */
 object Notifications {
 
     const val CHANNEL_ID = "wallora_new_wallpapers"
+
+    /** One slot for the morning drop, so a late notification replaces yesterday's. */
+    const val DAILY_DROP_ID = 7_001
 
     fun ensureChannel(context: Context) {
         val manager = context.getSystemService(NotificationManager::class.java) ?: return
@@ -40,7 +43,11 @@ object Notifications {
         )
     }
 
-    fun show(context: Context, title: String, body: String) {
+    /**
+     * Posts a notification that opens the app. [route] is handed to the app like a launcher shortcut
+     * (see MainActivity); `detail:<id>` opens that wallpaper.
+     */
+    fun show(context: Context, title: String, body: String, route: String? = null, id: Int = title.hashCode()) {
         ensureChannel(context)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
             ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) !=
@@ -50,10 +57,11 @@ object Notifications {
         }
         val intent = Intent(context, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+            if (route != null) putExtra("route", route)
         }
         val pending = PendingIntent.getActivity(
             context,
-            0,
+            id,
             intent,
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT,
         )
@@ -65,6 +73,6 @@ object Notifications {
             .setContentIntent(pending)
             .build()
         context.getSystemService(NotificationManager::class.java)
-            ?.notify(title.hashCode(), notification)
+            ?.notify(id, notification)
     }
 }

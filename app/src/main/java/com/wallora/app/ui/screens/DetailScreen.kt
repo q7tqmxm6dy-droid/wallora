@@ -85,6 +85,7 @@ import com.wallora.app.util.Effect
 import com.wallora.app.util.ImageEffects
 import com.wallora.app.util.AppLinks
 import com.wallora.app.util.ImageSaver
+import com.wallora.app.util.ReviewPrompt
 import com.wallora.app.util.ShareUtils
 import com.wallora.app.util.WallpaperImages
 import com.wallora.app.util.WallpaperSetter
@@ -228,8 +229,12 @@ fun DetailScreen(
             notify(if (applied) msgApplied else msgSetFailed)
             if (applied) {
                 viewModel.rememberApplied(wallpaper.id, dark)
-                // Interstitial after a completed action, never on launch, and rate limited.
-                InterstitialAds.maybeShowAfterSet(context as? Activity, PreferencesRepository(context))
+                // Interstitial after a completed action, never on launch, and rate limited. The review
+                // prompt waits for a set that had no ad, so the two never stack.
+                val prefs = PreferencesRepository(context)
+                if (!InterstitialAds.maybeShowAfterSet(context as? Activity, prefs)) {
+                    ReviewPrompt.maybeAsk(context as? Activity, prefs)
+                }
             }
             busy = false
         }

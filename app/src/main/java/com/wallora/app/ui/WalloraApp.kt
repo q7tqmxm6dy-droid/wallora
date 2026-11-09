@@ -95,6 +95,10 @@ fun WalloraApp(
             "profile" -> navController.navigate(Routes.PROFILE) { launchSingleTop = true }
             "settings" -> navController.navigate(Routes.SETTINGS) { launchSingleTop = true }
             "pro" -> navController.navigate(Routes.PRO) { launchSingleTop = true }
+            else -> if (startRoute.startsWith("detail:")) {
+                // From the "Today's Drop" notification.
+                navController.navigate(Routes.detail(startRoute.removePrefix("detail:")))
+            }
         }
         if (startRoute != null) onStartRouteHandled()
     }

@@ -120,6 +120,7 @@ dependencies {
 
     implementation(libs.play.services.ads)
     implementation(libs.billing.ktx)
+    implementation(libs.play.review)
     implementation(libs.user.messaging.platform)
     implementation(libs.androidx.work.runtime)
     implementation(libs.androidx.glance.appwidget)

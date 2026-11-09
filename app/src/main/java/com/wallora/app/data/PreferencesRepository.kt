@@ -55,6 +55,11 @@ class PreferencesRepository(private val context: Context) {
         val KNOWN_WALLPAPERS = stringSetPreferencesKey("known_wallpapers")
         val ALERTS_SEEDED = booleanPreferencesKey("alerts_seeded")
         val IS_PRO = booleanPreferencesKey("is_pro")
+
+        val ROTATION_FAVORITES = booleanPreferencesKey("rotation_favorites_only")
+        val DAILY_DROP_ALERTS = booleanPreferencesKey("daily_drop_alerts")
+        val LAST_DROP_DAY = stringPreferencesKey("last_drop_notified_day")
+        val REVIEW_ASKED = booleanPreferencesKey("review_asked")
     }
 
     /**
@@ -253,6 +258,14 @@ class PreferencesRepository(private val context: Context) {
         context.dataStore.edit { it[Keys.ROTATION_TARGET] = target }
     }
 
+    /** Pro: rotate through the user's favourites instead of the whole catalogue. */
+    val rotationFavoritesOnly: Flow<Boolean> =
+        context.dataStore.data.map { it[Keys.ROTATION_FAVORITES] ?: false }
+
+    suspend fun setRotationFavoritesOnly(enabled: Boolean) {
+        context.dataStore.edit { it[Keys.ROTATION_FAVORITES] = enabled }
+    }
+
     suspend fun setAutoThemeApply(enabled: Boolean) {
         context.dataStore.edit { it[Keys.AUTO_THEME] = enabled }
     }
@@ -285,6 +298,40 @@ class PreferencesRepository(private val context: Context) {
 
     suspend fun setNewAlerts(enabled: Boolean) {
         context.dataStore.edit { it[Keys.NEW_ALERTS] = enabled }
+    }
+
+    // ---- "Today's Drop" morning notification ----------------------------------
+
+    /** Defaults to on, like [newAlerts]; the OS still gates it by the notification permission. */
+    val dailyDropAlerts: Flow<Boolean> =
+        context.dataStore.data.map { it[Keys.DAILY_DROP_ALERTS] ?: true }
+
+    suspend fun dailyDropAlertsEnabled(): Boolean = dailyDropAlerts.first()
+
+    suspend fun setDailyDropAlerts(enabled: Boolean) {
+        context.dataStore.edit { it[Keys.DAILY_DROP_ALERTS] = enabled }
+    }
+
+    /** Marks [epochDay] as announced; false when it already was, so a day is never announced twice. */
+    suspend fun claimDropDay(epochDay: Long): Boolean {
+        var claimed = false
+        context.dataStore.edit { prefs ->
+            if (prefs[Keys.LAST_DROP_DAY] != epochDay.toString()) {
+                prefs[Keys.LAST_DROP_DAY] = epochDay.toString()
+                claimed = true
+            }
+        }
+        return claimed
+    }
+
+    // ---- Play in-app review -----------------------------------------------------
+
+    suspend fun appliedCount(): Int = sets.first()
+
+    suspend fun reviewAsked(): Boolean = context.dataStore.data.first()[Keys.REVIEW_ASKED] ?: false
+
+    suspend fun setReviewAsked() {
+        context.dataStore.edit { it[Keys.REVIEW_ASKED] = true }
     }
 
     /** Ids we have already told the user about. */
@@ -353,6 +400,10 @@ class PreferencesRepository(private val context: Context) {
             prefs[Keys.ROTATION_TARGET] ?: "HOME",
         )
     }
+
+    suspend fun readRotationFavoritesOnly(): Boolean = rotationFavoritesOnly.first()
+
+    suspend fun readFavorites(): Set<String> = favorites.first()
 
     suspend fun writeRotationIndex(index: Int) {
         context.dataStore.edit { it[Keys.ROTATION_INDEX] = index.toString() }

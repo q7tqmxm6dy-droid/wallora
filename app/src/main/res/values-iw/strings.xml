@@ -18,7 +18,7 @@
     <string name="recently_viewed">נצפו לאחרונה</string>
 
     <string name="onb1_title">טפט לכל מצב רוח</string>
-    <string name="onb1_body">עיינו בזוהר, מעברים, גלים, גאומטריה, מינימלי, ניאון, מכוניות ופוסטרים. חפשו לפי שם או תג.</string>
+    <string name="onb1_body">עשר קטגוריות, מאסתטיקה כהה וחלל ועד מכוניות, יוקרה ואמנות תלת־ממד. חפשו לפי שם, סגנון או צבע.</string>
     <string name="onb2_title">בהיר וכהה, מובנה</string>
     <string name="onb2_body">מעוצב לשני המצבים, ואפשר להפוך אותו לטפט חי שמחליף ביניהם לאט.</string>
     <string name="onb3_title">שלכם לחלוטין</string>
@@ -178,7 +178,7 @@
     <string name="pro_tagline">תשלום אחד. שלך לתמיד.</string>
     <string name="pro_benefit_noads">בלי פרסומות בשום מקום</string>
     <string name="pro_benefit_effects">אפקטים לתמונה: טשטוש, שחור-לבן, חם, קר, עיגול פינות</string>
-    <string name="pro_benefit_rotation">החלפת רקע יומית</string>
+    <string name="pro_benefit_rotation">החלפה יומית מכל הרקעים או רק מהמועדפים</string>
     <string name="pro_benefit_support">תמכו במפתח עצמאי</string>
     <string name="pro_buy">פתח Pro · %1$s</string>
     <string name="pro_buy_loading">פתח Pro</string>
@@ -278,4 +278,11 @@
     <string name="rm_global_why">דורש מונה הורדות משותף בשרת. הרשימה האישית שלכם פועלת כבר עכשיו.</string>
     <string name="rm_admin">מנהל: משתמשים וניתוח נתונים</string>
     <string name="rm_admin_why">דף הניהול מנהל כיום רקעים וקטגוריות. ניהול משתמשים וניתוחים דורשים חשבונות; הניתוחים זמינים בקונסולת Firebase.</string>
+    <string name="pref_rotate_from">להחליף מתוך</string>
+    <string name="rotate_from_all">כל הרקעים</string>
+    <string name="rotate_from_favorites">המועדפים שלי</string>
+    <string name="pref_daily_drop">הרקע של היום</string>
+    <string name="pref_daily_drop_sub">רקע אחד שנבחר בקפידה בכל בוקר</string>
+    <string name="drop_notif_title">הרקע של היום: %1$s</string>
+    <string name="drop_notif_body">רקע חדש שנבחר עבורך היום. הקישו כדי לראות.</string>
 </resources>

@@ -18,7 +18,7 @@
     <string name="recently_viewed">شوهدت مؤخرًا</string>
 
     <string name="onb1_title">خلفية تناسب كل مزاج</string>
-    <string name="onb1_body">تصفّح الشفق، التدرجات، الأمواج، الأشكال الهندسية، البسيط، النيون، السيارات والملصقات. ابحث بالاسم أو حسب الوسم.</string>
+    <string name="onb1_body">عشر فئات، من الطابع الداكن والفضاء إلى السيارات والفخامة والفن ثلاثي الأبعاد. ابحث بالاسم أو النمط أو اللون.</string>
     <string name="onb2_title">الوضع الفاتح والداكن معًا</string>
     <string name="onb2_body">مصمّمة للمظهرين، ويمكنك تحويلها إلى خلفية حية تتلاشى ببطء بينهما.</string>
     <string name="onb3_title">اجعلها خاصة بك</string>
@@ -199,7 +199,7 @@
     <string name="pro_tagline">دفعة واحدة. لك إلى الأبد.</string>
     <string name="pro_benefit_noads">بدون إعلانات في أي مكان</string>
     <string name="pro_benefit_effects">تأثيرات الصور: ضبابي، أبيض وأسود، دافئ، بارد، تظليل الحواف</string>
-    <string name="pro_benefit_rotation">تغيير الخلفية يوميًا</string>
+    <string name="pro_benefit_rotation">تدوير يومي من كل الخلفيات أو من مفضلتك فقط</string>
     <string name="pro_benefit_support">ادعم مطورًا مستقلًا</string>
     <string name="pro_buy">افتح Pro · %1$s</string>
     <string name="pro_buy_loading">افتح Pro</string>
@@ -299,4 +299,11 @@
     <string name="rm_global_why">يحتاج إلى عداد تنزيلات مشترك على الخادم. قائمتك الخاصة تعمل الآن.</string>
     <string name="rm_admin">المشرف: المستخدمون والتحليلات</string>
     <string name="rm_admin_why">صفحة المشرف تدير الخلفيات والفئات حاليًا. إدارة المستخدمين والتحليلات تحتاج إلى حسابات؛ التحليلات متاحة في وحدة تحكم Firebase.</string>
+    <string name="pref_rotate_from">التدوير من</string>
+    <string name="rotate_from_all">كل الخلفيات</string>
+    <string name="rotate_from_favorites">مفضلتي</string>
+    <string name="pref_daily_drop">خلفية اليوم</string>
+    <string name="pref_daily_drop_sub">خلفية مختارة بعناية كل صباح</string>
+    <string name="drop_notif_title">خلفية اليوم: %1$s</string>
+    <string name="drop_notif_body">خلفية جديدة اخترناها لك اليوم. اضغط لمشاهدتها.</string>
 </resources>

@@ -117,6 +117,20 @@ class WallpaperViewModel(application: Application) : AndroidViewModel(applicatio
         viewModelScope.launch { preferences.setNewAlerts(enabled) }
     }
 
+    val dailyDropAlerts: StateFlow<Boolean> = preferences.dailyDropAlerts
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), true)
+
+    fun setDailyDropAlerts(enabled: Boolean) {
+        viewModelScope.launch { preferences.setDailyDropAlerts(enabled) }
+    }
+
+    val rotationFavoritesOnly: StateFlow<Boolean> = preferences.rotationFavoritesOnly
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), false)
+
+    fun setRotationFavoritesOnly(enabled: Boolean) {
+        viewModelScope.launch { preferences.setRotationFavoritesOnly(enabled) }
+    }
+
     val liveMode: StateFlow<String> = preferences.liveMode
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), "slideshow")
 
