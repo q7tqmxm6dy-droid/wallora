@@ -152,6 +152,15 @@ fun ProScreen(onBack: () -> Unit) {
                         style = MaterialTheme.typography.titleMedium,
                     )
                 }
+                if (price == null && state.unavailable) {
+                    Text(
+                        stringResource(R.string.pro_msg_unavailable),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.padding(top = 8.dp),
+                    )
+                }
                 TextButton(onClick = ProManager::restore, modifier = Modifier.padding(top = 4.dp)) {
                     Text(stringResource(R.string.pro_restore))
                 }

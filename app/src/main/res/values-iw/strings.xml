@@ -9,17 +9,13 @@
     <string name="sc_profile">פרופיל</string>
 
     <string name="nav_home">בית</string>
-    <string name="nav_categories">קטגוריות</string>
     <string name="nav_favorites">מועדפים</string>
     <string name="nav_profile">פרופיל</string>
     <string name="title_settings">הגדרות</string>
     <string name="title_profile">פרופיל</string>
     <string name="title_collections">אוספים</string>
 
-    <string name="search_hint">חיפוש טפטים</string>
     <string name="recently_viewed">נצפו לאחרונה</string>
-    <string name="surprise_me">הפתע אותי</string>
-    <string name="any_tag">כל תג</string>
 
     <string name="onb1_title">טפט לכל מצב רוח</string>
     <string name="onb1_body">עיינו בזוהר, מעברים, גלים, גאומטריה, מינימלי, ניאון, מכוניות ופוסטרים. חפשו לפי שם או תג.</string>
@@ -68,7 +64,6 @@
     <string name="none_yet">אין עדיין</string>
 
     <!-- home chrome -->
-    <string name="sort">מיון</string>
     <string name="sort_default">ברירת מחדל</string>
     <string name="sort_name">שם א–ת</string>
     <string name="sort_category">קטגוריה</string>
@@ -111,7 +106,6 @@
     <string name="pref_admin">ניהול</string>
     <string name="value_on">פועל</string>
     <string name="value_off">כבוי</string>
-    <string name="not_signed_in">לא מחובר</string>
 
     <!-- settings extras -->
     <string name="pref_apply_to">החל על</string>
@@ -161,8 +155,6 @@
     </plurals>
 
     <!-- accessibility -->
-    <string name="theme_icon_desc">ערכת נושא: בהיר, כהה או אוטומטי</string>
-    <string name="cd_selected">נבחר</string>
     <string name="wallpaper_label">טפט</string>
 
     <!-- new wallpaper alerts -->
@@ -178,7 +170,6 @@
     <string name="pref_new_alerts_sub">עדכן אותי כשמתפרסמים טפטים חדשים</string>
 
     <!-- ads -->
-    <string name="ad_label">פרסומת</string>
     <string name="pref_ad_privacy">הגדרות פרטיות פרסומות</string>
     <string name="pref_ad_privacy_sub">Wallora מציג פרסומות כדי שהאפליקציה תישאר בחינם. אפשר לשנות את הבחירה בכל עת.</string>
     <string name="pref_ad_privacy_action">שנה הגדרות פרטיות פרסומות</string>
@@ -199,14 +190,12 @@
     <string name="pro_msg_pending">הרכישה ממתינה. Pro ייפתח ברגע שהתשלום יושלם.</string>
     <string name="pro_msg_unavailable">Google Play אינו זמין כרגע. נסו שוב מאוחר יותר.</string>
     <string name="pro_msg_failed">הרכישה לא הושלמה</string>
-    <string name="pro_badge">Pro</string>
     <string name="pro_cta_title">שדרגו ל-Pro</string>
     <string name="pro_cta_sub">הסירו פרסומות ופתחו את כל התכונות</string>
     <string name="pro_cta_sub_noads">פתחו את כל התכונות</string>
     <string name="pro_member">חבר Pro</string>
     <string name="pro_locked_effect">אפקטים לתמונה הם תכונת Pro</string>
     <string name="pro_locked_rotation">החלפה יומית היא תכונת Pro</string>
-    <string name="pro_see">הצג Pro</string>
 
     <string name="wallpaper_applied">הרקע הוחל</string>
     <string name="wallpaper_set_failed">לא ניתן להגדיר את הרקע</string>

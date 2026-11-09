@@ -36,6 +36,8 @@ data class ProState(
     val price: String? = null,
     /** A purchase is waiting on payment (cash, bank transfer, ...). */
     val pending: Boolean = false,
+    /** Play answered but billing or the product is missing (no Play Store, product not active yet). */
+    val unavailable: Boolean = false,
     /** One-shot message for the paywall: a [ProMessage], cleared by [ProManager.consumeMessage]. */
     val message: ProMessage? = null,
 )
@@ -109,6 +111,8 @@ object ProManager {
                         loadDetails()
                         refresh()
                     }
+                } else {
+                    _state.update { it.copy(unavailable = true) }
                 }
             }
 
@@ -127,7 +131,8 @@ object ProManager {
         )
         val found = result.productDetailsList?.firstOrNull()
         details = found
-        _state.update { it.copy(price = found?.oneTimePurchaseOfferDetails?.formattedPrice) }
+        val price = found?.oneTimePurchaseOfferDetails?.formattedPrice
+        _state.update { it.copy(price = price, unavailable = price == null) }
     }
 
     /** Re-reads what the user owns. Also the "restore purchases" action. */

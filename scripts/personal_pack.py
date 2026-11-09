@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """Builds the private, debug-only wallpaper pack from personal-pack/pack.tsv.
 
-pack.tsv lines are "<file name in the source folder><TAB><title>". The pictures are resized and written to
+pack.tsv lines are "<file name in the source folder><TAB><title>"; any personal-pack/extra/<slug>.jpg is added as-is. The pictures are resized and written to
 app/src/debug/res/drawable-nodpi/personal_<slug>.jpg, which only debug builds compile in (and which git ignores), so a
 release bundle for Play can never contain them. Usage:  python3 scripts/personal_pack.py "<source folder>"
 """
-import os, re, sys
+import os, re, shutil, sys
 from PIL import Image
 
 root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -23,4 +23,9 @@ for line in open(os.path.join(root, "personal-pack/pack.tsv"), encoding="utf-8")
     im.thumbnail((1920, 1920), Image.LANCZOS)
     im.save(os.path.join(out, f"personal_{slug}.jpg"), quality=88, optimize=True)
     count += 1
+extra = os.path.join(root, "personal-pack/extra")
+for name in sorted(os.listdir(extra)) if os.path.isdir(extra) else []:
+    if name.endswith(".jpg"):
+        shutil.copy(os.path.join(extra, name), os.path.join(out, "personal_" + name))
+        count += 1
 print(count, "pictures written to", out)

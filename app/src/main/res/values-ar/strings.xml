@@ -9,17 +9,13 @@
     <string name="sc_profile">الملف الشخصي</string>
 
     <string name="nav_home">الرئيسية</string>
-    <string name="nav_categories">الفئات</string>
     <string name="nav_favorites">المفضلة</string>
     <string name="nav_profile">الملف الشخصي</string>
     <string name="title_settings">الإعدادات</string>
     <string name="title_profile">الملف الشخصي</string>
     <string name="title_collections">المجموعات</string>
 
-    <string name="search_hint">ابحث عن خلفية</string>
     <string name="recently_viewed">شوهدت مؤخرًا</string>
-    <string name="surprise_me">فاجئني</string>
-    <string name="any_tag">أي وسم</string>
 
     <string name="onb1_title">خلفية تناسب كل مزاج</string>
     <string name="onb1_body">تصفّح الشفق، التدرجات، الأمواج، الأشكال الهندسية، البسيط، النيون، السيارات والملصقات. ابحث بالاسم أو حسب الوسم.</string>
@@ -80,7 +76,6 @@
     <string name="none_yet">لا شيء بعد</string>
 
     <!-- home chrome -->
-    <string name="sort">ترتيب</string>
     <string name="sort_default">افتراضي</string>
     <string name="sort_name">الاسم أ–ي</string>
     <string name="sort_category">الفئة</string>
@@ -123,7 +118,6 @@
     <string name="pref_admin">المشرف</string>
     <string name="value_on">مفعّل</string>
     <string name="value_off">متوقف</string>
-    <string name="not_signed_in">لم يتم تسجيل الدخول</string>
 
     <!-- settings extras -->
     <string name="pref_apply_to">التطبيق على</string>
@@ -179,8 +173,6 @@
     </plurals>
 
     <!-- accessibility -->
-    <string name="theme_icon_desc">المظهر: فاتح أو داكن أو تلقائي</string>
-    <string name="cd_selected">محدد</string>
     <string name="wallpaper_label">خلفية</string>
 
     <!-- new wallpaper alerts -->
@@ -199,7 +191,6 @@
     <string name="pref_new_alerts_sub">أبلغني عند نشر خلفيات جديدة</string>
 
     <!-- ads -->
-    <string name="ad_label">إعلان</string>
     <string name="pref_ad_privacy">إعدادات خصوصية الإعلانات</string>
     <string name="pref_ad_privacy_sub">يعرض Wallora إعلانات ليبقى التطبيق مجانيًا. يمكنك تغيير اختيارك في أي وقت.</string>
     <string name="pref_ad_privacy_action">تغيير إعدادات خصوصية الإعلانات</string>
@@ -220,14 +211,12 @@
     <string name="pro_msg_pending">عملية الشراء قيد الانتظار. سيتم فتح Pro فور اكتمال الدفع.</string>
     <string name="pro_msg_unavailable">Google Play غير متاح حاليًا. حاول مرة أخرى لاحقًا.</string>
     <string name="pro_msg_failed">لم تكتمل عملية الشراء</string>
-    <string name="pro_badge">Pro</string>
     <string name="pro_cta_title">انتقل إلى Pro</string>
     <string name="pro_cta_sub">أزل الإعلانات وافتح جميع الميزات</string>
     <string name="pro_cta_sub_noads">افتح جميع الميزات</string>
     <string name="pro_member">عضو Pro</string>
     <string name="pro_locked_effect">تأثيرات الصور ميزة في Pro</string>
     <string name="pro_locked_rotation">التغيير اليومي ميزة في Pro</string>
-    <string name="pro_see">عرض Pro</string>
 
     <string name="wallpaper_applied">تم تطبيق الخلفية</string>
     <string name="wallpaper_set_failed">تعذّر تعيين الخلفية</string>

@@ -12,7 +12,6 @@
 
     <!-- navigation & titles -->
     <string name="nav_home">Home</string>
-    <string name="nav_categories">Categories</string>
     <string name="nav_favorites">Favorites</string>
     <string name="nav_profile">Profile</string>
     <string name="title_settings">Settings</string>
@@ -20,10 +19,7 @@
     <string name="title_collections">Collections</string>
 
     <!-- home -->
-    <string name="search_hint">Search wallpapers</string>
     <string name="recently_viewed">Recently viewed</string>
-    <string name="surprise_me">Surprise me</string>
-    <string name="any_tag">Any tag</string>
 
     <!-- onboarding -->
     <string name="onb1_title">A wallpaper for every mood</string>
@@ -70,7 +66,6 @@
     <string name="none_yet">None yet</string>
 
     <!-- home chrome -->
-    <string name="sort">Sort</string>
     <string name="sort_default">Default</string>
     <string name="sort_name">Name A–Z</string>
     <string name="sort_category">Category</string>
@@ -113,7 +108,6 @@
     <string name="pref_admin">Admin</string>
     <string name="value_on">On</string>
     <string name="value_off">Off</string>
-    <string name="not_signed_in">Not signed in</string>
 
     <!-- settings extras -->
     <string name="pref_apply_to">Apply to</string>
@@ -161,8 +155,6 @@
     </plurals>
 
     <!-- accessibility -->
-    <string name="theme_icon_desc">Theme: light, dark or auto</string>
-    <string name="cd_selected">Selected</string>
     <string name="wallpaper_label">Wallpaper</string>
 
     <!-- new wallpaper alerts -->
@@ -184,7 +176,6 @@
     <string name="admob_app_id" translatable="false">ca-app-pub-1868881840290691~7339417974</string>
 
     <!-- ads -->
-    <string name="ad_label">Ad</string>
     <string name="pref_ad_privacy">Ad privacy settings</string>
     <string name="pref_ad_privacy_sub">Wallora shows ads to keep the app free. You can change your choice any time.</string>
     <string name="pref_ad_privacy_action">Change ad privacy settings</string>
@@ -205,14 +196,12 @@
     <string name="pro_msg_pending">Your purchase is pending. Pro unlocks as soon as payment completes.</string>
     <string name="pro_msg_unavailable">Google Play isn\'t available right now. Try again later.</string>
     <string name="pro_msg_failed">The purchase didn\'t go through</string>
-    <string name="pro_badge">Pro</string>
     <string name="pro_cta_title">Go Pro</string>
     <string name="pro_cta_sub">Remove ads and unlock every feature</string>
     <string name="pro_cta_sub_noads">Unlock every feature</string>
     <string name="pro_member">Pro member</string>
     <string name="pro_locked_effect">Photo effects are a Pro feature</string>
     <string name="pro_locked_rotation">Daily rotation is a Pro feature</string>
-    <string name="pro_see">See Pro</string>
 
     <!-- Messages that used to be hardcoded English -->
     <string name="wallpaper_applied">Wallpaper applied</string>

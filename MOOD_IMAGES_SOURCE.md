@@ -17,6 +17,10 @@ account behind this app belongs to someone else, so a policy strike would land o
 | `mood_14` | Steel Chronograph | brand name printed on the watch dial |
 | `mood_19` | Silver Gaze | anime character (fan art) |
 
+**Removed from the Play release (9 November 2026):** `mood_07`, `mood_10`, `mood_11`, `mood_12`, `mood_14`, `mood_19` and
+`mood_31` (Black Gloves, which shows a boxing brand's logo). They are listed in `Taxonomy.retiredIds` and now live only in the
+private debug-only pack (`personal-pack/extra/`, git-ignored, built by `scripts/personal_pack.py`).
+
 ## To remove any of them
 Delete its line in `WallpaperCatalog.kt`, delete `app/src/main/res/drawable-nodpi/<id>.jpg`, and add the id to
 `Taxonomy.retiredIds`.

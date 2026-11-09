@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The private pack's pictures are looked up by name in PersonalPack, so lint cannot see them used. -->
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:keep="@drawable/personal_*" />

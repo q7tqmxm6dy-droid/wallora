@@ -68,6 +68,9 @@ object Taxonomy {
     val retiredIds: Set<String> = setOf(
         // flat white-car-on-colour illustrations ("Scarlet Coupe" ... "Graphite Coupe")
         "cars_p01", "cars_p02", "cars_p03", "cars_p04", "cars_p05", "cars_p06",
+        // supplied pictures of anime characters, a real person and brand logos: kept out of the Play release
+        // (they live in the private debug-only pack instead, see scripts/personal_pack.py)
+        "mood_07", "mood_10", "mood_11", "mood_12", "mood_14", "mood_19", "mood_31",
     )
 
     /** Old ids that must not show up as extra categories when the cloud still lists them. */
