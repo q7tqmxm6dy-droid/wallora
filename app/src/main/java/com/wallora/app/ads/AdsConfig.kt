@@ -1,35 +1,31 @@
 package com.wallora.app.ads
 
+import com.wallora.app.BuildConfig
+
 /**
  * AdMob identifiers, all in one place.
  *
- * [USE_TEST_ADS] is on, so every build serves Google's official sample ads. That is deliberate:
- * it keeps the app safe to run, screenshot and submit for review before an AdMob account exists,
- * and it means a stray tap during development can never be counted as a real impression, which is
- * what gets AdMob accounts suspended for invalid traffic.
+ * Debug builds serve Google's official test ads (with Google's sample app id, set in
+ * `src/debug/res/values/admob.xml`), so the ad layout can be tried safely: test ads can never count as
+ * real impressions, which is what gets AdMob accounts suspended for invalid traffic.
  *
- * To go live:
- *  1. Create the app in the AdMob console and copy its **app id** into
- *     `res/values/strings.xml` (`admob_app_id`, currently Google's sample id).
- *  2. Create one **banner** and one **interstitial** ad unit, and paste their ids below.
- *  3. Set [USE_TEST_ADS] to false.
+ * Release builds show no ads at all, because AdMob had not accepted the account when the first release
+ * went out. When it does: set [ADS_ENABLED] to `true`, keep [USE_TEST_ADS] as `BuildConfig.DEBUG`, and
+ * check that the real app id in `res/values/strings.xml` and the unit ids below match the AdMob console.
  *
  * Real ids look like `ca-app-pub-################/##########`, app ids use `~` instead of `/`.
  */
 object AdsConfig {
 
     /**
-     * Master switch. Set to false to ship with no ads at all: no banner view is created and no
-     * ad is ever requested, so nothing is charged, nothing is collected and no blank space is
-     * left in the layout. Useful while an AdMob account is under review.
-     *
-     * Off for the first Play release because AdMob had not accepted the account. While it is off the
-     * consent flow and the ad SDK are never started, and the Pro screen and Settings drop their ad wording.
+     * Master switch. When false no banner view is created and no ad is ever requested, so nothing is
+     * charged, nothing is collected and no blank space is left in the layout; the consent flow and the ad
+     * SDK never start, and the Pro screen and Settings drop their ad wording.
      */
-    const val ADS_ENABLED = false
+    val ADS_ENABLED: Boolean = BuildConfig.DEBUG
 
-    /** Keep true until real unit ids are in place. */
-    const val USE_TEST_ADS = false
+    /** Debug builds always use Google's test units; never put real units in a build you tap yourself. */
+    val USE_TEST_ADS: Boolean = BuildConfig.DEBUG
 
     private const val TEST_BANNER = "ca-app-pub-3940256099942544/6300978111"
     private const val TEST_INTERSTITIAL = "ca-app-pub-3940256099942544/1033173712"

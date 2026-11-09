@@ -92,6 +92,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true // AdsConfig: debug builds show Google's test ads, release builds none
     }
 }
 
