@@ -4,6 +4,9 @@
 Reads the same Kotlin sources as the Android app (WallpaperCatalog.kt, Taxonomy.kt, ColorIndex.kt), so the web
 app cannot drift from it. Run from the repo root:   python3 scripts/export_web_catalog.py
 
+It also writes firebase/webadmin/admin-catalog.json, the full list of wallpapers built into the app, for the admin
+dashboard. That list names every wallpaper but points only at images that are already on the website.
+
 Images whose rights have not been verified (the owner-supplied nightcar_* and mood_* sets) are NOT published on
 the open web, because a public website is crawled and indexed in a way a store listing is not. Two exceptions:
   * WEB_ALLOWED_UNVERIFIED: a short allow-list of pictures judged low-risk (scenery, space, abstract art, quote art,
@@ -49,10 +52,13 @@ def category_for(old, title):
     if old in {i for i, _, _ in ids}: return old
     return by_title.get(title.strip().lower()) or by_old.get(old) or "pinterest"
 
-rows = []
+rows, everything = [], []
 for m in re.finditer(r'Wallpaper\("([^"]+)", "([^"]+)", "([^"]+)", R\.drawable\.(\w+)([^\n]*)\),', catalog_src):
     wid, title, cat, light, rest = m.groups()
-    if not include_unverified and wid.startswith(UNVERIFIED) and wid not in WEB_ALLOWED_UNVERIFIED: continue
+    on_web = include_unverified or not wid.startswith(UNVERIFIED) or wid in WEB_ALLOWED_UNVERIFIED
+    source = "supplied" if wid.startswith(UNVERIFIED) else ("photo" if 'credit = "' in rest else "original")
+    everything.append(dict(id=wid, title=title, cat=category_for(cat, title), source=source, web=on_web))
+    if not on_web: continue
     dark = re.search(r"darkResId = R\.drawable\.(\w+)", rest)
     credit = re.search(r'credit = "([^"]*)"', rest); lic = re.search(r'license = "([^"]*)"', rest)
     rows.append(dict(id=wid, title=title, cat=category_for(cat, title), light=light, dark=dark.group(1) if dark else None,
@@ -78,6 +84,8 @@ catalog = dict(
     categories=[dict(id=i, title=t, emoji=e) for i, t, e in ids],
     taxonomy=dict(byOldId=by_old, byTitle=by_title), retired=retired, wallpapers=out)
 (OUT / "catalog.json").write_text(json.dumps(catalog, ensure_ascii=False, separators=(",", ":")))
+(OUT.parent / "admin-catalog.json").write_text(json.dumps(dict(
+    categories=[dict(id=i, title=t, emoji=e) for i, t, e in ids], wallpapers=everything), ensure_ascii=False, separators=(",", ":")))
 total = sum(f.stat().st_size for f in (OUT / "img").rglob("*.webp"))
-print(f"{len(out)} wallpapers ({len(rows)} parsed, unverified sets {'all included' if include_unverified else 'limited to the allow-list'}); "
+print(f"{len(out)} wallpapers on the web, {len(everything)} in the app ({len(rows)} parsed, unverified sets {'all included' if include_unverified else 'limited to the allow-list'}); "
       f"{len(ids)} categories; images {total/1e6:.1f} MB; catalog {(OUT/'catalog.json').stat().st_size/1e3:.0f} KB")

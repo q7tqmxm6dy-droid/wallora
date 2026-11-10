@@ -86,6 +86,12 @@
   .chip:hover { border-color: var(--accent); }
   .muted { color: var(--muted); font-size: 13px; }
   code { background: #23262e; padding: 2px 6px; border-radius: 6px; font-size: 13px; }
+  .chip.on { border-color: var(--accent); background: #2b2350; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(112px, 1fr)); gap: 14px; margin-top: 14px; }
+  .tile img, .tile .ph { width: 100%; aspect-ratio: 9 / 16; object-fit: cover; border-radius: 10px; display: block; background: #23262e; }
+  .tile .ph { display: grid; place-items: center; text-align: center; color: var(--muted); font-size: 12px; padding: 8px; border: 1px dashed var(--line); }
+  .tile .t { font-size: 13px; margin-top: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .tile .s { font-size: 11px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 </style>
 </head>
 <body>
@@ -115,6 +121,7 @@
   <!-- Dashboard -->
   <section id="dash" hidden>
     <div class="stats">
+      <div class="stat"><div class="n" id="statBuiltIn">0</div><div class="l">In the app</div></div>
       <div class="stat"><div class="n" id="statWallpapers">0</div><div class="l">Cloud wallpapers</div></div>
       <div class="stat"><div class="n" id="statCategories">0</div><div class="l">Categories</div></div>
       <div class="stat"><div class="n" id="statFeatured">0</div><div class="l">Featured</div></div>
@@ -122,7 +129,19 @@
     </div>
 
     <div class="card" style="margin-top:18px">
-      <h2>By category</h2>
+      <h2>Wallpapers in the app <span class="muted" id="builtInCount"></span></h2>
+      <p class="muted" style="margin:0 0 6px">
+        Built into the Android app (and the website where marked). They come from the app's code, so they can't be
+        edited or deleted here. Use <b>Upload wallpaper</b> below to add new ones without an app update.
+      </p>
+      <input id="builtInSearch" placeholder="Search by title…" />
+      <div class="chips" id="builtInCats"></div>
+      <div class="chips" id="builtInSources"></div>
+      <div class="grid" id="builtInGrid"><span class="muted">Loading…</span></div>
+    </div>
+
+    <div class="card">
+      <h2>Cloud wallpapers by category</h2>
       <div id="catChart"><span class="muted">Loading…</span></div>
     </div>
 
@@ -217,6 +236,7 @@ import {
   getStorage, ref as storageRef, uploadBytesResumable, uploadBytes, getDownloadURL, deleteObject,
 } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-storage.js";
 import { firebaseConfig } from "./firebase-config.js";
+import { mountBuiltIn } from "./admin-builtin.js";
 
 const configured = !firebaseConfig.apiKey.includes("REPLACE");
 const loginMsg = document.getElementById("loginMsg");
@@ -252,7 +272,7 @@ if (auth) {
     $("dash").hidden = !signedIn;
     $("signOut").style.display = signedIn ? "" : "none";
     $("who").textContent = signedIn ? user.email : "";
-    if (signedIn) { listenWallpapers(); listenCategories(); }
+    if (signedIn) { listenWallpapers(); listenCategories(); mountBuiltIn(); }
   });
 }
 
