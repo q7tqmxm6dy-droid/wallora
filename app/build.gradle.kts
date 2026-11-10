@@ -36,7 +36,9 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.wallora.app"
+        // The Kotlin package stays com.wallora.app (namespace above). Only the Play id differs: com.wallora.app and
+        // com.wallora.wallpapers were already in use on Android by other developers, so Play would not give them to us.
+        applicationId = "com.qiblawi.wallora"
         minSdk = 29
         targetSdk = 37
         versionCode = 1

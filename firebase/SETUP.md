@@ -28,7 +28,7 @@ configured, wallpapers you upload appear in the app instantly.
 ## Step 2 — Register the Android app
 
 1. On the project home, click the **Android** icon (or **Add app → Android**)
-2. **Android package name**: `com.wallora.app` ← must be exactly this
+2. **Android package name**: `com.qiblawi.wallora` ← must be exactly this (the code's package is still `com.wallora.app`; only the Play id differs)
 3. Nickname: `Wallora Android` (optional)
 4. **Register app**
 5. **Download `google-services.json`**

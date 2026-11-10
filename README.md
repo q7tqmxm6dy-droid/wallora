@@ -89,7 +89,7 @@ storage CORS step that unlocks full-quality 4K downloads.
 
 Already configured:
 
-- Android app registered (`com.wallora.app`) → `app/google-services.json` fetched
+- Android app registered (`com.qiblawi.wallora`; the code package stays `com.wallora.app`) → `app/google-services.json` fetched
 - Web app registered → `firebase/webadmin/firebase-config.js` filled in
 - Hosting deployed (the dashboard URL above)
 - CI workflows in `.github/workflows/`

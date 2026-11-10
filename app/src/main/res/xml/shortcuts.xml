@@ -9,7 +9,7 @@
         <intent
             android:action="com.wallora.app.SHORTCUT"
             android:targetClass="com.wallora.app.MainActivity"
-            android:targetPackage="com.wallora.app">
+            android:targetPackage="com.qiblawi.wallora">
             <extra android:name="route" android:value="random" />
         </intent>
     </shortcut>
@@ -22,7 +22,7 @@
         <intent
             android:action="com.wallora.app.SHORTCUT"
             android:targetClass="com.wallora.app.MainActivity"
-            android:targetPackage="com.wallora.app">
+            android:targetPackage="com.qiblawi.wallora">
             <extra android:name="route" android:value="favorites" />
         </intent>
     </shortcut>
@@ -35,7 +35,7 @@
         <intent
             android:action="com.wallora.app.SHORTCUT"
             android:targetClass="com.wallora.app.MainActivity"
-            android:targetPackage="com.wallora.app">
+            android:targetPackage="com.qiblawi.wallora">
             <extra android:name="route" android:value="collections" />
         </intent>
     </shortcut>
@@ -48,7 +48,7 @@
         <intent
             android:action="com.wallora.app.SHORTCUT"
             android:targetClass="com.wallora.app.MainActivity"
-            android:targetPackage="com.wallora.app">
+            android:targetPackage="com.qiblawi.wallora">
             <extra android:name="route" android:value="profile" />
         </intent>
     </shortcut>
