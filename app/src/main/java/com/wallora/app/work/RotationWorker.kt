@@ -39,7 +39,7 @@ class RotationWorker(
 
         if (applied) {
             prefs.writeRotationIndex((index + 1) % all.size)
-            prefs.rememberApplied(wallpaper.id, dark)
+            prefs.rememberApplied(wallpaper.id, dark, targetName)
             Analytics.log(applicationContext, "daily_rotation", mapOf("id" to wallpaper.id, "target" to targetName))
         }
         return Result.success()

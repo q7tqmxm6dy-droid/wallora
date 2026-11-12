@@ -13,7 +13,7 @@ Wallora
 **Short description (max 80 chars)**
 
 ```
-Fresh wallpapers every day: dark, space, cars, luxury & 3D. Make your own too.
+Light & dark wallpapers that switch with day and night. Fresh picks daily.
 ```
 
 **Full description (max 4000 chars)**
@@ -21,6 +21,9 @@ Fresh wallpapers every day: dark, space, cars, luxury & 3D. Make your own too.
 ```
 Wallora is your daily dose of fresh wallpapers: dark aesthetics, deep space, supercars,
 luxury textures, Pinterest-style soft looks and 3D art, picked and refreshed every day.
+
+LIGHT BY DAY, DARK AT NIGHT
+Many wallpapers come as a light and dark pair, shown side by side in one picture. Set one and Wallora switches it to the matching version when your phone changes between day and night. Wallpapers with a single image, like deep space, stay as they are.
 
 TODAY'S DROP
 Every morning Wallora picks one wallpaper for you. Open the app, or tap the notification,
@@ -49,13 +52,12 @@ then set it or save it.
 
 MAKE IT YOURS
 • Favourites and your own collections
-• Photo effects: Blur, B&W, Warm, Cool and Vignette
 • Live wallpaper that slowly crossfades through your favourite categories
 • Download history, a home-screen widget and a Quick Settings tile
 
 WALLORA PRO
-Wallora is free to use. Upgrade once with Wallora Pro to unlock the photo effects and daily
-rotation, from every wallpaper or just your favourites. One payment, no subscription.
+Wallora is free to use. Upgrade once with Wallora Pro to unlock daily wallpaper rotation, from
+every wallpaper or just your favourites. One payment, no subscription.
 (When ads are switched back on, use: "Wallora is free and supported by ads. Upgrade once with Wallora Pro to remove every ad, ...")
 
 PRIVATE BY DESIGN
@@ -107,7 +109,7 @@ The app sells one non-consumable product. Create it before testing a purchase:
 
 1. Play Console → your app → **Monetize → Products → In-app products → Create product**
 2. **Product ID: `wallora_pro`** (must match `ProManager.PRODUCT_ID`)
-3. Name "Wallora Pro", description "Remove all ads and unlock photo effects and daily rotation", set a price, then **Activate**.
+3. Name "Wallora Pro", description "Unlock daily wallpaper rotation (from every wallpaper or just your favourites)", set a price, then **Activate**.
 4. Add your Google account under **Setup → License testing** so test purchases are free.
 5. Install the build from an Internal testing track (purchases do not work from a sideloaded APK).
 
@@ -158,6 +160,6 @@ Source: `firebase/webadmin/privacy.html` (edit and redeploy with `firebase deplo
 ```
 First release: 100+ wallpapers across 15 categories including Trending photos, light & dark
 variants, live wallpaper (slideshow or animated gradient), search, tags, collections,
-favourites, photo effects, daily rotation, a lock-screen preview and an optional one-time
+favourites, light/dark wallpaper pairs that switch with day and night, daily rotation, a lock-screen preview and an optional one-time
 Wallora Pro upgrade that removes ads.
 ```

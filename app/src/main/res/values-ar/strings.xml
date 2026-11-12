@@ -19,10 +19,10 @@
 
     <string name="onb1_title">خلفية تناسب كل مزاج</string>
     <string name="onb1_body">عشر فئات، من الطابع الداكن والفضاء إلى السيارات والفخامة والفن ثلاثي الأبعاد. ابحث بالاسم أو النمط أو اللون.</string>
-    <string name="onb2_title">الوضع الفاتح والداكن معًا</string>
-    <string name="onb2_body">مصمّمة للمظهرين، ويمكنك تحويلها إلى خلفية حية تتلاشى ببطء بينهما.</string>
+    <string name="onb2_title">فاتحة نهارًا وداكنة ليلًا</string>
+    <string name="onb2_body">تأتي كثير من الخلفيات بنسختين، فاتحة وداكنة، تُعرضان جنبًا إلى جنب. يبدّل Wallora بينهما تلقائيًا مع تغيّر هاتفك بين النهار والليل.</string>
     <string name="onb3_title">اجعلها خاصة بك</string>
-    <string name="onb3_body">أضف ما تحب إلى المفضلة، وأنشئ مجموعاتك، وطبّق تأثيرات مثل التمويه أو أبيض وأسود قبل التعيين.</string>
+    <string name="onb3_body">أضف أي شيء إلى المفضلة، وأنشئ مجموعاتك الخاصة، وشاهده على شاشة القفل قبل تعيينه.</string>
     <string name="skip">تخطّي</string>
     <string name="next">التالي</string>
     <string name="get_started">ابدأ الآن</string>
@@ -101,8 +101,8 @@
     <string name="theme_dark">داكن</string>
     <string name="pref_daily_rotation">تدوير يومي</string>
     <string name="pref_daily_rotation_sub">تعيين خلفية جديدة تلقائيًا كل يوم</string>
-    <string name="pref_match_theme">مطابقة مظهر الهاتف</string>
-    <string name="pref_match_theme_sub">عند تبديل الهاتف بين الداكن والفاتح، أعِد تعيين النسخة المطابقة لخلفيتك الحالية</string>
+    <string name="pref_match_theme">خلفية النهار والليل</string>
+    <string name="pref_match_theme_sub">تتحول خلفيتك إلى نسختها الداكنة في الليل وتعود إلى الفاتحة في النهار، وفقًا لوضع الهاتف الداكن. الخلفيات ذات الصورة الواحدة تبقى كما هي.</string>
     <string name="pref_live_wallpaper">خلفية حية</string>
     <string name="pref_live_wallpaper_sub">تعرض الخلفية الحية خلفياتك بتلاشٍ بطيء؛ التدرّج المتحرك أخف على البطارية.</string>
     <string name="live_slideshow">عرض الشرائح</string>

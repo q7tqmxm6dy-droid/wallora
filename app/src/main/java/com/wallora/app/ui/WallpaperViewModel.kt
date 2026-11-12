@@ -240,8 +240,8 @@ class WallpaperViewModel(application: Application) : AndroidViewModel(applicatio
         viewModelScope.launch { preferences.recordHistory(id) }
     }
 
-    fun rememberApplied(id: String, dark: Boolean) {
-        viewModelScope.launch { preferences.rememberApplied(id, dark) }
+    fun rememberApplied(id: String, dark: Boolean, target: String? = null) {
+        viewModelScope.launch { preferences.rememberApplied(id, dark, target) }
     }
 
     fun randomWallpaper(): Wallpaper? = wallpapers.value.randomOrNull()

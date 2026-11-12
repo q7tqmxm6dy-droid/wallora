@@ -55,6 +55,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.wallora.app.R
+import com.wallora.app.ui.components.WallpaperImage
 import com.wallora.app.ads.AdsConfig
 import com.wallora.app.ui.WallpaperViewModel
 
@@ -231,10 +232,9 @@ fun ProfileScreen(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
                     items(favouriteWallpapers, key = { it.id }) { wallpaper ->
-                        AsyncImage(
-                            model = wallpaper.model(darkTheme),
-                            contentDescription = wallpaper.title,
-                            contentScale = ContentScale.Crop,
+                        WallpaperImage(
+                            wallpaper = wallpaper,
+                            dark = darkTheme,
                             modifier = Modifier
                                 .size(width = 62.dp, height = 110.dp)
                                 .clip(RoundedCornerShape(10.dp))
@@ -259,10 +259,9 @@ fun ProfileScreen(
                     shape = RoundedCornerShape(18.dp),
                 ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        AsyncImage(
-                            model = dailyPick.model(darkTheme),
-                            contentDescription = dailyPick.title,
-                            contentScale = ContentScale.Crop,
+                        WallpaperImage(
+                            wallpaper = dailyPick,
+                            dark = darkTheme,
                             modifier = Modifier.size(width = 76.dp, height = 116.dp),
                         )
                         Column(Modifier.padding(14.dp)) {

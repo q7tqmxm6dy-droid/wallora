@@ -76,11 +76,13 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.wallora.app.R
+import com.wallora.app.ui.components.WallpaperImage
 import com.wallora.app.ads.InterstitialAds
 import com.wallora.app.data.PreferencesRepository
 import com.wallora.app.ui.WallpaperViewModel
 import com.wallora.app.ui.theme.HeartRed
 import com.wallora.app.util.Analytics
+import com.wallora.app.util.AppFeatures
 import com.wallora.app.util.Effect
 import com.wallora.app.util.ImageEffects
 import com.wallora.app.util.AppLinks
@@ -88,6 +90,7 @@ import com.wallora.app.util.ImageSaver
 import com.wallora.app.util.ReviewPrompt
 import com.wallora.app.util.ShareUtils
 import com.wallora.app.util.WallpaperImages
+import com.wallora.app.work.ThemeApplier
 import com.wallora.app.util.WallpaperSetter
 import com.wallora.app.util.WallpaperTarget
 import kotlinx.coroutines.Dispatchers
@@ -156,7 +159,9 @@ fun DetailScreen(
 
     /** Loads the wallpaper and applies the selected look. */
     suspend fun loadProcessed(): Bitmap? {
-        val raw = WallpaperImages.loadBitmap(context, wallpaper, dark) ?: return null
+        // Setting or saving a wallpaper uses the version for the phone's real day/night mode (what the automatic
+        // day/night switch follows), not the app's own theme choice.
+        val raw = WallpaperImages.loadBitmap(context, wallpaper, ThemeApplier.isDark(context)) ?: return null
         val processed = ImageEffects.apply(effect, raw, strength)
         if (processed !== raw) raw.recycle()
         return processed
@@ -165,6 +170,7 @@ fun DetailScreen(
     LaunchedEffect(wallpaper.id, dark) {
         previewBase = null
         previewImage = null
+        if (!AppFeatures.PHOTO_EFFECTS) return@LaunchedEffect
         previewBase = withContext(Dispatchers.Default) {
             val raw = WallpaperImages.loadBitmap(context, wallpaper, dark) ?: return@withContext null
             val half = Bitmap.createScaledBitmap(
@@ -228,7 +234,7 @@ fun DetailScreen(
             )
             notify(if (applied) msgApplied else msgSetFailed)
             if (applied) {
-                viewModel.rememberApplied(wallpaper.id, dark)
+                viewModel.rememberApplied(wallpaper.id, ThemeApplier.isDark(context), target.name)
                 // Interstitial after a completed action, never on launch, and rate limited. The review
                 // prompt waits for a set that had no ad, so the two never stack.
                 val prefs = PreferencesRepository(context)
@@ -268,7 +274,16 @@ fun DetailScreen(
             },
     ) {
         val preview = previewImage
-        if (preview != null) {
+        if (wallpaper.hasDarkVariant) {
+            // A light/dark pair is shown as one split picture: light on the left, dark on the right.
+            WallpaperImage(
+                wallpaper = wallpaper,
+                dark = dark,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .scale(zoom),
+            )
+        } else if (preview != null) {
             Image(
                 bitmap = preview,
                 contentDescription = wallpaper.title,
@@ -441,7 +456,7 @@ fun DetailScreen(
                     Text(stringResource(R.string.report_content), color = Color.White.copy(alpha = 0.7f))
                 }
             }
-            LazyRow(
+            if (AppFeatures.PHOTO_EFFECTS) LazyRow(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 modifier = Modifier.padding(top = 12.dp),
             ) {
@@ -479,7 +494,7 @@ fun DetailScreen(
                     )
                 }
             }
-            if (effect != Effect.NONE) {
+            if (AppFeatures.PHOTO_EFFECTS && effect != Effect.NONE) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.padding(top = 8.dp),

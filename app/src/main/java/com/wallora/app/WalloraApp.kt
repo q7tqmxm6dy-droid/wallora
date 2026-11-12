@@ -21,6 +21,8 @@ import com.wallora.app.util.WallpaperTarget
 import com.wallora.app.work.DailyDropScheduler
 import com.wallora.app.work.NewWallpaperScheduler
 import com.wallora.app.work.RotationScheduler
+import com.wallora.app.work.ThemeApplier
+import com.wallora.app.work.ThemeSyncScheduler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -73,6 +75,7 @@ class WalloraApp : Application(), ImageLoaderFactory {
         scope.launch { ensureAlertsScheduled() }
         scope.launch { ensureDailyDropScheduled() }
         scope.launch { applyThemeIfChanged() }
+        scope.launch { ensureThemeSyncScheduled() }
         // Announce anything published since the last check, without waiting for the periodic job.
         scope.launch { runCatching { NewWallpaperAlerts.check(this@WalloraApp) } }
         subscribeToNewWallpaperTopic()
@@ -101,34 +104,9 @@ class WalloraApp : Application(), ImageLoaderFactory {
         RotationScheduler.sync(this, enabled)
     }
 
-    private suspend fun applyThemeIfChanged() {
-        val prefs = PreferencesRepository(this)
-        val (id, lastDark, auto) = prefs.readAppliedTheme()
-        if (!auto || id == null) return
+    private suspend fun applyThemeIfChanged() = ThemeApplier.applyIfChanged(this)
 
-        val dark = isDark()
-        if (lastDark == dark) return
-
-        val wallpaper = resolve(id) ?: return
-        val bitmap = WallpaperImages.loadBitmap(this, wallpaper, dark) ?: return
-        val target = runCatching {
-            WallpaperTarget.valueOf(prefs.readRotationConfig().third)
-        }.getOrDefault(WallpaperTarget.HOME)
-
-        val applied = WallpaperSetter.apply(this, bitmap, target)
-        bitmap.recycle()
-        if (applied) prefs.rememberApplied(id, dark)
+    private suspend fun ensureThemeSyncScheduled() {
+        ThemeSyncScheduler.sync(this, PreferencesRepository(this).readAppliedTheme().third)
     }
-
-    /** Bundled first (works offline), then the cloud catalogue. */
-    private suspend fun resolve(id: String): Wallpaper? {
-        WallpaperCatalog.wallpaper(id)?.let { return it }
-        return runCatching {
-            RemoteWallpaperRepository().wallpapers().first().firstOrNull { it.id == id }
-        }.getOrNull()
-    }
-
-    private fun isDark(): Boolean =
-        (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) ==
-            Configuration.UI_MODE_NIGHT_YES
 }

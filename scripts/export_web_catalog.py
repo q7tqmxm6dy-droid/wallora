@@ -57,9 +57,9 @@ for m in re.finditer(r'Wallpaper\("([^"]+)", "([^"]+)", "([^"]+)", R\.drawable\.
     wid, title, cat, light, rest = m.groups()
     on_web = include_unverified or not wid.startswith(UNVERIFIED) or wid in WEB_ALLOWED_UNVERIFIED
     source = "supplied" if wid.startswith(UNVERIFIED) else ("photo" if 'credit = "' in rest else "original")
-    everything.append(dict(id=wid, title=title, cat=category_for(cat, title), source=source, web=on_web))
-    if not on_web: continue
     dark = re.search(r"darkResId = R\.drawable\.(\w+)", rest)
+    everything.append(dict(id=wid, title=title, cat=category_for(cat, title), source=source, web=on_web, both=bool(dark)))
+    if not on_web: continue
     credit = re.search(r'credit = "([^"]*)"', rest); lic = re.search(r'license = "([^"]*)"', rest)
     rows.append(dict(id=wid, title=title, cat=category_for(cat, title), light=light, dark=dark.group(1) if dark else None,
                      credit=credit.group(1) if credit else None, license=lic.group(1) if lic else None,
@@ -76,7 +76,9 @@ for r in rows:
     main = r["dark"] or r["light"]                      # the web app is dark, so a wallpaper's dark variant is its default
     save(main, OUT / f"img/t/{r['id']}.webp", THUMB_W, 70); save(main, OUT / f"img/f/{r['id']}.webp", FULL_W, 80)
     both = bool(r["dark"])
-    if both: save(r["light"], OUT / f"img/f/{r['id']}~l.webp", FULL_W, 80)
+    if both:
+        save(r["light"], OUT / f"img/f/{r['id']}~l.webp", FULL_W, 80)
+        save(r["light"], OUT / f"img/t/{r['id']}~l.webp", THUMB_W, 70)    # the admin dashboard draws pairs split, light | dark
     out.append(dict(id=r["id"], title=r["title"], cat=r["cat"], colors=r["colors"], both=both,
                     **({"credit": r["credit"]} if r["credit"] else {}), **({"license": r["license"]} if r["license"] else {})))
 

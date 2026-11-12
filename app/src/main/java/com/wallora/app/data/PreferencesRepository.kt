@@ -55,6 +55,7 @@ class PreferencesRepository(private val context: Context) {
         val KNOWN_WALLPAPERS = stringSetPreferencesKey("known_wallpapers")
         val ALERTS_SEEDED = booleanPreferencesKey("alerts_seeded")
         val IS_PRO = booleanPreferencesKey("is_pro")
+        val CURRENT_TARGET = stringPreferencesKey("current_wallpaper_target")
 
         val ROTATION_FAVORITES = booleanPreferencesKey("rotation_favorites_only")
         val DAILY_DROP_ALERTS = booleanPreferencesKey("daily_drop_alerts")
@@ -94,7 +95,7 @@ class PreferencesRepository(private val context: Context) {
         context.dataStore.data.map { it[Keys.ROTATION_TARGET] ?: "HOME" }
 
     val autoThemeApply: Flow<Boolean> =
-        context.dataStore.data.map { it[Keys.AUTO_THEME] ?: false }
+        context.dataStore.data.map { it[Keys.AUTO_THEME] ?: true }
 
     /** Live wallpaper: "slideshow" or "gradient". */
     val liveMode: Flow<String> =
@@ -409,8 +410,10 @@ class PreferencesRepository(private val context: Context) {
         context.dataStore.edit { it[Keys.ROTATION_INDEX] = index.toString() }
     }
 
-    suspend fun rememberApplied(id: String, dark: Boolean) {
+    /** [target] is where the user put it (HOME, LOCK or BOTH), so the day/night switch can use the same place. */
+    suspend fun rememberApplied(id: String, dark: Boolean, target: String? = null) {
         context.dataStore.edit { prefs ->
+            if (target != null) prefs[Keys.CURRENT_TARGET] = target
             prefs[Keys.CURRENT_WALLPAPER] = id
             prefs[Keys.LAST_DARK] = dark
             val current = prefs[Keys.SETS]?.toIntOrNull() ?: 0
@@ -418,12 +421,19 @@ class PreferencesRepository(private val context: Context) {
         }
     }
 
+    /** Which version is currently on the phone, without counting it as another wallpaper the user set. */
+    suspend fun rememberThemeVariant(dark: Boolean) {
+        context.dataStore.edit { it[Keys.LAST_DARK] = dark }
+    }
+
+    suspend fun readAppliedTarget(): String? = context.dataStore.data.first()[Keys.CURRENT_TARGET]
+
     suspend fun readAppliedTheme(): Triple<String?, Boolean?, Boolean> {
         val prefs = context.dataStore.data.first()
         return Triple(
             prefs[Keys.CURRENT_WALLPAPER],
             prefs[Keys.LAST_DARK],
-            prefs[Keys.AUTO_THEME] ?: false,
+            prefs[Keys.AUTO_THEME] ?: true,
         )
     }
 }

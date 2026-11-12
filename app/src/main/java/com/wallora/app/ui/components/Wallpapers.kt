@@ -106,10 +106,9 @@ fun WallpaperCard(
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
     ) {
         Box {
-            AsyncImage(
-                model = wallpaper.model(dark),
-                contentDescription = wallpaper.title,
-                contentScale = ContentScale.Crop,
+            WallpaperImage(
+                wallpaper = wallpaper,
+                dark = dark,
                 modifier = Modifier
                     .fillMaxWidth()
                     .aspectRatio(aspect),

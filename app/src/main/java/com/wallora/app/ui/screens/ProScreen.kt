@@ -48,6 +48,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.wallora.app.R
 import com.wallora.app.ads.AdsConfig
+import com.wallora.app.util.AppFeatures
 import com.wallora.app.billing.ProManager
 import com.wallora.app.billing.ProMessage
 
@@ -123,7 +124,7 @@ fun ProScreen(onBack: () -> Unit) {
                 verticalArrangement = Arrangement.spacedBy(16.dp),
             ) {
                 if (AdsConfig.ADS_ENABLED) Benefit(stringResource(R.string.pro_benefit_noads))
-                Benefit(stringResource(R.string.pro_benefit_effects))
+                if (AppFeatures.PHOTO_EFFECTS) Benefit(stringResource(R.string.pro_benefit_effects))
                 Benefit(stringResource(R.string.pro_benefit_rotation))
                 Benefit(stringResource(R.string.pro_benefit_support))
             }

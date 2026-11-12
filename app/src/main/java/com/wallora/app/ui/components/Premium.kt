@@ -101,10 +101,9 @@ fun PosterCard(
         elevation = CardDefaults.cardElevation(0.dp),
     ) {
         Box {
-            AsyncImage(
-                model = wallpaper.model(dark),
-                contentDescription = wallpaper.title,
-                contentScale = ContentScale.Crop,
+            WallpaperImage(
+                wallpaper = wallpaper,
+                dark = dark,
                 modifier = Modifier.fillMaxWidth().aspectRatio(aspect),
             )
             Box(Modifier.matchParentSize().background(Brush.verticalGradient(0.55f to Color.Transparent, 1f to Color.Black.copy(alpha = 0.75f))))
@@ -159,10 +158,9 @@ fun HeroCard(
         elevation = CardDefaults.cardElevation(0.dp),
     ) {
         Box(Modifier.fillMaxSize()) {
-            AsyncImage(
-                model = wallpaper.model(dark),
-                contentDescription = wallpaper.title,
-                contentScale = ContentScale.Crop,
+            WallpaperImage(
+                wallpaper = wallpaper,
+                dark = dark,
                 modifier = Modifier.fillMaxSize(),
             )
             Box(Modifier.fillMaxSize().background(Brush.verticalGradient(0.45f to Color.Transparent, 1f to Color.Black.copy(alpha = 0.82f))))

@@ -49,6 +49,7 @@ import com.wallora.app.util.AppLinks
 import com.wallora.app.work.DailyDropScheduler
 import com.wallora.app.work.NewWallpaperScheduler
 import com.wallora.app.work.RotationScheduler
+import com.wallora.app.work.ThemeSyncScheduler
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -183,7 +184,10 @@ fun SettingsScreen(
                 title = stringResource(R.string.pref_match_theme),
                 subtitle = stringResource(R.string.pref_match_theme_sub),
                 checked = autoTheme,
-                onCheckedChange = viewModel::setAutoThemeApply,
+                onCheckedChange = { enabled ->
+                    viewModel.setAutoThemeApply(enabled)
+                    ThemeSyncScheduler.sync(context, enabled)
+                },
             )
 
             HorizontalDivider(Modifier.padding(vertical = 12.dp))

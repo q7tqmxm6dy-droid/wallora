@@ -21,6 +21,23 @@
     --accent: #7c4dff;
     --accent2: #00bfa5;
     --danger: #ff4d6d;
+    --field: #12141a;
+    --chip: #23262e;
+    --bar: rgba(15,17,21,.9);
+    color-scheme: dark;
+  }
+  /* Day look: follows the device (like the app does) unless the theme button forces one. */
+  :root[data-theme="day"] {
+    --bg: #f4f5f8; --card: #ffffff; --line: #dfe2e9; --text: #171a21; --muted: #5d6675;
+    --accent: #6a3df0; --accent2: #00897b; --danger: #d6264a;
+    --field: #f4f5f8; --chip: #e8eaf0; --bar: rgba(244,245,248,.92); color-scheme: light;
+  }
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme="night"]) {
+      --bg: #f4f5f8; --card: #ffffff; --line: #dfe2e9; --text: #171a21; --muted: #5d6675;
+      --accent: #6a3df0; --accent2: #00897b; --danger: #d6264a;
+      --field: #f4f5f8; --chip: #e8eaf0; --bar: rgba(244,245,248,.92); color-scheme: light;
+    }
   }
   * { box-sizing: border-box; }
   body {
@@ -30,7 +47,7 @@
   header {
     display: flex; align-items: center; gap: 14px;
     padding: 16px 24px; border-bottom: 1px solid var(--line);
-    position: sticky; top: 0; background: rgba(15,17,21,.9); backdrop-filter: blur(8px);
+    position: sticky; top: 0; z-index: 10; background: var(--bar); backdrop-filter: blur(8px);
   }
   header h1 { font-size: 18px; margin: 0; font-weight: 650; }
   header .dot { color: var(--accent2); }
@@ -52,7 +69,7 @@
   label { display: block; font-size: 13px; color: var(--muted); margin: 12px 0 6px; }
   input, select {
     width: 100%; padding: 11px 12px; border-radius: 10px;
-    border: 1px solid var(--line); background: #12141a; color: var(--text);
+    border: 1px solid var(--line); background: var(--field); color: var(--text);
     font: inherit;
   }
   input:focus, select:focus { outline: 2px solid var(--accent); border-color: transparent; }
@@ -60,45 +77,67 @@
     margin-top: 14px; padding: 11px 18px; border: 0; border-radius: 10px;
     background: var(--accent); color: #fff; font: inherit; font-weight: 600; cursor: pointer;
   }
-  button.secondary { background: #23262e; }
+  button.secondary { background: var(--chip); color: var(--text); }
   button.danger { background: transparent; color: var(--danger); border: 1px solid var(--danger); font-weight: 500; padding: 6px 12px; margin: 0; }
   button:disabled { opacity: .5; cursor: not-allowed; }
   .row { display: flex; gap: 14px; flex-wrap: wrap; }
   .row > div { flex: 1; min-width: 220px; }
-  .bar { height: 8px; background: #23262e; border-radius: 99px; overflow: hidden; margin-top: 14px; }
+  .bar { height: 8px; background: var(--chip); border-radius: 99px; overflow: hidden; margin-top: 14px; }
   .bar > i { display: block; height: 100%; width: 0; background: var(--accent2); transition: width .2s; }
   table { width: 100%; border-collapse: collapse; }
   th, td { text-align: left; padding: 10px 8px; border-bottom: 1px solid var(--line); font-size: 14px; }
   th { color: var(--muted); font-weight: 500; font-size: 12px; text-transform: uppercase; letter-spacing: .04em; }
-  td img { width: 46px; height: 46px; object-fit: cover; border-radius: 8px; display: block; }
   .pill {
     display: inline-block; padding: 2px 9px; border-radius: 99px;
-    background: #23262e; color: var(--muted); font-size: 12px;
+    background: var(--chip); color: var(--muted); font-size: 12px;
   }
   .msg { margin-top: 12px; font-size: 13px; min-height: 18px; }
   .msg.err { color: var(--danger); }
   .msg.ok { color: var(--accent2); }
   .chips { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
   .chip {
-    padding: 5px 11px; border-radius: 99px; background: #23262e;
+    padding: 5px 11px; border-radius: 99px; background: var(--chip);
     color: var(--text); font-size: 12px; cursor: pointer; border: 1px solid var(--line);
   }
   .chip:hover { border-color: var(--accent); }
   .muted { color: var(--muted); font-size: 13px; }
-  code { background: #23262e; padding: 2px 6px; border-radius: 6px; font-size: 13px; }
-  .chip.on { border-color: var(--accent); background: #2b2350; }
+  code { background: var(--chip); padding: 2px 6px; border-radius: 6px; font-size: 13px; }
+  .chip.on { border-color: var(--accent); background: var(--accent); color: #fff; }
   .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(112px, 1fr)); gap: 14px; margin-top: 14px; }
-  .tile img, .tile .ph { width: 100%; aspect-ratio: 9 / 16; object-fit: cover; border-radius: 10px; display: block; background: #23262e; }
-  .tile .ph { display: grid; place-items: center; text-align: center; color: var(--muted); font-size: 12px; padding: 8px; border: 1px dashed var(--line); }
+  .tile .ph { width: 100%; aspect-ratio: 9 / 16; border-radius: 10px; background: var(--chip); display: grid; place-items: center; text-align: center; color: var(--muted); font-size: 12px; padding: 8px; border: 1px dashed var(--line); }
+  .pic { position: relative; display: block; overflow: hidden; border-radius: 8px; background: var(--chip); }
+  .pic img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .pair img { position: absolute; inset: 0; }
+  .pair .l { clip-path: inset(0 50% 0 0); }
+  .pair .d { clip-path: inset(0 0 0 50%); }
+  .pair::after, .stage[data-mode="split"]::after { content: ""; position: absolute; top: 0; bottom: 0; left: 50%; width: 1px; background: rgba(255,255,255,.6); pointer-events: none; }
+  .pic.thumb { width: 46px; height: 46px; cursor: pointer; }
+  .pic.tilepic { width: 100%; aspect-ratio: 9 / 16; border-radius: 10px; }
+  .overlay { position: fixed; inset: 0; background: rgba(0,0,0,.62); display: grid; place-items: center; z-index: 50; padding: 16px; }
+  .overlay[hidden] { display: none; }
+  .sheet { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 16px; width: 100%; max-width: 360px; position: relative; }
+  .sheet .x { position: absolute; top: 6px; right: 8px; margin: 0; padding: 2px 10px; background: transparent; color: var(--muted); font-size: 22px; }
+  .stage { position: relative; aspect-ratio: 9 / 16; width: min(100%, calc(70vh * 0.5625)); margin: 0 auto; border-radius: 12px; overflow: hidden; background: var(--chip); }
+  .stage img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .stage[data-mode="split"] .l { clip-path: inset(0 50% 0 0); }
+  .stage[data-mode="split"] .d { clip-path: inset(0 0 0 50%); }
+  .stage[data-mode="day"] .d { display: none; }
+  .stage[data-mode="night"] .l { display: none; }
+  .sheet .t { text-align: center; font-weight: 600; margin: 10px 0 6px; }
+  .seg { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; }
+  .seg button { margin: 0; padding: 6px 12px; background: var(--chip); color: var(--text); font-weight: 500; font-size: 13px; }
+  .seg button.on { background: var(--accent); color: #fff; }
   .tile .t { font-size: 13px; margin-top: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .tile .s { font-size: 11px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 </style>
+<script>try { var t = localStorage.getItem("wallora-admin-theme"); if (t === "day" || t === "night") document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
 
 <header>
   <h1>Wallora <span class="dot">●</span> Admin</h1>
   <div class="spacer"></div>
+  <button class="secondary" id="themeBtn" style="margin:0;padding:6px 12px" title="The dashboard follows your device's day/night setting. Click to force Day or Night.">Theme: Auto</button>
   <span class="who" id="who"></span>
   <button class="secondary" id="signOut" style="display:none">Sign out</button>
 </header>
@@ -122,6 +161,7 @@
   <section id="dash" hidden>
     <div class="stats">
       <div class="stat"><div class="n" id="statBuiltIn">0</div><div class="l">In the app</div></div>
+      <div class="stat"><div class="n" id="statPairs">0</div><div class="l">Light + dark pairs</div></div>
       <div class="stat"><div class="n" id="statWallpapers">0</div><div class="l">Cloud wallpapers</div></div>
       <div class="stat"><div class="n" id="statCategories">0</div><div class="l">Categories</div></div>
       <div class="stat"><div class="n" id="statFeatured">0</div><div class="l">Featured</div></div>
@@ -131,8 +171,10 @@
     <div class="card" style="margin-top:18px">
       <h2>Wallpapers in the app <span class="muted" id="builtInCount"></span></h2>
       <p class="muted" style="margin:0 0 6px">
-        Built into the Android app (and the website where marked). They come from the app's code, so they can't be
-        edited or deleted here. Use <b>Upload wallpaper</b> below to add new ones without an app update.
+        Built into the Android app (and the website where marked). A wallpaper with a light and a dark version is drawn
+        as one split picture: <b>light on the left, dark on the right</b>. Click one to preview Split, Day or Night.
+        They come from the app's code, so they can't be edited or deleted here. Use <b>Upload wallpaper</b> below to
+        add new ones without an app update.
       </p>
       <input id="builtInSearch" placeholder="Search by title…" />
       <div class="chips" id="builtInCats"></div>
@@ -157,9 +199,14 @@
           <select id="category"></select>
         </div>
       </div>
-      <label for="file">Image (portrait JPEG/PNG)</label>
+      <p class="muted" style="margin:10px 0 0">
+        Every wallpaper needs one image. Add a second one to make it a <b>light + dark pair</b>: the app then shows
+        the dark version at night and the light version by day, and draws the pair as one split picture.
+        Leave the dark version empty for a single-image wallpaper (for example deep space).
+      </p>
+      <label for="file">Light version (portrait JPEG/PNG)</label>
       <input id="file" type="file" accept="image/*" />
-      <label for="fileDark">Dark-mode variant (optional)</label>
+      <label for="fileDark">Dark version (optional)</label>
       <input id="fileDark" type="file" accept="image/*" />
       <div class="chips" id="categoryChips"></div>
       <button id="upload">Upload</button>
@@ -170,7 +217,7 @@
     <div class="card">
       <h2>Add by image URL</h2>
       <p class="muted" style="margin:0 0 6px">
-        Host the image anywhere public and paste the link — no Cloud Storage needed.
+        Host the image anywhere public and paste the link — no Cloud Storage needed. Add a dark version URL to make a light + dark pair.
         (Cloud Storage for Firebase now requires the Blaze plan on new projects.)
       </p>
       <div class="row">
@@ -183,9 +230,9 @@
           <select id="urlCategory"></select>
         </div>
       </div>
-      <label for="urlValue">Image URL</label>
+      <label for="urlValue">Light version URL</label>
       <input id="urlValue" placeholder="https://example.com/wallpaper.jpg" />
-      <label for="urlDarkValue">Dark-mode variant URL (optional)</label>
+      <label for="urlDarkValue">Dark version URL (optional)</label>
       <input id="urlDarkValue" placeholder="https://example.com/wallpaper-dark.jpg" />
       <button id="addByUrl">Add wallpaper</button>
       <div class="msg" id="urlMsg"></div>
@@ -236,7 +283,7 @@ import {
   getStorage, ref as storageRef, uploadBytesResumable, uploadBytes, getDownloadURL, deleteObject,
 } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-storage.js";
 import { firebaseConfig } from "./firebase-config.js";
-import { mountBuiltIn } from "./admin-builtin.js";
+import { mountBuiltIn, pictureHtml, openPreview } from "./admin-builtin.js";
 
 const configured = !firebaseConfig.apiKey.includes("REPLACE");
 const loginMsg = document.getElementById("loginMsg");
@@ -262,6 +309,22 @@ try {
 }
 
 const $ = (id) => document.getElementById(id);
+
+// Theme: Auto follows the device's day/night setting (as the app does); the button forces Day or Night.
+const THEME_KEY = "wallora-admin-theme";
+function applyTheme(mode) {
+  if (mode === "day" || mode === "night") document.documentElement.dataset.theme = mode;
+  else delete document.documentElement.dataset.theme;
+  $("themeBtn").textContent = "Theme: " + (mode === "day" ? "Day" : mode === "night" ? "Night" : "Auto");
+}
+let themeMode = "auto";
+try { themeMode = localStorage.getItem(THEME_KEY) || "auto"; } catch (_) {}
+applyTheme(themeMode);
+$("themeBtn").onclick = () => {
+  themeMode = themeMode === "auto" ? "day" : themeMode === "day" ? "night" : "auto";
+  try { localStorage.setItem(THEME_KEY, themeMode); } catch (_) {}
+  applyTheme(themeMode);
+};
 const setMsg = (el, text, ok) => { el.className = "msg " + (ok ? "ok" : "err"); el.textContent = text || ""; };
 
 // ---- auth --------------------------------------------------------------
@@ -319,7 +382,7 @@ function renderChart() {
     ? entries.map(([c, n]) => `
         <div style="display:flex;align-items:center;gap:10px;margin:6px 0">
           <span style="width:96px;font-size:13px" class="muted">${escapeHtml(c)}</span>
-          <span style="flex:1;height:10px;background:#23262e;border-radius:99px;overflow:hidden">
+          <span style="flex:1;height:10px;background:var(--chip);border-radius:99px;overflow:hidden">
             <span style="display:block;height:100%;width:${Math.round((n / max) * 100)}%;background:var(--accent2)"></span>
           </span>
           <span style="width:28px;text-align:right;font-size:13px">${n}</span>
@@ -346,14 +409,15 @@ function renderTable() {
       : "";
     const tr = document.createElement("tr");
     tr.innerHTML = `
-      <td><img src="${w.url}" alt="" loading="lazy" /></td>
-      <td>${escapeHtml(w.title || "Untitled")}${isScheduled(w) ? ' <span class="pill">scheduled</span>' : ""}</td>
+      <td>${pictureHtml(w.url || "", w.urlDark || null, "thumb")}</td>
+      <td>${escapeHtml(w.title || "Untitled")}${w.urlDark ? ' <span class="pill">light + dark</span>' : ""}${isScheduled(w) ? ' <span class="pill">scheduled</span>' : ""}</td>
       <td><span class="pill">${escapeHtml(w.category || "—")}</span></td>
       <td><input style="width:150px" placeholder="car, dark" value="${(w.tags || []).join(", ")}" data-tags="${w.id}" /></td>
       <td><button class="chip" data-feature="${w.id}">${w.featured ? "★" : "☆"}</button></td>
       <td><input type="number" style="width:74px" value="${Number(w.order || 0)}" data-order="${w.id}" /></td>
       <td><input type="datetime-local" value="${publishValue}" data-publish="${w.id}" /></td>
       <td><button class="danger" data-id="${w.id}" data-path="${w.path || ""}" data-dark-path="${w.pathDark || ""}">Delete</button></td>`;
+    tr.querySelector(".pic").onclick = () => openPreview({ title: w.title || "Untitled", light: w.url, dark: w.urlDark || null });
     rows.appendChild(tr);
   }
 

@@ -19,10 +19,10 @@
 
     <string name="onb1_title">טפט לכל מצב רוח</string>
     <string name="onb1_body">עשר קטגוריות, מאסתטיקה כהה וחלל ועד מכוניות, יוקרה ואמנות תלת־ממד. חפשו לפי שם, סגנון או צבע.</string>
-    <string name="onb2_title">בהיר וכהה, מובנה</string>
-    <string name="onb2_body">מעוצב לשני המצבים, ואפשר להפוך אותו לטפט חי שמחליף ביניהם לאט.</string>
+    <string name="onb2_title">בהיר ביום, כהה בלילה</string>
+    <string name="onb2_body">רבים מהטפטים מגיעים בזוג של גרסה בהירה וכהה, המוצגות זו לצד זו. Wallora מחליף ביניהן אוטומטית כשהטלפון עובר בין יום ללילה.</string>
     <string name="onb3_title">שלכם לחלוטין</string>
-    <string name="onb3_body">הוסיפו למועדפים, בנו אוספים משלכם, והחילו אפקטים כמו טשטוש או שחור־לבן לפני ההגדרה.</string>
+    <string name="onb3_body">סמנו כל דבר כמועדף, בנו אוספים משלכם, וראו אותו במסך הנעילה לפני שמגדירים.</string>
     <string name="skip">דלג</string>
     <string name="next">הבא</string>
     <string name="get_started">בואו נתחיל</string>
@@ -89,8 +89,8 @@
     <string name="theme_dark">כהה</string>
     <string name="pref_daily_rotation">סבב יומי</string>
     <string name="pref_daily_rotation_sub">הגדר טפט חדש אוטומטית בכל יום</string>
-    <string name="pref_match_theme">התאם לערכת הנושא של הטלפון</string>
-    <string name="pref_match_theme_sub">כשהטלפון עובר למצב כהה או בהיר, החל מחדש את הגרסה המתאימה של הטפט הנוכחי</string>
+    <string name="pref_match_theme">טפט יום ולילה</string>
+    <string name="pref_match_theme_sub">בלילה הטפט עובר לגרסה הכהה שלו, וביום חוזר לבהירה, לפי המצב הכהה של הטלפון. טפטים עם תמונה אחת נשארים כפי שהם.</string>
     <string name="pref_live_wallpaper">טפט חי</string>
     <string name="pref_live_wallpaper_sub">מצגת מחליפה בין הטפטים במעבר עדין; הגרדיאנט המונפש חסכוני יותר בסוללה.</string>
     <string name="live_slideshow">מצגת</string>

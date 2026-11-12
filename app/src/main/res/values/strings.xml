@@ -24,10 +24,10 @@
     <!-- onboarding -->
     <string name="onb1_title">A wallpaper for every mood</string>
     <string name="onb1_body">Ten categories, from dark aesthetics and space to cars, luxury and 3D art. Search by name, style or colour.</string>
-    <string name="onb2_title">Light and dark, built in</string>
-    <string name="onb2_body">Designed for both themes, and you can turn it into a live wallpaper that slowly fades between them.</string>
+    <string name="onb2_title">Light by day, dark at night</string>
+    <string name="onb2_body">Many wallpapers come as a light and dark pair, shown split side by side. Wallora swaps to the right one for you as your phone changes between day and night.</string>
     <string name="onb3_title">Make it yours</string>
-    <string name="onb3_body">Favourite anything, build your own collections, and apply looks like Blur or B&amp;W before you set it.</string>
+    <string name="onb3_body">Favourite anything, build your own collections, and preview it on your lock screen before you set it.</string>
     <string name="skip">Skip</string>
     <string name="next">Next</string>
     <string name="get_started">Get started</string>
@@ -91,8 +91,8 @@
     <string name="theme_dark">Dark</string>
     <string name="pref_daily_rotation">Daily rotation</string>
     <string name="pref_daily_rotation_sub">Set a fresh wallpaper automatically every day</string>
-    <string name="pref_match_theme">Match phone theme</string>
-    <string name="pref_match_theme_sub">When the phone switches dark or light, re-apply the matching variant of your current wallpaper</string>
+    <string name="pref_match_theme">Day &amp; night wallpaper</string>
+    <string name="pref_match_theme_sub">Your wallpaper switches to its dark version at night and back to the light one by day, following your phone\'s dark mode. Wallpapers with one image stay as they are.</string>
     <string name="pref_live_wallpaper">Live wallpaper</string>
     <string name="pref_live_wallpaper_sub">Slideshow cycles your wallpapers with a slow crossfade; the animated gradient is lighter on battery.</string>
     <string name="live_slideshow">Slideshow</string>
