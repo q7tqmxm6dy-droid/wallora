@@ -39,6 +39,7 @@ app/build/
 /firebase/webadmin/app/img/
 /firebase/webadmin/app/catalog.json
 /firebase/webadmin/admin-catalog.json
+/firebase/webadmin/admin-blur/
 
 # private debug-only wallpaper pack (see scripts/personal_pack.py) -- never commit or ship
 /personal-pack/

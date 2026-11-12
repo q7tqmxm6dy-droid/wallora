@@ -5,7 +5,8 @@ Reads the same Kotlin sources as the Android app (WallpaperCatalog.kt, Taxonomy.
 app cannot drift from it. Run from the repo root:   python3 scripts/export_web_catalog.py
 
 It also writes firebase/webadmin/admin-catalog.json, the full list of wallpapers built into the app, for the admin
-dashboard. That list names every wallpaper but points only at images that are already on the website.
+dashboard. That list names every wallpaper but points only at images that are already on the website; the
+ones kept off the web get an 18-pixel-wide blurred stand-in (firebase/webadmin/admin-blur/) so the dashboard can tell them apart.
 
 Images whose rights have not been verified (the owner-supplied nightcar_* and mood_* sets) are NOT published on
 the open web, because a public website is crawled and indexed in a way a store listing is not. Two exceptions:
@@ -31,6 +32,8 @@ WEB_ALLOWED_UNVERIFIED = {
     "mood_29", "mood_32", "mood_33", "mood_35", "mood_36", "mood_37",                         # neon facets, chrome, quote art, peaks, gradient
 }
 THUMB_W, FULL_W = 420, 1080
+BLUR_W = 18                                   # admin-only stand-in for pictures kept off the web: colours and shape, nothing more
+BLUR = OUT.parent / "admin-blur"
 
 include_unverified = "--include-unverified" in sys.argv
 catalog_src = (DATA / "WallpaperCatalog.kt").read_text()
@@ -59,7 +62,11 @@ for m in re.finditer(r'Wallpaper\("([^"]+)", "([^"]+)", "([^"]+)", R\.drawable\.
     source = "supplied" if wid.startswith(UNVERIFIED) else ("photo" if 'credit = "' in rest else "original")
     dark = re.search(r"darkResId = R\.drawable\.(\w+)", rest)
     everything.append(dict(id=wid, title=title, cat=category_for(cat, title), source=source, web=on_web, both=bool(dark)))
-    if not on_web: continue
+    if not on_web:
+        BLUR.mkdir(parents=True, exist_ok=True)
+        im = Image.open(RES / f"{light}.jpg").convert("RGB")
+        im.resize((BLUR_W, max(1, round(im.height * BLUR_W / im.width))), Image.LANCZOS).save(BLUR / f"{wid}.webp", "WEBP", quality=60)
+        continue
     credit = re.search(r'credit = "([^"]*)"', rest); lic = re.search(r'license = "([^"]*)"', rest)
     rows.append(dict(id=wid, title=title, cat=category_for(cat, title), light=light, dark=dark.group(1) if dark else None,
                      credit=credit.group(1) if credit else None, license=lic.group(1) if lic else None,

@@ -108,7 +108,7 @@ export async function mountBuiltIn() {
           const t = thumbs(w);
           return `
           <div class="tile" data-id="${escapeHtml(w.id)}" title="${escapeHtml(w.id)}">
-            ${t ? pictureHtml(t.light, t.dark, "tilepic") : '<div class="ph">App only<br>kept off the website</div>'}
+            ${t ? pictureHtml(t.light, t.dark, "tilepic") : `<span class="pic tilepic blurry"><img src="admin-blur/${encodeURIComponent(w.id)}.webp" alt="" loading="lazy" /><span class="badge">App only</span></span>`}
             <div class="t">${escapeHtml(w.title)}</div>
             <div class="s">${escapeHtml(catTitle[w.cat] || w.cat)}</div>
             <div class="s">${w.both ? "Light + dark" : "One image"} · ${escapeHtml(SOURCE[w.source] || w.source)} · ${w.web ? "app + web" : "app only"}</div>
