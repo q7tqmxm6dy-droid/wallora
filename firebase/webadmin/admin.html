@@ -285,7 +285,8 @@ import {
   getStorage, ref as storageRef, uploadBytesResumable, uploadBytes, getDownloadURL, deleteObject,
 } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-storage.js";
 import { firebaseConfig } from "./firebase-config.js";
-import { mountBuiltIn, pictureHtml, openPreview } from "./admin-builtin.js";
+// The ?v= number is bumped whenever admin-builtin.js changes, so browsers that kept an old copy fetch the new one.
+import { mountBuiltIn, pictureHtml, openPreview } from "./admin-builtin.js?v=3";
 
 const configured = !firebaseConfig.apiKey.includes("REPLACE");
 const loginMsg = document.getElementById("loginMsg");
