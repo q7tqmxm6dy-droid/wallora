@@ -1,9 +1,21 @@
 :root {
   --bg: #0A0A12; --raised: #14131F; --high: #1E1C2D; --line: #2A2740; --text: #F2F0FA; --muted: #A8A4BD;
   --violet: #A899FF; --pink: #FF7AD9; --teal: #5CE1E6; --heart: #FF4D6D;
+  --on-accent: #14102B; --tabbg: rgba(20,19,31,.92); --field: rgba(255,255,255,.03); --toast-bg: #fff; --toast-text: #14102B;
   --safe-top: env(safe-area-inset-top, 0px); --safe-bottom: env(safe-area-inset-bottom, 0px);
   --tab-h: 64px; --radius: 22px;
 }
+/* Day look: follows the device's day/night setting, like the Android app. The full-screen wallpaper view stays dark. */
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #F6F5FB; --raised: #FFFFFF; --high: #ECEAF5; --line: #DAD6EA; --text: #17142B; --muted: #625E7A;
+    --violet: #6A55E8; --pink: #D6329F; --teal: #128C96; --heart: #E0314F;
+    --on-accent: #FFFFFF; --tabbg: rgba(255,255,255,.92); --field: rgba(23,20,43,.04); --toast-bg: #17142B; --toast-text: #FFFFFF;
+  }
+  html { color-scheme: light; }
+  #glow { background: linear-gradient(180deg, rgba(106,85,232,.16), rgba(214,50,159,.05) 55%, transparent); }
+}
+#detail { --violet: #A899FF; --pink: #FF7AD9; --heart: #FF4D6D; --on-accent: #14102B; --line: #2A2740; --text: #F2F0FA; --muted: #A8A4BD; }
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 html { background: var(--bg); color-scheme: dark; }
 body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
@@ -21,7 +33,7 @@ svg { width: 24px; height: 24px; fill: currentColor; flex: none; }
 
 /* ---------- tab bar ---------- */
 #tabs { position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; display: flex; justify-content: space-around;
-  padding: 6px 4px calc(6px + var(--safe-bottom)); background: rgba(20,19,31,.92); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  padding: 6px 4px calc(6px + var(--safe-bottom)); background: var(--tabbg); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
   border-top: 1px solid var(--line); }
 #tabs a { flex: 1; max-width: 140px; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 6px 0 4px;
   font-size: 11.5px; color: var(--muted); border-radius: 16px; transition: color .15s; }
@@ -53,7 +65,7 @@ h2.section { font-size: 21px; font-weight: 800; margin: 26px 0 2px; letter-spaci
 .swatch[aria-pressed="true"] { border: 3px solid var(--violet); }
 .search { position: relative; margin: 14px 0 12px; }
 .search svg { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--muted); }
-.search input { width: 100%; height: 52px; padding: 0 44px; border-radius: 28px; border: 1px solid var(--line); background: rgba(255,255,255,.03);
+.search input { width: 100%; height: 52px; padding: 0 44px; border-radius: 28px; border: 1px solid var(--line); background: var(--field);
   color: var(--text); font-size: 16px; }
 .search input::placeholder { color: var(--muted); }
 .search .clear { position: absolute; right: 4px; top: 4px; }
@@ -67,6 +79,16 @@ h2.section { font-size: 21px; font-weight: 800; margin: 26px 0 2px; letter-spaci
 .card:active { transform: scale(.97); }
 .card img, .poster img, .hero img, .tile img { width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .35s; }
 img.in { opacity: 1 !important; }
+/* light/dark pair: the light picture on the left half, the dark one on the right, aligned so the scene continues across the seam */
+.pair { position: absolute; inset: 0; display: block; }
+.pair img { position: absolute; inset: 0; }
+.pair .l, #detail .bg.l { clip-path: inset(0 50% 0 0); }
+.pair .d, #detail .bg.d { clip-path: inset(0 0 0 50%); }
+.pair::after, #detail .seam { content: ""; position: absolute; top: 0; bottom: 0; left: 50%; width: 1px; background: rgba(255,255,255,.55); pointer-events: none; }
+#detail .seam { z-index: 1; }
+.seg { display: flex; gap: 8px; margin: 2px 4px 10px; }
+.seg button { flex: 1; min-height: 42px; border: 1px solid var(--line); border-radius: 12px; font-weight: 600; font-size: 14px; }
+.seg button[aria-pressed="true"] { background: var(--violet); border-color: var(--violet); color: var(--on-accent); }
 .card .shade, .poster .shade, .tile .shade, .hero .shade { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 58%, rgba(0,0,0,.62)); pointer-events: none; }
 .card > a, .poster > a, .tile > a, .hero > a { position: absolute; inset: 0; display: block; }
 .heart { position: absolute; top: 6px; right: 6px; width: 40px; height: 40px; display: grid; place-items: center; border-radius: 50%; background: rgba(0,0,0,.34); color: #fff; }
@@ -104,7 +126,7 @@ img.in { opacity: 1 !important; }
 
 /* ---------- buttons & empty ---------- */
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 50px; padding: 0 22px; border-radius: 26px; font-weight: 700; border: 1px solid var(--line); }
-.btn.primary { background: var(--violet); color: #14102B; border-color: var(--violet); }
+.btn.primary { background: var(--violet); color: var(--on-accent); border-color: var(--violet); }
 .btn.block { display: flex; width: 100%; }
 .btn[disabled] { opacity: .5; }
 .empty { text-align: center; color: var(--muted); padding: 64px 24px; }
@@ -173,6 +195,6 @@ input[type=range] { flex: 1; accent-color: var(--violet); height: 32px; }
 #banner[hidden] { display: none; }
 #banner p { margin: 0; flex: 1; }
 #toast { position: fixed; left: 50%; bottom: calc(var(--tab-h) + var(--safe-bottom) + 20px); transform: translate(-50%, 20px); z-index: 80; max-width: 86vw;
-  background: #fff; color: #14102B; padding: 11px 18px; border-radius: 22px; font-size: 14px; font-weight: 600; opacity: 0; pointer-events: none; transition: all .25s; }
+  background: var(--toast-bg); color: var(--toast-text); padding: 11px 18px; border-radius: 22px; font-size: 14px; font-weight: 600; opacity: 0; pointer-events: none; transition: all .25s; }
 #toast.show { opacity: 1; transform: translate(-50%, 0); }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }

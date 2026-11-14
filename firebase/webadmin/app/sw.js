@@ -3,7 +3,7 @@
 //  - the catalogue is network-first, so new wallpapers show on the next load; the cache is only its offline fallback
 //  - wallpaper images are cache-first, capped so the cache cannot grow without bound
 // Bump VERSION to force every visitor onto a fresh set of caches.
-const VERSION = 'v2';
+const VERSION = 'v3';
 const SHELL = `wallora-shell-${VERSION}`;
 const IMAGES = `wallora-img-${VERSION}`;
 const IMAGE_LIMIT = 400;

@@ -1,5 +1,5 @@
 // Run with:  node firebase/webadmin/app/tests.mjs     (needs catalog.json from scripts/export_web_catalog.py)
-import { readFileSync } from 'node:fs';
+import { readFileSync, existsSync } from 'node:fs';
 import assert from 'node:assert/strict';
 import * as core from './core.js';
 
@@ -70,5 +70,29 @@ test('no cars or unreviewed unverified images are published on the web', () => {
     'mood_25', 'mood_26', 'mood_27', 'mood_28', 'mood_29', 'mood_32', 'mood_33', 'mood_35', 'mood_36', 'mood_37']);
   assert.deepEqual(all.filter((w) => w.id.startsWith('nightcar_')).map((w) => w.id), []);
   assert.deepEqual(all.filter((w) => w.id.startsWith('mood_') && !allowed.has(w.id)).map((w) => w.id), []);
+});
+test('a cloud pair keeps both pictures: dark as the default, light for the left half', () => {
+  const doc = (f) => ({ name: 'projects/p/databases/(default)/documents/wallpapers/x1', fields: f });
+  const pair = core.parseCloud({ documents: [doc({ title: { stringValue: 'Car' }, url: { stringValue: 'https://x/l.jpg' }, urlDark: { stringValue: 'https://x/d.jpg' } })] }, catalog.taxonomy, ids)[0];
+  assert.equal(pair.both, true); assert.equal(pair.thumb, 'https://x/d.jpg'); assert.equal(pair.thumbLight, 'https://x/l.jpg'); assert.equal(pair.fullLight, 'https://x/l.jpg');
+  const single = core.parseCloud({ documents: [doc({ title: { stringValue: 'Deep space' }, url: { stringValue: 'https://x/s.jpg' } })] }, catalog.taxonomy, ids)[0];
+  assert.equal(single.both, false); assert.equal(single.thumbLight, null);
+});
+test('merging keeps the bundled light thumbnail', () => {
+  const bundled = [{ id: 'b', title: 'Same', cat: 'x', thumb: 'img/t/b.webp', thumbLight: 'img/t/b~l.webp', local: 'img/f/b.webp', localLight: 'img/f/b~l.webp' }];
+  const m = core.mergeCatalog([{ id: 'c', title: 'Same', cat: 'x', remote: true, both: true, thumb: 'https://d', thumbLight: 'https://l' }], bundled);
+  assert.equal(m[0].thumbLight, 'img/t/b~l.webp');
+});
+test('light or dark: an explicit choice wins, otherwise the device decides; singles never switch', () => {
+  const pair = { both: true }, single = { both: false };
+  assert.equal(core.wantsLight(pair, 'day', false), true); assert.equal(core.wantsLight(pair, 'night', true), false);
+  assert.equal(core.wantsLight(pair, 'split', true), true); assert.equal(core.wantsLight(pair, 'split', false), false);
+  assert.equal(core.wantsLight(single, 'day', true), false);
+  assert.deepEqual(['split', 'day', 'night'].map(core.nextMode), ['day', 'night', 'split']);
+});
+test('every bundled pair has both thumbnails and both full-size pictures', () => {
+  const dir = new URL('./img/', import.meta.url), pairs = catalog.wallpapers.filter((w) => w.both);
+  assert.ok(pairs.length > 0);
+  for (const w of pairs) for (const f of [`t/${w.id}.webp`, `t/${w.id}~l.webp`, `f/${w.id}.webp`, `f/${w.id}~l.webp`]) assert.ok(existsSync(new URL(f, dir)), `missing img/${f}`);
 });
 console.log(process.exitCode ? 'FAILED' : `all ${passed} tests passed`);

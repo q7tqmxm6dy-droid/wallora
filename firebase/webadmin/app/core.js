@@ -121,7 +121,7 @@ export function mergeCatalog(cloud, bundled) {
     merged.set(c.id, twin ? { ...c, cat: twin.cat, credit: c.credit ?? twin.credit, license: c.license ?? twin.license,
       colors: c.colors && c.colors.length ? c.colors : twin.colors, thumb: twin.thumb,
       // keep the bundled same-origin copy: it previews fast and can be resized in the browser, unlike the cloud original
-      local: twin.local, localLight: twin.localLight } : c);
+      local: twin.local, localLight: twin.localLight, thumbLight: twin.thumbLight ?? c.thumbLight } : c);
   }
   for (const b of bundled) if (!replaced.has(b.id) && !merged.has(b.id)) merged.set(b.id, b);
   return [...merged.values()];
@@ -148,8 +148,19 @@ export function parseCloud(json, tax, categoryIds, retired = []) {
       credit: s('credit') || undefined, license: s('license') || undefined, remote: true,
       featured: !!f.featured?.booleanValue, order: Number(f.order?.integerValue || 0),
       uhd: !!f.uhd?.booleanValue || (Math.min(width, height) >= 2160 && Math.max(width, height) >= 3840),
-      full: dark || url, fullLight: dark ? url : null, both: !!dark, thumb: dark || url,
+      full: dark || url, fullLight: dark ? url : null, both: !!dark, thumb: dark || url, thumbLight: dark ? url : null,
     });
   }
   return out.sort((a, b) => (b.featured - a.featured) || (a.order - b.order) || a.title.localeCompare(b.title));
 }
+
+/** Which version of a light/dark pair to show or save. [mode] is 'day' (light), 'night' (dark) or 'split' (follow the device). */
+export function wantsLight(w, mode, deviceLight) {
+  if (!w || !w.both) return false;
+  if (mode === 'day') return true;
+  if (mode === 'night') return false;
+  return !!deviceLight;
+}
+
+/** The detail view cycles split -> day -> night -> split. */
+export const nextMode = (mode) => (mode === 'split' ? 'day' : mode === 'day' ? 'night' : 'split');

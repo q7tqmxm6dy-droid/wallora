@@ -38,7 +38,10 @@ const catTitle = (id) => state.cats.find((c) => c.id === id)?.title || id;
 // ---------------------------------------------------------------- building blocks
 const heartBtn = (w) => { const on = favourites.has(w.id);
   return `<button class="heart" data-act="fav" data-id="${esc(w.id)}" aria-pressed="${on}" aria-label="${on ? 'Remove from favorites' : 'Add to favorites'}: ${esc(w.title)}">${svg('heart')}</button>`; };
-const img = (w, src = w.thumb) => `<img src="${esc(src)}" alt="${esc(w.title)}" loading="lazy" decoding="async">`;
+// A light/dark pair is drawn as one picture split down the middle: light on the left, dark on the right.
+const img = (w, src) => (!src && w.both && w.thumbLight)
+  ? `<span class="pair"><img class="l" src="${esc(w.thumbLight)}" alt="${esc(w.title)}" loading="lazy" decoding="async"><img class="d" src="${esc(w.thumb)}" alt="" loading="lazy" decoding="async"></span>`
+  : `<img src="${esc(src || w.thumb)}" alt="${esc(w.title)}" loading="lazy" decoding="async">`;
 const card = (w) => `<div class="card" style="--r:${(1 / core.cardRatio(w.id)).toFixed(3)}"><a href="#/w/${enc(w.id)}" aria-label="${esc(w.title)}">${img(w)}</a><span class="shade"></span>${w.uhd ? '<span class="badge">4K</span>' : ''}${heartBtn(w)}</div>`;
 const poster = (w, width = 140) => `<div class="poster" style="--w:${width}px"><a href="#/w/${enc(w.id)}" aria-label="${esc(w.title)}">${img(w)}</a><span class="shade"></span><span class="cap">${esc(w.title)}</span>${w.uhd ? '<span class="badge" style="top:8px;bottom:auto">4K</span>' : ''}</div>`;
 const ranked = (w, i) => `<div class="ranked">${poster(w, 168)}<span class="rank">${i + 1}</span></div>`;
@@ -113,7 +116,7 @@ const VIEWS = {
     return `<div class="topbar"><a class="icon-btn" href="#/favorites" aria-label="Back">${svg('back')}</a><h1 class="page-title grow" style="margin:0">Downloads</h1>
       ${rows.length ? '<button class="link" data-act="dlclear">Clear</button>' : ''}</div>
       ${rows.length ? `<div class="list" style="margin-top:14px">${rows.map((r) => { const w = state.byId.get(r.id);
-        return `<a class="li" href="${w ? `#/w/${enc(r.id)}` : '#/downloads'}">${w ? img(w) : '<span style="width:54px"></span>'}<div><b>${esc(w ? w.title : r.id)}</b><span>${esc(r.label)}${r.w ? ` · ${r.w} × ${r.h}` : ''}</span><span>${new Date(r.at).toLocaleString()}</span></div></a>`; }).join('')}</div>`
+        return `<a class="li" href="${w ? `#/w/${enc(r.id)}` : '#/downloads'}">${w ? img(w, w.thumb) : '<span style="width:54px"></span>'}<div><b>${esc(w ? w.title : r.id)}</b><span>${esc(r.label)}${r.w ? ` · ${r.w} × ${r.h}` : ''}</span><span>${new Date(r.at).toLocaleString()}</span></div></a>`; }).join('')}</div>`
         : empty('Nothing saved yet. Tap Download on any wallpaper and it will appear here.')}`;
   },
 
@@ -179,10 +182,13 @@ async function saveCreation(width, height) {
 // ---------------------------------------------------------------- download / share
 const loadImage = (u) => new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = u; });
 // What the preview shows: the bundled copy when there is one (fast, same origin), else the cloud image.
-const viewUrl = (w, d = state.detail) => (d && d.light ? (w.localLight || w.fullLight) : null) || w.local || w.full;
-const localUrl = (w, d = state.detail) => (d && d.light ? w.localLight : null) || w.local || null;
+// Light or dark: an explicit Day/Night choice wins, otherwise the device's own day/night setting (like the app).
+const deviceLight = () => !(window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches);
+const lightNow = (w, d = state.detail) => core.wantsLight(w, d && d.mode, deviceLight());
+const viewUrl = (w, light = lightNow(w)) => (light ? (w.localLight || w.fullLight) : null) || w.local || w.full;
+const localUrl = (w, light = lightNow(w)) => (light ? w.localLight : null) || w.local || null;
 // The best copy that exists: the cloud original when there is one.
-const remoteUrl = (w, d = state.detail) => (w.remote ? ((d && d.light && w.fullLight) || w.full) : null);
+const remoteUrl = (w, light = lightNow(w)) => (w.remote ? ((light && w.fullLight) || w.full) : null);
 
 async function deliver(blob, name, title) {
   const file = new File([blob], name, { type: 'image/jpeg' });
@@ -204,7 +210,8 @@ function openDownloadSheet(w) {
   const local = localUrl(w), remote = remoteUrl(w), opts = [];
   if (remote) opts.push(['remote', null, 'Highest quality', 'Highest']);
   if (local) opts.push(['local', null, 'Original · 1080 × 1920', 'Original'], ['local', 720, 'Medium · 720p (smaller file)', '720p'], ['local', 480, 'Small · 480p (smallest file)', '480p']);
-  openSheet(`<h3>Download quality</h3>${opts.map(([src, wd, label, tag]) => `<button class="opt" data-act="dl" data-src="${src}" data-w="${wd ?? ''}" data-tag="${tag}">${svg('download')}<span>${label}</span></button>`).join('')}
+  const pair = w.both ? `<div class="seg" role="group" aria-label="Version"><button data-act="dpick" data-v="day" aria-pressed="${lightNow(w)}">Light (day)</button><button data-act="dpick" data-v="night" aria-pressed="${!lightNow(w)}">Dark (night)</button></div>` : '';
+  openSheet(`<h3>Download quality</h3>${pair}${opts.map(([src, wd, label, tag]) => `<button class="opt" data-act="dl" data-src="${src}" data-w="${wd ?? ''}" data-tag="${tag}">${svg('download')}<span>${label}</span></button>`).join('')}
     ${IOS ? '<p class="hint">On iPhone: after saving, open Photos, tap the picture, then Share → <b>Use as Wallpaper</b>.</p>' : ''}`);
 }
 /** Fetches a cloud image as a blob. Works only if the storage bucket allows cross-origin reads (see firebase/storage-cors.json). */
@@ -223,8 +230,9 @@ async function runDownload(w, src, width, tag) {
       sw = width && im.naturalWidth > width ? width : im.naturalWidth; sh = Math.round(im.naturalHeight * sw / im.naturalWidth);
       blob = await toJpeg(im, sw, sh);
     }
-    const res = await deliver(blob, `${w.id}${width ? `_${width}w` : ''}.jpg`, w.title);
-    if (res !== 'cancelled') { downloads.add({ id: w.id, at: Date.now(), label: tag, w: sw, h: sh }); if (res === 'saved') toast('Saved to your downloads'); }
+    const variant = w.both ? (lightNow(w) ? 'light' : 'dark') : '';
+    const res = await deliver(blob, `${w.id}${variant ? `_${variant}` : ''}${width ? `_${width}w` : ''}.jpg`, w.title);
+    if (res !== 'cancelled') { downloads.add({ id: w.id, at: Date.now(), label: variant ? `${tag} · ${variant}` : tag, w: sw, h: sh }); if (res === 'saved') toast('Saved to your downloads'); }
   } catch (_) { toast("Couldn't save that picture. Try again."); }
 }
 async function toJpeg(source, w, h) {
@@ -246,7 +254,7 @@ const MOCK_TINTS = ['#4DD0E1', '#FF8A65', '#BA68C8', '#81C784', '#FFD54F', '#64B
 function openDetail(id) {
   const w = state.byId.get(id);
   if (!w) { toast("That wallpaper isn't available."); history.replaceState(null, '', '#/home'); route(); return; }
-  if (!state.detail || state.detail.id !== id) state.detail = { id, light: false, lock: false, home: false, zoom: false };
+  if (!state.detail || state.detail.id !== id) state.detail = { id, mode: 'split', lock: false, home: false, zoom: false };
   viewed.add(id); drawDetail();
 }
 function closeDetail() { if (!state.detail) return; state.detail = null; const d = $('#detail'); d.hidden = true; d.innerHTML = '';
@@ -255,7 +263,9 @@ function drawDetail() {
   const d = state.detail, w = d && state.byId.get(d.id); if (!w) return;
   const fav = favourites.has(w.id), now = new Date(), credit = w.credit ? `Photo: ${w.credit}${w.license ? ` · ${w.license}` : ''}` : '';
   $('#detail').innerHTML = `
-    <img class="bg ${d.zoom ? 'zoom' : ''}" src="${esc(viewUrl(w))}" alt="${esc(w.title)}" decoding="async">
+    ${w.both && d.mode === 'split'
+      ? `<img class="bg l ${d.zoom ? 'zoom' : ''}" src="${esc(viewUrl(w, true))}" alt="${esc(w.title)}" decoding="async"><img class="bg d ${d.zoom ? 'zoom' : ''}" src="${esc(viewUrl(w, false))}" alt="" decoding="async"><span class="seam" aria-hidden="true"></span>`
+      : `<img class="bg ${d.zoom ? 'zoom' : ''}" src="${esc(viewUrl(w))}" alt="${esc(w.title)}" decoding="async">`}
     ${d.home ? `<div class="home-sim" aria-hidden="true"><div class="pill"></div><div class="grid">${Array.from({ length: 20 }, (_, i) => `<span class="app" style="background:${MOCK_TINTS[i % 6]}"></span>`).join('')}</div></div>` : ''}
     ${d.lock ? `<div class="lock-sim" aria-hidden="true"><div class="clock">${now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })}</div><div class="date">${now.toLocaleDateString(undefined, { weekday: 'long', day: 'numeric', month: 'long' })}</div>${svg('lock')}<small>Swipe up to unlock</small></div>` : ''}
     <div class="scrim"></div>
@@ -263,7 +273,7 @@ function drawDetail() {
       <button class="icon-btn" data-act="dlock" aria-pressed="${d.lock}" aria-label="Lock screen preview">${svg('lock')}</button>
       <button class="icon-btn" data-act="dhome" aria-pressed="${d.home}" aria-label="Home screen preview">${svg('phone')}</button>
       <button class="icon-btn" data-act="dzoom" aria-pressed="${d.zoom}" aria-label="Zoom" style="font-weight:800;font-size:13px">${d.zoom ? '1x' : '2x'}</button>
-      ${w.both ? `<button class="icon-btn" data-act="dtheme" aria-pressed="${d.light}" aria-label="${d.light ? 'Show dark version' : 'Show light version'}">${svg('contrast')}</button>` : ''}
+      ${w.both ? `<button class="icon-btn" data-act="dtheme" aria-pressed="${d.mode !== 'split'}" aria-label="Switch view: split, light or dark">${svg('contrast')}</button>` : ''}
       <span style="flex:1"></span>
       <button class="icon-btn ${fav ? 'heart-on' : ''}" data-act="fav" data-id="${esc(w.id)}" aria-pressed="${fav}" aria-label="${fav ? 'Remove from favorites' : 'Add to favorites'}">${svg('heart')}</button></div>
     <div class="bottom"><h1>${esc(w.title)}</h1>${credit ? `<p class="credit">${esc(credit)}</p>` : ''}<a class="cat" href="#/c/${esc(w.cat)}">${esc(catTitle(w.cat))}</a>
@@ -273,7 +283,7 @@ function drawDetail() {
 }
 function stepDetail(dir) {
   const list = state.ctx.some((w) => w.id === state.detail?.id) ? state.ctx : state.all, i = list.findIndex((w) => w.id === state.detail.id), next = list[i + dir];
-  if (next) { state.detail = { id: next.id, light: false, lock: state.detail.lock, home: state.detail.home, zoom: false }; history.replaceState(null, '', `#/w/${enc(next.id)}`); viewed.add(next.id); drawDetail(); }
+  if (next) { state.detail = { id: next.id, mode: 'split', lock: state.detail.lock, home: state.detail.home, zoom: false }; history.replaceState(null, '', `#/w/${enc(next.id)}`); viewed.add(next.id); drawDetail(); }
 }
 
 // ---------------------------------------------------------------- routing & actions
@@ -327,7 +337,9 @@ const ACTIONS = {
   dlock() { state.detail.lock = !state.detail.lock; if (state.detail.lock) state.detail.home = false; drawDetail(); },
   dhome() { state.detail.home = !state.detail.home; if (state.detail.home) state.detail.lock = false; drawDetail(); },
   dzoom() { state.detail.zoom = !state.detail.zoom; drawDetail(); },
-  dtheme() { state.detail.light = !state.detail.light; drawDetail(); },
+  dtheme() { const d = state.detail; d.mode = core.nextMode(d.mode); drawDetail();
+    toast(d.mode === 'split' ? 'Light and dark side by side' : d.mode === 'day' ? 'Light version (day)' : 'Dark version (night)'); },
+  dpick(t) { state.detail.mode = t.dataset.v; drawDetail(); openDownloadSheet(state.byId.get(state.detail.id)); },
   dlsheet() { openDownloadSheet(state.byId.get(state.detail.id)); },
   dl(t) { runDownload(state.byId.get(state.detail.id), t.dataset.src, t.dataset.w ? Number(t.dataset.w) : null, t.dataset.tag); },
   dshare() { shareLink(state.byId.get(state.detail.id)); },
@@ -384,7 +396,7 @@ async function loadCloud() {
   } catch (_) { $('#view').innerHTML = empty("Couldn't load Wallora. Check your connection and reload."); return; }
   state.cats = state.catalog.categories;
   state.bundled = state.catalog.wallpapers.map((w) => { const full = `img/f/${w.id}.webp`, light = w.both ? `img/f/${w.id}~l.webp` : null;
-    return { ...w, thumb: `img/t/${w.id}.webp`, full, fullLight: light, local: full, localLight: light }; });
+    return { ...w, thumb: `img/t/${w.id}.webp`, thumbLight: w.both ? `img/t/${w.id}~l.webp` : null, full, fullLight: light, local: full, localLight: light }; });
   setAll(state.bundled); route();
   loadCloud().then((cloud) => { if (cloud.length) { setAll(core.mergeCatalog(cloud, state.bundled)); refreshView(); } });
   if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});

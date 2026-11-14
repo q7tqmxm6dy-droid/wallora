@@ -33,3 +33,12 @@ No app change is needed: the web app tries the cross-origin read first and only 
   "Resize Images" extension would fix that.
 - The browser cannot set a wallpaper. On iPhone the user saves to Photos first.
 - Favourites, history and downloads are per browser; clearing site data or switching browsers starts fresh.
+
+## Light and dark wallpapers
+
+A wallpaper with a light and a dark version (`both: true` in `catalog.json`; `urlDark` on a cloud wallpaper) is drawn as one picture
+split down the middle, light on the left and dark on the right, the same way the Android app draws it. In the full-screen view the
+half-moon button cycles Split, Light and Dark. Saving a pair uses the light or dark version that matches the device's day/night
+setting (or the one chosen with the half-moon button or in the download sheet). The web app itself also has a day look that follows
+the device (`prefers-color-scheme`). A web page cannot set the phone's wallpaper, so the automatic day/night wallpaper switch is
+Android-only. Bump `VERSION` in `sw.js` after changing app files so installed copies refresh.
