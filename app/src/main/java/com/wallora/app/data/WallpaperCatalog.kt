@@ -157,6 +157,7 @@ object WallpaperCatalog {
         Wallpaper("nightcar_16", "Black Mist", "cars", R.drawable.nightcar_16),
         Wallpaper("nightcar_17", "Red Line", "cars", R.drawable.nightcar_17),
         Wallpaper("nightcar_18", "Skyline Run", "cars", R.drawable.nightcar_18),
+        Wallpaper("nightcar_19", "Lodge Roadster", "cars", R.drawable.nightcar_19),
 
         // Mood images — supplied by the app owner from the 'Wallpaper App Prompt_files' folder; see MOOD_IMAGES_SOURCE.md
         Wallpaper("mood_01", "Blue Pedestal", "dark", R.drawable.mood_01),
@@ -217,6 +218,18 @@ object WallpaperCatalog {
         Wallpaper("scenic_05", "Misty Road", "nature", R.drawable.scenic_05),
         Wallpaper("scenic_06", "Palm Paradise", "nature", R.drawable.scenic_06),
         Wallpaper("scenic_07", "Gold Vein Marble", "luxury", R.drawable.scenic_07),
+        // Second ChatGPT collage ("Twelve Worlds"). Origin and rights: SCENIC_IMAGES_SOURCE.md
+        Wallpaper("scenic_08", "Galaxy Shore", "space", R.drawable.scenic_08),
+        Wallpaper("scenic_09", "Moonlit Pagoda", "nature", R.drawable.scenic_09),
+        Wallpaper("scenic_10", "Aurora Camp", "space", R.drawable.scenic_10),
+        Wallpaper("scenic_11", "Tokyo Night Drive", "city", R.drawable.scenic_11),
+        Wallpaper("scenic_12", "Iceberg Deep", "nature", R.drawable.scenic_12),
+        Wallpaper("scenic_13", "Rooftop Dusk", "city", R.drawable.scenic_13),
+        Wallpaper("scenic_14", "Ember Rose", "dark", R.drawable.scenic_14),
+        Wallpaper("scenic_15", "Sunset Gate", "nature", R.drawable.scenic_15),
+        Wallpaper("scenic_16", "Shoreline Fire", "nature", R.drawable.scenic_16),
+        Wallpaper("scenic_17", "Black Eclipse", "dark", R.drawable.scenic_17),
+        Wallpaper("scenic_18", "Astronaut Horizon", "space", R.drawable.scenic_18),
     )
 
     val wallpapers: List<Wallpaper> = (entries + PersonalPack.entries).map {
