@@ -61,7 +61,8 @@ every wallpaper or just your favourites. One payment, no subscription.
 (When ads are switched back on, use: "Wallora is free and supported by ads. Upgrade once with Wallora Pro to remove every ad, ...")
 
 PRIVATE BY DESIGN
-No account and no sign-in. Your favourites, collections and settings stay on your device.
+Works as a guest with no account. Sign in with Google is optional and only backs up your favourites and albums.
+Your settings and pictures stay on your device.
 (Only once ads are switched back on: Ads are served through Google AdMob; you are asked for consent before any
 personalised ad is requested, and you can change that choice in Settings at any time.)
 ```
@@ -80,11 +81,11 @@ chat and no user content sharing between users — expect **Everyone / PEGI 3**.
 | Question | Answer |
 |---|---|
 | Does your app collect or share user data? | **Yes** |
-| Data types collected | **App activity** (in-app actions, e.g. “wallpaper set”), **App info & performance** (crash logs, diagnostics), **Device or other IDs** (advertising ID, random app-instance ID) |
+| Data types collected | **App activity** (in-app actions, e.g. “wallpaper set”), **App info & performance** (crash logs, diagnostics), **Device or other IDs** (advertising ID, random app-instance ID), and — only for members who choose Google sign-in — **Personal info** (email address, name, user ID) and the favourites/albums backup under **App activity** |
 | Does the app have in-app purchases? | **Yes** — one optional one-time purchase (Wallora Pro). Payment is handled entirely by Google Play; the app stores no payment data |
 | Is this data shared with third parties? | **Yes** — the advertising identifier is shared with Google AdMob for advertising. Analytics and crash data are processed by Google Firebase on our behalf |
 | Is data encrypted in transit? | **Yes** |
-| Can users request deletion? | **Yes** — uninstalling removes all local data; there is no account to delete |
+| Can users request deletion? | **Yes** — in the app (Profile → Delete account) and on the web page `https://wallora-bc950.web.app/delete-account.html`. Enter that URL in Play Console → App content → Data safety → account deletion. Guests have no account |
 | Is data used for advertising or tracking? | **Yes** — advertising only, via AdMob. Not used for cross-app tracking beyond that, and opt-in where consent is required |
 | Photos / videos collected? | **No** (a shared image is only used locally to set your wallpaper) |
 | Location, contacts, messages, health, financial info? | **No** |
@@ -163,3 +164,16 @@ variants, live wallpaper (slideshow or animated gradient), search, tags, collect
 favourites, light/dark wallpaper pairs that switch with day and night, daily rotation, a lock-screen preview and an optional one-time
 Wallora Pro upgrade that removes ads.
 ```
+
+
+## Optional account (added in version 7)
+
+* Google sign-in is optional; guest mode is the default and needs nothing.
+* Play Console → App content → **Data safety**: add Email address, Name and User IDs ("Account management", collected, not shared) and
+  set the account-deletion URL to `https://wallora-bc950.web.app/delete-account.html`.
+* Firebase Console → Authentication → Sign-in method → **Google** must be enabled, and Settings → User actions → **Enable create
+  (sign-up)** must be ON (admin safety does not rely on it: Firestore rules check the admin uid).
+* Firebase Console → Project settings → the `com.qiblawi.wallora` app needs these SHA-1 fingerprints: debug, upload key and the
+  **Play app-signing key** (Play Console → Test and release → App integrity → App signing). Download the new `google-services.json`
+  after adding them.
+* Deploy the new Firestore rule (`users/{uid}`): `firebase deploy --only firestore:rules,hosting`.

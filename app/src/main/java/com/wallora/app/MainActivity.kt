@@ -50,6 +50,10 @@ class MainActivity : ComponentActivity() {
         var adsStarted = false
     }
 
+    override fun attachBaseContext(newBase: android.content.Context) {
+        super.attachBaseContext(com.wallora.app.util.AppLanguage.wrap(newBase))
+    }
+
     private val sharedImage = mutableStateOf<Uri?>(null)
     private val startRoute = mutableStateOf<String?>(null)
 

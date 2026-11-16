@@ -33,6 +33,8 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -48,6 +50,7 @@ import com.wallora.app.ads.AdsConsent
 import com.wallora.app.live.WalloraLiveWallpaper
 import com.wallora.app.ui.components.LiveScenePicker
 import com.wallora.app.ui.WallpaperViewModel
+import com.wallora.app.util.AppLanguage
 import com.wallora.app.util.AppLinks
 import com.wallora.app.work.DailyDropScheduler
 import com.wallora.app.work.NewWallpaperScheduler
@@ -99,6 +102,27 @@ fun SettingsScreen(
         ) {
             if (!isPro) {
                 ProCard(onClick = onOpenPro, modifier = Modifier.padding(bottom = 12.dp))
+            }
+
+            Text(stringResource(R.string.pref_language), style = MaterialTheme.typography.titleSmall)
+            val langActivity = context.findActivity()
+            var language by remember { mutableStateOf(AppLanguage.current(context)) }
+            FlowRow(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier.padding(top = 4.dp, bottom = 12.dp),
+            ) {
+                FilterChip(
+                    selected = language.isEmpty(),
+                    onClick = { language = ""; langActivity?.let { AppLanguage.set(it, "") } },
+                    label = { Text(stringResource(R.string.language_system)) },
+                )
+                AppLanguage.tags.forEach { tag ->
+                    FilterChip(
+                        selected = language == tag,
+                        onClick = { language = tag; langActivity?.let { AppLanguage.set(it, tag) } },
+                        label = { Text(AppLanguage.nativeName(tag)) },
+                    )
+                }
             }
 
             Text(stringResource(R.string.pref_theme), style = MaterialTheme.typography.titleSmall)
@@ -424,4 +448,11 @@ private fun SettingRow(
         }
         Switch(checked = checked, onCheckedChange = onCheckedChange)
     }
+}
+
+/** The Activity behind a Compose context, which may be wrapped (for example by a language override). */
+private tailrec fun android.content.Context.findActivity(): Activity? = when (this) {
+    is Activity -> this
+    is android.content.ContextWrapper -> baseContext.findActivity()
+    else -> null
 }

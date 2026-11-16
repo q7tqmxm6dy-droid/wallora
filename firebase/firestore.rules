@@ -14,6 +14,16 @@ service cloud.firestore {
       allow create, update, delete: if isAdmin();
     }
 
+    // A signed-in member's own backup (favourite ids and album contents). Nobody else can read or write it,
+    // and the document is capped so it cannot be abused as free storage.
+    match /users/{uid} {
+      allow read, delete: if request.auth != null && request.auth.uid == uid;
+      allow create, update: if request.auth != null && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['favorites', 'collections', 'updatedAt'])
+        && request.resource.data.favorites is list && request.resource.data.favorites.size() <= 2000
+        && request.resource.data.collections is string && request.resource.data.collections.size() <= 100000;
+    }
+
     // Everything else is denied by default.
     match /{document=**} {
       allow read, write: if false;

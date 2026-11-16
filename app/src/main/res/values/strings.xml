@@ -346,4 +346,22 @@
     <string name="share_link">Share link</string>
     <string name="share_link_text">%1$s on Wallora: %2$s</string>
     <string name="pro_benefit_pairs">Unlimited light + dark pairs of your own</string>
+    <string name="pref_language">Language</string>
+    <string name="language_system">System default</string>
+    <string name="account_title_guest">Back up your favourites</string>
+    <string name="account_body_guest">Optional: sign in with Google to keep your favourites and albums if you change phone. Wallora works fully as a guest.</string>
+    <string name="account_sign_in">Sign in with Google</string>
+    <string name="account_signed_in_as">Signed in as %1$s</string>
+    <string name="account_backed_up">Your favourites and albums are backed up to your account.</string>
+    <string name="account_sign_out">Sign out</string>
+    <string name="account_delete">Delete account</string>
+    <string name="account_delete_title">Delete your account?</string>
+    <string name="account_delete_body">This removes your account and the cloud copy of your favourites and albums. Favourites already on this phone stay. This can\'t be undone.</string>
+    <string name="account_delete_confirm">Delete</string>
+    <string name="account_cancel">Cancel</string>
+    <string name="account_ok">OK</string>
+    <string name="account_err_no_account">No Google account found on this phone. Add one in Android settings and try again.</string>
+    <string name="account_err_network">No connection. Try again when you\'re online.</string>
+    <string name="account_err_recent">For safety, sign in again and then delete your account.</string>
+    <string name="account_err_other">Couldn\'t sign in. Please try again.</string>
 </resources>

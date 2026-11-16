@@ -271,6 +271,24 @@ share_picture|Compartilhar imagem
 share_link|Compartilhar link
 share_link_text|%1$s no Wallora: %2$s
 pro_benefit_pairs|Pares claro + escuro próprios sem limite
+pref_language|Idioma
+language_system|Padrão do sistema
+account_title_guest|Faça backup dos seus favoritos
+account_body_guest|Opcional: entre com o Google para manter seus favoritos e coleções se trocar de celular. O Wallora funciona por completo como convidado.
+account_sign_in|Entrar com o Google
+account_signed_in_as|Conectado como %1$s
+account_backed_up|Seus favoritos e coleções têm backup na sua conta.
+account_sign_out|Sair
+account_delete|Excluir conta
+account_delete_title|Excluir sua conta?
+account_delete_body|Isso remove sua conta e a cópia na nuvem dos seus favoritos e coleções. Os favoritos já neste celular permanecem. Não é possível desfazer.
+account_delete_confirm|Excluir
+account_cancel|Cancelar
+account_ok|OK
+account_err_no_account|Nenhuma conta Google neste celular. Adicione uma nas configurações do Android e tente de novo.
+account_err_network|Sem conexão. Tente de novo quando estiver online.
+account_err_recent|Por segurança, entre novamente e depois exclua sua conta.
+account_err_other|Não foi possível entrar. Tente de novo.
 plural:wallpaper_count:one|%d papel de parede
 plural:wallpaper_count:many|%d papéis de parede
 plural:wallpaper_count:other|%d papéis de parede

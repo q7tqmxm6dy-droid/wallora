@@ -66,6 +66,10 @@ class WalloraApp : Application(), ImageLoaderFactory {
         override fun onLowMemory() = Unit
     }
 
+    override fun attachBaseContext(base: android.content.Context) {
+        super.attachBaseContext(com.wallora.app.util.AppLanguage.wrap(base))
+    }
+
     override fun onCreate() {
         super.onCreate()
         registerComponentCallbacks(themeWatcher)

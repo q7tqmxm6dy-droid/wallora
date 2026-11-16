@@ -5,6 +5,11 @@ import androidx.annotation.StringRes
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.wallora.app.R
+import com.wallora.app.account.AccountError
+import com.wallora.app.account.AccountFailure
+import com.wallora.app.account.AccountManager
+import com.wallora.app.account.AccountUser
+import com.wallora.app.account.CloudSync
 import com.wallora.app.billing.ProManager
 import com.wallora.app.data.AdminRepository
 import com.wallora.app.data.DownloadRecord
@@ -22,7 +27,10 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -38,6 +46,8 @@ class WallpaperViewModel(application: Application) : AndroidViewModel(applicatio
     private val preferences = PreferencesRepository(application)
     private val remote = RemoteWallpaperRepository()
     private val admin = AdminRepository()
+    private val accounts = AccountManager()
+    private val cloud = CloudSync(preferences)
 
     val favorites: StateFlow<Set<String>> = preferences.favorites
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptySet())
@@ -57,6 +67,10 @@ class WallpaperViewModel(application: Application) : AndroidViewModel(applicatio
             WallpaperCatalog.categories + remoteCategories.filter { it.id !in known }
         }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), WallpaperCatalog.categories)
+
+    /** The signed-in member (optional Google sign-in), or null while using Wallora as a guest. */
+    val account: StateFlow<AccountUser?> = accounts.state()
+        .stateIn(viewModelScope, SharingStarted.Eagerly, accounts.current())
 
     val isAdminSignedIn: StateFlow<Boolean> = admin.authState()
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), false)
@@ -196,6 +210,7 @@ class WallpaperViewModel(application: Application) : AndroidViewModel(applicatio
 
     init {
         viewModelScope.launch { preferences.recordDailyOpen() }
+        startCloudSync()
     }
 
     /** Deterministic daily pick — same wallpaper for everyone for the whole day. */
@@ -286,6 +301,55 @@ class WallpaperViewModel(application: Application) : AndroidViewModel(applicatio
         categories.value.firstOrNull { it.id == categoryId }?.title ?: categoryId
 
     fun adminEmail(): String? = admin.currentUserEmail()
+
+    // ---- optional account ---------------------------------------------------
+
+    /** Pulls the cloud copy whenever a member is signed in, then uploads local changes a moment after they happen. */
+    @OptIn(FlowPreview::class)
+    private fun startCloudSync() {
+        viewModelScope.launch {
+            account.collectLatest { user ->
+                if (user == null) return@collectLatest
+                cloud.pull(user.uid)
+                combine(preferences.favorites, preferences.collections) { f, c -> f to c }
+                    .debounce(1_500)
+                    .collect { (f, c) -> if (!cloud.isKnown(f, c)) cloud.push(user.uid, f, c) }
+            }
+        }
+    }
+
+    /** Result of a sign-in or account action, shown by the Profile screen. */
+    val accountMessage = MutableStateFlow<AccountError?>(null)
+    val accountBusy = MutableStateFlow(false)
+
+    fun signInWithGoogle(activity: android.app.Activity) {
+        viewModelScope.launch {
+            accountBusy.value = true
+            accounts.signInWithGoogle(activity).onFailure {
+                val e = (it as? AccountFailure)?.error ?: AccountError.OTHER
+                if (e != AccountError.CANCELLED) accountMessage.value = e
+            }
+            accountBusy.value = false
+        }
+    }
+
+    fun signOutAccount(activity: android.app.Activity) {
+        viewModelScope.launch {
+            accounts.signOut(activity)
+            cloud.forget()
+            preferences.clearSyncTimestamp()
+        }
+    }
+
+    fun deleteAccount(activity: android.app.Activity) {
+        viewModelScope.launch {
+            accountBusy.value = true
+            accounts.deleteAccount(activity)
+                .onSuccess { cloud.forget(); preferences.clearSyncTimestamp() }
+                .onFailure { accountMessage.value = (it as? AccountFailure)?.error ?: AccountError.OTHER }
+            accountBusy.value = false
+        }
+    }
 
     // ---- admin -------------------------------------------------------------
 

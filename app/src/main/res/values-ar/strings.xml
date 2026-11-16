@@ -353,4 +353,22 @@
     <string name="share_link">شارك الرابط</string>
     <string name="share_link_text">%1$s على Wallora: %2$s</string>
     <string name="pro_benefit_pairs">أزواج فاتحة + داكنة خاصة بك بلا حدود</string>
+    <string name="pref_language">اللغة</string>
+    <string name="language_system">افتراضي النظام</string>
+    <string name="account_title_guest">انسخ مفضلاتك احتياطيًا</string>
+    <string name="account_body_guest">اختياري: سجّل الدخول بحساب Google للاحتفاظ بمفضلاتك ومجموعاتك إذا غيّرت هاتفك. يعمل Wallora بالكامل كضيف.</string>
+    <string name="account_sign_in">تسجيل الدخول بحساب Google</string>
+    <string name="account_signed_in_as">تم تسجيل الدخول باسم %1$s</string>
+    <string name="account_backed_up">مفضلاتك ومجموعاتك محفوظة احتياطيًا في حسابك.</string>
+    <string name="account_sign_out">تسجيل الخروج</string>
+    <string name="account_delete">حذف الحساب</string>
+    <string name="account_delete_title">هل تريد حذف حسابك؟</string>
+    <string name="account_delete_body">سيؤدي هذا إلى حذف حسابك والنسخة السحابية من مفضلاتك ومجموعاتك. تبقى المفضلات الموجودة على هذا الهاتف. لا يمكن التراجع عن ذلك.</string>
+    <string name="account_delete_confirm">حذف</string>
+    <string name="account_cancel">إلغاء</string>
+    <string name="account_ok">حسنًا</string>
+    <string name="account_err_no_account">لا يوجد حساب Google على هذا الهاتف. أضف حسابًا من إعدادات Android ثم حاول مجددًا.</string>
+    <string name="account_err_network">لا يوجد اتصال. حاول مجددًا عند الاتصال بالإنترنت.</string>
+    <string name="account_err_recent">لأسباب أمنية، سجّل الدخول مجددًا ثم احذف حسابك.</string>
+    <string name="account_err_other">تعذّر تسجيل الدخول. حاول مرة أخرى.</string>
 </resources>

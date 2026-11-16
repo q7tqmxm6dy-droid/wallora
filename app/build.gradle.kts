@@ -41,7 +41,7 @@ android {
         applicationId = "com.qiblawi.wallora"
         minSdk = 29
         targetSdk = 37
-        versionCode = 6
+        versionCode = 7
         versionName = "1.0"
     }
 
@@ -116,6 +116,9 @@ dependencies {
     implementation(libs.firebase.firestore)
     implementation(libs.firebase.storage)
     implementation(libs.firebase.auth)
+    implementation(libs.androidx.credentials)
+    implementation(libs.androidx.credentials.play)
+    implementation(libs.googleid)
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.crashlytics)
     implementation(libs.firebase.messaging)

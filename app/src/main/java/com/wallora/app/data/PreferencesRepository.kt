@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.core.stringSetPreferencesKey
@@ -63,6 +64,7 @@ class PreferencesRepository(private val context: Context) {
         val DAILY_DROP_ALERTS = booleanPreferencesKey("daily_drop_alerts")
         val LAST_DROP_DAY = stringPreferencesKey("last_drop_notified_day")
         val REVIEW_ASKED = booleanPreferencesKey("review_asked")
+        val SYNC_TS = longPreferencesKey("cloud_sync_ts")
     }
 
     /**
@@ -487,5 +489,28 @@ class PreferencesRepository(private val context: Context) {
         const val MODE_AUTO = "auto"
         const val MODE_LIGHT = "light"
         const val MODE_DARK = "dark"
+    }
+
+    // ---- cloud backup (optional sign-in) ---------------------------------------
+
+    /** When this phone last agreed with the cloud copy (ms since epoch), 0 if never. */
+    suspend fun syncTimestamp(): Long = context.dataStore.data.first()[Keys.SYNC_TS] ?: 0L
+
+    suspend fun setSyncTimestamp(value: Long) {
+        context.dataStore.edit { it[Keys.SYNC_TS] = value }
+    }
+
+    suspend fun readCollections(): Map<String, List<String>> = collections.first()
+
+    /** Replaces favourites and albums with the cloud copy (or a merge of both). */
+    suspend fun replaceSynced(favorites: Set<String>, collections: Map<String, List<String>>) {
+        context.dataStore.edit { prefs ->
+            prefs[Keys.FAVORITES] = favorites
+            prefs[Keys.COLLECTIONS] = encodeCollections(collections)
+        }
+    }
+
+    suspend fun clearSyncTimestamp() {
+        context.dataStore.edit { it.remove(Keys.SYNC_TS) }
     }
 }

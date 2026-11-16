@@ -40,6 +40,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -93,8 +94,10 @@ fun ProfileScreen(
     val favouriteWallpapers = remember(favorites, wallpapers) {
         wallpapers.filter { it.id in favorites }
     }
-    val displayName = email ?: stringResource(R.string.guest_user)
-    val initial = (email?.trim()?.firstOrNull() ?: 'W').uppercaseChar().toString()
+    val account by viewModel.account.collectAsStateWithLifecycle()
+    val shownName = account?.name ?: account?.email ?: email
+    val displayName = shownName ?: stringResource(R.string.guest_user)
+    val initial = (shownName?.trim()?.firstOrNull() ?: 'W').uppercaseChar().toString()
     val dailyPick = remember(wallpapers) { viewModel.wallpaperOfTheDay() }
     val badges = listOf(
         R.string.badge_first_favourite to (favorites.size >= 1),
@@ -199,6 +202,8 @@ fun ProfileScreen(
                     }
                 }
             }
+
+            AccountCard(viewModel, Modifier.padding(horizontal = 16.dp).padding(top = 16.dp))
 
             if (!isPro) {
                 ProCard(
@@ -473,5 +478,105 @@ internal fun ProCard(onClick: () -> Unit, modifier: Modifier = Modifier) {
                 tint = MaterialTheme.colorScheme.onPrimaryContainer,
             )
         }
+    }
+}
+
+private tailrec fun android.content.Context.profileActivity(): android.app.Activity? = when (this) {
+    is android.app.Activity -> this
+    is android.content.ContextWrapper -> baseContext.profileActivity()
+    else -> null
+}
+
+/** Guest by default; signing in is optional and only adds a cloud copy of favourites and albums. */
+@Composable
+private fun AccountCard(viewModel: WallpaperViewModel, modifier: Modifier = Modifier) {
+    val account by viewModel.account.collectAsStateWithLifecycle()
+    val busy by viewModel.accountBusy.collectAsStateWithLifecycle()
+    val error by viewModel.accountMessage.collectAsStateWithLifecycle()
+    val activity = androidx.compose.ui.platform.LocalContext.current.profileActivity()
+    var confirmDelete by androidx.compose.runtime.remember { androidx.compose.runtime.mutableStateOf(false) }
+
+    Card(
+        modifier = modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
+    ) {
+        Column(Modifier.padding(16.dp)) {
+            val user = account
+            if (user == null) {
+                Text(stringResource(R.string.account_title_guest), style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold)
+                Text(
+                    stringResource(R.string.account_body_guest),
+                    style = MaterialTheme.typography.bodySmall,
+                    modifier = Modifier.padding(top = 4.dp),
+                )
+                androidx.compose.material3.FilledTonalButton(
+                    onClick = { activity?.let { viewModel.signInWithGoogle(it) } },
+                    enabled = !busy && activity != null,
+                    modifier = Modifier.padding(top = 12.dp),
+                ) { Text(stringResource(R.string.account_sign_in)) }
+            } else {
+                Text(
+                    stringResource(R.string.account_signed_in_as, user.email ?: user.name ?: ""),
+                    style = MaterialTheme.typography.titleSmall,
+                    fontWeight = FontWeight.SemiBold,
+                )
+                Text(
+                    stringResource(R.string.account_backed_up),
+                    style = MaterialTheme.typography.bodySmall,
+                    modifier = Modifier.padding(top = 4.dp),
+                )
+                Row(Modifier.padding(top = 12.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    androidx.compose.material3.FilledTonalButton(
+                        onClick = { activity?.let { viewModel.signOutAccount(it) } },
+                        enabled = !busy && activity != null,
+                    ) { Text(stringResource(R.string.account_sign_out)) }
+                    androidx.compose.material3.TextButton(
+                        onClick = { confirmDelete = true },
+                        enabled = !busy && activity != null,
+                    ) { Text(stringResource(R.string.account_delete), color = MaterialTheme.colorScheme.error) }
+                }
+            }
+        }
+    }
+
+    if (confirmDelete) {
+        androidx.compose.material3.AlertDialog(
+            onDismissRequest = { confirmDelete = false },
+            title = { Text(stringResource(R.string.account_delete_title)) },
+            text = { Text(stringResource(R.string.account_delete_body)) },
+            confirmButton = {
+                androidx.compose.material3.TextButton(onClick = {
+                    confirmDelete = false
+                    activity?.let { viewModel.deleteAccount(it) }
+                }) { Text(stringResource(R.string.account_delete_confirm), color = MaterialTheme.colorScheme.error) }
+            },
+            dismissButton = {
+                androidx.compose.material3.TextButton(onClick = { confirmDelete = false }) {
+                    Text(stringResource(R.string.account_cancel))
+                }
+            },
+        )
+    }
+    error?.let { e ->
+        androidx.compose.material3.AlertDialog(
+            onDismissRequest = { viewModel.accountMessage.value = null },
+            text = {
+                Text(
+                    stringResource(
+                        when (e) {
+                            com.wallora.app.account.AccountError.NO_ACCOUNT -> R.string.account_err_no_account
+                            com.wallora.app.account.AccountError.NETWORK -> R.string.account_err_network
+                            com.wallora.app.account.AccountError.RECENT_LOGIN -> R.string.account_err_recent
+                            else -> R.string.account_err_other
+                        },
+                    ),
+                )
+            },
+            confirmButton = {
+                androidx.compose.material3.TextButton(onClick = { viewModel.accountMessage.value = null }) {
+                    Text(stringResource(R.string.account_ok))
+                }
+            },
+        )
     }
 }

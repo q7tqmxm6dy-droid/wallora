@@ -32,12 +32,13 @@ class AdminRepository {
             close()
             return@callbackFlow
         }
-        val listener = FirebaseAuth.AuthStateListener { trySend(it.currentUser != null) }
+        // Google members are not admins: only the owner's email/password account opens the admin tools.
+        val listener = FirebaseAuth.AuthStateListener { trySend(it.currentUser.isAdminAccount()) }
         instance.addAuthStateListener(listener)
         awaitClose { instance.removeAuthStateListener(listener) }
     }
 
-    fun currentUserEmail(): String? = auth?.currentUser?.email
+    fun currentUserEmail(): String? = auth?.currentUser?.takeIf { it.isAdminAccount() }?.email
 
     suspend fun signIn(email: String, password: String): Result<Unit> = withContext(Dispatchers.IO) {
         val instance = auth
@@ -164,3 +165,6 @@ class AdminRepository {
             }.map { }
         }
 }
+
+private fun com.google.firebase.auth.FirebaseUser?.isAdminAccount(): Boolean =
+    this != null && providerData.any { it.providerId == "password" }

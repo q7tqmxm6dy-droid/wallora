@@ -23,12 +23,12 @@
 <body>
 <main>
   <h1>Wallora <span class="dot">●</span> Privacy Policy</h1>
-  <p class="muted">Last updated: 5 November 2026</p>
+  <p class="muted">Last updated: 17 November 2026</p>
 
   <div class="card">
-    <strong>Short version:</strong> Wallora does not ask you to create an account, does not
-    collect your name, email, contacts or photos, and does not sell anything to anyone. Your
-    favourites, collections and settings stay on your device. The app shows ads through Google
+    <strong>Short version:</strong> Wallora works fully without an account and does not collect
+    your contacts or photos or sell anything to anyone. Your favourites, collections and settings
+    stay on your device unless you choose to sign in with Google to back them up (section 6). The app shows ads through Google
     AdMob, which uses your device’s advertising identifier to do so — details in section 7.
   </div>
 
@@ -77,11 +77,22 @@
   <p>If another app shares an image with Wallora, that image is read only to set it as your
   wallpaper. It is never uploaded anywhere.</p>
 
-  <h2>6. Publisher / admin sign-in</h2>
+  <h2>6. Optional Google sign-in (backup)</h2>
+  <p>You can use Wallora as a guest with no account. If you choose <strong>Sign in with Google</strong>
+  in your Profile, Wallora receives your Google account’s email address, name and profile picture
+  from Google and stores, in Google Firebase, a copy of your <strong>favourite wallpaper ids and album
+  contents</strong> so they survive a change of phone. Nothing else is uploaded: your settings, your
+  Pair-maker pictures and the images you share into the app stay on your device. This data is used
+  only to restore your favourites and albums; it is not shared with anyone and not used for advertising.
+  You can sign out at any time, and you can delete your account and its cloud copy in the app
+  (Profile → Delete account) or as described on the
+  <a href="delete-account.html">delete-account page</a>.</p>
+
+  <h2>6b. Publisher / admin sign-in</h2>
   <p>The app contains a hidden administrator area, used only by the person who publishes
   wallpapers. Signing in uses <strong>Firebase Authentication</strong> with an email address
-  and password, which is stored by Google Firebase. Ordinary users never sign in and never
-  provide an email address.</p>
+  and password, which is stored by Google Firebase. This is separate from the optional
+  member sign-in above.</p>
 
   <h2>7. Advertising</h2>
   <p>Wallora shows ads supplied by <strong>Google AdMob</strong> so the app can stay free. To
@@ -113,8 +124,10 @@
 
   <h2>10. Data retention and deletion</h2>
   <p>Analytics and crash data are retained by Google Firebase according to the retention
-  settings of the Wallora Firebase project. Because the app has no user accounts, there is
-  no personal profile to delete. Removing the app deletes all locally stored data.</p>
+  settings of the Wallora Firebase project. If you signed in with Google, your account and the cloud copy
+  of your favourites and albums are kept until you delete your account
+  (<a href="delete-account.html">how to delete it</a>); deleting removes them permanently. Guests have
+  no account, so there is nothing to delete beyond data on the device: removing the app deletes it all.</p>
 
   <h2>11. Children</h2>
   <p>Wallora is not directed at children under 13 and does not knowingly collect personal

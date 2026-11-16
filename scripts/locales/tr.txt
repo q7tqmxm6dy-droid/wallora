@@ -271,6 +271,24 @@ share_picture|Görseli paylaş
 share_link|Bağlantıyı paylaş
 share_link_text|Wallora'da %1$s: %2$s
 pro_benefit_pairs|Sınırsız kendi aydınlık + karanlık çiftleriniz
+pref_language|Dil
+language_system|Sistem varsayılanı
+account_title_guest|Favorilerini yedekle
+account_body_guest|İsteğe bağlı: telefon değiştirirsen favorilerini ve koleksiyonlarını korumak için Google ile giriş yap. Wallora misafir olarak da tamamen çalışır.
+account_sign_in|Google ile giriş yap
+account_signed_in_as|%1$s olarak giriş yapıldı
+account_backed_up|Favorilerin ve koleksiyonların hesabında yedeklendi.
+account_sign_out|Çıkış yap
+account_delete|Hesabı sil
+account_delete_title|Hesabın silinsin mi?
+account_delete_body|Bu işlem hesabını ve favorilerinle koleksiyonlarının bulut kopyasını siler. Bu telefondaki favoriler kalır. Geri alınamaz.
+account_delete_confirm|Sil
+account_cancel|İptal
+account_ok|Tamam
+account_err_no_account|Bu telefonda Google hesabı bulunamadı. Android ayarlarından bir hesap ekleyip tekrar dene.
+account_err_network|Bağlantı yok. Çevrimiçi olunca tekrar dene.
+account_err_recent|Güvenlik için tekrar giriş yap, ardından hesabını sil.
+account_err_other|Giriş yapılamadı. Lütfen tekrar dene.
 plural:wallpaper_count:one|%d duvar kâğıdı
 plural:wallpaper_count:other|%d duvar kâğıdı
 plural:collection_count:one|%d koleksiyon

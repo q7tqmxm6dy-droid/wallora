@@ -332,4 +332,22 @@
     <string name="share_link">שתפו קישור</string>
     <string name="share_link_text">%1$s ב-Wallora: %2$s</string>
     <string name="pro_benefit_pairs">זוגות בהיר + כהה משלכם ללא הגבלה</string>
+    <string name="pref_language">שפה</string>
+    <string name="language_system">ברירת מחדל של המערכת</string>
+    <string name="account_title_guest">גיבוי המועדפים שלך</string>
+    <string name="account_body_guest">אופציונלי: התחברו עם Google כדי לשמור את המועדפים והאוספים שלכם אם תחליפו טלפון. Wallora עובד במלואו גם כאורח.</string>
+    <string name="account_sign_in">התחברות עם Google</string>
+    <string name="account_signed_in_as">מחובר בתור %1$s</string>
+    <string name="account_backed_up">המועדפים והאוספים שלך מגובים בחשבון שלך.</string>
+    <string name="account_sign_out">התנתקות</string>
+    <string name="account_delete">מחיקת החשבון</string>
+    <string name="account_delete_title">למחוק את החשבון?</string>
+    <string name="account_delete_body">הפעולה מוחקת את החשבון ואת עותק הענן של המועדפים והאוספים. מועדפים שכבר בטלפון הזה יישארו. אי אפשר לבטל.</string>
+    <string name="account_delete_confirm">מחיקה</string>
+    <string name="account_cancel">ביטול</string>
+    <string name="account_ok">אישור</string>
+    <string name="account_err_no_account">לא נמצא חשבון Google בטלפון הזה. הוסיפו חשבון בהגדרות Android ונסו שוב.</string>
+    <string name="account_err_network">אין חיבור. נסו שוב כשתהיו מחוברים.</string>
+    <string name="account_err_recent">מטעמי אבטחה, התחברו שוב ואז מחקו את החשבון.</string>
+    <string name="account_err_other">ההתחברות נכשלה. נסו שוב.</string>
 </resources>
