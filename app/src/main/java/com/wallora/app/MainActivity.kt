@@ -48,6 +48,10 @@ class MainActivity : ComponentActivity() {
 
         @Volatile
         var adsStarted = false
+
+        /** The intro plays once per process, not again on rotation or theme changes. */
+        @Volatile
+        var introShown = false
     }
 
     override fun attachBaseContext(newBase: android.content.Context) {
@@ -113,6 +117,14 @@ class MainActivity : ComponentActivity() {
             val darkTheme = darkModePreference ?: isSystemInDarkTheme()
 
             WalloraTheme(darkTheme = darkTheme) {
+                val context = LocalContext.current
+                var showIntro by remember {
+                    mutableStateOf(
+                        !introShown && startRoute.value == null && sharedImage.value == null &&
+                            !com.wallora.app.ui.screens.animationsDisabled(context),
+                    )
+                }
+                androidx.compose.foundation.layout.Box {
                 val onboardingDone by viewModel.onboardingDone.collectAsStateWithLifecycle()
                 when (onboardingDone) {
                     null -> Unit // still reading the stored preference
@@ -131,6 +143,10 @@ class MainActivity : ComponentActivity() {
                             SharedImageDialog(uri = incoming, onDismiss = { sharedImage.value = null })
                         }
                     }
+                }
+                if (showIntro) {
+                    com.wallora.app.ui.screens.IntroSplash(onFinished = { introShown = true; showIntro = false })
+                }
                 }
             }
         }
