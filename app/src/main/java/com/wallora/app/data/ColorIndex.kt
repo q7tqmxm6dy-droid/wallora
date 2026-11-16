@@ -124,6 +124,7 @@ internal object ColorIndex {
         "nightcar_15" to listOf("black"),
         "nightcar_16" to listOf("black"),
         "nightcar_17" to listOf("black", "red"),
+        "nightcar_18" to listOf("black", "blue"),
         "mood_01" to listOf("black"),
         "mood_02" to listOf("blue", "black"),
         "mood_03" to listOf("black"),
@@ -169,5 +170,12 @@ internal object ColorIndex {
         "photo_sport_stadium_haze" to listOf("yellow", "black"),
         "photo_sport_court_sunset" to listOf("blue", "gray"),
         "photo_sport_night_hoop" to listOf("black", "brown"),
+        "scenic_01" to listOf("blue", "black"),
+        "scenic_02" to listOf("blue", "black"),
+        "scenic_03" to listOf("red", "orange"),
+        "scenic_04" to listOf("red", "brown"),
+        "scenic_05" to listOf("gray", "black"),
+        "scenic_06" to listOf("teal", "blue"),
+        "scenic_07" to listOf("black"),
     )
 }

@@ -156,6 +156,7 @@ object WallpaperCatalog {
         Wallpaper("nightcar_15", "Orange Rain", "cars", R.drawable.nightcar_15),
         Wallpaper("nightcar_16", "Black Mist", "cars", R.drawable.nightcar_16),
         Wallpaper("nightcar_17", "Red Line", "cars", R.drawable.nightcar_17),
+        Wallpaper("nightcar_18", "Skyline Run", "cars", R.drawable.nightcar_18),
 
         // Mood images — supplied by the app owner from the 'Wallpaper App Prompt_files' folder; see MOOD_IMAGES_SOURCE.md
         Wallpaper("mood_01", "Blue Pedestal", "dark", R.drawable.mood_01),
@@ -207,6 +208,15 @@ object WallpaperCatalog {
         Wallpaper("photo_sport_stadium_haze", "Stadium Haze", "sports", R.drawable.photo_sport_stadium_haze, credit = "W.carter via Wikimedia Commons (cropped)", license = "CC0"),
         Wallpaper("photo_sport_court_sunset", "Court at Sunset", "sports", R.drawable.photo_sport_court_sunset, credit = "Alyssiui via Wikimedia Commons (cropped)", license = "CC0"),
         Wallpaper("photo_sport_night_hoop", "Night Hoop", "sports", R.drawable.photo_sport_night_hoop, credit = "Ximonic (Simo Räsänen) via Wikimedia Commons (cropped)", license = "CC BY 3.0"),
+
+        // Scenic wallpapers from the owner's ChatGPT image collage. Origin and rights: SCENIC_IMAGES_SOURCE.md
+        Wallpaper("scenic_01", "Alpine Mirror", "nature", R.drawable.scenic_01),
+        Wallpaper("scenic_02", "Milky Way Tree", "space", R.drawable.scenic_02),
+        Wallpaper("scenic_03", "Ocean Sunset", "nature", R.drawable.scenic_03),
+        Wallpaper("scenic_04", "Cascade at Dusk", "nature", R.drawable.scenic_04),
+        Wallpaper("scenic_05", "Misty Road", "nature", R.drawable.scenic_05),
+        Wallpaper("scenic_06", "Palm Paradise", "nature", R.drawable.scenic_06),
+        Wallpaper("scenic_07", "Gold Vein Marble", "luxury", R.drawable.scenic_07),
     )
 
     val wallpapers: List<Wallpaper> = (entries + PersonalPack.entries).map {

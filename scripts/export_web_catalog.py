@@ -59,7 +59,8 @@ rows, everything = [], []
 for m in re.finditer(r'Wallpaper\("([^"]+)", "([^"]+)", "([^"]+)", R\.drawable\.(\w+)([^\n]*)\),', catalog_src):
     wid, title, cat, light, rest = m.groups()
     on_web = include_unverified or not wid.startswith(UNVERIFIED) or wid in WEB_ALLOWED_UNVERIFIED
-    source = "supplied" if wid.startswith(UNVERIFIED) else ("photo" if 'credit = "' in rest else "original")
+    source = ("supplied" if wid.startswith(UNVERIFIED) else "generated" if wid.startswith("scenic_")
+              else "photo" if 'credit = "' in rest else "original")
     dark = re.search(r"darkResId = R\.drawable\.(\w+)", rest)
     everything.append(dict(id=wid, title=title, cat=category_for(cat, title), source=source, web=on_web, both=bool(dark)))
     if not on_web:
