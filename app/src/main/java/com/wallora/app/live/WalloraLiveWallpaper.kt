@@ -17,6 +17,7 @@ import android.view.SurfaceHolder
 import com.wallora.app.data.PreferencesRepository
 import com.wallora.app.data.Wallpaper
 import com.wallora.app.data.WallpaperCatalog
+import com.wallora.app.work.ThemeApplier
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -29,6 +30,8 @@ import kotlin.math.sin
  * Live wallpaper with two modes:
  *  - **slideshow**: crossfades through the catalogue with a gentle Ken Burns zoom
  *  - **gradient**: a lightweight animated colour gradient (no bitmaps)
+ *  - **scene**: an original animated scene drawn in code (see [LiveScenes]) with a day look and a night look; the look follows
+ *    the Day & night setting (the phone's day/night in Auto, or the chosen Light/Dark)
  *
  * Interval and category filter are configurable from the app's Settings screen.
  */
@@ -50,6 +53,11 @@ class WalloraLiveWallpaper : WallpaperService() {
         private var lastFrame = 0L
 
         private var mode = "slideshow"
+        private var scene: LiveScene? = null
+        private var builtSceneId = ""
+        private var dayNightMode = "auto"
+        private var night = -1f          // 0 = day look, 1 = night look; eased so the sky fades; -1 = not set yet
+        private var sceneStart = 0L
         private var holdMs = 10_000L
         private var categories: Set<String> = emptySet()
 
@@ -103,7 +111,16 @@ class WalloraLiveWallpaper : WallpaperService() {
 
         private fun refreshSettings() {
             scope.launch {
-                val (liveMode, seconds, cats) = PreferencesRepository(applicationContext).readLiveConfig()
+                val prefs = PreferencesRepository(applicationContext)
+                val (liveMode, seconds, cats) = prefs.readLiveConfig()
+                dayNightMode = prefs.readDayNightMode()
+                val sceneId = prefs.readLiveScene()
+                if (liveMode == "scene" && (scene == null || sceneId != builtSceneId)) {
+                    scene = LiveScenes.create(sceneId)
+                    builtSceneId = sceneId
+                    sceneStart = SystemClock.uptimeMillis()
+                    night = -1f
+                }
                 val modeChanged = liveMode != mode
                 mode = liveMode
                 holdMs = (seconds.coerceIn(3, 300)) * 1000L
@@ -113,7 +130,7 @@ class WalloraLiveWallpaper : WallpaperService() {
         }
 
         private fun reloadQueue() {
-            if (mode == "gradient") {
+            if (mode == "gradient" || mode == "scene") {
                 current?.recycle(); current = null
                 next?.recycle(); next = null
                 return
@@ -164,7 +181,9 @@ class WalloraLiveWallpaper : WallpaperService() {
                 canvas = holder.lockCanvas() ?: return
                 val w = canvas.width
                 val h = canvas.height
-                if (mode == "gradient") {
+                if (mode == "scene") {
+                    drawScene(canvas, w, h, now)
+                } else if (mode == "gradient") {
                     drawGradient(canvas, w, h, now / 1000f)
                 } else {
                     drawSlideshow(canvas, w, h)
@@ -174,6 +193,17 @@ class WalloraLiveWallpaper : WallpaperService() {
             } finally {
                 if (canvas != null) runCatching { holder.unlockCanvasAndPost(canvas) }
             }
+        }
+
+        private fun drawScene(canvas: Canvas, w: Int, h: Int, now: Long) {
+            val target = when (dayNightMode) {
+                "light" -> 0f
+                "dark" -> 1f
+                else -> if (ThemeApplier.isDark(applicationContext)) 1f else 0f
+            }
+            night = if (night < 0f) target else night + (target - night).coerceIn(-0.02f, 0.02f)
+            val active = scene ?: LiveScenes.create(builtSceneId).also { scene = it }
+            active.draw(canvas, w, h, (now - sceneStart) / 1000f, night)
         }
 
         private fun drawSlideshow(canvas: Canvas, w: Int, h: Int) {

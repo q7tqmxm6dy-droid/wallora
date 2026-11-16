@@ -46,6 +46,7 @@ import com.wallora.app.R
 import com.wallora.app.ads.AdsConfig
 import com.wallora.app.ads.AdsConsent
 import com.wallora.app.live.WalloraLiveWallpaper
+import com.wallora.app.ui.components.LiveScenePicker
 import com.wallora.app.ui.WallpaperViewModel
 import com.wallora.app.util.AppLinks
 import com.wallora.app.work.DailyDropScheduler
@@ -238,6 +239,7 @@ fun SettingsScreen(
                 listOf(
                     "slideshow" to R.string.live_slideshow,
                     "gradient" to R.string.live_gradient,
+                    "scene" to R.string.live_scene,
                 ).forEach { (id, labelRes) ->
                     FilterChip(
                         selected = liveMode == id,
@@ -245,6 +247,11 @@ fun SettingsScreen(
                         label = { Text(stringResource(labelRes)) },
                     )
                 }
+            }
+
+            if (liveMode == "scene") {
+                val liveScene by viewModel.liveScene.collectAsStateWithLifecycle()
+                LiveScenePicker(selected = liveScene, onPick = viewModel::setLiveScene)
             }
 
             if (liveMode == "slideshow") {

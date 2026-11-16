@@ -1,5 +1,6 @@
 package com.wallora.app.work
 
+import android.app.WallpaperManager
 import android.content.Context
 import android.content.res.Configuration
 import com.wallora.app.data.PreferencesRepository
@@ -20,7 +21,7 @@ import kotlinx.coroutines.flow.first
  */
 object ThemeApplier {
 
-    enum class Outcome { APPLIED, UNCHANGED, NO_WALLPAPER, SINGLE_IMAGE, FAILED }
+    enum class Outcome { APPLIED, UNCHANGED, NO_WALLPAPER, SINGLE_IMAGE, LIVE, FAILED }
 
     /** Which version should be on the phone: the chosen one, or the phone's own day/night when the mode is auto. */
     suspend fun effectiveDark(context: Context): Boolean = when (PreferencesRepository(context).readDayNightMode()) {
@@ -43,6 +44,12 @@ object ThemeApplier {
         val dark = effectiveDark(context)
         if (!force && lastDark == dark) return Outcome.UNCHANGED
 
+        val target = runCatching { WallpaperTarget.valueOf(prefs.readAppliedTarget() ?: "HOME") }
+            .getOrDefault(WallpaperTarget.HOME)
+        // A live wallpaper is on the home screen: setting a still picture would replace it. Wallora's own animated scenes
+        // already follow the Day & night setting themselves, so leave it alone.
+        if (target != WallpaperTarget.LOCK && WallpaperManager.getInstance(context).wallpaperInfo != null) return Outcome.LIVE
+
         val wallpaper = resolve(id) ?: return Outcome.NO_WALLPAPER
         if (!wallpaper.hasDarkVariant) {
             prefs.rememberThemeVariant(dark) // one image for both modes: nothing to swap
@@ -50,8 +57,6 @@ object ThemeApplier {
         }
 
         val bitmap = WallpaperImages.loadBitmap(context, wallpaper, dark) ?: return Outcome.FAILED
-        val target = runCatching { WallpaperTarget.valueOf(prefs.readAppliedTarget() ?: "HOME") }
-            .getOrDefault(WallpaperTarget.HOME)
         val applied = WallpaperSetter.apply(context, bitmap, target)
         bitmap.recycle()
         if (!applied) return Outcome.FAILED

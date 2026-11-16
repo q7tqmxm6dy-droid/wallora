@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="widget_description">טפט אקראי מ‑Wallora</string>
-    <string name="live_wallpaper_description">מחליף לאט בין הטפטים של Wallora</string>
+    <string name="live_wallpaper_description">מחליף לאט בין הטפטים של Wallora, או מציג סצנה מונפשת</string>
 
     <string name="sc_random">הפתע אותי</string>
     <string name="sc_favourites">מועדפים</string>
@@ -92,7 +92,7 @@
     <string name="pref_match_theme">טפט יום ולילה</string>
     <string name="pref_match_theme_sub">אוטומטי עוקב אחרי הגדרת היום והלילה בטלפון: הגרסה הכהה בלילה והבהירה ביום. בהיר או כהה משאירים את הגרסה הזו עד שתשנו. טפטים עם תמונה אחת נשארים כפי שהם.</string>
     <string name="pref_live_wallpaper">טפט חי</string>
-    <string name="pref_live_wallpaper_sub">מצגת מחליפה בין הטפטים במעבר עדין; הגרדיאנט המונפש חסכוני יותר בסוללה.</string>
+    <string name="pref_live_wallpaper_sub">מצגת מחליפה בין הטפטים שלכם בהדרגה. סצנה מונפשת היא תמונה נעה עם מראה ליום ומראה ללילה. המעבר הצבעוני המונפש חוסך הכי הרבה סוללה.</string>
     <string name="live_slideshow">מצגת</string>
     <string name="live_gradient">גרדיאנט מונפש</string>
     <string name="pref_show_each_for">הצג כל אחד למשך</string>
@@ -294,4 +294,15 @@
     <string name="daynight_done_dark">עברנו לגרסה הכהה</string>
     <string name="daynight_single_msg">לטפט הזה יש גרסה אחת בלבד, ולכן לא השתנה דבר.</string>
     <string name="daynight_failed">לא ניתן היה לשנות את הטפט. נסו שוב.</string>
+    <string name="live_scene">סצנה מונפשת</string>
+    <string name="pref_scene">סצנה</string>
+    <string name="scene_runway">מסלול המראה</string>
+    <string name="scene_rain">גשם בעיר</string>
+    <string name="scene_stars">כוכבים נופלים</string>
+    <string name="scene_day">מראה יום</string>
+    <string name="scene_night">מראה לילה</string>
+    <string name="scene_preview_hint">לכל סצנה יש מראה ליום ומראה ללילה. טפטים חיים עוקבים אחרי הגדרת היום והלילה שלכם.</string>
+    <string name="daynight_live_msg">הטפט החי שלכם עוקב אחרי ההגדרה הזו בעצמו.</string>
+    <string name="daynight_live_title">טפט חי</string>
+    <string name="daynight_live_state">מתחלף בעצמו בין יום ללילה</string>
 </resources>

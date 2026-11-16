@@ -39,6 +39,7 @@ class PreferencesRepository(private val context: Context) {
         val DOWNLOADS = stringPreferencesKey("downloads_json")
 
         val LIVE_MODE = stringPreferencesKey("live_mode")
+        val LIVE_SCENE = stringPreferencesKey("live_scene")
         val LIVE_INTERVAL = stringPreferencesKey("live_interval")
         val LIVE_CATEGORIES = stringSetPreferencesKey("live_categories")
         val SETS = stringPreferencesKey("sets_count")
@@ -108,7 +109,7 @@ class PreferencesRepository(private val context: Context) {
     val lastAppliedDark: Flow<Boolean?> =
         context.dataStore.data.map { it[Keys.LAST_DARK] }
 
-    /** Live wallpaper: "slideshow" or "gradient". */
+    /** Live wallpaper: "slideshow", "gradient" or "scene". */
     val liveMode: Flow<String> =
         context.dataStore.data.map { it[Keys.LIVE_MODE] ?: "slideshow" }
 
@@ -363,6 +364,16 @@ class PreferencesRepository(private val context: Context) {
      */
     suspend fun rememberKnownWallpapers(ids: Set<String>) {
         context.dataStore.edit { it[Keys.KNOWN_WALLPAPERS] = it[Keys.KNOWN_WALLPAPERS].orEmpty() + ids }
+    }
+
+    /** Which animated scene the live wallpaper shows in "scene" mode (see LiveScenes). */
+    val liveScene: Flow<String> =
+        context.dataStore.data.map { it[Keys.LIVE_SCENE] ?: "runway" }
+
+    suspend fun readLiveScene(): String = liveScene.first()
+
+    suspend fun setLiveScene(id: String) {
+        context.dataStore.edit { it[Keys.LIVE_SCENE] = id }
     }
 
     suspend fun setLiveMode(mode: String) {

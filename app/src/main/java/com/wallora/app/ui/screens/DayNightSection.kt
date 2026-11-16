@@ -1,5 +1,6 @@
 package com.wallora.app.ui.screens
 
+import android.app.WallpaperManager
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -17,6 +18,7 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -28,6 +30,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.wallora.app.R
@@ -52,12 +56,17 @@ fun DayNightSection(viewModel: WallpaperViewModel, snackbarHostState: SnackbarHo
     val wallpapers by viewModel.wallpapers.collectAsStateWithLifecycle()
     val applied = remember(appliedId, wallpapers) { wallpapers.firstOrNull { it.id == appliedId } }
     var busy by remember { mutableStateOf(false) }
+    // A live wallpaper on the home screen follows the setting by itself, so the card describes that instead of a still picture.
+    var resumes by remember { mutableIntStateOf(0) }
+    LifecycleEventEffect(Lifecycle.Event.ON_RESUME) { resumes++ }
+    val liveActive = remember(resumes, mode, appliedDark, appliedId) { WallpaperManager.getInstance(context).wallpaperInfo != null }
 
     val msgLight = stringResource(R.string.daynight_done_light)
     val msgDark = stringResource(R.string.daynight_done_dark)
     val msgNone = stringResource(R.string.daynight_none)
     val msgSingle = stringResource(R.string.daynight_single_msg)
     val msgFailed = stringResource(R.string.daynight_failed)
+    val msgLive = stringResource(R.string.daynight_live_msg)
 
     fun choose(newMode: String) {
         if (busy) return
@@ -70,6 +79,7 @@ fun DayNightSection(viewModel: WallpaperViewModel, snackbarHostState: SnackbarHo
             val message = when (outcome) {
                 ThemeApplier.Outcome.NO_WALLPAPER -> msgNone
                 ThemeApplier.Outcome.SINGLE_IMAGE -> msgSingle
+                ThemeApplier.Outcome.LIVE -> msgLive
                 ThemeApplier.Outcome.FAILED -> msgFailed
                 else -> if (ThemeApplier.effectiveDark(context)) msgDark else msgLight
             }
@@ -85,23 +95,37 @@ fun DayNightSection(viewModel: WallpaperViewModel, snackbarHostState: SnackbarHo
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
         Row(horizontalArrangement = Arrangement.spacedBy(14.dp), verticalAlignment = Alignment.CenterVertically) {
-            Box(
-                Modifier
-                    .size(width = 72.dp, height = 128.dp)
-                    .clip(RoundedCornerShape(14.dp))
-                    .background(MaterialTheme.colorScheme.surfaceVariant),
-            ) {
-                if (applied != null) {
-                    AsyncImage(
-                        model = applied.model(appliedDark == true),
-                        contentDescription = applied.title,
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier.size(width = 72.dp, height = 128.dp),
-                    )
+            if (!liveActive) {
+                Box(
+                    Modifier
+                        .size(width = 72.dp, height = 128.dp)
+                        .clip(RoundedCornerShape(14.dp))
+                        .background(MaterialTheme.colorScheme.surfaceVariant),
+                ) {
+                    if (applied != null) {
+                        AsyncImage(
+                            model = applied.model(appliedDark == true),
+                            contentDescription = applied.title,
+                            contentScale = ContentScale.Crop,
+                            modifier = Modifier.size(width = 72.dp, height = 128.dp),
+                        )
+                    }
                 }
             }
             Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
-                if (applied != null) {
+                if (liveActive) {
+                    Text(
+                        stringResource(R.string.daynight_now),
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                    Text(stringResource(R.string.daynight_live_title), style = MaterialTheme.typography.titleMedium)
+                    Text(
+                        stringResource(R.string.daynight_live_state),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.primary,
+                    )
+                } else if (applied != null) {
                     Text(
                         stringResource(R.string.daynight_now),
                         style = MaterialTheme.typography.labelMedium,

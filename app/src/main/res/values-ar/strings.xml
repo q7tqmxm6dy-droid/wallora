@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="widget_description">خلفية عشوائية من Wallora</string>
-    <string name="live_wallpaper_description">يتنقل ببطء بين خلفيات Wallora</string>
+    <string name="live_wallpaper_description">ينتقل ببطء بين خلفيات Wallora أو يعرض مشهدًا متحركًا</string>
 
     <string name="sc_random">فاجئني</string>
     <string name="sc_favourites">المفضلة</string>
@@ -104,7 +104,7 @@
     <string name="pref_match_theme">خلفية النهار والليل</string>
     <string name="pref_match_theme_sub">الوضع التلقائي يتبع ضبط الهاتف للنهار والليل: النسخة الداكنة ليلًا والفاتحة نهارًا. الفاتح أو الداكن يُبقي تلك النسخة حتى تغيّرها. الخلفيات ذات الصورة الواحدة تبقى كما هي.</string>
     <string name="pref_live_wallpaper">خلفية حية</string>
-    <string name="pref_live_wallpaper_sub">تعرض الخلفية الحية خلفياتك بتلاشٍ بطيء؛ التدرّج المتحرك أخف على البطارية.</string>
+    <string name="pref_live_wallpaper_sub">عرض الشرائح ينتقل بين خلفياتك بانتقال بطيء. المشهد المتحرك صورة متحركة بمظهر للنهار وآخر لليل. التدرج المتحرك الأخف على البطارية.</string>
     <string name="live_slideshow">عرض الشرائح</string>
     <string name="live_gradient">تدرّج متحرك</string>
     <string name="pref_show_each_for">مدة العرض لكل خلفية</string>
@@ -315,4 +315,15 @@
     <string name="daynight_done_dark">تم التبديل إلى النسخة الداكنة</string>
     <string name="daynight_single_msg">لهذه الخلفية نسخة واحدة فقط، لذا لم يتغيّر شيء.</string>
     <string name="daynight_failed">تعذّر تغيير الخلفية. حاول مرة أخرى.</string>
+    <string name="live_scene">مشهد متحرك</string>
+    <string name="pref_scene">المشهد</string>
+    <string name="scene_runway">المدرج</string>
+    <string name="scene_rain">مطر المدينة</string>
+    <string name="scene_stars">النجوم المتساقطة</string>
+    <string name="scene_day">مظهر النهار</string>
+    <string name="scene_night">مظهر الليل</string>
+    <string name="scene_preview_hint">لكل مشهد مظهر للنهار وآخر لليل. تتبع الخلفيات المتحركة إعداد النهار والليل لديك.</string>
+    <string name="daynight_live_msg">خلفيتك المتحركة تتبع هذا الإعداد تلقائيًا.</string>
+    <string name="daynight_live_title">خلفية متحركة</string>
+    <string name="daynight_live_state">تتبدّل بين النهار والليل تلقائيًا</string>
 </resources>

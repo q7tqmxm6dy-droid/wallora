@@ -52,7 +52,7 @@ then set it or save it.
 
 MAKE IT YOURS
 • Favourites and your own collections
-• Live wallpaper that slowly crossfades through your favourite categories
+• Animated scenes (a night runway, city rain, starfall) with a day look and a night look, plus a live wallpaper that slowly crossfades through your favourite categories
 • Download history, a home-screen widget and a Quick Settings tile
 
 WALLORA PRO

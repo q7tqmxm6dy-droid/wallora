@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name" translatable="false">Wallora</string>
     <string name="widget_description">A random wallpaper from Wallora</string>
-    <string name="live_wallpaper_description">Slowly cycles through your Wallora wallpapers</string>
+    <string name="live_wallpaper_description">Slowly cycles through your Wallora wallpapers, or plays an animated scene</string>
 
     <!-- launcher shortcuts -->
     <string name="sc_random">Surprise me</string>
@@ -94,7 +94,7 @@
     <string name="pref_match_theme">Day &amp; night wallpaper</string>
     <string name="pref_match_theme_sub">Auto follows your phone\'s day/night setting: the dark version at night, the light one by day. Light or Dark keeps that version until you change it. Wallpapers with one image stay as they are.</string>
     <string name="pref_live_wallpaper">Live wallpaper</string>
-    <string name="pref_live_wallpaper_sub">Slideshow cycles your wallpapers with a slow crossfade; the animated gradient is lighter on battery.</string>
+    <string name="pref_live_wallpaper_sub">Slideshow cycles your wallpapers with a slow crossfade. An animated scene is a moving picture with a day and a night look. The animated gradient is lightest on battery.</string>
     <string name="live_slideshow">Slideshow</string>
     <string name="live_gradient">Animated gradient</string>
     <string name="pref_show_each_for">Show each for</string>
@@ -308,4 +308,15 @@
     <string name="daynight_done_dark">Switched to the dark version</string>
     <string name="daynight_single_msg">This wallpaper has only one version, so nothing changed.</string>
     <string name="daynight_failed">Couldn\'t change the wallpaper. Try again.</string>
+    <string name="live_scene">Animated scene</string>
+    <string name="pref_scene">Scene</string>
+    <string name="scene_runway">Runway</string>
+    <string name="scene_rain">City rain</string>
+    <string name="scene_stars">Starfall</string>
+    <string name="scene_day">Day look</string>
+    <string name="scene_night">Night look</string>
+    <string name="scene_preview_hint">Each scene has a day and a night look. Live wallpapers follow your Day &amp; night setting.</string>
+    <string name="daynight_live_msg">Your live wallpaper follows this setting by itself.</string>
+    <string name="daynight_live_title">Live wallpaper</string>
+    <string name="daynight_live_state">Changes between day and night by itself</string>
 </resources>

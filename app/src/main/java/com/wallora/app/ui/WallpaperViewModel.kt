@@ -205,6 +205,13 @@ class WallpaperViewModel(application: Application) : AndroidViewModel(applicatio
         return wallpapers.value.firstOrNull { it.id == pick.id } ?: pick
     }
 
+    val liveScene: StateFlow<String> = preferences.liveScene
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), "runway")
+
+    fun setLiveScene(id: String) {
+        viewModelScope.launch { preferences.setLiveScene(id) }
+    }
+
     fun setLiveMode(mode: String) {
         viewModelScope.launch { preferences.setLiveMode(mode) }
     }
