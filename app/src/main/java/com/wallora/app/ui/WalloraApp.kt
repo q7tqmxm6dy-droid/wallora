@@ -45,6 +45,7 @@ import com.wallora.app.ui.screens.CategoryScreen
 import com.wallora.app.ui.screens.DetailScreen
 import com.wallora.app.ui.screens.FavoritesScreen
 import com.wallora.app.ui.screens.HomeScreen
+import com.wallora.app.ui.screens.PairMakerScreen
 import com.wallora.app.ui.screens.ProScreen
 import com.wallora.app.ui.screens.ProfileScreen
 import com.wallora.app.ui.screens.SettingsScreen
@@ -54,6 +55,7 @@ private object Routes {
     const val DISCOVER = "discover"
     const val TRENDING = "trending"
     const val CREATE = "create"
+    const val PAIR_MAKER = "pairmaker"
     const val FAVORITES = "favorites"
     const val CATEGORY = "category/{categoryId}"
     const val DETAIL = "detail/{wallpaperId}"
@@ -201,6 +203,15 @@ fun WalloraApp(
                     viewModel = viewModel,
                     onOpenPro = { navController.navigate(Routes.PRO) },
                     onOpenRoadmap = { navController.navigate(Routes.ROADMAP) },
+                    onOpenPairMaker = { navController.navigate(Routes.PAIR_MAKER) },
+                )
+            }
+            composable(Routes.PAIR_MAKER) {
+                PairMakerScreen(
+                    viewModel = viewModel,
+                    onOpenPair = { navController.navigate(Routes.detail(it)) },
+                    onOpenPro = { navController.navigate(Routes.PRO) },
+                    onBack = { navController.popBackStack() },
                 )
             }
             composable(Routes.TRENDING) {

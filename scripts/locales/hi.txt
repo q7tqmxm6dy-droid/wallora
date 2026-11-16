@@ -1,0 +1,287 @@
+widget_description|Wallora से एक रैंडम वॉलपेपर
+live_wallpaper_description|आपके Wallora वॉलपेपर धीरे-धीरे बदलता है, या एनिमेटेड सीन चलाता है
+sc_random|चौंकाइए मुझे
+sc_favourites|पसंदीदा
+sc_collections|कलेक्शन
+sc_profile|प्रोफ़ाइल
+nav_home|होम
+nav_favorites|पसंदीदा
+nav_profile|प्रोफ़ाइल
+title_settings|सेटिंग्स
+title_profile|प्रोफ़ाइल
+title_collections|कलेक्शन
+recently_viewed|हाल ही में देखे गए
+onb1_title|हर मूड के लिए एक वॉलपेपर
+onb1_body|डार्क एस्थेटिक और अंतरिक्ष से लेकर कार, लग्ज़री और 3D आर्ट तक दस श्रेणियाँ। नाम, स्टाइल या रंग से खोजें।
+onb2_title|दिन में हल्का, रात में गहरा
+onb2_body|कई वॉलपेपर हल्के और गहरे जोड़े में आते हैं, जो अगल-बगल दिखाए जाते हैं। जब आपका फ़ोन दिन से रात में बदलता है, Wallora आपके लिए सही वाला लगा देता है।
+onb3_title|इसे अपना बनाएँ
+onb3_body|कुछ भी पसंदीदा में जोड़ें, अपने कलेक्शन बनाएँ और लगाने से पहले उसे लॉक स्क्रीन पर देखें।
+skip|छोड़ें
+next|आगे
+get_started|शुरू करें
+set_wallpaper|वॉलपेपर बनाएँ
+action_save|डाउनलोड
+action_share|शेयर करें
+add_to_collection|कलेक्शन में जोड़ें
+no_results|कोई वॉलपेपर नहीं मिला
+no_favorites|अभी कोई पसंदीदा नहीं है — किसी भी वॉलपेपर पर दिल को छुएँ।
+favorite_add|पसंदीदा में जोड़ें
+favorite_remove|पसंदीदा से हटाएँ
+featured|चुनिंदा
+none_yet|अभी कोई नहीं
+sort_default|डिफ़ॉल्ट
+sort_name|नाम A–Z
+sort_category|श्रेणी
+clear_search|खोज साफ़ करें
+category_all|सभी
+strength|तीव्रता
+effect_none|कोई नहीं
+effect_blur|धुंधला
+effect_mono|ब्लैक एंड व्हाइट
+effect_warm|गर्म
+effect_cool|ठंडा
+effect_vignette|विनेट
+back|वापस
+lock_screen_preview|लॉक स्क्रीन प्रीव्यू
+toggle_favorite|पसंदीदा चालू/बंद करें
+pref_theme|थीम
+theme_auto|ऑटो (सिस्टम के अनुसार)
+theme_light|हल्का
+theme_dark|गहरा
+pref_daily_rotation|रोज़ बदलाव
+pref_daily_rotation_sub|हर दिन अपने-आप नया वॉलपेपर लगाएँ
+pref_match_theme|दिन और रात का वॉलपेपर
+pref_match_theme_sub|ऑटो आपके फ़ोन की दिन/रात सेटिंग का पालन करता है: रात में गहरा संस्करण और दिन में हल्का। हल्का या गहरा चुनने पर वही संस्करण तब तक रहता है जब तक आप बदलें नहीं। एक ही इमेज वाले वॉलपेपर जैसे हैं वैसे रहते हैं।
+pref_live_wallpaper|लाइव वॉलपेपर
+pref_live_wallpaper_sub|स्लाइडशो आपके वॉलपेपर को धीमे क्रॉसफ़ेड के साथ बदलता है। एनिमेटेड सीन दिन और रात के लुक वाली चलती तस्वीर है। एनिमेटेड ग्रेडिएंट बैटरी पर सबसे हल्का है।
+live_slideshow|स्लाइडशो
+live_gradient|एनिमेटेड ग्रेडिएंट
+pref_show_each_for|हर एक को दिखाएँ
+open_live_picker|लाइव वॉलपेपर चुनने वाला खोलें
+action_clear|साफ़ करें
+settings_footer|Wallora — वॉलपेपर आपके फ़ोन की हल्की/गहरी थीम का पालन करते हैं।
+your_favourites|आपके पसंदीदा
+pref_collections|कलेक्शन
+pref_admin|एडमिन
+value_on|चालू
+value_off|बंद
+pref_apply_to|यहाँ लगाएँ
+target_home|होम
+target_lock|लॉक
+target_both|दोनों
+pref_categories|श्रेणियाँ
+collections_empty_title|अभी कोई कलेक्शन नहीं
+collections_empty_body|+ बटन से एक बनाएँ, फिर किसी भी वॉलपेपर के पेज से वॉलपेपर जोड़ें।
+new_collection|नया कलेक्शन
+action_name|नाम
+action_create|बनाएँ
+action_cancel|रद्द करें
+action_delete|हटाएँ
+action_done|हो गया
+delete_collection_q|कलेक्शन हटाएँ?
+delete_collection_body|"%1$s" हटा दिया जाएगा। आपके वॉलपेपर नहीं हटेंगे।
+detail_no_collections|अभी कोई कलेक्शन नहीं — प्रोफ़ाइल → कलेक्शन से एक बनाएँ।
+set_wallpaper_dialog|वॉलपेपर लगाएँ
+shared_image|शेयर की गई इमेज
+set_shared_q|क्या इस इमेज को वॉलपेपर बनाएँ?
+stat_favourites|पसंदीदा
+stat_viewed|देखे गए
+stat_applied|लगाए गए
+wallpaper_of_the_day|आज का वॉलपेपर
+badges|बैज
+guest_user|Wallora अतिथि
+badge_first_favourite|पहला पसंदीदा
+badge_collector|संग्राहक
+badge_explorer|खोजी
+badge_decorator|सजावटी
+badge_on_a_roll|लगातार जारी
+badge_devoted|समर्पित
+wallpaper_label|वॉलपेपर
+notif_channel_name|नए वॉलपेपर
+notif_channel_desc|नए वॉलपेपर प्रकाशित होने पर सूचनाएँ
+notif_title|नए वॉलपेपर
+pref_new_alerts|नए वॉलपेपर की सूचनाएँ
+pref_new_alerts_sub|नए वॉलपेपर प्रकाशित होने पर मुझे बताएँ
+pref_ad_privacy|विज्ञापन गोपनीयता सेटिंग्स
+pref_ad_privacy_sub|Wallora ऐप को मुफ़्त रखने के लिए विज्ञापन दिखाता है। आप अपनी पसंद कभी भी बदल सकते हैं।
+pref_ad_privacy_action|विज्ञापन गोपनीयता सेटिंग्स बदलें
+pro_title|Wallora Pro
+pro_tagline|एक भुगतान। हमेशा के लिए आपका।
+pro_benefit_noads|कहीं भी विज्ञापन नहीं
+pro_benefit_effects|फ़ोटो इफ़ेक्ट: धुंधला, ब्लैक एंड व्हाइट, गर्म, ठंडा, विनेट
+pro_benefit_rotation|सभी वॉलपेपर या सिर्फ़ आपके पसंदीदा में से रोज़ बदलाव
+pro_benefit_support|एक स्वतंत्र डेवलपर का समर्थन करें
+pro_buy|Pro अनलॉक करें · %1$s
+pro_buy_loading|Pro अनलॉक करें
+pro_restore|खरीदारी बहाल करें
+pro_active|आपके पास Wallora Pro है। धन्यवाद!
+pro_msg_purchased|Wallora Pro में आपका स्वागत है!
+pro_msg_restored|Wallora Pro बहाल हो गया
+pro_msg_nothing|इस Google खाते पर कोई खरीदारी नहीं मिली
+pro_msg_pending|आपकी खरीदारी लंबित है। भुगतान पूरा होते ही Pro अनलॉक हो जाएगा।
+pro_msg_unavailable|Google Play अभी उपलब्ध नहीं है। बाद में फिर कोशिश करें।
+pro_msg_failed|खरीदारी पूरी नहीं हुई
+pro_cta_title|Pro बनें
+pro_cta_sub|विज्ञापन हटाएँ और हर सुविधा अनलॉक करें
+pro_cta_sub_noads|हर सुविधा अनलॉक करें
+pro_member|Pro सदस्य
+pro_locked_effect|फ़ोटो इफ़ेक्ट Pro सुविधा है
+pro_locked_rotation|रोज़ बदलाव Pro सुविधा है
+wallpaper_applied|वॉलपेपर लगा दिया गया
+wallpaper_set_failed|वॉलपेपर नहीं लग सका
+saved_to_pictures|Pictures/Wallora में सहेजा गया
+save_failed|इमेज सहेजी नहीं जा सकी
+load_failed|इमेज लोड नहीं हो सकी
+photo_credit|फ़ोटो: %1$s
+swipe_to_unlock|अनलॉक करने के लिए ऊपर स्वाइप करें
+share_wallpaper|वॉलपेपर शेयर करें
+seconds_short|%1$d सेकंड
+about_title|ऐप के बारे में
+about_version|संस्करण %1$s
+about_privacy|गोपनीयता नीति
+about_contact|सहायता से संपर्क करें
+about_rate|Wallora को रेट करें
+uhd_badge|4K
+uhd_filter|4K Ultra HD
+nav_discover|खोजें
+nav_trending|ट्रेंडिंग
+home_tagline|ट्रेंडिंग वॉलपेपर, हर दिन नए
+home_trending_now|अभी ट्रेंडिंग
+see_all|सभी देखें
+home_browse|मूड के अनुसार ब्राउज़ करें
+todays_drop|आज का चयन
+todays_drop_sub|%1$s के लिए एक नया कलेक्शन
+for_you|आपके लिए
+for_you_sub|हर दिन एक अलग मिश्रण
+discover_search_hint|वॉलपेपर, स्टाइल, मूड खोजें
+discover_browse|श्रेणियाँ ब्राउज़ करें
+trending_sub|हाथ से चुने वायरल लुक, हर %1$d दिन में नए
+top_ten|अभी के टॉप 10
+viral_styles|वायरल स्टाइल
+color_red|लाल
+color_orange|नारंगी
+color_yellow|पीला
+color_green|हरा
+color_teal|फ़िरोज़ी
+color_blue|नीला
+color_purple|बैंगनी
+color_pink|गुलाबी
+color_brown|भूरा
+color_black|काला
+color_gray|स्लेटी
+color_white|सफ़ेद
+quality_title|डाउनलोड क्वालिटी
+quality_original|मूल क्वालिटी
+quality_original_4k|मूल · 4K Ultra HD
+quality_medium|मध्यम · 720p (छोटी फ़ाइल)
+quality_small|कम · 480p (सबसे छोटी फ़ाइल)
+home_screen_preview|होम स्क्रीन प्रीव्यू
+report_content|रिपोर्ट करें
+downloads_title|डाउनलोड
+downloads_empty|अभी कुछ सहेजा नहीं गया है। किसी भी वॉलपेपर पर डाउनलोड दबाएँ और वह यहाँ दिखेगा।
+picked_for_you|आपके लिए चुने गए
+picked_for_you_sub|आप जो पसंद करते हैं, देखते हैं और डाउनलोड करते हैं उसके आधार पर। यह आपके फ़ोन में ही रहता है।
+your_top_downloads|आपके सबसे ज़्यादा डाउनलोड
+roadmap_title|आगे क्या आ रहा है
+coming_soon|जल्द आ रहा है
+roadmap_intro|इन सुविधाओं के लिए सर्वर, यूज़र खाते या मॉडरेशन चाहिए, इसलिए ये अभी चालू नहीं हैं। यहाँ कुछ भी बटन नहीं है: हर सुविधा तब आएगी जब वह ठीक से और सुरक्षित रूप से काम कर सके।
+rm_accounts|खाते और प्रोफ़ाइल
+rm_accounts_why|सुरक्षित साइन-इन, सार्वजनिक प्रोफ़ाइल और क्लाउड से सिंक होने वाले पसंदीदा। इसके लिए सर्वर पर खाता साइन-अप चालू करना होगा, ऐसे नियमों के साथ जो एक यूज़र को दूसरे के डेटा को छूने से रोकें।
+rm_uploads|मॉडरेशन के साथ कम्युनिटी अपलोड
+rm_uploads_why|अपने वॉलपेपर अपलोड करें। हर अपलोड सार्वजनिक होने से पहले जाँचा जाएगा, रिपोर्ट और ब्लॉक के साथ, जैसा Google Play यूज़र-जनित सामग्री के लिए माँगता है।
+rm_social|लाइक, फ़ॉलो और क्रिएटर पेज
+rm_social_why|क्रिएटरों को फ़ॉलो करें और वॉलपेपर लाइक करें। यह खातों और अपलोड पर निर्भर है।
+rm_ai|प्रॉम्प्ट से AI वॉलपेपर बनाना
+rm_ai_why|एक आइडिया लिखें, वॉलपेपर पाएँ। इसके लिए क्लाउड इमेज मॉडल, उपयोग की सीमा और कंटेंट फ़िल्टर चाहिए। बनाएँ टैब आपके फ़ोन पर पहले से डिज़ाइन बनाता है।
+rm_icons|मेल खाते आइकन पैक
+rm_icons_why|वॉलपेपर से मेल खाते रंगों वाले आइकन सेट। इसके लिए लॉन्चर इंटीग्रेशन चाहिए, जो फ़ोन बनाने वाली कंपनी के अनुसार अलग होता है।
+rm_subs|सब्सक्रिप्शन प्लान
+rm_subs_why|मासिक और वार्षिक विकल्प। आज Wallora Pro एक बार की खरीदारी है।
+rm_global|दुनिया भर में सबसे ज़्यादा डाउनलोड की रैंकिंग
+rm_global_why|इसके लिए सर्वर पर एक साझा डाउनलोड काउंटर चाहिए। आपकी अपनी सबसे ज़्यादा डाउनलोड की सूची अभी काम करती है।
+rm_admin|एडमिन: यूज़र और एनालिटिक्स
+rm_admin_why|एडमिन पेज आज वॉलपेपर और श्रेणियाँ संभालता है। यूज़र प्रबंधन और एनालिटिक्स के लिए खाते चाहिए; तब तक एनालिटिक्स Firebase कंसोल में हैं।
+nav_create|बनाएँ
+create_sub|सेकंडों में अपना वॉलपेपर डिज़ाइन करें। आपके फ़ोन पर बना, मुफ़्त।
+create_preview|वॉलपेपर प्रीव्यू
+create_style|स्टाइल
+create_palette|रंग
+create_grain|ग्रेन
+create_shuffle|फेंटें
+gen_aura|ऑरा
+gen_gradient|ग्रेडिएंट
+gen_waves|लहरें
+gen_orbs|गोले
+create_size_hd|Full HD · 1080 × 1920
+create_size_4k|4K Ultra HD · 2160 × 3840
+create_size_4k_pro|4K Ultra HD · 2160 × 3840 (Pro)
+create_ai_note|किसी वॉलपेपर का वर्णन करें और उसे अपने लिए बनवाएँ।
+pref_rotate_from|इनमें से बदलें
+rotate_from_all|सभी वॉलपेपर
+rotate_from_favorites|मेरे पसंदीदा
+pref_daily_drop|आज का चयन
+pref_daily_drop_sub|हर सुबह एक हाथ से चुना वॉलपेपर
+drop_notif_title|आज का चयन: %1$s
+drop_notif_body|आज के लिए चुना गया एक नया वॉलपेपर। देखने के लिए छुएँ।
+daynight_now|अभी आपके फ़ोन पर
+daynight_version_light|हल्का संस्करण
+daynight_version_dark|गहरा संस्करण
+daynight_version_single|दिन और रात के लिए एक ही इमेज
+daynight_none|पहले एक वॉलपेपर लगाएँ, फिर यहाँ उसका दिन और रात का संस्करण बदल सकेंगे।
+daynight_done_light|हल्के संस्करण पर बदला गया
+daynight_done_dark|गहरे संस्करण पर बदला गया
+daynight_single_msg|इस वॉलपेपर का सिर्फ़ एक संस्करण है, इसलिए कुछ नहीं बदला।
+daynight_failed|वॉलपेपर बदला नहीं जा सका। फिर कोशिश करें।
+live_scene|एनिमेटेड सीन
+pref_scene|सीन
+scene_runway|रनवे
+scene_rain|शहर में बारिश
+scene_stars|तारों की बौछार
+scene_day|दिन का लुक
+scene_night|रात का लुक
+scene_preview_hint|हर सीन का एक दिन का और एक रात का लुक है। लाइव वॉलपेपर आपकी दिन और रात की सेटिंग का पालन करते हैं।
+daynight_live_msg|आपका लाइव वॉलपेपर इस सेटिंग का पालन अपने-आप करता है।
+daynight_live_title|लाइव वॉलपेपर
+daynight_live_state|दिन और रात के बीच अपने-आप बदलता है
+pm_title|जोड़ी बनाएँ
+pm_sub|हल्के और गहरे लुक वाला एक वॉलपेपर बनाएँ। Wallora दिन और रात के साथ उनके बीच बदलता है।
+pm_card_title|हल्की + गहरी जोड़ी बनाएँ
+pm_card_body|अपनी इमेज को ऐसे वॉलपेपर में बदलें जो दिन और रात के बीच बदलता है।
+pm_light|हल्का संस्करण
+pm_dark|गहरा संस्करण
+pm_choose|इमेज चुनें
+pm_change|इमेज बदलें
+pm_auto|ऑटो रात का संस्करण
+pm_other|दूसरी इमेज चुनें
+pm_strength|रात की तीव्रता
+pm_name|नाम
+pm_default_name|मेरी जोड़ी
+pm_save|जोड़ी सहेजें
+pm_saved|जोड़ी सहेजी गई
+pm_failed|जोड़ी सहेजी नहीं जा सकी। दूसरी इमेज आज़माएँ।
+pm_my_pairs|मेरी जोड़ियाँ
+pm_none|आपकी बनाई जोड़ियाँ यहाँ दिखेंगी।
+pm_delete_title|यह जोड़ी हटाएँ?
+pm_delete_body|इसकी इमेज आपके फ़ोन से हटा दी जाएँगी।
+pm_limit|मुफ़्त: %1$d जोड़ियाँ तक। Pro में कोई सीमा नहीं।
+pm_pick_first|पहले अपनी हल्की इमेज चुनें।
+pm_preview_hint|बाएँ: हल्का संस्करण। दाएँ: गहरा संस्करण।
+share_picture|इमेज शेयर करें
+share_link|लिंक शेयर करें
+share_link_text|Wallora पर %1$s: %2$s
+pro_benefit_pairs|अपनी असीमित हल्की + गहरी जोड़ियाँ
+plural:wallpaper_count:one|%d वॉलपेपर
+plural:wallpaper_count:other|%d वॉलपेपर
+plural:collection_count:one|%d कलेक्शन
+plural:collection_count:other|%d कलेक्शन
+plural:favourite_count:one|%d पसंदीदा
+plural:favourite_count:other|%d पसंदीदा
+plural:category_count:one|%d श्रेणी
+plural:category_count:other|%d श्रेणियाँ
+plural:streak_days:one|%d दिन की लगातार सीरीज़
+plural:streak_days:other|%d दिन की लगातार सीरीज़
+plural:days_opened:one|%d दिन खोला
+plural:days_opened:other|%d दिन खोला
+plural:notif_body:one|%d नया वॉलपेपर लगाने के लिए तैयार है।
+plural:notif_body:other|%d नए वॉलपेपर लगाने के लिए तैयार हैं।

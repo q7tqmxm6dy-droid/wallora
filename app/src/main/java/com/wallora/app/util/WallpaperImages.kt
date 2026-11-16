@@ -25,6 +25,10 @@ object WallpaperImages {
                 } else {
                     val url = (if (dark) wallpaper.darkImageUrl ?: wallpaper.imageUrl else wallpaper.imageUrl)
                         ?: return@runCatching null
+                    if (url.startsWith("file:")) {
+                        // a pair the user made in Pair maker, stored on the phone
+                        return@runCatching BitmapFactory.decodeFile(java.io.File(java.net.URI(url)).path)
+                    }
                     val connection = (URL(url).openConnection() as HttpURLConnection).apply {
                         connectTimeout = 15_000
                         readTimeout = 20_000

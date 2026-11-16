@@ -1,0 +1,294 @@
+widget_description|Um papel de parede aleatório do Wallora
+live_wallpaper_description|Passa devagar pelos seus papéis de parede do Wallora ou mostra uma cena animada
+sc_random|Surpreenda-me
+sc_favourites|Favoritos
+sc_collections|Coleções
+sc_profile|Perfil
+nav_home|Início
+nav_favorites|Favoritos
+nav_profile|Perfil
+title_settings|Configurações
+title_profile|Perfil
+title_collections|Coleções
+recently_viewed|Vistos recentemente
+onb1_title|Um papel de parede para cada humor
+onb1_body|Dez categorias, de estética escura e espaço a carros, luxo e arte 3D. Busque por nome, estilo ou cor.
+onb2_title|Claro de dia, escuro à noite
+onb2_body|Muitos papéis de parede vêm em par, uma versão clara e outra escura, mostradas lado a lado. O Wallora troca para a certa quando o seu celular passa do dia para a noite.
+onb3_title|Deixe do seu jeito
+onb3_body|Favorite o que quiser, crie suas próprias coleções e veja na tela de bloqueio antes de aplicar.
+skip|Pular
+next|Avançar
+get_started|Começar
+set_wallpaper|Definir como papel de parede
+action_save|Baixar
+action_share|Compartilhar
+add_to_collection|Adicionar a uma coleção
+no_results|Nenhum papel de parede encontrado
+no_favorites|Ainda não há favoritos: toque no coração em qualquer papel de parede.
+favorite_add|Adicionar aos favoritos
+favorite_remove|Remover dos favoritos
+featured|Destaque
+none_yet|Nenhum ainda
+sort_default|Padrão
+sort_name|Nome A–Z
+sort_category|Categoria
+clear_search|Limpar busca
+category_all|Todos
+strength|Intensidade
+effect_none|Nenhum
+effect_blur|Desfoque
+effect_mono|P&B
+effect_warm|Quente
+effect_cool|Frio
+effect_vignette|Vinheta
+back|Voltar
+lock_screen_preview|Prévia da tela de bloqueio
+toggle_favorite|Alternar favorito
+pref_theme|Tema
+theme_auto|Auto (seguir o sistema)
+theme_light|Claro
+theme_dark|Escuro
+pref_daily_rotation|Troca diária
+pref_daily_rotation_sub|Defina um papel de parede novo automaticamente todo dia
+pref_match_theme|Papel de parede de dia e de noite
+pref_match_theme_sub|Auto segue a configuração de dia/noite do seu celular: a versão escura à noite e a clara de dia. Claro ou Escuro mantém essa versão até você mudar. Papéis de parede com uma só imagem ficam como estão.
+pref_live_wallpaper|Papel de parede animado
+pref_live_wallpaper_sub|A apresentação passa pelos seus papéis de parede com uma transição lenta. Uma cena animada é uma imagem em movimento com visual de dia e de noite. O degradê animado é o que menos gasta bateria.
+live_slideshow|Apresentação
+live_gradient|Degradê animado
+pref_show_each_for|Mostrar cada um por
+open_live_picker|Abrir o seletor de papéis de parede animados
+action_clear|Limpar
+settings_footer|Wallora: os papéis de parede seguem o tema claro/escuro do seu celular.
+your_favourites|Seus favoritos
+pref_collections|Coleções
+pref_admin|Administração
+value_on|Ativado
+value_off|Desativado
+pref_apply_to|Aplicar em
+target_home|Início
+target_lock|Bloqueio
+target_both|Ambas
+pref_categories|Categorias
+collections_empty_title|Ainda não há coleções
+collections_empty_body|Crie uma com o botão + e depois adicione papéis de parede pela página de qualquer um deles.
+new_collection|Nova coleção
+action_name|Nome
+action_create|Criar
+action_cancel|Cancelar
+action_delete|Excluir
+action_done|Concluído
+delete_collection_q|Excluir a coleção?
+delete_collection_body|"%1$s" será removida. Seus papéis de parede não serão excluídos.
+detail_no_collections|Ainda não há coleções: crie uma em Perfil → Coleções.
+set_wallpaper_dialog|Definir papel de parede
+shared_image|Imagem compartilhada
+set_shared_q|Definir esta imagem como papel de parede?
+stat_favourites|Favoritos
+stat_viewed|Vistos
+stat_applied|Aplicados
+wallpaper_of_the_day|Papel de parede do dia
+badges|Conquistas
+guest_user|Convidado do Wallora
+badge_first_favourite|Primeiro favorito
+badge_collector|Colecionador
+badge_explorer|Explorador
+badge_decorator|Decorador
+badge_on_a_roll|Em sequência
+badge_devoted|Dedicado
+wallpaper_label|Papel de parede
+notif_channel_name|Novos papéis de parede
+notif_channel_desc|Avisos quando novos papéis de parede são publicados
+notif_title|Novos papéis de parede
+pref_new_alerts|Avisos de novos papéis de parede
+pref_new_alerts_sub|Avise-me quando novos papéis de parede forem publicados
+pref_ad_privacy|Configurações de privacidade de anúncios
+pref_ad_privacy_sub|O Wallora mostra anúncios para manter o app gratuito. Você pode mudar sua escolha a qualquer momento.
+pref_ad_privacy_action|Alterar configurações de privacidade de anúncios
+pro_title|Wallora Pro
+pro_tagline|Um pagamento. Seu para sempre.
+pro_benefit_noads|Sem anúncios, em lugar nenhum
+pro_benefit_effects|Efeitos de foto: desfoque, P&B, quente, frio, vinheta
+pro_benefit_rotation|Troca diária entre todos os papéis de parede ou só os seus favoritos
+pro_benefit_support|Apoie um desenvolvedor independente
+pro_buy|Desbloquear o Pro · %1$s
+pro_buy_loading|Desbloquear o Pro
+pro_restore|Restaurar compra
+pro_active|Você tem o Wallora Pro. Obrigado!
+pro_msg_purchased|Boas-vindas ao Wallora Pro!
+pro_msg_restored|Wallora Pro restaurado
+pro_msg_nothing|Nenhuma compra encontrada nesta conta do Google
+pro_msg_pending|Sua compra está pendente. O Pro será liberado assim que o pagamento for concluído.
+pro_msg_unavailable|O Google Play não está disponível agora. Tente novamente mais tarde.
+pro_msg_failed|A compra não foi concluída
+pro_cta_title|Seja Pro
+pro_cta_sub|Remova os anúncios e desbloqueie todos os recursos
+pro_cta_sub_noads|Desbloqueie todos os recursos
+pro_member|Membro Pro
+pro_locked_effect|Os efeitos de foto são um recurso Pro
+pro_locked_rotation|A troca diária é um recurso Pro
+wallpaper_applied|Papel de parede aplicado
+wallpaper_set_failed|Não foi possível definir o papel de parede
+saved_to_pictures|Salvo em Imagens/Wallora
+save_failed|Não foi possível salvar a imagem
+load_failed|Não foi possível carregar a imagem
+photo_credit|Foto: %1$s
+swipe_to_unlock|Deslize para cima para desbloquear
+share_wallpaper|Compartilhar papel de parede
+seconds_short|%1$ds
+about_title|Sobre
+about_version|Versão %1$s
+about_privacy|Política de privacidade
+about_contact|Falar com o suporte
+about_rate|Avaliar o Wallora
+uhd_badge|4K
+uhd_filter|4K Ultra HD
+nav_discover|Descobrir
+nav_trending|Em alta
+home_tagline|Papéis de parede em alta, novos todo dia
+home_trending_now|Em alta agora
+see_all|Ver tudo
+home_browse|Explorar por clima
+todays_drop|Seleção de hoje
+todays_drop_sub|Uma nova coleção para %1$s
+for_you|Para você
+for_you_sub|Uma mistura diferente todo dia
+discover_search_hint|Busque papéis de parede, estilos, climas
+discover_browse|Explorar categorias
+trending_sub|Visuais virais escolhidos a dedo, renovados a cada %1$d dias
+top_ten|Top 10 agora
+viral_styles|Estilos virais
+color_red|Vermelho
+color_orange|Laranja
+color_yellow|Amarelo
+color_green|Verde
+color_teal|Turquesa
+color_blue|Azul
+color_purple|Roxo
+color_pink|Rosa
+color_brown|Marrom
+color_black|Preto
+color_gray|Cinza
+color_white|Branco
+quality_title|Qualidade do download
+quality_original|Qualidade original
+quality_original_4k|Original · 4K Ultra HD
+quality_medium|Média · 720p (arquivo menor)
+quality_small|Baixa · 480p (o menor arquivo)
+home_screen_preview|Prévia da tela inicial
+report_content|Denunciar
+downloads_title|Downloads
+downloads_empty|Nada salvo ainda. Toque em Baixar em qualquer papel de parede e ele aparecerá aqui.
+picked_for_you|Escolhidos para você
+picked_for_you_sub|Com base no que você favorita, vê e baixa. Fica no seu celular.
+your_top_downloads|Seus mais baixados
+roadmap_title|O que vem por aí
+coming_soon|Em breve
+roadmap_intro|Estes recursos precisam de servidor, contas de usuário ou moderação, por isso ainda não estão ativados. Nada aqui é um botão: cada um chega quando puder funcionar direito e com segurança.
+rm_accounts|Contas e perfis
+rm_accounts_why|Login seguro, perfil público e favoritos sincronizados na nuvem. Exige ativar o cadastro de contas no servidor, com regras que impeçam um usuário de mexer nos dados de outro.
+rm_uploads|Envios da comunidade com moderação
+rm_uploads_why|Envie seus próprios papéis de parede. Cada envio seria revisado antes de ficar público, com denúncias e bloqueios, como o Google Play exige para conteúdo de usuários.
+rm_social|Curtidas, seguir e páginas de criadores
+rm_social_why|Siga criadores e curta papéis de parede. Depende de contas e envios.
+rm_ai|Geração de papéis de parede com IA a partir de uma descrição
+rm_ai_why|Digite uma ideia e receba um papel de parede. Exige um modelo de imagens na nuvem, uma cota de uso e filtro de conteúdo. A aba Criar já faz designs no seu celular.
+rm_icons|Pacotes de ícones combinando
+rm_icons_why|Ícones com cores combinando com o papel de parede. Exige integração com o launcher, que varia por fabricante.
+rm_subs|Planos de assinatura
+rm_subs_why|Opções mensais e anuais. Hoje o Wallora Pro é uma compra única.
+rm_global|Ranking mundial dos mais baixados
+rm_global_why|Exige um contador de downloads compartilhado no servidor. Sua própria lista de mais baixados já funciona.
+rm_admin|Administração: usuários e análises
+rm_admin_why|A página de administração gerencia hoje papéis de parede e categorias. Gerenciar usuários e análises exige contas; por enquanto, as análises ficam no console do Firebase.
+nav_create|Criar
+create_sub|Crie o seu próprio papel de parede em segundos. Feito no seu celular, grátis.
+create_preview|Prévia do papel de parede
+create_style|Estilo
+create_palette|Cores
+create_grain|Granulação
+create_shuffle|Embaralhar
+gen_aura|Aura
+gen_gradient|Degradê
+gen_waves|Ondas
+gen_orbs|Esferas
+create_size_hd|Full HD · 1080 × 1920
+create_size_4k|4K Ultra HD · 2160 × 3840
+create_size_4k_pro|4K Ultra HD · 2160 × 3840 (Pro)
+create_ai_note|Descreva um papel de parede e peça para desenharem para você.
+pref_rotate_from|Alternar entre
+rotate_from_all|Todos os papéis de parede
+rotate_from_favorites|Meus favoritos
+pref_daily_drop|Seleção de hoje
+pref_daily_drop_sub|Um papel de parede escolhido a dedo toda manhã
+drop_notif_title|Seleção de hoje: %1$s
+drop_notif_body|Um papel de parede novo escolhido para hoje. Toque para ver.
+daynight_now|No seu celular agora
+daynight_version_light|Versão clara
+daynight_version_dark|Versão escura
+daynight_version_single|Uma só imagem para o dia e a noite
+daynight_none|Defina primeiro um papel de parede e aqui você poderá trocar a versão de dia e de noite.
+daynight_done_light|Trocado para a versão clara
+daynight_done_dark|Trocado para a versão escura
+daynight_single_msg|Este papel de parede tem só uma versão, então nada mudou.
+daynight_failed|Não foi possível mudar o papel de parede. Tente novamente.
+live_scene|Cena animada
+pref_scene|Cena
+scene_runway|Pista
+scene_rain|Chuva na cidade
+scene_stars|Chuva de estrelas
+scene_day|Visual de dia
+scene_night|Visual de noite
+scene_preview_hint|Cada cena tem um visual de dia e outro de noite. Os papéis de parede animados seguem sua configuração de dia e noite.
+daynight_live_msg|Seu papel de parede animado segue esta configuração sozinho.
+daynight_live_title|Papel de parede animado
+daynight_live_state|Muda entre dia e noite sozinho
+pm_title|Criador de pares
+pm_sub|Faça um papel de parede com um visual claro e outro escuro. O Wallora alterna entre eles com o dia e a noite.
+pm_card_title|Crie um par claro + escuro
+pm_card_body|Transforme a sua imagem em um papel de parede que muda entre o dia e a noite.
+pm_light|Versão clara
+pm_dark|Versão escura
+pm_choose|Escolher uma imagem
+pm_change|Trocar imagem
+pm_auto|Versão noturna automática
+pm_other|Escolher outra imagem
+pm_strength|Intensidade da noite
+pm_name|Nome
+pm_default_name|Meu par
+pm_save|Salvar par
+pm_saved|Par salvo
+pm_failed|Não foi possível salvar o par. Tente outra imagem.
+pm_my_pairs|Meus pares
+pm_none|Os pares que você criar aparecem aqui.
+pm_delete_title|Excluir este par?
+pm_delete_body|As imagens dele serão removidas do seu celular.
+pm_limit|Grátis: até %1$d pares. O Pro não tem limite.
+pm_pick_first|Escolha primeiro a sua imagem clara.
+pm_preview_hint|Esquerda: versão clara. Direita: versão escura.
+share_picture|Compartilhar imagem
+share_link|Compartilhar link
+share_link_text|%1$s no Wallora: %2$s
+pro_benefit_pairs|Pares claro + escuro próprios sem limite
+plural:wallpaper_count:one|%d papel de parede
+plural:wallpaper_count:many|%d papéis de parede
+plural:wallpaper_count:other|%d papéis de parede
+plural:collection_count:one|%d coleção
+plural:collection_count:many|%d coleções
+plural:collection_count:other|%d coleções
+plural:favourite_count:one|%d favorito
+plural:favourite_count:many|%d favoritos
+plural:favourite_count:other|%d favoritos
+plural:category_count:one|%d categoria
+plural:category_count:many|%d categorias
+plural:category_count:other|%d categorias
+plural:streak_days:one|Sequência de %d dia
+plural:streak_days:many|Sequência de %d dias
+plural:streak_days:other|Sequência de %d dias
+plural:days_opened:one|%d dia aberto
+plural:days_opened:many|%d dias aberto
+plural:days_opened:other|%d dias aberto
+plural:notif_body:one|%d novo papel de parede está pronto para definir.
+plural:notif_body:many|%d novos papéis de parede estão prontos para definir.
+plural:notif_body:other|%d novos papéis de parede estão prontos para definir.

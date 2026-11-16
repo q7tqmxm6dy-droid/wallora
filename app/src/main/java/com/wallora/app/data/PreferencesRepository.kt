@@ -57,6 +57,7 @@ class PreferencesRepository(private val context: Context) {
         val ALERTS_SEEDED = booleanPreferencesKey("alerts_seeded")
         val IS_PRO = booleanPreferencesKey("is_pro")
         val CURRENT_TARGET = stringPreferencesKey("current_wallpaper_target")
+        val MY_PAIRS = stringPreferencesKey("my_pairs_json")
 
         val ROTATION_FAVORITES = booleanPreferencesKey("rotation_favorites_only")
         val DAILY_DROP_ALERTS = booleanPreferencesKey("daily_drop_alerts")
@@ -237,6 +238,37 @@ class PreferencesRepository(private val context: Context) {
                 }
             }.toString()
         }
+    }
+
+    // ---- the user's own light/dark pairs (Pair maker) -------------------------
+
+    val myPairs: Flow<List<MyPair>> = context.dataStore.data.map { parseMyPairs(it[Keys.MY_PAIRS]) }
+
+    suspend fun readMyPairs(): List<MyPair> = myPairs.first()
+
+    private fun parseMyPairs(raw: String?): List<MyPair> {
+        if (raw.isNullOrBlank()) return emptyList()
+        return runCatching {
+            val array = JSONArray(raw)
+            List(array.length()) { i ->
+                val o = array.getJSONObject(i)
+                MyPair(o.getString("id"), o.getString("title"), o.getString("light"), o.getString("dark"))
+            }
+        }.getOrDefault(emptyList())
+    }
+
+    private fun writeMyPairs(prefs: androidx.datastore.preferences.core.MutablePreferences, list: List<MyPair>) {
+        prefs[Keys.MY_PAIRS] = JSONArray().also { arr ->
+            list.forEach { p -> arr.put(JSONObject().put("id", p.id).put("title", p.title).put("light", p.lightPath).put("dark", p.darkPath)) }
+        }.toString()
+    }
+
+    suspend fun addMyPair(pair: MyPair) {
+        context.dataStore.edit { prefs -> writeMyPairs(prefs, listOf(pair) + parseMyPairs(prefs[Keys.MY_PAIRS])) }
+    }
+
+    suspend fun removeMyPair(id: String) {
+        context.dataStore.edit { prefs -> writeMyPairs(prefs, parseMyPairs(prefs[Keys.MY_PAIRS]).filterNot { it.id == id }) }
     }
 
     suspend fun clearDownloads() {

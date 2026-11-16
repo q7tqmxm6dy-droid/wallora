@@ -1,0 +1,294 @@
+widget_description|Un fondo aleatorio de Wallora
+live_wallpaper_description|Recorre lentamente tus fondos de Wallora o muestra una escena animada
+sc_random|Sorpréndeme
+sc_favourites|Favoritos
+sc_collections|Colecciones
+sc_profile|Perfil
+nav_home|Inicio
+nav_favorites|Favoritos
+nav_profile|Perfil
+title_settings|Ajustes
+title_profile|Perfil
+title_collections|Colecciones
+recently_viewed|Vistos recientemente
+onb1_title|Un fondo para cada estado de ánimo
+onb1_body|Diez categorías, desde estética oscura y espacio hasta autos, lujo y arte 3D. Busca por nombre, estilo o color.
+onb2_title|Claro de día, oscuro de noche
+onb2_body|Muchos fondos vienen en pareja, una versión clara y otra oscura, mostradas lado a lado. Wallora cambia a la correcta cuando tu teléfono pasa del día a la noche.
+onb3_title|Hazlo tuyo
+onb3_body|Marca lo que quieras como favorito, crea tus propias colecciones y míralo en tu pantalla de bloqueo antes de aplicarlo.
+skip|Omitir
+next|Siguiente
+get_started|Empezar
+set_wallpaper|Poner como fondo
+action_save|Descargar
+action_share|Compartir
+add_to_collection|Añadir a una colección
+no_results|No se encontraron fondos
+no_favorites|Aún no hay favoritos: toca el corazón en cualquier fondo.
+favorite_add|Añadir a favoritos
+favorite_remove|Quitar de favoritos
+featured|Destacado
+none_yet|Todavía ninguno
+sort_default|Predeterminado
+sort_name|Nombre A–Z
+sort_category|Categoría
+clear_search|Borrar búsqueda
+category_all|Todos
+strength|Intensidad
+effect_none|Ninguno
+effect_blur|Desenfoque
+effect_mono|B/N
+effect_warm|Cálido
+effect_cool|Frío
+effect_vignette|Viñeta
+back|Atrás
+lock_screen_preview|Vista previa de pantalla de bloqueo
+toggle_favorite|Marcar o desmarcar favorito
+pref_theme|Tema
+theme_auto|Auto (según el sistema)
+theme_light|Claro
+theme_dark|Oscuro
+pref_daily_rotation|Cambio diario
+pref_daily_rotation_sub|Pon un fondo nuevo automáticamente cada día
+pref_match_theme|Fondo de día y de noche
+pref_match_theme_sub|Auto sigue el ajuste de día/noche de tu teléfono: la versión oscura de noche y la clara de día. Claro u Oscuro mantiene esa versión hasta que la cambies. Los fondos con una sola imagen se quedan como están.
+pref_live_wallpaper|Fondo animado
+pref_live_wallpaper_sub|La presentación recorre tus fondos con un fundido lento. Una escena animada es una imagen en movimiento con aspecto de día y de noche. El degradado animado es el que menos batería gasta.
+live_slideshow|Presentación
+live_gradient|Degradado animado
+pref_show_each_for|Mostrar cada uno durante
+open_live_picker|Abrir el selector de fondos animados
+action_clear|Borrar
+settings_footer|Wallora: los fondos siguen el tema claro/oscuro de tu teléfono.
+your_favourites|Tus favoritos
+pref_collections|Colecciones
+pref_admin|Administración
+value_on|Activado
+value_off|Desactivado
+pref_apply_to|Aplicar en
+target_home|Inicio
+target_lock|Bloqueo
+target_both|Ambas
+pref_categories|Categorías
+collections_empty_title|Aún no hay colecciones
+collections_empty_body|Crea una con el botón + y luego añade fondos desde la página de cualquier fondo.
+new_collection|Nueva colección
+action_name|Nombre
+action_create|Crear
+action_cancel|Cancelar
+action_delete|Eliminar
+action_done|Listo
+delete_collection_q|¿Eliminar la colección?
+delete_collection_body|Se eliminará "%1$s". Tus fondos no se borran.
+detail_no_collections|Aún no hay colecciones: crea una desde Perfil → Colecciones.
+set_wallpaper_dialog|Poner fondo
+shared_image|Imagen compartida
+set_shared_q|¿Poner esta imagen como fondo?
+stat_favourites|Favoritos
+stat_viewed|Vistos
+stat_applied|Aplicados
+wallpaper_of_the_day|Fondo del día
+badges|Insignias
+guest_user|Invitado de Wallora
+badge_first_favourite|Primer favorito
+badge_collector|Coleccionista
+badge_explorer|Explorador
+badge_decorator|Decorador
+badge_on_a_roll|En racha
+badge_devoted|Fiel
+wallpaper_label|Fondo
+notif_channel_name|Fondos nuevos
+notif_channel_desc|Avisos cuando se publican fondos nuevos
+notif_title|Fondos nuevos
+pref_new_alerts|Avisos de fondos nuevos
+pref_new_alerts_sub|Avísame cuando se publiquen fondos nuevos
+pref_ad_privacy|Ajustes de privacidad de anuncios
+pref_ad_privacy_sub|Wallora muestra anuncios para mantener la app gratuita. Puedes cambiar tu elección en cualquier momento.
+pref_ad_privacy_action|Cambiar ajustes de privacidad de anuncios
+pro_title|Wallora Pro
+pro_tagline|Un solo pago. Tuyo para siempre.
+pro_benefit_noads|Sin anuncios, en ningún lugar
+pro_benefit_effects|Efectos de foto: desenfoque, B/N, cálido, frío, viñeta
+pro_benefit_rotation|Cambio diario entre todos los fondos o solo tus favoritos
+pro_benefit_support|Apoya a un desarrollador independiente
+pro_buy|Desbloquear Pro · %1$s
+pro_buy_loading|Desbloquear Pro
+pro_restore|Restaurar compra
+pro_active|Tienes Wallora Pro. ¡Gracias!
+pro_msg_purchased|¡Bienvenido a Wallora Pro!
+pro_msg_restored|Wallora Pro restaurado
+pro_msg_nothing|No se encontró ninguna compra en esta cuenta de Google
+pro_msg_pending|Tu compra está pendiente. Pro se desbloqueará en cuanto se complete el pago.
+pro_msg_unavailable|Google Play no está disponible ahora. Inténtalo más tarde.
+pro_msg_failed|La compra no se completó
+pro_cta_title|Hazte Pro
+pro_cta_sub|Quita los anuncios y desbloquea todas las funciones
+pro_cta_sub_noads|Desbloquea todas las funciones
+pro_member|Miembro Pro
+pro_locked_effect|Los efectos de foto son una función Pro
+pro_locked_rotation|El cambio diario es una función Pro
+wallpaper_applied|Fondo aplicado
+wallpaper_set_failed|No se pudo poner el fondo
+saved_to_pictures|Guardado en Imágenes/Wallora
+save_failed|No se pudo guardar la imagen
+load_failed|No se pudo cargar la imagen
+photo_credit|Foto: %1$s
+swipe_to_unlock|Desliza hacia arriba para desbloquear
+share_wallpaper|Compartir fondo
+seconds_short|%1$ds
+about_title|Acerca de
+about_version|Versión %1$s
+about_privacy|Política de privacidad
+about_contact|Contactar con soporte
+about_rate|Valorar Wallora
+uhd_badge|4K
+uhd_filter|4K Ultra HD
+nav_discover|Descubrir
+nav_trending|Tendencias
+home_tagline|Fondos de tendencia, nuevos cada día
+home_trending_now|Tendencias ahora
+see_all|Ver todo
+home_browse|Explorar por ambiente
+todays_drop|La selección de hoy
+todays_drop_sub|Una colección nueva para %1$s
+for_you|Para ti
+for_you_sub|Una mezcla distinta cada día
+discover_search_hint|Busca fondos, estilos, ambientes
+discover_browse|Explorar categorías
+trending_sub|Looks virales elegidos a mano, renovados cada %1$d días
+top_ten|Top 10 ahora mismo
+viral_styles|Estilos virales
+color_red|Rojo
+color_orange|Naranja
+color_yellow|Amarillo
+color_green|Verde
+color_teal|Turquesa
+color_blue|Azul
+color_purple|Morado
+color_pink|Rosa
+color_brown|Marrón
+color_black|Negro
+color_gray|Gris
+color_white|Blanco
+quality_title|Calidad de descarga
+quality_original|Calidad original
+quality_original_4k|Original · 4K Ultra HD
+quality_medium|Media · 720p (archivo más pequeño)
+quality_small|Baja · 480p (el archivo más pequeño)
+home_screen_preview|Vista previa de la pantalla de inicio
+report_content|Denunciar
+downloads_title|Descargas
+downloads_empty|Aún no has guardado nada. Toca Descargar en cualquier fondo y aparecerá aquí.
+picked_for_you|Elegidos para ti
+picked_for_you_sub|Según lo que marcas como favorito, ves y descargas. Se queda en tu teléfono.
+your_top_downloads|Tus más descargados
+roadmap_title|Lo que viene
+coming_soon|Próximamente
+roadmap_intro|Estas funciones necesitan un servidor, cuentas de usuario o moderación, así que aún no están activadas. Nada de esto es un botón: cada una llegará cuando pueda funcionar bien y con seguridad.
+rm_accounts|Cuentas y perfiles
+rm_accounts_why|Inicio de sesión seguro, un perfil público y favoritos sincronizados en la nube. Requiere activar el registro de cuentas en el servidor, con reglas que impidan que un usuario toque los datos de otro.
+rm_uploads|Subidas de la comunidad con moderación
+rm_uploads_why|Sube tus propios fondos. Cada subida se revisaría antes de ser pública, con denuncias y bloqueos, como exige Google Play para el contenido de los usuarios.
+rm_social|Me gusta, seguir y páginas de creadores
+rm_social_why|Sigue a creadores y da me gusta a los fondos. Depende de las cuentas y las subidas.
+rm_ai|Generación de fondos con IA a partir de una descripción
+rm_ai_why|Escribe una idea y obtén un fondo. Requiere un modelo de imágenes en la nube, una cuota de uso y filtrado de contenido. La pestaña Crear ya hace diseños en tu teléfono.
+rm_icons|Paquetes de iconos a juego
+rm_icons_why|Iconos teñidos para combinar con un fondo. Requiere integración con el launcher, que varía según el fabricante.
+rm_subs|Planes de suscripción
+rm_subs_why|Opciones mensuales y anuales. Hoy Wallora Pro es una compra única.
+rm_global|Ranking mundial de más descargados
+rm_global_why|Requiere un contador de descargas compartido en el servidor. Tu propia lista de más descargados ya funciona.
+rm_admin|Administración: usuarios y analíticas
+rm_admin_why|La página de administración gestiona hoy fondos y categorías. La gestión de usuarios y las analíticas requieren cuentas; mientras tanto, las analíticas están en la consola de Firebase.
+nav_create|Crear
+create_sub|Diseña tu propio fondo en segundos. Hecho en tu teléfono, gratis.
+create_preview|Vista previa del fondo
+create_style|Estilo
+create_palette|Colores
+create_grain|Grano
+create_shuffle|Mezclar
+gen_aura|Aura
+gen_gradient|Degradado
+gen_waves|Ondas
+gen_orbs|Esferas
+create_size_hd|Full HD · 1080 × 1920
+create_size_4k|4K Ultra HD · 2160 × 3840
+create_size_4k_pro|4K Ultra HD · 2160 × 3840 (Pro)
+create_ai_note|Describe un fondo y que lo dibujen por ti.
+pref_rotate_from|Cambiar entre
+rotate_from_all|Todos los fondos
+rotate_from_favorites|Mis favoritos
+pref_daily_drop|La selección de hoy
+pref_daily_drop_sub|Un fondo elegido a mano cada mañana
+drop_notif_title|La selección de hoy: %1$s
+drop_notif_body|Un fondo nuevo elegido para hoy. Toca para verlo.
+daynight_now|En tu teléfono ahora
+daynight_version_light|Versión clara
+daynight_version_dark|Versión oscura
+daynight_version_single|Una sola imagen para el día y la noche
+daynight_none|Pon primero un fondo y aquí podrás cambiar su versión de día y de noche.
+daynight_done_light|Cambiado a la versión clara
+daynight_done_dark|Cambiado a la versión oscura
+daynight_single_msg|Este fondo solo tiene una versión, así que no cambió nada.
+daynight_failed|No se pudo cambiar el fondo. Inténtalo de nuevo.
+live_scene|Escena animada
+pref_scene|Escena
+scene_runway|Pista
+scene_rain|Lluvia en la ciudad
+scene_stars|Lluvia de estrellas
+scene_day|Aspecto de día
+scene_night|Aspecto de noche
+scene_preview_hint|Cada escena tiene un aspecto de día y otro de noche. Los fondos animados siguen tu ajuste de día y noche.
+daynight_live_msg|Tu fondo animado sigue este ajuste por sí solo.
+daynight_live_title|Fondo animado
+daynight_live_state|Cambia entre día y noche por sí solo
+pm_title|Creador de pares
+pm_sub|Crea un fondo con un aspecto claro y otro oscuro. Wallora cambia entre ellos con el día y la noche.
+pm_card_title|Crea un par claro + oscuro
+pm_card_body|Convierte tu propia imagen en un fondo que cambia entre el día y la noche.
+pm_light|Versión clara
+pm_dark|Versión oscura
+pm_choose|Elegir una imagen
+pm_change|Cambiar imagen
+pm_auto|Versión nocturna automática
+pm_other|Elegir otra imagen
+pm_strength|Intensidad de la noche
+pm_name|Nombre
+pm_default_name|Mi par
+pm_save|Guardar par
+pm_saved|Par guardado
+pm_failed|No se pudo guardar el par. Prueba con otra imagen.
+pm_my_pairs|Mis pares
+pm_none|Los pares que crees aparecerán aquí.
+pm_delete_title|¿Eliminar este par?
+pm_delete_body|Sus imágenes se borrarán de tu teléfono.
+pm_limit|Gratis: hasta %1$d pares. Pro no tiene límite.
+pm_pick_first|Elige primero tu imagen clara.
+pm_preview_hint|Izquierda: versión clara. Derecha: versión oscura.
+share_picture|Compartir imagen
+share_link|Compartir enlace
+share_link_text|%1$s en Wallora: %2$s
+pro_benefit_pairs|Pares claro + oscuro propios sin límite
+plural:wallpaper_count:one|%d fondo
+plural:wallpaper_count:many|%d fondos
+plural:wallpaper_count:other|%d fondos
+plural:collection_count:one|%d colección
+plural:collection_count:many|%d colecciones
+plural:collection_count:other|%d colecciones
+plural:favourite_count:one|%d favorito
+plural:favourite_count:many|%d favoritos
+plural:favourite_count:other|%d favoritos
+plural:category_count:one|%d categoría
+plural:category_count:many|%d categorías
+plural:category_count:other|%d categorías
+plural:streak_days:one|Racha de %d día
+plural:streak_days:many|Racha de %d días
+plural:streak_days:other|Racha de %d días
+plural:days_opened:one|%d día abierto
+plural:days_opened:many|%d días abierto
+plural:days_opened:other|%d días abierto
+plural:notif_body:one|Hay 1 fondo nuevo listo para poner.
+plural:notif_body:many|Hay %d fondos nuevos listos para poner.
+plural:notif_body:other|Hay %d fondos nuevos listos para poner.

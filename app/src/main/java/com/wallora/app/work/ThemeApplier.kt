@@ -50,7 +50,7 @@ object ThemeApplier {
         // already follow the Day & night setting themselves, so leave it alone.
         if (target != WallpaperTarget.LOCK && WallpaperManager.getInstance(context).wallpaperInfo != null) return Outcome.LIVE
 
-        val wallpaper = resolve(id) ?: return Outcome.NO_WALLPAPER
+        val wallpaper = resolve(context, id) ?: return Outcome.NO_WALLPAPER
         if (!wallpaper.hasDarkVariant) {
             prefs.rememberThemeVariant(dark) // one image for both modes: nothing to swap
             return Outcome.SINGLE_IMAGE
@@ -68,8 +68,9 @@ object ThemeApplier {
         (context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
 
     /** Bundled first (works offline), then the cloud catalogue. */
-    private suspend fun resolve(id: String): Wallpaper? {
+    private suspend fun resolve(context: Context, id: String): Wallpaper? {
         WallpaperCatalog.wallpaper(id)?.let { return it }
+        PreferencesRepository(context).readMyPairs().firstOrNull { it.id == id }?.let { return it.toWallpaper() }
         return runCatching { RemoteWallpaperRepository().wallpapers().first().firstOrNull { it.id == id } }.getOrNull()
     }
 }

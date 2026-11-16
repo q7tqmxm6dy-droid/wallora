@@ -89,6 +89,7 @@ import com.wallora.app.util.AppLinks
 import com.wallora.app.util.ImageSaver
 import com.wallora.app.util.ReviewPrompt
 import com.wallora.app.util.ShareUtils
+import com.wallora.app.util.WebLinks
 import com.wallora.app.util.WallpaperImages
 import com.wallora.app.work.ThemeApplier
 import com.wallora.app.util.WallpaperSetter
@@ -136,6 +137,7 @@ fun DetailScreen(
     var showLockPreview by remember { mutableStateOf(false) }
     var showHomePreview by remember { mutableStateOf(false) }
     var showQuality by remember { mutableStateOf(false) }
+    var showShare by remember { mutableStateOf(false) }
     var zoom by remember { mutableFloatStateOf(1f) }
     var busy by remember { mutableStateOf(false) }
     var effect by remember { mutableStateOf(Effect.NONE) }
@@ -220,6 +222,21 @@ fun DetailScreen(
         }
     }
 
+    fun sharePicture() {
+        busy = true
+        scope.launch {
+            val bitmap = loadProcessed()
+            if (bitmap != null) {
+                ShareUtils.share(context, bitmap, wallpaper.id)
+                bitmap.recycle()
+            } else {
+                notify(msgLoadFailed)
+            }
+            Analytics.log(context, Analytics.Events.WALLPAPER_SHARED, mapOf("id" to wallpaper.id))
+            busy = false
+        }
+    }
+
     fun applyTarget(target: WallpaperTarget) {
         showTargetDialog = false
         busy = true
@@ -255,7 +272,9 @@ fun DetailScreen(
                     launch {
                         detectHorizontalDragGestures(
                             onDragEnd = {
-                                if (swipeDrag < -140f) {
+                                if (pageIndex < 0) {
+                                    // one of the user's own pairs: it is not in the browse list, so there is nothing to swipe to
+                                } else if (swipeDrag < -140f) {
                                     catalogue.getOrNull(pageIndex + 1)?.let { currentId = it.id }
                                 } else if (swipeDrag > 140f) {
                                     catalogue.getOrNull(pageIndex - 1)?.let { currentId = it.id }
@@ -550,24 +569,7 @@ fun DetailScreen(
                     Text(stringResource(R.string.action_save))
                 }
                 Button(
-                    onClick = {
-                        busy = true
-                        scope.launch {
-                            val bitmap = loadProcessed()
-                            if (bitmap != null) {
-                                ShareUtils.share(context, bitmap, wallpaper.id)
-                                bitmap.recycle()
-                            } else {
-                                notify(msgLoadFailed)
-                            }
-                            Analytics.log(
-                                context,
-                                Analytics.Events.WALLPAPER_SHARED,
-                                mapOf("id" to wallpaper.id),
-                            )
-                            busy = false
-                        }
-                    },
+                    onClick = { if (WebLinks.isOnWeb(wallpaper)) showShare = true else sharePicture() },
                     enabled = !busy,
                     modifier = Modifier.weight(1f),
                     colors = ButtonDefaults.buttonColors(
@@ -641,6 +643,25 @@ fun DetailScreen(
             },
             confirmButton = {},
             dismissButton = { TextButton(onClick = { showQuality = false }) { Text(stringResource(R.string.action_cancel)) } },
+        )
+    }
+
+    if (showShare) {
+        AlertDialog(
+            onDismissRequest = { showShare = false },
+            title = { Text(stringResource(R.string.share_wallpaper)) },
+            text = {
+                Column {
+                    TextButton(onClick = { showShare = false; sharePicture() }) { Text(stringResource(R.string.share_picture)) }
+                    TextButton(onClick = {
+                        showShare = false
+                        ShareUtils.shareLink(context, wallpaper.title, WebLinks.linkFor(wallpaper))
+                        Analytics.log(context, Analytics.Events.WALLPAPER_SHARED, mapOf("id" to wallpaper.id, "kind" to "link"))
+                    }) { Text(stringResource(R.string.share_link)) }
+                }
+            },
+            confirmButton = {},
+            dismissButton = { TextButton(onClick = { showShare = false }) { Text(stringResource(R.string.action_cancel)) } },
         )
     }
 

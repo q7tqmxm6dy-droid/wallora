@@ -10,6 +10,8 @@ import com.wallora.app.data.AdminRepository
 import com.wallora.app.data.DownloadRecord
 import com.wallora.app.data.Category
 import com.wallora.app.data.PreferencesRepository
+import com.wallora.app.util.PairStore
+import com.wallora.app.data.MyPair
 import com.wallora.app.data.RemoteWallpaperRepository
 import com.wallora.app.data.Taxonomy
 import com.wallora.app.data.Wallpaper
@@ -17,6 +19,8 @@ import com.wallora.app.data.WallpaperCatalog
 import com.wallora.app.data.mergeCatalog
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
@@ -255,8 +259,25 @@ class WallpaperViewModel(application: Application) : AndroidViewModel(applicatio
 
     fun randomWallpaper(): Wallpaper? = wallpapers.value.randomOrNull()
 
+    /** The user's own light/dark pairs from Pair maker, as wallpapers. They are kept out of the browse lists. */
+    val myPairs: StateFlow<List<Wallpaper>> = preferences.myPairs
+        .map { list -> list.map { it.toWallpaper() } }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
+
+    suspend fun addMyPair(title: String, light: android.graphics.Bitmap, dark: android.graphics.Bitmap): Boolean = runCatching {
+        val id = MyPair.ID_PREFIX + System.currentTimeMillis()
+        val (lightPath, darkPath) = withContext(Dispatchers.IO) { PairStore.save(getApplication(), id, light, dark) }
+        preferences.addMyPair(MyPair(id, title.trim().ifBlank { "My pair" }, lightPath, darkPath))
+    }.isSuccess
+
+    suspend fun deleteMyPair(id: String) {
+        val pair = preferences.readMyPairs().firstOrNull { it.id == id } ?: return
+        withContext(Dispatchers.IO) { PairStore.delete(pair.lightPath, pair.darkPath) }
+        preferences.removeMyPair(id)
+    }
+
     fun wallpaper(id: String): Wallpaper? =
-        wallpapers.value.firstOrNull { it.id == id } ?: WallpaperCatalog.wallpaper(id)
+        wallpapers.value.firstOrNull { it.id == id } ?: WallpaperCatalog.wallpaper(id) ?: myPairs.value.firstOrNull { it.id == id }
 
     fun wallpapersInCategory(categoryId: String): List<Wallpaper> =
         wallpapers.value.filter { it.categoryId == categoryId }

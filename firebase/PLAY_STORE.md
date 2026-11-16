@@ -109,7 +109,7 @@ The app sells one non-consumable product. Create it before testing a purchase:
 
 1. Play Console → your app → **Monetize → Products → In-app products → Create product**
 2. **Product ID: `wallora_pro`** (must match `ProManager.PRODUCT_ID`)
-3. Name "Wallora Pro", description "Unlock daily wallpaper rotation (from every wallpaper or just your favourites)", set a price, then **Activate**.
+3. Name "Wallora Pro", description "Unlimited light + dark pairs of your own and daily wallpaper rotation (from every wallpaper or just your favourites)", set a price, then **Activate**.
 4. Add your Google account under **Setup → License testing** so test purchases are free.
 5. Install the build from an Internal testing track (purchases do not work from a sideloaded APK).
 

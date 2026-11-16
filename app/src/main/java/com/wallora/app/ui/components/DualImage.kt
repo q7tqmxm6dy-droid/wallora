@@ -14,6 +14,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Outline
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
@@ -76,5 +77,21 @@ fun WallpaperImage(
                 .width(1.dp)
                 .background(Color.White.copy(alpha = 0.55f)),
         )
+    }
+}
+
+/** The same split picture for two bitmaps held in memory (Pair maker's live preview): light on the left, dark on the right. */
+@Composable
+fun SplitBitmap(light: android.graphics.Bitmap, dark: android.graphics.Bitmap, modifier: Modifier = Modifier) {
+    Box(modifier) {
+        androidx.compose.foundation.Image(
+            bitmap = light.asImageBitmap(), contentDescription = null, contentScale = ContentScale.Crop,
+            modifier = Modifier.fillMaxSize().clip(HalfShape(left = true)),
+        )
+        androidx.compose.foundation.Image(
+            bitmap = dark.asImageBitmap(), contentDescription = null, contentScale = ContentScale.Crop,
+            modifier = Modifier.fillMaxSize().clip(HalfShape(left = false)),
+        )
+        Box(Modifier.align(Alignment.Center).fillMaxHeight().width(1.dp).background(Color.White.copy(alpha = 0.55f)))
     }
 }

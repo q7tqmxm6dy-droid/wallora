@@ -125,6 +125,7 @@ fun ProScreen(onBack: () -> Unit) {
             ) {
                 if (AdsConfig.ADS_ENABLED) Benefit(stringResource(R.string.pro_benefit_noads))
                 if (AppFeatures.PHOTO_EFFECTS) Benefit(stringResource(R.string.pro_benefit_effects))
+                Benefit(stringResource(R.string.pro_benefit_pairs))
                 Benefit(stringResource(R.string.pro_benefit_rotation))
                 Benefit(stringResource(R.string.pro_benefit_support))
             }

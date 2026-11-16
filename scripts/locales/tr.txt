@@ -1,0 +1,287 @@
+widget_description|Wallora'dan rastgele bir duvar kâğıdı
+live_wallpaper_description|Wallora duvar kâğıtlarınızı yavaşça değiştirir veya animasyonlu bir sahne oynatır
+sc_random|Beni şaşırt
+sc_favourites|Favoriler
+sc_collections|Koleksiyonlar
+sc_profile|Profil
+nav_home|Ana sayfa
+nav_favorites|Favoriler
+nav_profile|Profil
+title_settings|Ayarlar
+title_profile|Profil
+title_collections|Koleksiyonlar
+recently_viewed|Son görüntülenenler
+onb1_title|Her ruh hali için bir duvar kâğıdı
+onb1_body|Karanlık estetik ve uzaydan arabalara, lükse ve 3D sanata kadar on kategori. Ada, stile veya renge göre arayın.
+onb2_title|Gündüz aydınlık, gece karanlık
+onb2_body|Pek çok duvar kâğıdı yan yana gösterilen bir aydınlık ve bir karanlık çift olarak gelir. Telefonunuz gündüzden geceye geçerken Wallora doğru olanı sizin için seçer.
+onb3_title|Kendinize göre yapın
+onb3_body|Beğendiklerinizi favorilere ekleyin, kendi koleksiyonlarınızı oluşturun ve ayarlamadan önce kilit ekranında önizleyin.
+skip|Atla
+next|İleri
+get_started|Başla
+set_wallpaper|Duvar kâğıdı yap
+action_save|İndir
+action_share|Paylaş
+add_to_collection|Koleksiyona ekle
+no_results|Duvar kâğıdı bulunamadı
+no_favorites|Henüz favori yok. Herhangi bir duvar kâğıdındaki kalbe dokunun.
+favorite_add|Favorilere ekle
+favorite_remove|Favorilerden kaldır
+featured|Öne çıkan
+none_yet|Henüz yok
+sort_default|Varsayılan
+sort_name|Ad A–Z
+sort_category|Kategori
+clear_search|Aramayı temizle
+category_all|Tümü
+strength|Yoğunluk
+effect_none|Yok
+effect_blur|Bulanık
+effect_mono|S/B
+effect_warm|Sıcak
+effect_cool|Soğuk
+effect_vignette|Vinyet
+back|Geri
+lock_screen_preview|Kilit ekranı önizlemesi
+toggle_favorite|Favoriyi aç/kapat
+pref_theme|Tema
+theme_auto|Otomatik (sistemi izle)
+theme_light|Aydınlık
+theme_dark|Karanlık
+pref_daily_rotation|Günlük değişim
+pref_daily_rotation_sub|Her gün otomatik olarak yeni bir duvar kâğıdı ayarla
+pref_match_theme|Gündüz ve gece duvar kâğıdı
+pref_match_theme_sub|Otomatik, telefonunuzun gündüz/gece ayarını izler: gece karanlık, gündüz aydınlık sürüm. Aydınlık veya Karanlık, siz değiştirene kadar o sürümü korur. Tek görselli duvar kâğıtları olduğu gibi kalır.
+pref_live_wallpaper|Canlı duvar kâğıdı
+pref_live_wallpaper_sub|Slayt gösterisi duvar kâğıtlarınızı yavaş bir geçişle değiştirir. Animasyonlu sahne, gündüz ve gece görünümü olan hareketli bir görüntüdür. Animasyonlu renk geçişi pili en az kullanan seçenektir.
+live_slideshow|Slayt gösterisi
+live_gradient|Animasyonlu renk geçişi
+pref_show_each_for|Her birini göster
+open_live_picker|Canlı duvar kâğıdı seçiciyi aç
+action_clear|Temizle
+settings_footer|Wallora — duvar kâğıtları telefonunuzun açık/koyu temasını izler.
+your_favourites|Favorileriniz
+pref_collections|Koleksiyonlar
+pref_admin|Yönetici
+value_on|Açık
+value_off|Kapalı
+pref_apply_to|Uygulanacak yer
+target_home|Ana ekran
+target_lock|Kilit
+target_both|İkisi
+pref_categories|Kategoriler
+collections_empty_title|Henüz koleksiyon yok
+collections_empty_body|+ düğmesiyle bir tane oluşturun, sonra herhangi bir duvar kâğıdının sayfasından duvar kâğıdı ekleyin.
+new_collection|Yeni koleksiyon
+action_name|Ad
+action_create|Oluştur
+action_cancel|İptal
+action_delete|Sil
+action_done|Bitti
+delete_collection_q|Koleksiyon silinsin mi?
+delete_collection_body|"%1$s" kaldırılacak. Duvar kâğıtlarınız silinmez.
+detail_no_collections|Henüz koleksiyon yok. Profil → Koleksiyonlar'dan bir tane oluşturun.
+set_wallpaper_dialog|Duvar kâğıdı yap
+shared_image|Paylaşılan görsel
+set_shared_q|Bu görsel duvar kâğıdı yapılsın mı?
+stat_favourites|Favoriler
+stat_viewed|Görüntülenen
+stat_applied|Uygulanan
+wallpaper_of_the_day|Günün duvar kâğıdı
+badges|Rozetler
+guest_user|Wallora Konuğu
+badge_first_favourite|İlk favori
+badge_collector|Koleksiyoncu
+badge_explorer|Kâşif
+badge_decorator|Dekoratör
+badge_on_a_roll|Seri yakaladı
+badge_devoted|Sadık
+wallpaper_label|Duvar kâğıdı
+notif_channel_name|Yeni duvar kâğıtları
+notif_channel_desc|Yeni duvar kâğıtları yayınlandığında bildirimler
+notif_title|Yeni duvar kâğıtları
+pref_new_alerts|Yeni duvar kâğıdı bildirimleri
+pref_new_alerts_sub|Yeni duvar kâğıtları yayınlandığında bana haber ver
+pref_ad_privacy|Reklam gizliliği ayarları
+pref_ad_privacy_sub|Wallora uygulamanın ücretsiz kalması için reklam gösterir. Seçiminizi istediğiniz zaman değiştirebilirsiniz.
+pref_ad_privacy_action|Reklam gizliliği ayarlarını değiştir
+pro_title|Wallora Pro
+pro_tagline|Tek ödeme. Sonsuza dek sizin.
+pro_benefit_noads|Hiçbir yerde reklam yok
+pro_benefit_effects|Fotoğraf efektleri: bulanık, S/B, sıcak, soğuk, vinyet
+pro_benefit_rotation|Tüm duvar kâğıtları veya yalnızca favorileriniz arasında günlük değişim
+pro_benefit_support|Bağımsız bir geliştiriciyi destekleyin
+pro_buy|Pro'yu aç · %1$s
+pro_buy_loading|Pro'yu aç
+pro_restore|Satın alımı geri yükle
+pro_active|Wallora Pro'nuz var. Teşekkürler!
+pro_msg_purchased|Wallora Pro'ya hoş geldiniz!
+pro_msg_restored|Wallora Pro geri yüklendi
+pro_msg_nothing|Bu Google hesabında satın alım bulunamadı
+pro_msg_pending|Satın alımınız beklemede. Ödeme tamamlanır tamamlanmaz Pro açılacak.
+pro_msg_unavailable|Google Play şu anda kullanılamıyor. Daha sonra tekrar deneyin.
+pro_msg_failed|Satın alım tamamlanamadı
+pro_cta_title|Pro'ya geç
+pro_cta_sub|Reklamları kaldırın ve tüm özelliklerin kilidini açın
+pro_cta_sub_noads|Tüm özelliklerin kilidini açın
+pro_member|Pro üyesi
+pro_locked_effect|Fotoğraf efektleri bir Pro özelliğidir
+pro_locked_rotation|Günlük değişim bir Pro özelliğidir
+wallpaper_applied|Duvar kâğıdı uygulandı
+wallpaper_set_failed|Duvar kâğıdı ayarlanamadı
+saved_to_pictures|Pictures/Wallora klasörüne kaydedildi
+save_failed|Görsel kaydedilemedi
+load_failed|Görsel yüklenemedi
+photo_credit|Fotoğraf: %1$s
+swipe_to_unlock|Kilidi açmak için yukarı kaydırın
+share_wallpaper|Duvar kâğıdını paylaş
+seconds_short|%1$d sn
+about_title|Hakkında
+about_version|Sürüm %1$s
+about_privacy|Gizlilik politikası
+about_contact|Destekle iletişime geç
+about_rate|Wallora'yı değerlendir
+uhd_badge|4K
+uhd_filter|4K Ultra HD
+nav_discover|Keşfet
+nav_trending|Trendler
+home_tagline|Trend duvar kâğıtları, her gün yeni
+home_trending_now|Şu an trend
+see_all|Tümünü gör
+home_browse|Havaya göre göz at
+todays_drop|Bugünün seçkisi
+todays_drop_sub|%1$s için yeni bir koleksiyon
+for_you|Sana özel
+for_you_sub|Her gün farklı bir karışım
+discover_search_hint|Duvar kâğıdı, stil, ruh hali ara
+discover_browse|Kategorilere göz at
+trending_sub|Elle seçilmiş viral görünümler, her %1$d günde bir yenilenir
+top_ten|Şu anın ilk 10'u
+viral_styles|Viral stiller
+color_red|Kırmızı
+color_orange|Turuncu
+color_yellow|Sarı
+color_green|Yeşil
+color_teal|Petrol mavisi
+color_blue|Mavi
+color_purple|Mor
+color_pink|Pembe
+color_brown|Kahverengi
+color_black|Siyah
+color_gray|Gri
+color_white|Beyaz
+quality_title|İndirme kalitesi
+quality_original|Orijinal kalite
+quality_original_4k|Orijinal · 4K Ultra HD
+quality_medium|Orta · 720p (daha küçük dosya)
+quality_small|Düşük · 480p (en küçük dosya)
+home_screen_preview|Ana ekran önizlemesi
+report_content|Bildir
+downloads_title|İndirilenler
+downloads_empty|Henüz kaydedilen bir şey yok. Herhangi bir duvar kâğıdında İndir'e dokunun, burada görünsün.
+picked_for_you|Senin için seçilenler
+picked_for_you_sub|Favorilediğiniz, görüntülediğiniz ve indirdiğiniz içeriklere göre. Telefonunuzda kalır.
+your_top_downloads|En çok indirdikleriniz
+roadmap_title|Neler geliyor
+coming_soon|Yakında
+roadmap_intro|Bu özellikler sunucu, kullanıcı hesabı veya moderasyon gerektirdiği için henüz açık değil. Buradakilerin hiçbiri düğme değildir: her biri düzgün ve güvenli çalışabildiğinde yayınlanır.
+rm_accounts|Hesaplar ve profiller
+rm_accounts_why|Güvenli giriş, herkese açık profil ve bulutla eşitlenen favoriler. Sunucuda hesap kaydının açılmasını ve bir kullanıcının başkasının verisine dokunmasını engelleyen kuralları gerektirir.
+rm_uploads|Moderasyonlu topluluk yüklemeleri
+rm_uploads_why|Kendi duvar kâğıtlarınızı yükleyin. Her yükleme herkese açılmadan önce incelenir; Google Play'in kullanıcı içeriği için istediği gibi bildirme ve engelleme olur.
+rm_social|Beğeniler, takip ve içerik üreticisi sayfaları
+rm_social_why|İçerik üreticilerini takip edin ve duvar kâğıtlarını beğenin. Hesaplara ve yüklemelere bağlıdır.
+rm_ai|Bir tarifle yapay zekâ duvar kâğıdı üretimi
+rm_ai_why|Bir fikir yazın, duvar kâğıdı alın. Bulutta bir görsel modeli, kullanım kotası ve içerik filtreleme gerektirir. Oluştur sekmesi telefonunuzda zaten tasarım yapıyor.
+rm_icons|Uyumlu simge paketleri
+rm_icons_why|Duvar kâğıdına uyacak şekilde renklendirilmiş simgeler. Telefon üreticisine göre değişen başlatıcı entegrasyonu gerektirir.
+rm_subs|Abonelik planları
+rm_subs_why|Aylık ve yıllık seçenekler. Wallora Pro bugün tek seferlik bir satın alımdır.
+rm_global|Dünya genelinde en çok indirilenler sıralaması
+rm_global_why|Sunucuda ortak bir indirme sayacı gerektirir. Kendi en çok indirdikleriniz listesi şimdiden çalışıyor.
+rm_admin|Yönetici: kullanıcılar ve analizler
+rm_admin_why|Yönetici sayfası bugün duvar kâğıtlarını ve kategorileri yönetiyor. Kullanıcı yönetimi ve analizler hesap gerektirir; analizler şimdilik Firebase konsolunda.
+nav_create|Oluştur
+create_sub|Saniyeler içinde kendi duvar kâğıdınızı tasarlayın. Telefonunuzda yapılır, ücretsiz.
+create_preview|Duvar kâğıdı önizlemesi
+create_style|Stil
+create_palette|Renkler
+create_grain|Gren
+create_shuffle|Karıştır
+gen_aura|Aura
+gen_gradient|Renk geçişi
+gen_waves|Dalgalar
+gen_orbs|Küreler
+create_size_hd|Full HD · 1080 × 1920
+create_size_4k|4K Ultra HD · 2160 × 3840
+create_size_4k_pro|4K Ultra HD · 2160 × 3840 (Pro)
+create_ai_note|Bir duvar kâğıdını tarif edin, sizin için çizilsin.
+pref_rotate_from|Şunlar arasında değiştir
+rotate_from_all|Tüm duvar kâğıtları
+rotate_from_favorites|Favorilerim
+pref_daily_drop|Bugünün seçkisi
+pref_daily_drop_sub|Her sabah elle seçilmiş bir duvar kâğıdı
+drop_notif_title|Bugünün seçkisi: %1$s
+drop_notif_body|Bugün için seçilmiş yeni bir duvar kâğıdı. Görmek için dokunun.
+daynight_now|Şu an telefonunuzda
+daynight_version_light|Aydınlık sürüm
+daynight_version_dark|Karanlık sürüm
+daynight_version_single|Gündüz ve gece için tek görsel
+daynight_none|Önce bir duvar kâğıdı ayarlayın, sonra gündüz ve gece sürümünü buradan değiştirebilirsiniz.
+daynight_done_light|Aydınlık sürüme geçildi
+daynight_done_dark|Karanlık sürüme geçildi
+daynight_single_msg|Bu duvar kâğıdının yalnızca bir sürümü var, bu yüzden bir şey değişmedi.
+daynight_failed|Duvar kâğıdı değiştirilemedi. Tekrar deneyin.
+live_scene|Animasyonlu sahne
+pref_scene|Sahne
+scene_runway|Pist
+scene_rain|Şehirde yağmur
+scene_stars|Yıldız yağmuru
+scene_day|Gündüz görünümü
+scene_night|Gece görünümü
+scene_preview_hint|Her sahnenin bir gündüz, bir gece görünümü vardır. Canlı duvar kâğıtları Gündüz ve gece ayarınızı izler.
+daynight_live_msg|Canlı duvar kâğıdınız bu ayarı kendiliğinden izler.
+daynight_live_title|Canlı duvar kâğıdı
+daynight_live_state|Gündüz ve gece arasında kendiliğinden değişir
+pm_title|Çift oluşturucu
+pm_sub|Aydınlık ve karanlık görünümü olan tek bir duvar kâğıdı yapın. Wallora gündüz ve geceyle aralarında geçiş yapar.
+pm_card_title|Aydınlık + karanlık çift yap
+pm_card_body|Kendi görselinizi gündüz ve gece arasında değişen bir duvar kâğıdına dönüştürün.
+pm_light|Aydınlık sürüm
+pm_dark|Karanlık sürüm
+pm_choose|Görsel seç
+pm_change|Görseli değiştir
+pm_auto|Otomatik gece sürümü
+pm_other|Başka bir görsel seç
+pm_strength|Gece yoğunluğu
+pm_name|Ad
+pm_default_name|Çiftim
+pm_save|Çifti kaydet
+pm_saved|Çift kaydedildi
+pm_failed|Çift kaydedilemedi. Başka bir görsel deneyin.
+pm_my_pairs|Çiftlerim
+pm_none|Oluşturduğunuz çiftler burada görünür.
+pm_delete_title|Bu çift silinsin mi?
+pm_delete_body|Görselleri telefonunuzdan kaldırılır.
+pm_limit|Ücretsiz: en fazla %1$d çift. Pro'da sınır yok.
+pm_pick_first|Önce aydınlık görselinizi seçin.
+pm_preview_hint|Solda: aydınlık sürüm. Sağda: karanlık sürüm.
+share_picture|Görseli paylaş
+share_link|Bağlantıyı paylaş
+share_link_text|Wallora'da %1$s: %2$s
+pro_benefit_pairs|Sınırsız kendi aydınlık + karanlık çiftleriniz
+plural:wallpaper_count:one|%d duvar kâğıdı
+plural:wallpaper_count:other|%d duvar kâğıdı
+plural:collection_count:one|%d koleksiyon
+plural:collection_count:other|%d koleksiyon
+plural:favourite_count:one|%d favori
+plural:favourite_count:other|%d favori
+plural:category_count:one|%d kategori
+plural:category_count:other|%d kategori
+plural:streak_days:one|%d günlük seri
+plural:streak_days:other|%d günlük seri
+plural:days_opened:one|%d gün açıldı
+plural:days_opened:other|%d gün açıldı
+plural:notif_body:one|1 yeni duvar kâğıdı ayarlanmaya hazır.
+plural:notif_body:other|%d yeni duvar kâğıdı ayarlanmaya hazır.

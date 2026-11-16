@@ -73,7 +73,7 @@ import kotlinx.coroutines.withContext
 
 /** Make a wallpaper on the phone: pick a style and palette, shuffle, then set, download or share it. */
 @Composable
-fun CreateScreen(viewModel: WallpaperViewModel, onOpenPro: () -> Unit, onOpenRoadmap: () -> Unit) {
+fun CreateScreen(viewModel: WallpaperViewModel, onOpenPro: () -> Unit, onOpenRoadmap: () -> Unit, onOpenPairMaker: () -> Unit) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val isPro by viewModel.isPro.collectAsStateWithLifecycle()
@@ -112,6 +112,16 @@ fun CreateScreen(viewModel: WallpaperViewModel, onOpenPro: () -> Unit, onOpenRoa
         Column(Modifier.fillMaxSize().statusBarsPadding().verticalScroll(rememberScrollState()).padding(horizontal = 16.dp)) {
             Text(stringResource(R.string.nav_create), style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Black, modifier = Modifier.padding(top = 16.dp))
             Text(stringResource(R.string.create_sub), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+
+            Card(
+                Modifier.fillMaxWidth().padding(top = 14.dp).clickable(onClick = onOpenPairMaker), shape = RoundedCornerShape(20.dp),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
+            ) {
+                Column(Modifier.padding(16.dp)) {
+                    Text(stringResource(R.string.pm_card_title), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onPrimaryContainer)
+                    Text(stringResource(R.string.pm_card_body), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onPrimaryContainer)
+                }
+            }
 
             Box(Modifier.fillMaxWidth().padding(top = 16.dp), contentAlignment = Alignment.Center) {
                 Card(Modifier.height(430.dp).aspectRatio(9f / 16f), shape = RoundedCornerShape(26.dp), elevation = CardDefaults.cardElevation(0.dp)) {

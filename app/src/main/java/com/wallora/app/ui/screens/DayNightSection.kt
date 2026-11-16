@@ -54,7 +54,8 @@ fun DayNightSection(viewModel: WallpaperViewModel, snackbarHostState: SnackbarHo
     val appliedId by viewModel.appliedWallpaperId.collectAsStateWithLifecycle()
     val appliedDark by viewModel.appliedDark.collectAsStateWithLifecycle()
     val wallpapers by viewModel.wallpapers.collectAsStateWithLifecycle()
-    val applied = remember(appliedId, wallpapers) { wallpapers.firstOrNull { it.id == appliedId } }
+    val myPairs by viewModel.myPairs.collectAsStateWithLifecycle()
+    val applied = remember(appliedId, wallpapers, myPairs) { wallpapers.firstOrNull { it.id == appliedId } ?: myPairs.firstOrNull { it.id == appliedId } }
     var busy by remember { mutableStateOf(false) }
     // A live wallpaper on the home screen follows the setting by itself, so the card describes that instead of a still picture.
     var resumes by remember { mutableIntStateOf(0) }

@@ -10,6 +10,18 @@ import java.io.File
 /** Shares a wallpaper bitmap through the system share sheet. */
 object ShareUtils {
 
+    /** Shares a link that opens the wallpaper in the web app. */
+    fun shareLink(context: Context, title: String, link: String) {
+        val intent = Intent(Intent.ACTION_SEND).apply {
+            type = "text/plain"
+            putExtra(Intent.EXTRA_SUBJECT, title)
+            putExtra(Intent.EXTRA_TEXT, context.getString(R.string.share_link_text, title, link))
+        }
+        runCatching {
+            context.startActivity(Intent.createChooser(intent, context.getString(R.string.share_wallpaper)).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+        }
+    }
+
     fun share(context: Context, bitmap: Bitmap, name: String) {
         try {
             val dir = File(context.cacheDir, "shared").apply { mkdirs() }
