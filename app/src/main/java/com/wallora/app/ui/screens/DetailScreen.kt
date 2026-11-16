@@ -159,9 +159,9 @@ fun DetailScreen(
 
     /** Loads the wallpaper and applies the selected look. */
     suspend fun loadProcessed(): Bitmap? {
-        // Setting or saving a wallpaper uses the version for the phone's real day/night mode (what the automatic
-        // day/night switch follows), not the app's own theme choice.
-        val raw = WallpaperImages.loadBitmap(context, wallpaper, ThemeApplier.isDark(context)) ?: return null
+        // Setting or saving a wallpaper uses the version the Day & night setting calls for (the phone's real
+        // day/night in Auto mode, or the chosen Light/Dark), not the app's own theme choice.
+        val raw = WallpaperImages.loadBitmap(context, wallpaper, ThemeApplier.effectiveDark(context)) ?: return null
         val processed = ImageEffects.apply(effect, raw, strength)
         if (processed !== raw) raw.recycle()
         return processed
@@ -234,7 +234,7 @@ fun DetailScreen(
             )
             notify(if (applied) msgApplied else msgSetFailed)
             if (applied) {
-                viewModel.rememberApplied(wallpaper.id, ThemeApplier.isDark(context), target.name)
+                viewModel.rememberApplied(wallpaper.id, ThemeApplier.effectiveDark(context), target.name)
                 // Interstitial after a completed action, never on launch, and rate limited. The review
                 // prompt waits for a set that had no ad, so the two never stack.
                 val prefs = PreferencesRepository(context)

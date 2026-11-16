@@ -107,6 +107,6 @@ class WalloraApp : Application(), ImageLoaderFactory {
     private suspend fun applyThemeIfChanged() = ThemeApplier.applyIfChanged(this)
 
     private suspend fun ensureThemeSyncScheduled() {
-        ThemeSyncScheduler.sync(this, PreferencesRepository(this).readAppliedTheme().third)
+        ThemeSyncScheduler.sync(this, PreferencesRepository(this).readDayNightMode() == PreferencesRepository.MODE_AUTO)
     }
 }

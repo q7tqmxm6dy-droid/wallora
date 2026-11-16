@@ -102,7 +102,7 @@
     <string name="pref_daily_rotation">تدوير يومي</string>
     <string name="pref_daily_rotation_sub">تعيين خلفية جديدة تلقائيًا كل يوم</string>
     <string name="pref_match_theme">خلفية النهار والليل</string>
-    <string name="pref_match_theme_sub">تتحول خلفيتك إلى نسختها الداكنة في الليل وتعود إلى الفاتحة في النهار، وفقًا لوضع الهاتف الداكن. الخلفيات ذات الصورة الواحدة تبقى كما هي.</string>
+    <string name="pref_match_theme_sub">الوضع التلقائي يتبع ضبط الهاتف للنهار والليل: النسخة الداكنة ليلًا والفاتحة نهارًا. الفاتح أو الداكن يُبقي تلك النسخة حتى تغيّرها. الخلفيات ذات الصورة الواحدة تبقى كما هي.</string>
     <string name="pref_live_wallpaper">خلفية حية</string>
     <string name="pref_live_wallpaper_sub">تعرض الخلفية الحية خلفياتك بتلاشٍ بطيء؛ التدرّج المتحرك أخف على البطارية.</string>
     <string name="live_slideshow">عرض الشرائح</string>
@@ -306,4 +306,13 @@
     <string name="pref_daily_drop_sub">خلفية مختارة بعناية كل صباح</string>
     <string name="drop_notif_title">خلفية اليوم: %1$s</string>
     <string name="drop_notif_body">خلفية جديدة اخترناها لك اليوم. اضغط لمشاهدتها.</string>
+    <string name="daynight_now">على هاتفك الآن</string>
+    <string name="daynight_version_light">النسخة الفاتحة</string>
+    <string name="daynight_version_dark">النسخة الداكنة</string>
+    <string name="daynight_version_single">صورة واحدة للنهار والليل</string>
+    <string name="daynight_none">عيّن خلفية أولًا، ثم يمكنك تبديل نسختها النهارية والليلية من هنا.</string>
+    <string name="daynight_done_light">تم التبديل إلى النسخة الفاتحة</string>
+    <string name="daynight_done_dark">تم التبديل إلى النسخة الداكنة</string>
+    <string name="daynight_single_msg">لهذه الخلفية نسخة واحدة فقط، لذا لم يتغيّر شيء.</string>
+    <string name="daynight_failed">تعذّر تغيير الخلفية. حاول مرة أخرى.</string>
 </resources>

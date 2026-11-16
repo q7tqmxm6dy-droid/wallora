@@ -90,7 +90,7 @@
     <string name="pref_daily_rotation">סבב יומי</string>
     <string name="pref_daily_rotation_sub">הגדר טפט חדש אוטומטית בכל יום</string>
     <string name="pref_match_theme">טפט יום ולילה</string>
-    <string name="pref_match_theme_sub">בלילה הטפט עובר לגרסה הכהה שלו, וביום חוזר לבהירה, לפי המצב הכהה של הטלפון. טפטים עם תמונה אחת נשארים כפי שהם.</string>
+    <string name="pref_match_theme_sub">אוטומטי עוקב אחרי הגדרת היום והלילה בטלפון: הגרסה הכהה בלילה והבהירה ביום. בהיר או כהה משאירים את הגרסה הזו עד שתשנו. טפטים עם תמונה אחת נשארים כפי שהם.</string>
     <string name="pref_live_wallpaper">טפט חי</string>
     <string name="pref_live_wallpaper_sub">מצגת מחליפה בין הטפטים במעבר עדין; הגרדיאנט המונפש חסכוני יותר בסוללה.</string>
     <string name="live_slideshow">מצגת</string>
@@ -285,4 +285,13 @@
     <string name="pref_daily_drop_sub">רקע אחד שנבחר בקפידה בכל בוקר</string>
     <string name="drop_notif_title">הרקע של היום: %1$s</string>
     <string name="drop_notif_body">רקע חדש שנבחר עבורך היום. הקישו כדי לראות.</string>
+    <string name="daynight_now">על הטלפון שלכם עכשיו</string>
+    <string name="daynight_version_light">הגרסה הבהירה</string>
+    <string name="daynight_version_dark">הגרסה הכהה</string>
+    <string name="daynight_version_single">תמונה אחת ליום וללילה</string>
+    <string name="daynight_none">הגדירו קודם טפט, ואז תוכלו להחליף כאן בין גרסת היום לגרסת הלילה שלו.</string>
+    <string name="daynight_done_light">עברנו לגרסה הבהירה</string>
+    <string name="daynight_done_dark">עברנו לגרסה הכהה</string>
+    <string name="daynight_single_msg">לטפט הזה יש גרסה אחת בלבד, ולכן לא השתנה דבר.</string>
+    <string name="daynight_failed">לא ניתן היה לשנות את הטפט. נסו שוב.</string>
 </resources>

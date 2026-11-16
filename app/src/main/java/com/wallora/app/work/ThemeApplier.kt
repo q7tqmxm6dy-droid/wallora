@@ -12,35 +12,51 @@ import com.wallora.app.util.WallpaperTarget
 import kotlinx.coroutines.flow.first
 
 /**
- * The day/night switch: when the phone moves between light and dark mode, the wallpaper the user set is replaced
- * by its matching version, in the same place (home, lock or both). Wallpapers with only one image are left alone.
+ * The day/night switch for the wallpaper the user set: it is replaced by its light or dark version, in the same place
+ * (home, lock or both). Wallpapers with only one image are left alone.
  *
- * Runs when the app starts, when the app sees the phone's mode change, and from [ThemeSyncWorker] so it also
- * happens while the app is closed.
+ * Two modes: **auto** follows the phone's light/dark mode (also in the background, see [ThemeSyncWorker]), and
+ * **light** / **dark** keep that version until the user changes it.
  */
 object ThemeApplier {
 
-    suspend fun applyIfChanged(context: Context) {
+    enum class Outcome { APPLIED, UNCHANGED, NO_WALLPAPER, SINGLE_IMAGE, FAILED }
+
+    /** Which version should be on the phone: the chosen one, or the phone's own day/night when the mode is auto. */
+    suspend fun effectiveDark(context: Context): Boolean = when (PreferencesRepository(context).readDayNightMode()) {
+        PreferencesRepository.MODE_LIGHT -> false
+        PreferencesRepository.MODE_DARK -> true
+        else -> isDark(context)
+    }
+
+    /** The automatic path: swaps the wallpaper only when the version that should show has changed. */
+    suspend fun applyIfChanged(context: Context): Outcome = apply(context, force = false)
+
+    /** The manual path: puts the right version on the phone right now. */
+    suspend fun applyNow(context: Context): Outcome = apply(context, force = true)
+
+    private suspend fun apply(context: Context, force: Boolean): Outcome {
         val prefs = PreferencesRepository(context)
-        val (id, lastDark, auto) = prefs.readAppliedTheme()
-        if (!auto || id == null) return
+        val (id, lastDark) = prefs.readAppliedTheme()
+        if (id == null) return Outcome.NO_WALLPAPER
 
-        val dark = isDark(context)
-        if (lastDark == dark) return
+        val dark = effectiveDark(context)
+        if (!force && lastDark == dark) return Outcome.UNCHANGED
 
-        val wallpaper = resolve(id)
-        if (wallpaper == null) return
+        val wallpaper = resolve(id) ?: return Outcome.NO_WALLPAPER
         if (!wallpaper.hasDarkVariant) {
             prefs.rememberThemeVariant(dark) // one image for both modes: nothing to swap
-            return
+            return Outcome.SINGLE_IMAGE
         }
 
-        val bitmap = WallpaperImages.loadBitmap(context, wallpaper, dark) ?: return
+        val bitmap = WallpaperImages.loadBitmap(context, wallpaper, dark) ?: return Outcome.FAILED
         val target = runCatching { WallpaperTarget.valueOf(prefs.readAppliedTarget() ?: "HOME") }
             .getOrDefault(WallpaperTarget.HOME)
         val applied = WallpaperSetter.apply(context, bitmap, target)
         bitmap.recycle()
-        if (applied) prefs.rememberThemeVariant(dark)
+        if (!applied) return Outcome.FAILED
+        prefs.rememberThemeVariant(dark)
+        return Outcome.APPLIED
     }
 
     fun isDark(context: Context): Boolean =

@@ -92,7 +92,7 @@
     <string name="pref_daily_rotation">Daily rotation</string>
     <string name="pref_daily_rotation_sub">Set a fresh wallpaper automatically every day</string>
     <string name="pref_match_theme">Day &amp; night wallpaper</string>
-    <string name="pref_match_theme_sub">Your wallpaper switches to its dark version at night and back to the light one by day, following your phone\'s dark mode. Wallpapers with one image stay as they are.</string>
+    <string name="pref_match_theme_sub">Auto follows your phone\'s day/night setting: the dark version at night, the light one by day. Light or Dark keeps that version until you change it. Wallpapers with one image stay as they are.</string>
     <string name="pref_live_wallpaper">Live wallpaper</string>
     <string name="pref_live_wallpaper_sub">Slideshow cycles your wallpapers with a slow crossfade; the animated gradient is lighter on battery.</string>
     <string name="live_slideshow">Slideshow</string>
@@ -299,4 +299,13 @@
     <string name="pref_daily_drop_sub">One hand-picked wallpaper each morning</string>
     <string name="drop_notif_title">Today\'s Drop: %1$s</string>
     <string name="drop_notif_body">A fresh wallpaper picked for today. Tap to see it.</string>
+    <string name="daynight_now">On your phone now</string>
+    <string name="daynight_version_light">Light version</string>
+    <string name="daynight_version_dark">Dark version</string>
+    <string name="daynight_version_single">One image for day and night</string>
+    <string name="daynight_none">Set a wallpaper first, then you can switch its day and night version here.</string>
+    <string name="daynight_done_light">Switched to the light version</string>
+    <string name="daynight_done_dark">Switched to the dark version</string>
+    <string name="daynight_single_msg">This wallpaper has only one version, so nothing changed.</string>
+    <string name="daynight_failed">Couldn\'t change the wallpaper. Try again.</string>
 </resources>

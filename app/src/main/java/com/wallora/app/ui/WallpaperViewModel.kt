@@ -95,8 +95,14 @@ class WallpaperViewModel(application: Application) : AndroidViewModel(applicatio
     val rotationTarget: StateFlow<String> = preferences.rotationTarget
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), "HOME")
 
-    val autoThemeApply: StateFlow<Boolean> = preferences.autoThemeApply
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), false)
+    val dayNightMode: StateFlow<String> = preferences.dayNightMode
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), PreferencesRepository.MODE_AUTO)
+
+    val appliedWallpaperId: StateFlow<String?> = preferences.currentWallpaperId
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), null)
+
+    val appliedDark: StateFlow<Boolean?> = preferences.lastAppliedDark
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), null)
 
     fun setDailyRotation(enabled: Boolean) {
         viewModelScope.launch { preferences.setDailyRotation(enabled) }
@@ -104,10 +110,6 @@ class WallpaperViewModel(application: Application) : AndroidViewModel(applicatio
 
     fun setRotationTarget(target: String) {
         viewModelScope.launch { preferences.setRotationTarget(target) }
-    }
-
-    fun setAutoThemeApply(enabled: Boolean) {
-        viewModelScope.launch { preferences.setAutoThemeApply(enabled) }
     }
 
     val newAlerts: StateFlow<Boolean> = preferences.newAlerts

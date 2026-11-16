@@ -41,7 +41,7 @@ android {
         applicationId = "com.qiblawi.wallora"
         minSdk = 29
         targetSdk = 37
-        versionCode = 3
+        versionCode = 4
         versionName = "1.0"
     }
 

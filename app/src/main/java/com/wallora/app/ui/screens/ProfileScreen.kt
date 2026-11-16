@@ -83,7 +83,7 @@ fun ProfileScreen(
     val categories by viewModel.categories.collectAsStateWithLifecycle()
     val dailyRotation by viewModel.dailyRotation.collectAsStateWithLifecycle()
     val liveMode by viewModel.liveMode.collectAsStateWithLifecycle()
-    val autoTheme by viewModel.autoThemeApply.collectAsStateWithLifecycle()
+    val dayNightMode by viewModel.dayNightMode.collectAsStateWithLifecycle()
     val signedIn by viewModel.isAdminSignedIn.collectAsStateWithLifecycle()
     val isPro by viewModel.isPro.collectAsStateWithLifecycle()
     val downloads by viewModel.downloads.collectAsStateWithLifecycle()
@@ -351,7 +351,13 @@ fun ProfileScreen(
             )
             InfoRow(
                 label = stringResource(R.string.pref_match_theme),
-                value = stringResource(if (autoTheme) R.string.value_on else R.string.value_off),
+                value = stringResource(
+                    when (dayNightMode) {
+                        "light" -> R.string.theme_light
+                        "dark" -> R.string.theme_dark
+                        else -> R.string.theme_auto
+                    },
+                ),
                 onClick = onOpenSettings,
             )
             InfoRow(label = stringResource(R.string.downloads_title), value = downloads.size.toString(), onClick = onOpenDownloads)

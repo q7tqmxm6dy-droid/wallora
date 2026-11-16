@@ -31,7 +31,7 @@ class PreferencesRepository(private val context: Context) {
 
         val DAILY_ROTATION = booleanPreferencesKey("daily_rotation")
         val ROTATION_TARGET = stringPreferencesKey("rotation_target")
-        val AUTO_THEME = booleanPreferencesKey("auto_theme")
+        val DAYNIGHT_MODE = stringPreferencesKey("day_night_mode")
         val CURRENT_WALLPAPER = stringPreferencesKey("current_wallpaper")
         val LAST_DARK = booleanPreferencesKey("last_dark")
         val ROTATION_INDEX = stringPreferencesKey("rotation_index")
@@ -94,8 +94,19 @@ class PreferencesRepository(private val context: Context) {
     val rotationTarget: Flow<String> =
         context.dataStore.data.map { it[Keys.ROTATION_TARGET] ?: "HOME" }
 
-    val autoThemeApply: Flow<Boolean> =
-        context.dataStore.data.map { it[Keys.AUTO_THEME] ?: true }
+    /** Which version of a light/dark wallpaper the phone shows: "auto" follows the phone's day/night, or "light" / "dark" stays put. */
+    val dayNightMode: Flow<String> =
+        context.dataStore.data.map { it[Keys.DAYNIGHT_MODE] ?: MODE_AUTO }
+
+    suspend fun readDayNightMode(): String = dayNightMode.first()
+
+    suspend fun setDayNightMode(mode: String) {
+        context.dataStore.edit { it[Keys.DAYNIGHT_MODE] = mode }
+    }
+
+    /** Whether the wallpaper now on the phone is its dark version (null until the user has set one). */
+    val lastAppliedDark: Flow<Boolean?> =
+        context.dataStore.data.map { it[Keys.LAST_DARK] }
 
     /** Live wallpaper: "slideshow" or "gradient". */
     val liveMode: Flow<String> =
@@ -267,10 +278,6 @@ class PreferencesRepository(private val context: Context) {
         context.dataStore.edit { it[Keys.ROTATION_FAVORITES] = enabled }
     }
 
-    suspend fun setAutoThemeApply(enabled: Boolean) {
-        context.dataStore.edit { it[Keys.AUTO_THEME] = enabled }
-    }
-
     // ---- interstitial frequency capping ---------------------------------------
     // Persisted rather than held in memory so the cap survives restarts; otherwise force-quitting
     // would reset the counter and every launch would show an ad again.
@@ -428,12 +435,14 @@ class PreferencesRepository(private val context: Context) {
 
     suspend fun readAppliedTarget(): String? = context.dataStore.data.first()[Keys.CURRENT_TARGET]
 
-    suspend fun readAppliedTheme(): Triple<String?, Boolean?, Boolean> {
+    suspend fun readAppliedTheme(): Pair<String?, Boolean?> {
         val prefs = context.dataStore.data.first()
-        return Triple(
-            prefs[Keys.CURRENT_WALLPAPER],
-            prefs[Keys.LAST_DARK],
-            prefs[Keys.AUTO_THEME] ?: true,
-        )
+        return prefs[Keys.CURRENT_WALLPAPER] to prefs[Keys.LAST_DARK]
+    }
+
+    companion object {
+        const val MODE_AUTO = "auto"
+        const val MODE_LIGHT = "light"
+        const val MODE_DARK = "dark"
     }
 }

@@ -1,7 +1,6 @@
 package com.wallora.app.work
 
 import android.content.Context
-import android.content.res.Configuration
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.wallora.app.data.PreferencesRepository
@@ -28,7 +27,7 @@ class RotationWorker(
         val all = WallpaperCatalog.wallpapers.filter { it.id in favorites }.ifEmpty { WallpaperCatalog.wallpapers }
         if (all.isEmpty()) return Result.success()
 
-        val dark = isDark()
+        val dark = ThemeApplier.effectiveDark(applicationContext)
         val wallpaper = all[index % all.size]
         val bitmap = WallpaperImages.loadBitmap(applicationContext, wallpaper, dark)
             ?: return Result.retry()
@@ -44,8 +43,4 @@ class RotationWorker(
         }
         return Result.success()
     }
-
-    private fun isDark(): Boolean =
-        (applicationContext.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) ==
-            Configuration.UI_MODE_NIGHT_YES
 }

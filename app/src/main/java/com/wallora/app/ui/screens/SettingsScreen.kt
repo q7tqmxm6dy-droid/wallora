@@ -25,6 +25,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -49,7 +51,6 @@ import com.wallora.app.util.AppLinks
 import com.wallora.app.work.DailyDropScheduler
 import com.wallora.app.work.NewWallpaperScheduler
 import com.wallora.app.work.RotationScheduler
-import com.wallora.app.work.ThemeSyncScheduler
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -64,7 +65,7 @@ fun SettingsScreen(
     val isPro by viewModel.isPro.collectAsStateWithLifecycle()
     val dailyRotation by viewModel.dailyRotation.collectAsStateWithLifecycle()
     val rotationTarget by viewModel.rotationTarget.collectAsStateWithLifecycle()
-    val autoTheme by viewModel.autoThemeApply.collectAsStateWithLifecycle()
+    val snackbarHostState = remember { SnackbarHostState() }
     val newAlerts by viewModel.newAlerts.collectAsStateWithLifecycle()
     val dailyDropAlerts by viewModel.dailyDropAlerts.collectAsStateWithLifecycle()
     val rotationFavoritesOnly by viewModel.rotationFavoritesOnly.collectAsStateWithLifecycle()
@@ -75,6 +76,7 @@ fun SettingsScreen(
     val allCategories by viewModel.categories.collectAsStateWithLifecycle()
 
     Scaffold(
+        snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
             TopAppBar(
                 title = { Text(stringResource(R.string.title_settings)) },
@@ -180,15 +182,7 @@ fun SettingsScreen(
 
             HorizontalDivider(Modifier.padding(vertical = 12.dp))
 
-            SettingRow(
-                title = stringResource(R.string.pref_match_theme),
-                subtitle = stringResource(R.string.pref_match_theme_sub),
-                checked = autoTheme,
-                onCheckedChange = { enabled ->
-                    viewModel.setAutoThemeApply(enabled)
-                    ThemeSyncScheduler.sync(context, enabled)
-                },
-            )
+            DayNightSection(viewModel, snackbarHostState)
 
             HorizontalDivider(Modifier.padding(vertical = 12.dp))
 
