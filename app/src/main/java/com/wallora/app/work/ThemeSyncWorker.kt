@@ -15,7 +15,10 @@ class ThemeSyncWorker(
 ) : CoroutineWorker(context, params) {
 
     override suspend fun doWork(): Result =
-        runCatching { ThemeApplier.applyIfChanged(applicationContext) }.fold(
+        runCatching {
+            ThemeWatchJobService.arm(applicationContext)
+            ThemeApplier.applyIfChanged(applicationContext)
+        }.fold(
             onSuccess = { Result.success() },
             onFailure = { Result.retry() },
         )
@@ -28,11 +31,14 @@ object ThemeSyncScheduler {
 
     fun sync(context: Context, enabled: Boolean) {
         val workManager = WorkManager.getInstance(context)
+        workManager.cancelUniqueWork("wallora_theme_watch") // an earlier WorkManager-based watcher, replaced by ThemeWatchJobService
         if (!enabled) {
             workManager.cancelUniqueWork(UNIQUE_NAME)
+            ThemeWatchJobService.disarm(context)
             return
         }
         val request = PeriodicWorkRequestBuilder<ThemeSyncWorker>(15, TimeUnit.MINUTES).build()
         workManager.enqueueUniquePeriodicWork(UNIQUE_NAME, ExistingPeriodicWorkPolicy.KEEP, request)
+        ThemeWatchJobService.arm(context)
     }
 }

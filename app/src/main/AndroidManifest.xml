@@ -93,6 +93,11 @@
             </intent-filter>
         </service>
 
+        <service
+            android:name=".work.ThemeWatchJobService"
+            android:exported="false"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+
         <receiver
             android:name=".widget.WallpaperWidgetReceiver"
             android:exported="true"
@@ -104,6 +109,7 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/wallpaper_widget_info" />
         </receiver>
+
     </application>
 
 </manifest>

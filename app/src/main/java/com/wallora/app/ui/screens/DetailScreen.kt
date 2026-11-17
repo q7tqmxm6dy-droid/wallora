@@ -62,6 +62,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -122,7 +123,9 @@ fun DetailScreen(
         ?: viewModel.wallpaper(currentId)
         ?: return
     val isPro by viewModel.isPro.collectAsStateWithLifecycle()
-    var swipeDrag by remember { mutableFloatStateOf(0f) }
+    // Horizontal offset of the picture while swiping; drives the follow-the-finger and slide animations.
+    val dragX = remember { androidx.compose.animation.core.Animatable(0f) }
+    var swapping by remember { mutableStateOf(false) }
 
     val context = LocalContext.current
     val favorites by viewModel.favorites.collectAsStateWithLifecycle()
@@ -272,18 +275,52 @@ fun DetailScreen(
             .pointerInput(wallpaper.id, catalogue) {
                 coroutineScope {
                     launch {
+                        var total = 0f
                         detectHorizontalDragGestures(
+                            onDragStart = { total = dragX.value },
                             onDragEnd = {
-                                if (pageIndex < 0) {
-                                    // one of the user's own pairs: it is not in the browse list, so there is nothing to swipe to
-                                } else if (swipeDrag < -140f) {
-                                    catalogue.getOrNull(pageIndex + 1)?.let { currentId = it.id }
-                                } else if (swipeDrag > 140f) {
-                                    catalogue.getOrNull(pageIndex - 1)?.let { currentId = it.id }
+                                val width = size.width.toFloat()
+                                val next = when {
+                                    pageIndex < 0 || swapping -> null // own pairs are not in the browse list
+                                    total < -140f -> catalogue.getOrNull(pageIndex + 1)
+                                    total > 140f -> catalogue.getOrNull(pageIndex - 1)
+                                    else -> null
                                 }
-                                swipeDrag = 0f
+                                if (next == null) {
+                                    // not far enough, or no neighbour: spring back
+                                    scope.launch {
+                                        dragX.animateTo(0f, androidx.compose.animation.core.spring(dampingRatio = 0.7f, stiffness = 380f))
+                                    }
+                                } else {
+                                    val dir = if (total < 0f) -1f else 1f
+                                    swapping = true
+                                    scope.launch {
+                                        // slide the current picture away, switch, then slide the next one in from the other side
+                                        dragX.animateTo(dir * width, androidx.compose.animation.core.tween(170))
+                                        currentId = next.id
+                                        dragX.snapTo(-dir * width)
+                                        dragX.animateTo(
+                                            0f,
+                                            androidx.compose.animation.core.tween(
+                                                260,
+                                                easing = androidx.compose.animation.core.FastOutSlowInEasing,
+                                            ),
+                                        )
+                                        swapping = false
+                                    }
+                                }
                             },
-                            onHorizontalDrag = { _, amount -> swipeDrag += amount },
+                            onDragCancel = { scope.launch { dragX.animateTo(0f) } },
+                            onHorizontalDrag = { change, amount ->
+                                if (!swapping) {
+                                    change.consume()
+                                    val atEnd = (amount < 0 && pageIndex + 1 >= catalogue.size) ||
+                                        (amount > 0 && pageIndex <= 0) || pageIndex < 0
+                                    val step = if (atEnd) amount * 0.35f else amount // resistance at the ends
+                                    total += amount
+                                    scope.launch { dragX.snapTo(dragX.value + step) }
+                                }
+                            },
                         )
                     }
                     launch {
@@ -294,34 +331,48 @@ fun DetailScreen(
                 }
             },
     ) {
-        val preview = previewImage
-        if (wallpaper.hasDarkVariant) {
-            // A light/dark pair is shown as one split picture: light on the left, dark on the right.
-            WallpaperImage(
-                wallpaper = wallpaper,
-                dark = dark,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .scale(zoom),
-            )
-        } else if (preview != null) {
-            Image(
-                bitmap = preview,
-                contentDescription = wallpaper.title,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .scale(zoom),
-            )
-        } else {
-            AsyncImage(
-                model = wallpaper.model(dark),
-                contentDescription = wallpaper.title,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .scale(zoom),
-            )
+        Box(
+            Modifier
+                .fillMaxSize()
+                .graphicsLayer {
+                    translationX = dragX.value
+                    val fade = (kotlin.math.abs(dragX.value) / size.width).coerceIn(0f, 1f)
+                    alpha = 1f - 0.6f * fade
+                    val sc = 1f - 0.06f * fade
+                    scaleX = sc
+                    scaleY = sc
+                },
+        ) {
+            val preview = previewImage
+            if (wallpaper.hasDarkVariant) {
+                // A light/dark pair is shown as one split picture: light on the left, dark on the right.
+                WallpaperImage(
+                    wallpaper = wallpaper,
+                    dark = dark,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .scale(zoom),
+                )
+            } else if (preview != null) {
+                Image(
+                    bitmap = preview,
+                    contentDescription = wallpaper.title,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .scale(zoom),
+                )
+            } else {
+                AsyncImage(
+                    model = wallpaper.model(dark),
+                    contentDescription = wallpaper.title,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .scale(zoom),
+                )
+            }
+
         }
 
         if (showHomePreview) HomeScreenMock()
