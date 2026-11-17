@@ -41,7 +41,7 @@ src = CATALOG.read_text()
 rows = re.findall(r'Wallpaper\("([^"]+)", "[^"]+", "[^"]+", R\.drawable\.([a-z0-9_]+)', src)
 lines = []
 for wid, res in rows:
-    p = RES / f"{res}.jpg"
+    p = RES / f"{res}.webp"
     if p.exists(): lines.append(f'        "{wid}" to listOf({", ".join(chr(34)+c+chr(34) for c in dominant(p))}),')
 OUT.write_text("""package com.wallora.app.data
 

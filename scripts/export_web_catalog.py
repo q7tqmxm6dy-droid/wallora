@@ -65,7 +65,7 @@ for m in re.finditer(r'Wallpaper\("([^"]+)", "([^"]+)", "([^"]+)", R\.drawable\.
     everything.append(dict(id=wid, title=title, cat=category_for(cat, title), source=source, web=on_web, both=bool(dark)))
     if not on_web:
         BLUR.mkdir(parents=True, exist_ok=True)
-        im = Image.open(RES / f"{light}.jpg").convert("RGB")
+        im = Image.open(RES / f"{light}.webp").convert("RGB")
         im.resize((BLUR_W, max(1, round(im.height * BLUR_W / im.width))), Image.LANCZOS).save(BLUR / f"{wid}.webp", "WEBP", quality=60)
         continue
     credit = re.search(r'credit = "([^"]*)"', rest); lic = re.search(r'license = "([^"]*)"', rest)
@@ -75,7 +75,7 @@ for m in re.finditer(r'Wallpaper\("([^"]+)", "([^"]+)", "([^"]+)", R\.drawable\.
 
 (OUT / "img/t").mkdir(parents=True, exist_ok=True); (OUT / "img/f").mkdir(parents=True, exist_ok=True)
 def save(src, dst, width, q):
-    im = Image.open(RES / f"{src}.jpg").convert("RGB")
+    im = Image.open(RES / f"{src}.webp").convert("RGB")
     if im.width > width: im = im.resize((width, round(im.height * width / im.width)), Image.LANCZOS)
     im.save(dst, "WEBP", quality=q, method=4)
 
