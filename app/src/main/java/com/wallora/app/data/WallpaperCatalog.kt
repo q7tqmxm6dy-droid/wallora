@@ -180,8 +180,44 @@ object WallpaperCatalog {
         Wallpaper("scenic_18", "Astronaut Horizon", "space", R.drawable.scenic_18),
     )
 
+    /** Bundled wallpapers whose image is a genuine 2160x3840 file (no upscaling). */
+    private val uhdIds: Set<String> = setOf(
+        "dream_amethyst_geode",
+        "dream_deep_glow",
+        "dream_event_horizon",
+        "dream_glass_orbs",
+        "dream_paper_dawn",
+        "dream_ringed_giant",
+        "lux_burgundy_crest",
+        "lux_emerald_royale",
+        "lux_ivory_cocoa",
+        "lux_midnight_gold",
+        "lux_noir_gold",
+        "lux_silver_storm",
+        "photo_blossom",
+        "photo_earthrise",
+        "photo_foggy_trail",
+        "photo_forest_stream",
+        "photo_lake_louise",
+        "photo_manhattan_night",
+        "photo_milky_way",
+        "photo_palm_sunset",
+        "photo_sport_ball",
+        "photo_sport_court_sunset",
+        "photo_sport_floodlit_fog",
+        "photo_sport_stadium_haze",
+        "photo_tokyo_night",
+        "viral_black_gold_marble",
+        "viral_cotton_clouds",
+        "viral_ember_curves",
+        "viral_midnight_curves",
+        "viral_neon_rain",
+        "viral_sakura_drive",
+    )
+
     val wallpapers: List<Wallpaper> = (entries + PersonalPack.entries).map {
         it.copy(
+            uhd = it.uhd || it.id in uhdIds,
             categoryId = Taxonomy.categoryFor(it.categoryId, it.title),
             colors = ColorIndex.byId[it.id].orEmpty(),
         )
