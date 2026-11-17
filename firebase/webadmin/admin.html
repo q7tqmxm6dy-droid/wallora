@@ -131,6 +131,40 @@
   .seg button.on { background: var(--accent); color: #fff; }
   .tile .t { font-size: 13px; margin-top: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .tile .s { font-size: 11px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .card h3 { margin: 0 0 8px; font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+  .insights-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 22px; }
+  .barrow { display: flex; align-items: center; gap: 10px; margin: 6px 0; }
+  .barrow .lbl { width: 104px; font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .barrow .track { flex: 1; height: 10px; background: var(--chip); border-radius: 99px; overflow: hidden; }
+  .barrow .track span { display: block; height: 100%; background: var(--accent2); }
+  .barrow .val { width: 30px; text-align: right; font-size: 13px; }
+  .health { margin-top: 16px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .pill.good { background: rgba(0,191,165,.18); color: var(--accent2); }
+  .pill.warn { background: rgba(255,170,0,.18); color: #c98300; }
+  .toolbar { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-top: 10px; }
+  .toolbar input, .toolbar select { width: auto; flex: 1; min-width: 150px; }
+  .toolbar button { margin: 0; padding: 8px 14px; }
+  .toolbar .seg button { padding: 6px 12px; }
+  .bulk { position: sticky; top: 64px; z-index: 5; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-top: 12px; padding: 10px 12px; background: var(--card); border: 1px solid var(--accent); border-radius: 12px; }
+  .bulk button { margin: 0; padding: 6px 12px; font-size: 13px; }
+  .bulk select, .bulk input { width: auto; padding: 6px 8px; }
+  td .s { font-size: 11px; color: var(--muted); margin-top: 4px; }
+  td .s .pill { font-size: 11px; padding: 1px 7px; }
+  [hidden] { display: none !important; }
+  .tablewrap { overflow-x: auto; }
+  .tablewrap select { min-width: 112px; width: auto; }
+  .tablewrap input[type=datetime-local] { width: 190px; }
+  .titleedit { min-width: 150px; padding: 7px 9px; }
+  .nowrap { white-space: nowrap; }
+  .nowrap .chip { margin-left: 3px; padding: 3px 8px; }
+  tr.picked { background: rgba(124,77,255,.10); }
+  .libgrid { grid-template-columns: repeat(auto-fill, minmax(132px, 1fr)); }
+  .libgrid .tile { position: relative; border-radius: 12px; padding: 4px; }
+  .libgrid .tile.picked { outline: 2px solid var(--accent); }
+  .libgrid .tick { position: absolute; top: 10px; left: 10px; z-index: 2; margin: 0; background: rgba(0,0,0,.55); border-radius: 6px; padding: 2px 4px 0; }
+  .libgrid .tick input { width: 16px; height: 16px; padding: 0; margin: 0; }
+  .libgrid .tile .s .pill { font-size: 10px; padding: 1px 6px; }
+  .libgrid .tile .s { white-space: normal; }
 </style>
 <script>try { var t = localStorage.getItem("wallora-admin-theme"); if (t === "day" || t === "night") document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
@@ -168,6 +202,60 @@
       <div class="stat"><div class="n" id="statCategories">0</div><div class="l">Categories</div></div>
       <div class="stat"><div class="n" id="statFeatured">0</div><div class="l">Featured</div></div>
       <div class="stat"><div class="n" id="statScheduled">0</div><div class="l">Scheduled</div></div>
+      <div class="stat"><div class="n" id="statUhd">0</div><div class="l">4K in the cloud</div></div>
+      <div class="stat"><div class="n" id="statIssues">–</div><div class="l">Need attention</div></div>
+    </div>
+
+    <div class="card" style="margin-top:18px" id="insights">
+      <h2>Insights</h2>
+      <div class="insights-grid">
+        <div><h3>By category</h3><div id="catChart"><span class="muted">Loading…</span></div></div>
+        <div><h3>Resolution</h3><div id="resChart"></div></div>
+        <div><h3>Added per week</h3><div id="weekChart"></div></div>
+        <div><h3>Top tags</h3><div id="tagChart"></div></div>
+      </div>
+      <div class="health" id="health"></div>
+      <p class="muted" style="margin:12px 0 0">
+        These numbers describe the catalogue. Views, downloads and favourites per wallpaper are not collected yet:
+        the app would have to report them (a small app update), and Firebase Analytics is only visible in the Firebase Console.
+      </p>
+    </div>
+
+    <div class="card" id="library">
+      <h2>Cloud wallpapers <span class="muted" id="libCount"></span></h2>
+      <div class="toolbar">
+        <input id="search" placeholder="Search title, category or tag…" />
+        <select id="libCat"></select>
+        <select id="libSort"></select>
+        <div class="seg" id="libView">
+          <button data-view="list" class="on">List</button>
+          <button data-view="grid">Grid</button>
+        </div>
+      </div>
+      <div class="chips" id="libFilters"></div>
+      <div class="toolbar">
+        <button class="secondary" id="scanBtn">Check quality</button>
+        <button class="secondary" id="fixSizes" hidden>Save missing sizes</button>
+        <button class="secondary" id="exportCsv">Export CSV</button>
+        <span class="muted" id="scanMsg"></span>
+      </div>
+      <div class="bar" id="scanBar" hidden><i id="scanProgress"></i></div>
+      <div class="bulk" id="bulkBar" hidden>
+        <b id="bulkCount"></b>
+        <select id="bulkCat"></select>
+        <button class="secondary" id="bulkMove">Move to category</button>
+        <button class="secondary" id="bulkFeature">Feature</button>
+        <button class="secondary" id="bulkUnfeature">Unfeature</button>
+        <input id="bulkTag" placeholder="tag" style="width:110px" />
+        <button class="secondary" id="bulkAddTag">Add tag</button>
+        <input id="bulkDate" type="datetime-local" style="width:200px" />
+        <button class="secondary" id="bulkSchedule">Set publish date</button>
+        <button class="secondary" id="bulkUnschedule">Publish now</button>
+        <button class="danger" id="bulkDelete">Delete</button>
+        <button class="secondary" id="bulkClear">Clear selection</button>
+      </div>
+      <div id="libList"></div>
+      <div class="msg" id="libMsg"></div>
     </div>
 
     <div class="card" style="margin-top:18px">
@@ -182,11 +270,6 @@
       <div class="chips" id="builtInCats"></div>
       <div class="chips" id="builtInSources"></div>
       <div class="grid" id="builtInGrid"><span class="muted">Loading…</span></div>
-    </div>
-
-    <div class="card">
-      <h2>Cloud wallpapers by category</h2>
-      <div id="catChart"><span class="muted">Loading…</span></div>
     </div>
 
     <div class="card" style="margin-top:18px">
@@ -256,19 +339,6 @@
       <div class="msg" id="catMsg"></div>
     </div>
 
-    <div class="card">
-      <h2>Cloud wallpapers</h2>
-      <label for="search">Search</label>
-      <input id="search" placeholder="Filter by title or category…" />
-      <table>
-        <thead>
-          <tr><th></th><th>Title</th><th>Category</th><th>Tags</th><th>★</th><th>Order</th><th>Publish</th><th></th></tr>
-        </thead>
-        <tbody id="rows">
-          <tr><td colspan="7" class="muted">Loading…</td></tr>
-        </tbody>
-      </table>
-    </div>
   </section>
 </main>
 
@@ -279,7 +349,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
 import {
   getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot, updateDoc,
-  serverTimestamp, Timestamp,
+  serverTimestamp, Timestamp, writeBatch,
 } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 import {
   getStorage, ref as storageRef, uploadBytesResumable, uploadBytes, getDownloadURL, deleteObject,
@@ -287,6 +357,10 @@ import {
 import { firebaseConfig } from "./firebase-config.js";
 // The ?v= number is bumped whenever admin-builtin.js changes, so browsers that kept an old copy fetch the new one.
 import { mountBuiltIn, pictureHtml, openPreview } from "./admin-builtin.js?v=3";
+import {
+  toDate, isScheduled, resolutionClass, issuesFor, ISSUE_LABEL, FILTERS, SORT_LABEL, matchesFilter,
+  filterAndSort, reorder, buildStats, toCsv, scanImage, markDuplicates,
+} from "./admin-tools.js?v=1";
 
 const configured = !firebaseConfig.apiKey.includes("REPLACE");
 const loginMsg = document.getElementById("loginMsg");
@@ -354,116 +428,307 @@ $("signOut").onclick = () => signOut(auth);
 
 // ---- data --------------------------------------------------------------
 let categories = [];
-
 let allWallpapers = [];
+const scanById = {};          // results of "Check quality", by wallpaper id
+const selected = new Set();   // ticked wallpapers (bulk actions)
+const ui = { q: "", cat: "", filter: "all", sort: "app", view: "list" };
 
 function listenWallpapers() {
   onSnapshot(collection(db, "wallpapers"), (snap) => {
     allWallpapers = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+    const live = new Set(allWallpapers.map((w) => w.id));
+    for (const id of [...selected]) if (!live.has(id)) selected.delete(id);
+    for (const id of Object.keys(scanById)) if (!live.has(id)) delete scanById[id];
     $("statWallpapers").textContent = allWallpapers.length;
-    $("statFeatured").textContent = allWallpapers.filter((w) => w.featured).length;
-    $("statScheduled").textContent = allWallpapers.filter((w) => isScheduled(w)).length;
-    renderChart();
-    renderTable();
+    renderStats();
+    renderLibrary();
   });
 }
 
-function isScheduled(w) {
-  const t = w.publishAt?.toDate ? w.publishAt.toDate() : (w.publishAt ? new Date(w.publishAt) : null);
-  return !!t && t.getTime() > Date.now();
-}
-
-function renderChart() {
-  const counts = {};
-  for (const w of allWallpapers) {
-    const c = w.category || "—";
-    counts[c] = (counts[c] || 0) + 1;
-  }
-  const entries = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+const barRows = (entries, fmt = (n) => n) => {
   const max = Math.max(1, ...entries.map(([, n]) => n));
-  $("catChart").innerHTML = entries.length
-    ? entries.map(([c, n]) => `
-        <div style="display:flex;align-items:center;gap:10px;margin:6px 0">
-          <span style="width:96px;font-size:13px" class="muted">${escapeHtml(c)}</span>
-          <span style="flex:1;height:10px;background:var(--chip);border-radius:99px;overflow:hidden">
-            <span style="display:block;height:100%;width:${Math.round((n / max) * 100)}%;background:var(--accent2)"></span>
-          </span>
-          <span style="width:28px;text-align:right;font-size:13px">${n}</span>
+  return entries.length
+    ? entries.map(([label, n]) => `
+        <div class="barrow">
+          <span class="muted lbl">${escapeHtml(label)}</span>
+          <span class="track"><span style="width:${Math.round((n / max) * 100)}%"></span></span>
+          <span class="val">${fmt(n)}</span>
         </div>`).join("")
-    : '<span class="muted">No wallpapers yet.</span>';
+    : '<span class="muted">Nothing yet.</span>';
+};
+
+function renderStats() {
+  const s = buildStats(allWallpapers, scanById);
+  $("statFeatured").textContent = s.featured;
+  $("statScheduled").textContent = s.scheduled;
+  $("statUhd").textContent = s.res.uhd;
+  $("statIssues").textContent = s.scanned ? s.withIssues : "–";
+  $("catChart").innerHTML = barRows(Object.entries(s.byCategory).sort((a, b) => b[1] - a[1]));
+  $("resChart").innerHTML = barRows([
+    ["4K (2160×3840)", s.res.uhd], ["HD (1080×1920+)", s.res.hd], ["Below HD", s.res.low], ["Not measured", s.res.unknown],
+  ]);
+  $("weekChart").innerHTML = barRows(s.perWeek.map((x) => [x.from.slice(5), x.count]));
+  $("tagChart").innerHTML = barRows(s.topTags);
+  $("health").innerHTML = s.healthPct === null
+    ? `<span class="muted">${s.total} wallpapers · ${s.pairs} light + dark · ${s.singles} single · ${s.noTags} without tags.
+        Press <b>Check quality</b> below to look for low-resolution, flat or duplicate pictures.</span>`
+    : `<span class="pill ${s.healthPct === 100 ? "good" : "warn"}">Health ${s.healthPct}%</span>
+        <span class="muted">${s.total - s.withIssues} of ${s.total} wallpapers pass every check · ${s.withIssues} need attention · ${s.noTags} without tags.</span>`;
 }
 
-function renderTable() {
-  const q = ($("search").value || "").trim().toLowerCase();
-  const items = q
-    ? allWallpapers.filter((w) =>
-        (w.title || "").toLowerCase().includes(q) || (w.category || "").toLowerCase().includes(q))
-    : allWallpapers;
+function renderCategoryControls() {
+  const fromData = [...new Set(allWallpapers.map((w) => w.category).filter(Boolean))];
+  const ids = [...new Set([...categories.map((c) => c.id), ...fromData])];
+  const title = (id) => categories.find((c) => c.id === id)?.title || id;
+  const catSel = $("libCat"), prev = catSel.value;
+  catSel.innerHTML = '<option value="">All categories</option>' + ids.map((id) => `<option value="${escapeHtml(id)}">${escapeHtml(title(id))}</option>`).join("");
+  catSel.value = ids.includes(prev) ? prev : "";
+  $("bulkCat").innerHTML = ids.map((id) => `<option value="${escapeHtml(id)}">${escapeHtml(title(id))}</option>`).join("");
+  $("libSort").innerHTML = Object.entries(SORT_LABEL).map(([k, v]) => `<option value="${k}">${v}</option>`).join("");
+  $("libSort").value = ui.sort;
+}
 
-  const rows = $("rows");
-  rows.innerHTML = "";
-  if (!items.length) {
-    rows.innerHTML = '<tr><td colspan="7" class="muted">No matching wallpapers.</td></tr>';
+const issuePills = (w) => issuesFor(w, scanById[w.id])
+  .map((i) => `<span class="pill warn" title="${escapeHtml(ISSUE_LABEL[i])}">${escapeHtml(ISSUE_LABEL[i])}</span>`).join(" ");
+
+const badges = (w) => {
+  const bits = [];
+  const res = resolutionClass(w, scanById[w.id]);
+  if (res === "uhd") bits.push('<span class="pill good">4K</span>');
+  if (w.urlDark) bits.push('<span class="pill">light + dark</span>');
+  if (isScheduled(w)) bits.push('<span class="pill">scheduled</span>');
+  return bits.join(" ");
+};
+
+function categoryOptions(current) {
+  const ids = [...new Set([...categories.map((c) => c.id), current].filter(Boolean))];
+  return ids.map((id) => `<option value="${escapeHtml(id)}"${id === current ? " selected" : ""}>${escapeHtml(categories.find((c) => c.id === id)?.title || id)}</option>`).join("");
+}
+
+function renderLibrary() {
+  renderCategoryControls();
+  const items = filterAndSort(allWallpapers, ui, scanById);
+  $("libCount").textContent = `· ${items.length} of ${allWallpapers.length}`;
+  $("libFilters").innerHTML = FILTERS.map(([id, label]) => {
+    const n = allWallpapers.filter((w) => matchesFilter(w, id, scanById)).length;
+    return `<span class="chip${ui.filter === id ? " on" : ""}" data-filter="${id}">${label} ${n}</span>`;
+  }).join("");
+  $("libView").querySelectorAll("button").forEach((b) => b.classList.toggle("on", b.dataset.view === ui.view));
+  $("fixSizes").hidden = !allWallpapers.some((w) => !(Number(w.width) && Number(w.height)) && scanById[w.id]?.width);
+
+  const n = selected.size;
+  $("bulkBar").hidden = n === 0;
+  $("bulkCount").textContent = `${n} selected`;
+
+  const box = $("libList");
+  if (!items.length) { box.innerHTML = '<p class="muted">No matching wallpapers.</p>'; return; }
+  if (ui.view === "grid") {
+    box.innerHTML = '<div class="grid libgrid">' + items.map((w) => `
+      <div class="tile${selected.has(w.id) ? " picked" : ""}">
+        <label class="tick"><input type="checkbox" data-sel="${w.id}"${selected.has(w.id) ? " checked" : ""} /></label>
+        <div data-preview="${w.id}" style="cursor:pointer">${pictureHtml(w.url || "", w.urlDark || null, "tilepic")}</div>
+        <div class="t">${escapeHtml(w.title || "Untitled")}</div>
+        <div class="s">${escapeHtml(w.category || "—")} ${badges(w)}</div>
+        <div class="s">${issuePills(w)}</div>
+      </div>`).join("") + "</div>";
     return;
   }
-  for (const w of items) {
-    const publishValue = w.publishAt?.toDate
-      ? w.publishAt.toDate().toISOString().slice(0, 16)
-      : "";
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td>${pictureHtml(w.url || "", w.urlDark || null, "thumb")}</td>
-      <td>${escapeHtml(w.title || "Untitled")}${w.urlDark ? ' <span class="pill">light + dark</span>' : ""}${isScheduled(w) ? ' <span class="pill">scheduled</span>' : ""}</td>
-      <td><span class="pill">${escapeHtml(w.category || "—")}</span></td>
-      <td><input style="width:150px" placeholder="car, dark" value="${(w.tags || []).join(", ")}" data-tags="${w.id}" /></td>
-      <td><button class="chip" data-feature="${w.id}">${w.featured ? "★" : "☆"}</button></td>
-      <td><input type="number" style="width:74px" value="${Number(w.order || 0)}" data-order="${w.id}" /></td>
-      <td><input type="datetime-local" value="${publishValue}" data-publish="${w.id}" /></td>
-      <td><button class="danger" data-id="${w.id}" data-path="${w.path || ""}" data-dark-path="${w.pathDark || ""}">Delete</button></td>`;
-    tr.querySelector(".pic").onclick = () => openPreview({ title: w.title || "Untitled", light: w.url, dark: w.urlDark || null });
-    rows.appendChild(tr);
-  }
-
-  rows.querySelectorAll("button[data-feature]").forEach((btn) => {
-    btn.onclick = async () => {
-      const w = allWallpapers.find((x) => x.id === btn.dataset.feature);
-      try { await updateDoc(doc(db, "wallpapers", w.id), { featured: !w.featured }); }
-      catch (e) { alert("Failed: " + e.message); }
-    };
-  });
-  rows.querySelectorAll("input[data-tags]").forEach((input) => {
-    input.onchange = async () => {
-      const tags = input.value.split(",").map((s) => s.trim()).filter(Boolean);
-      try { await updateDoc(doc(db, "wallpapers", input.dataset.tags), { tags }); }
-      catch (e) { alert("Failed: " + e.message); }
-    };
-  });
-  rows.querySelectorAll("input[data-order]").forEach((input) => {
-    input.onchange = async () => {
-      try { await updateDoc(doc(db, "wallpapers", input.dataset.order), { order: Number(input.value) || 0 }); }
-      catch (e) { alert("Failed: " + e.message); }
-    };
-  });
-  rows.querySelectorAll("input[data-publish]").forEach((input) => {
-    input.onchange = async () => {
-      const value = input.value ? Timestamp.fromDate(new Date(input.value)) : null;
-      try { await updateDoc(doc(db, "wallpapers", input.dataset.publish), { publishAt: value }); }
-      catch (e) { alert("Failed: " + e.message); }
-    };
-  });
-  rows.querySelectorAll("button.danger").forEach((btn) => {
-    btn.onclick = async () => {
-      if (!confirm("Delete this wallpaper?")) return;
-      try {
-        if (btn.dataset.path) { try { await deleteObject(storageRef(storage, btn.dataset.path)); } catch (_) {} }
-        if (btn.dataset.darkPath) { try { await deleteObject(storageRef(storage, btn.dataset.darkPath)); } catch (_) {} }
-        await deleteDoc(doc(db, "wallpapers", btn.dataset.id));
-      } catch (e) { alert("Delete failed: " + e.message); }
-    };
-  });
+  const allTicked = items.every((w) => selected.has(w.id));
+  box.innerHTML = `<div class="tablewrap"><table>
+    <thead><tr><th><input type="checkbox" data-selall${allTicked ? " checked" : ""} title="Select everything shown" /></th><th></th><th>Title</th><th>Category</th><th>Tags</th><th>★</th><th>Order</th><th>Publish</th><th></th></tr></thead>
+    <tbody>${items.map((w) => {
+      const publishValue = toDate(w.publishAt) ? toDate(w.publishAt).toISOString().slice(0, 16) : "";
+      return `<tr class="${selected.has(w.id) ? "picked" : ""}">
+        <td><input type="checkbox" data-sel="${w.id}"${selected.has(w.id) ? " checked" : ""} /></td>
+        <td><span data-preview="${w.id}">${pictureHtml(w.url || "", w.urlDark || null, "thumb")}</span></td>
+        <td><input class="titleedit" value="${escapeHtml(w.title || "")}" data-title="${w.id}" />
+            <div class="s">${badges(w)} ${issuePills(w)}</div></td>
+        <td><select data-cat="${w.id}">${categoryOptions(w.category)}</select></td>
+        <td><input style="width:140px" placeholder="car, dark" value="${escapeHtml((w.tags || []).join(", "))}" data-tags="${w.id}" /></td>
+        <td><button class="chip" data-feature="${w.id}">${w.featured ? "★" : "☆"}</button></td>
+        <td class="nowrap"><input type="number" style="width:64px" value="${Number(w.order || 0)}" data-order="${w.id}" />
+            <button class="chip" data-move="-1" data-id="${w.id}" title="Move up in the app's order">▲</button><button class="chip" data-move="1" data-id="${w.id}" title="Move down">▼</button></td>
+        <td><input type="datetime-local" value="${publishValue}" data-publish="${w.id}" /></td>
+        <td><button class="danger" data-delete="${w.id}">Delete</button></td>
+      </tr>`;
+    }).join("")}</tbody></table></div>`;
 }
 
-$("search").oninput = renderTable;
+const wallpaperById = (id) => allWallpapers.find((x) => x.id === id);
+const fail = (e) => alert("Failed: " + e.message);
+
+async function updateOne(id, data) {
+  try { await updateDoc(doc(db, "wallpapers", id), data); } catch (e) { fail(e); }
+}
+
+/** Applies [data] (an object, or a function of the wallpaper) to every selected wallpaper in batches. */
+async function bulkUpdate(data, label) {
+  const ids = [...selected];
+  if (!ids.length) return;
+  setMsg($("libMsg"), `${label}…`, true);
+  try {
+    for (let i = 0; i < ids.length; i += 400) {
+      const batch = writeBatch(db);
+      for (const id of ids.slice(i, i + 400)) {
+        const w = wallpaperById(id);
+        const patch = typeof data === "function" ? data(w) : data;
+        if (w && patch) batch.update(doc(db, "wallpapers", id), patch);
+      }
+      await batch.commit();
+    }
+    setMsg($("libMsg"), `${label} ✓ (${ids.length})`, true);
+  } catch (e) { setMsg($("libMsg"), e.message); }
+}
+
+async function deleteWallpapers(ids) {
+  for (const id of ids) {
+    const w = wallpaperById(id);
+    if (w?.path) { try { await deleteObject(storageRef(storage, w.path)); } catch (_) {} }
+    if (w?.pathDark) { try { await deleteObject(storageRef(storage, w.pathDark)); } catch (_) {} }
+  }
+  for (let i = 0; i < ids.length; i += 400) {
+    const batch = writeBatch(db);
+    ids.slice(i, i + 400).forEach((id) => batch.delete(doc(db, "wallpapers", id)));
+    await batch.commit();
+  }
+}
+
+const libList = $("libList");
+
+libList.addEventListener("change", (e) => {
+  const t = e.target;
+  if (t.dataset.sel) {
+    t.checked ? selected.add(t.dataset.sel) : selected.delete(t.dataset.sel);
+    renderLibrary();
+  } else if ("selall" in t.dataset) {
+    const shown = filterAndSort(allWallpapers, ui, scanById);
+    shown.forEach((w) => (t.checked ? selected.add(w.id) : selected.delete(w.id)));
+    renderLibrary();
+  } else if (t.dataset.title) {
+    const title = t.value.trim();
+    if (title) updateOne(t.dataset.title, { title }); else t.value = wallpaperById(t.dataset.title)?.title || "";
+  } else if (t.dataset.cat) {
+    updateOne(t.dataset.cat, { category: t.value });
+  } else if (t.dataset.tags) {
+    updateOne(t.dataset.tags, { tags: t.value.split(",").map((s) => s.trim()).filter(Boolean) });
+  } else if (t.dataset.order) {
+    updateOne(t.dataset.order, { order: Number(t.value) || 0 });
+  } else if (t.dataset.publish) {
+    updateOne(t.dataset.publish, { publishAt: t.value ? Timestamp.fromDate(new Date(t.value)) : null });
+  }
+});
+
+libList.addEventListener("click", async (e) => {
+  const el = e.target.closest("[data-feature],[data-move],[data-delete],[data-preview]");
+  if (!el) return;
+  if (el.dataset.feature) {
+    const w = wallpaperById(el.dataset.feature);
+    updateOne(w.id, { featured: !w.featured });
+  } else if (el.dataset.move) {
+    const changes = reorder(allWallpapers, el.dataset.id, Number(el.dataset.move));
+    const entries = Object.entries(changes);
+    if (!entries.length) return;
+    try {
+      const batch = writeBatch(db);
+      entries.forEach(([id, order]) => batch.update(doc(db, "wallpapers", id), { order }));
+      await batch.commit();
+    } catch (err) { fail(err); }
+  } else if (el.dataset.delete) {
+    if (!confirm("Delete this wallpaper? This also removes its image files.")) return;
+    try { await deleteWallpapers([el.dataset.delete]); } catch (err) { alert("Delete failed: " + err.message); }
+  } else if (el.dataset.preview) {
+    const w = wallpaperById(el.dataset.preview);
+    openPreview({ title: w.title || "Untitled", light: w.url, dark: w.urlDark || null });
+  }
+});
+
+$("search").oninput = (e) => { ui.q = e.target.value; renderLibrary(); };
+$("libCat").onchange = (e) => { ui.cat = e.target.value; renderLibrary(); };
+$("libSort").onchange = (e) => { ui.sort = e.target.value; renderLibrary(); };
+$("libView").onclick = (e) => { const b = e.target.closest("button"); if (b) { ui.view = b.dataset.view; renderLibrary(); } };
+$("libFilters").onclick = (e) => { const c = e.target.closest("[data-filter]"); if (c) { ui.filter = c.dataset.filter; renderLibrary(); } };
+
+$("bulkClear").onclick = () => { selected.clear(); renderLibrary(); };
+$("bulkMove").onclick = () => bulkUpdate({ category: $("bulkCat").value }, "Moved");
+$("bulkFeature").onclick = () => bulkUpdate({ featured: true }, "Featured");
+$("bulkUnfeature").onclick = () => bulkUpdate({ featured: false }, "Unfeatured");
+$("bulkAddTag").onclick = () => {
+  const tag = $("bulkTag").value.trim();
+  if (!tag) return setMsg($("libMsg"), "Type a tag first.");
+  bulkUpdate((w) => ((w.tags || []).includes(tag) ? null : { tags: [...(w.tags || []), tag] }), "Tag added").then(() => { $("bulkTag").value = ""; });
+};
+$("bulkSchedule").onclick = () => {
+  if (!$("bulkDate").value) return setMsg($("libMsg"), "Pick a date and time first.");
+  bulkUpdate({ publishAt: Timestamp.fromDate(new Date($("bulkDate").value)) }, "Scheduled");
+};
+$("bulkUnschedule").onclick = () => bulkUpdate({ publishAt: null }, "Published");
+$("bulkDelete").onclick = async () => {
+  const ids = [...selected];
+  if (!ids.length) return;
+  if (!confirm(`Delete ${ids.length} wallpaper${ids.length === 1 ? "" : "s"} and their image files? This cannot be undone.`)) return;
+  setMsg($("libMsg"), "Deleting…", true);
+  try { await deleteWallpapers(ids); selected.clear(); setMsg($("libMsg"), `Deleted ${ids.length} ✓`, true); }
+  catch (e) { setMsg($("libMsg"), "Delete failed: " + e.message); }
+};
+
+// Quality check: loads every picture, measures it and looks for flat or duplicate ones.
+let scanning = false;
+$("scanBtn").onclick = async () => {
+  if (scanning) return;
+  scanning = true;
+  const list = allWallpapers.filter((w) => w.url);
+  let done = 0;
+  $("scanBar").hidden = false;
+  $("scanBtn").disabled = true;
+  const queue = [...list];
+  const worker = async () => {
+    while (queue.length) {
+      const w = queue.shift();
+      scanById[w.id] = await scanImage(w.url);
+      done++;
+      $("scanProgress").style.width = Math.round((done / list.length) * 100) + "%";
+      $("scanMsg").textContent = `Checking ${done} of ${list.length}…`;
+    }
+  };
+  await Promise.all([worker(), worker(), worker(), worker()]);
+  markDuplicates(scanById);
+  const blocked = Object.values(scanById).filter((s) => s.pixelsBlocked).length;
+  const failed = Object.values(scanById).filter((s) => s.failed).length;
+  $("scanMsg").textContent = `Checked ${list.length}.` +
+    (blocked ? ` ${blocked} could not be read pixel by pixel (flat and duplicate checks skipped for them).` : "") +
+    (failed ? ` ${failed} failed to load.` : "");
+  $("scanBar").hidden = true;
+  $("scanBtn").disabled = false;
+  scanning = false;
+  renderStats();
+  renderLibrary();
+};
+
+$("fixSizes").onclick = async () => {
+  const todo = allWallpapers.filter((w) => !(Number(w.width) && Number(w.height)) && scanById[w.id]?.width);
+  try {
+    for (let i = 0; i < todo.length; i += 400) {
+      const batch = writeBatch(db);
+      for (const w of todo.slice(i, i + 400)) {
+        const { width, height } = scanById[w.id];
+        const patch = { width, height };
+        if (Math.min(width, height) >= 2160 && Math.max(width, height) >= 3840) patch.uhd = true;
+        batch.update(doc(db, "wallpapers", w.id), patch);
+      }
+      await batch.commit();
+    }
+    $("scanMsg").textContent = `Saved the size of ${todo.length} wallpaper${todo.length === 1 ? "" : "s"} ✓`;
+  } catch (e) { fail(e); }
+};
+
+$("exportCsv").onclick = () => {
+  const blob = new Blob([toCsv(filterAndSort(allWallpapers, ui, scanById))], { type: "text/csv" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = `wallora-cloud-wallpapers-${new Date().toISOString().slice(0, 10)}.csv`;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+};
 
 function listenCategories() {
   onSnapshot(collection(db, "categories"), (snap) => {
@@ -496,6 +761,7 @@ function listenCategories() {
       el.onclick = () => { select.value = c.id; };
       chips.appendChild(el);
     }
+    renderLibrary();
   });
 }
 
