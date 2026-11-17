@@ -49,6 +49,8 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.unit.sp
+import androidx.core.graphics.drawable.toBitmap
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -729,22 +731,75 @@ private fun TargetOption(painter: Painter, label: String, onClick: () -> Unit) {
     }
 }
 
-/** A stand-in launcher drawn over the wallpaper, so the user can judge how icons will sit on it. */
+private class MockApp(val label: String, val icon: ImageBitmap)
+
+/** Well-known apps first, so the preview looks like a real home screen. */
+private val PREFERRED_APPS = listOf(
+    "dialer", "contacts", "messaging", "messages", "mms", "camera", "gallery", "photos", "chrome", "youtube",
+    "maps", "vending", "settings", "whatsapp", "instagram", "gm", "calendar", "clock", "deskclock", "music",
+    "facebook", "tiktok", "telegram", "spotify", "snapchat",
+)
+
+private fun loadInstalledApps(context: android.content.Context): List<MockApp> {
+    val pm = context.packageManager
+    val intent = android.content.Intent(android.content.Intent.ACTION_MAIN).addCategory(android.content.Intent.CATEGORY_LAUNCHER)
+    val px = (58 * context.resources.displayMetrics.density).toInt().coerceAtLeast(48)
+    return runCatching {
+        pm.queryIntentActivities(intent, 0)
+            .filter { it.activityInfo.packageName != context.packageName }
+            .distinctBy { it.activityInfo.packageName }
+            .sortedWith(
+                compareBy<android.content.pm.ResolveInfo>(
+                    { r -> PREFERRED_APPS.indexOfFirst { r.activityInfo.packageName.contains(it, ignoreCase = true) }.let { if (it < 0) Int.MAX_VALUE else it } },
+                    { it.loadLabel(pm).toString().lowercase() },
+                ),
+            )
+            .take(20)
+            .mapNotNull { r ->
+                runCatching {
+                    MockApp(r.loadLabel(pm).toString(), r.loadIcon(pm).toBitmap(px, px).asImageBitmap())
+                }.getOrNull()
+            }
+    }.getOrDefault(emptyList())
+}
+
+/** A stand-in launcher drawn over the wallpaper, using the phone's real apps, so the user can judge how icons will sit on it. */
 @Composable
 private fun HomeScreenMock() {
-    val tints = listOf(Color(0xFF4DD0E1), Color(0xFFFF8A65), Color(0xFFBA68C8), Color(0xFF81C784), Color(0xFFFFD54F), Color(0xFF64B5F6))
+    val context = LocalContext.current
+    var apps by remember { mutableStateOf<List<MockApp>>(emptyList()) }
+    LaunchedEffect(Unit) { apps = withContext(Dispatchers.Default) { loadInstalledApps(context) } }
     Box(Modifier.fillMaxSize().background(Color.Black.copy(alpha = 0.12f))) {
         Column(
             modifier = Modifier.fillMaxSize().statusBarsPadding().padding(top = 70.dp, start = 22.dp, end = 22.dp),
-            verticalArrangement = Arrangement.spacedBy(26.dp),
+            verticalArrangement = Arrangement.spacedBy(18.dp),
         ) {
             Box(Modifier.fillMaxWidth().height(50.dp).clip(RoundedCornerShape(25.dp)).background(Color.White.copy(alpha = 0.22f)))
             repeat(5) { row ->
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                     repeat(4) { col ->
-                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                            Box(Modifier.size(58.dp).clip(RoundedCornerShape(17.dp)).background(tints[(row * 4 + col) % tints.size].copy(alpha = 0.92f)))
-                            Box(Modifier.padding(top = 6.dp).width(34.dp).height(5.dp).clip(RoundedCornerShape(3.dp)).background(Color.White.copy(alpha = 0.7f)))
+                        val app = apps.getOrNull(row * 4 + col)
+                        Column(Modifier.width(68.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+                            if (app != null) {
+                                Image(
+                                    bitmap = app.icon,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(58.dp),
+                                )
+                                androidx.compose.material3.Text(
+                                    app.label,
+                                    modifier = Modifier.padding(top = 5.dp),
+                                    color = Color.White,
+                                    fontSize = 11.sp,
+                                    maxLines = 1,
+                                    overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
+                                    style = androidx.compose.ui.text.TextStyle(
+                                        shadow = androidx.compose.ui.graphics.Shadow(Color.Black.copy(alpha = 0.6f), blurRadius = 4f),
+                                    ),
+                                )
+                            } else {
+                                Box(Modifier.size(58.dp))
+                            }
                         }
                     }
                 }

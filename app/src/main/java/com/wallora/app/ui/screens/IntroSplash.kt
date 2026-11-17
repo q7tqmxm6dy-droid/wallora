@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -91,6 +92,42 @@ fun IntroSplash(onFinished: () -> Unit) {
     val name = remember { Animatable(0f) }
     val time = remember { Animatable(0f) }
     val split = remember { Animatable(0f) }
+
+    // A short soft chime that follows the animation. It plays at the phone's media volume, but not at all when the
+    // phone is on silent or vibrate, and it stops as soon as the intro ends or is skipped.
+    val context = androidx.compose.ui.platform.LocalContext.current
+    DisposableEffect(Unit) {
+        val audio = context.getSystemService(android.content.Context.AUDIO_SERVICE) as? android.media.AudioManager
+        val quiet = audio?.ringerMode != android.media.AudioManager.RINGER_MODE_NORMAL
+        var player: android.media.MediaPlayer? = null
+        var disposed = false
+        val lock = Any()
+        val thread = Thread {
+            val p = if (quiet) null else runCatching {
+                android.media.MediaPlayer.create(
+                    context.applicationContext,
+                    com.wallora.app.R.raw.intro_chime,
+                    android.media.AudioAttributes.Builder()
+                        .setUsage(android.media.AudioAttributes.USAGE_MEDIA)
+                        .setContentType(android.media.AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                        .build(),
+                    android.media.AudioManager.AUDIO_SESSION_ID_GENERATE,
+                )
+            }.getOrNull()
+            synchronized(lock) {
+                if (disposed) p?.release() else { player = p; p?.setVolume(1f, 1f); p?.start() }
+            }
+        }
+        thread.start()
+        onDispose {
+            synchronized(lock) {
+                disposed = true
+                runCatching { player?.stop() }
+                runCatching { player?.release() }
+                player = null
+            }
+        }
+    }
 
     LaunchedEffect(Unit) {
         coroutineScope {

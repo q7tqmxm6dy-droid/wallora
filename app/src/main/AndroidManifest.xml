@@ -8,6 +8,14 @@
     <!-- Required from Android 13 when ads read the advertising id. -->
     <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
 
+    <!-- Lets the wallpaper preview show the icons of the apps actually installed (launcher apps only; stays on the phone). -->
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent>
+    </queries>
+
     <application
         android:localeConfig="@xml/locales_config"
         android:name=".WalloraApp"
