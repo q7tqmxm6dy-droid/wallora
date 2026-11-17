@@ -45,9 +45,10 @@ object Taxonomy {
         "lift off" to "space", "orbit" to "space", "starlight" to "space",
         "skyline" to "city", "rainy" to "city", "harbor" to "city",
         "ride" to "cars",
-        "brew" to "cute", "whiskers" to "cute", "scoop" to "cute", "love" to "cute",
         "player one" to "gaming", "voltage" to "gaming",
         "riff" to "dark", "idea" to "abstract3d",
+        // soft pastel pieces that now make up "Cute & Soft" (the animal, food and cute posters were removed)
+        "coquette" to "cute", "aura glow" to "cute", "boho arches" to "cute", "cherry blossom" to "cute", "sunset fade" to "cute",
         // old "trending"
         "chrome star" to "abstract3d", "liquid metal" to "abstract3d", "cyber grid" to "gaming",
         "milky way" to "space", "earthrise" to "space",
@@ -66,6 +67,9 @@ object Taxonomy {
      * Delete them from the admin page to retire them for good.
      */
     val retiredIds: Set<String> = setOf(
+        // flat black-shape icon pictures (posters, animals, space, food, patterns, seasonal, flat cars, minimal circles), removed
+        // in version 9; the cloud catalogue still holds copies under these ids
+        "posters_p01", "posters_p02", "posters_p03", "posters_p04", "posters_p05", "posters_p06", "posters_p07", "posters_p08", "posters_p09", "posters_p10", "posters_p11", "posters_p12", "posters_p13", "posters_p14", "posters_p15", "posters_p16", "posters_p17", "posters_p18", "posters_p19", "posters_p20", "posters_p21", "posters_p22", "posters_p23", "posters_p24", "animals_01", "animals_02", "animals_03", "animals_04", "space_01", "space_02", "space_03", "space_04", "food_01", "food_02", "food_03", "food_04", "patterns_01", "patterns_02", "patterns_03", "patterns_04", "seasonal_01", "seasonal_02", "seasonal_03", "seasonal_04", "cars_01", "cars_02", "cars_03", "cars_04", "minimal_01", "minimal_02", "minimal_03", "minimal_04",
         // flat white-car-on-colour illustrations ("Scarlet Coupe" ... "Graphite Coupe")
         "cars_p01", "cars_p02", "cars_p03", "cars_p04", "cars_p05", "cars_p06",
         // supplied pictures of anime characters, a real person and brand logos: kept out of the Play release

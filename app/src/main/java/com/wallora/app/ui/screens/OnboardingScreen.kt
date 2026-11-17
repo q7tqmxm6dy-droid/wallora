@@ -62,7 +62,7 @@ fun OnboardingScreen(onDone: () -> Unit) {
         OnboardPage(
             title = stringResource(R.string.onb3_title),
             body = stringResource(R.string.onb3_body),
-            image = R.drawable.posters_p24_light,
+            image = R.drawable.trend_coquette_light,
         ),
     )
 

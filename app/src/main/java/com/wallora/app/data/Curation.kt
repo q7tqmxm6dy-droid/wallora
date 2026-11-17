@@ -84,6 +84,6 @@ object Curation {
         ViralStyle("luxe", "Golden Luxe", "✨", { w ->
             w.categoryId == "luxury" || titled("Golden Hour", "Golden Ridge", "Golden Bars")(w)
         }),
-        ViralStyle("soft", "Soft Girl", "🎀", { w -> w.categoryId == "cute" || titled("Coquette", "Whiskers")(w) }),
+        ViralStyle("soft", "Soft Girl", "🎀", { w -> w.categoryId == "cute" || titled("Coquette")(w) }),
     )
 }
