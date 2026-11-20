@@ -195,7 +195,7 @@
     <string name="rm_social">Beğeniler, takip ve içerik üreticisi sayfaları</string>
     <string name="rm_social_why">İçerik üreticilerini takip edin ve duvar kâğıtlarını beğenin. Hesaplara ve yüklemelere bağlıdır.</string>
     <string name="rm_ai">Bir tarifle yapay zekâ duvar kâğıdı üretimi</string>
-    <string name="rm_ai_why">Bir fikir yazın, duvar kâğıdı alın. Bulutta bir görsel modeli, kullanım kotası ve içerik filtreleme gerektirir. Oluştur sekmesi telefonunuzda zaten tasarım yapıyor.</string>
+    <string name="rm_ai_why">Bir fikir yazın, duvar kâğıdı alın. Bulutta bir görsel modeli, kullanım kotası ve içerik filtreleme gerektirir.</string>
     <string name="rm_icons">Uyumlu simge paketleri</string>
     <string name="rm_icons_why">Duvar kâğıdına uyacak şekilde renklendirilmiş simgeler. Telefon üreticisine göre değişen başlatıcı entegrasyonu gerektirir.</string>
     <string name="rm_subs">Abonelik planları</string>

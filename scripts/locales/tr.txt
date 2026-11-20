@@ -193,7 +193,7 @@ rm_uploads_why|Kendi duvar kâğıtlarınızı yükleyin. Her yükleme herkese a
 rm_social|Beğeniler, takip ve içerik üreticisi sayfaları
 rm_social_why|İçerik üreticilerini takip edin ve duvar kâğıtlarını beğenin. Hesaplara ve yüklemelere bağlıdır.
 rm_ai|Bir tarifle yapay zekâ duvar kâğıdı üretimi
-rm_ai_why|Bir fikir yazın, duvar kâğıdı alın. Bulutta bir görsel modeli, kullanım kotası ve içerik filtreleme gerektirir. Oluştur sekmesi telefonunuzda zaten tasarım yapıyor.
+rm_ai_why|Bir fikir yazın, duvar kâğıdı alın. Bulutta bir görsel modeli, kullanım kotası ve içerik filtreleme gerektirir.
 rm_icons|Uyumlu simge paketleri
 rm_icons_why|Duvar kâğıdına uyacak şekilde renklendirilmiş simgeler. Telefon üreticisine göre değişen başlatıcı entegrasyonu gerektirir.
 rm_subs|Abonelik planları

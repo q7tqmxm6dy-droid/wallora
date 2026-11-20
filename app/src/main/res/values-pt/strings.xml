@@ -195,7 +195,7 @@
     <string name="rm_social">Curtidas, seguir e páginas de criadores</string>
     <string name="rm_social_why">Siga criadores e curta papéis de parede. Depende de contas e envios.</string>
     <string name="rm_ai">Geração de papéis de parede com IA a partir de uma descrição</string>
-    <string name="rm_ai_why">Digite uma ideia e receba um papel de parede. Exige um modelo de imagens na nuvem, uma cota de uso e filtro de conteúdo. A aba Criar já faz designs no seu celular.</string>
+    <string name="rm_ai_why">Digite uma ideia e receba um papel de parede. Exige um modelo de imagens na nuvem, uma cota de uso e filtro de conteúdo.</string>
     <string name="rm_icons">Pacotes de ícones combinando</string>
     <string name="rm_icons_why">Ícones com cores combinando com o papel de parede. Exige integração com o launcher, que varia por fabricante.</string>
     <string name="rm_subs">Planos de assinatura</string>

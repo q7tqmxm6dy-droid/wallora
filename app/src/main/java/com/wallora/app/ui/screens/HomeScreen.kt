@@ -1,6 +1,7 @@
 package com.wallora.app.ui.screens
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -20,9 +21,12 @@ import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
 import androidx.compose.foundation.lazy.staggeredgrid.itemsIndexed
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -72,6 +76,7 @@ fun HomeScreen(
     onOpenDiscover: () -> Unit,
     onOpenProfile: () -> Unit,
     onOpenAdmin: () -> Unit,
+    onOpenPairMaker: () -> Unit,
 ) {
     val wallpapers by viewModel.wallpapers.collectAsStateWithLifecycle()
     val favorites by viewModel.favorites.collectAsStateWithLifecycle()
@@ -131,6 +136,29 @@ fun HomeScreen(
 
             if (featured.isNotEmpty()) item(span = StaggeredGridItemSpan.FullLine) {
                 HeroCarousel(featured, darkTheme, viewModel, onOpenWallpaper)
+            }
+
+            // Turn your own photo into a light + dark pair (the pair maker).
+            item(span = StaggeredGridItemSpan.FullLine) {
+                Card(
+                    Modifier.fillMaxWidth().clickable(onClick = onOpenPairMaker),
+                    shape = RoundedCornerShape(20.dp),
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
+                ) {
+                    Column(Modifier.padding(16.dp)) {
+                        Text(
+                            stringResource(R.string.pm_card_title),
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.onPrimaryContainer,
+                        )
+                        Text(
+                            stringResource(R.string.pm_card_body),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onPrimaryContainer,
+                        )
+                    }
+                }
             }
 
             item(span = StaggeredGridItemSpan.FullLine) {

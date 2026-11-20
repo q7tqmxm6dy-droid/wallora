@@ -267,7 +267,7 @@
     <string name="rm_social">Likes, following and creator pages</string>
     <string name="rm_social_why">Follow creators and like wallpapers. Depends on accounts and uploads.</string>
     <string name="rm_ai">AI wallpaper generation from a prompt</string>
-    <string name="rm_ai_why">Type an idea, get a wallpaper. Needs a cloud image model, a usage quota and content filtering. The Create tab already makes designs on your phone.</string>
+    <string name="rm_ai_why">Type an idea, get a wallpaper. Needs a cloud image model, a usage quota and content filtering.</string>
     <string name="rm_icons">Matching icon packs</string>
     <string name="rm_icons_why">Icon sets tinted to match a wallpaper. Needs launcher integration that varies by phone maker.</string>
     <string name="rm_subs">Subscription plans</string>

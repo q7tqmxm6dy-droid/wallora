@@ -46,9 +46,9 @@ SEE IT BEFORE YOU SET IT
 • Home screen, lock screen, or both
 • Swipe between wallpapers without leaving the page
 
-CREATE YOUR OWN
-Design a wallpaper in seconds: pick a style (Aura, Gradient, Waves, Orbs) and your colours,
-then set it or save it.
+MAKE YOUR OWN PAIR
+Turn any photo into a light and dark pair. Wallora then shows the light version by day and the
+dark one at night, like the built-in pairs.
 
 MAKE IT YOURS
 • Favourites and your own collections

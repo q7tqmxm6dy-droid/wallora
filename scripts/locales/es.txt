@@ -193,7 +193,7 @@ rm_uploads_why|Sube tus propios fondos. Cada subida se revisaría antes de ser p
 rm_social|Me gusta, seguir y páginas de creadores
 rm_social_why|Sigue a creadores y da me gusta a los fondos. Depende de las cuentas y las subidas.
 rm_ai|Generación de fondos con IA a partir de una descripción
-rm_ai_why|Escribe una idea y obtén un fondo. Requiere un modelo de imágenes en la nube, una cuota de uso y filtrado de contenido. La pestaña Crear ya hace diseños en tu teléfono.
+rm_ai_why|Escribe una idea y obtén un fondo. Requiere un modelo de imágenes en la nube, una cuota de uso y filtrado de contenido.
 rm_icons|Paquetes de iconos a juego
 rm_icons_why|Iconos teñidos para combinar con un fondo. Requiere integración con el launcher, que varía según el fabricante.
 rm_subs|Planes de suscripción

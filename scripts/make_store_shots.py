@@ -87,7 +87,7 @@ def pair(raw_a, raw_b, title, sub, label_a, label_b, out):
 SHOTS = [
     lambda: single("detail", "detail_pair.png", "Light by day, dark at night", "One wallpaper, two looks", "01-day-night.png"),
     lambda: pair("lock_light.png", "lock_dark.png", "It switches by itself", "Even when the app is closed", "Day", "Night", "02-switches.png"),
-    lambda: single("create", "create.png", "Make your own day & night", "Turn any picture into a pair", "03-make-your-own.png"),
+    lambda: single("create", "pair_maker.png", "Make your own day & night", "Turn any picture into a pair", "03-make-your-own.png"),
     lambda: single("home", "home.png", "Fresh wallpapers every day", "A new pick every morning", "04-fresh.png"),
     lambda: single("preview", "home_preview.png", "Preview before you set it", "See it with your own apps", "05-preview.png"),
     lambda: single("discover", "discover.png", "10 categories, 130+ wallpapers", "Search by style, vibe or colour", "06-discover.png"),

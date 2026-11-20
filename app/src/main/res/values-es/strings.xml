@@ -195,7 +195,7 @@
     <string name="rm_social">Me gusta, seguir y páginas de creadores</string>
     <string name="rm_social_why">Sigue a creadores y da me gusta a los fondos. Depende de las cuentas y las subidas.</string>
     <string name="rm_ai">Generación de fondos con IA a partir de una descripción</string>
-    <string name="rm_ai_why">Escribe una idea y obtén un fondo. Requiere un modelo de imágenes en la nube, una cuota de uso y filtrado de contenido. La pestaña Crear ya hace diseños en tu teléfono.</string>
+    <string name="rm_ai_why">Escribe una idea y obtén un fondo. Requiere un modelo de imágenes en la nube, una cuota de uso y filtrado de contenido.</string>
     <string name="rm_icons">Paquetes de iconos a juego</string>
     <string name="rm_icons_why">Iconos teñidos para combinar con un fondo. Requiere integración con el launcher, que varía según el fabricante.</string>
     <string name="rm_subs">Planes de suscripción</string>

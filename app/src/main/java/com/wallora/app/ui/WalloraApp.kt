@@ -34,7 +34,6 @@ import androidx.navigation.navArgument
 import com.wallora.app.R
 import com.wallora.app.ads.AdBanner
 import com.wallora.app.ui.screens.AdminScreen
-import com.wallora.app.ui.screens.CreateScreen
 import com.wallora.app.ui.screens.DiscoverScreen
 import com.wallora.app.ui.screens.DownloadsScreen
 import com.wallora.app.ui.screens.RoadmapScreen
@@ -54,7 +53,6 @@ private object Routes {
     const val HOME = "home"
     const val DISCOVER = "discover"
     const val TRENDING = "trending"
-    const val CREATE = "create"
     const val PAIR_MAKER = "pairmaker"
     const val FAVORITES = "favorites"
     const val CATEGORY = "category/{categoryId}"
@@ -109,7 +107,6 @@ fun WalloraApp(
     val showBottomBar = currentRoute == Routes.HOME ||
         currentRoute == Routes.DISCOVER ||
         currentRoute == Routes.TRENDING ||
-        currentRoute == Routes.CREATE ||
         currentRoute == Routes.FAVORITES
 
     val navigateToTopLevel: (String) -> Unit = { route ->
@@ -143,12 +140,6 @@ fun WalloraApp(
                             onClick = { navigateToTopLevel(Routes.DISCOVER) },
                             icon = { Icon(Icons.Filled.Search, contentDescription = null) },
                             label = { Text(stringResource(R.string.nav_discover)) },
-                        )
-                        NavigationBarItem(
-                            selected = currentRoute == Routes.CREATE,
-                            onClick = { navigateToTopLevel(Routes.CREATE) },
-                            icon = { Icon(painterResource(R.drawable.ic_create), contentDescription = null) },
-                            label = { Text(stringResource(R.string.nav_create)) },
                         )
                         NavigationBarItem(
                             selected = currentRoute == Routes.TRENDING,
@@ -188,6 +179,7 @@ fun WalloraApp(
                     onOpenDiscover = { navigateToTopLevel(Routes.DISCOVER) },
                     onOpenProfile = { navController.navigate(Routes.PROFILE) },
                     onOpenAdmin = { navController.navigate(Routes.ADMIN) },
+                    onOpenPairMaker = { navController.navigate(Routes.PAIR_MAKER) },
                 )
             }
             composable(Routes.DISCOVER) {
@@ -196,14 +188,6 @@ fun WalloraApp(
                     dark = darkTheme,
                     onOpenCategory = { navController.navigate(Routes.category(it)) },
                     onOpenWallpaper = { navController.navigate(Routes.detail(it)) },
-                )
-            }
-            composable(Routes.CREATE) {
-                CreateScreen(
-                    viewModel = viewModel,
-                    onOpenPro = { navController.navigate(Routes.PRO) },
-                    onOpenRoadmap = { navController.navigate(Routes.ROADMAP) },
-                    onOpenPairMaker = { navController.navigate(Routes.PAIR_MAKER) },
                 )
             }
             composable(Routes.PAIR_MAKER) {

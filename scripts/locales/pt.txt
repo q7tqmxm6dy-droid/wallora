@@ -193,7 +193,7 @@ rm_uploads_why|Envie seus próprios papéis de parede. Cada envio seria revisado
 rm_social|Curtidas, seguir e páginas de criadores
 rm_social_why|Siga criadores e curta papéis de parede. Depende de contas e envios.
 rm_ai|Geração de papéis de parede com IA a partir de uma descrição
-rm_ai_why|Digite uma ideia e receba um papel de parede. Exige um modelo de imagens na nuvem, uma cota de uso e filtro de conteúdo. A aba Criar já faz designs no seu celular.
+rm_ai_why|Digite uma ideia e receba um papel de parede. Exige um modelo de imagens na nuvem, uma cota de uso e filtro de conteúdo.
 rm_icons|Pacotes de ícones combinando
 rm_icons_why|Ícones com cores combinando com o papel de parede. Exige integração com o launcher, que varia por fabricante.
 rm_subs|Planos de assinatura
